@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">
+<head>
+<title>jCarousel Examples</title>
+<link href="../style.css" rel="stylesheet" type="text/css" />
+<!--
+  jQuery library
+-->
+<script type="text/javascript" src="../lib/jquery-1.2.3.pack.js"></script>
+<!--
+  jCarousel library
+-->
+<script type="text/javascript" src="../lib/jquery.jcarousel.pack.js"></script>
+<!--
+  jCarousel core stylesheet
+-->
+<link rel="stylesheet" type="text/css" href="../lib/jquery.jcarousel.css" />
+<!--
+  jCarousel skin stylesheet
+-->
+<link rel="stylesheet" type="text/css" href="../skins/tango/skin.css" />
+
+<style type="text/css">
+
+/**
+ * Additional styles for the controls.
+ */
+.jcarousel-control {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.jcarousel-control a {
+    font-size: 75%;
+    text-decoration: none;
+    padding: 0 5px;
+    margin: 0 0 5px 0;
+    border: 1px solid #fff;
+    color: #eee;
+    background-color: #4088b8;
+    font-weight: bold;
+}
+
+.jcarousel-control a:focus,
+.jcarousel-control a:active {
+    outline: none;
+}
+
+.jcarousel-scroll {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.jcarousel-scroll form {
+    margin: 0;
+    padding: 0;
+}
+
+.jcarousel-scroll select {
+    font-size: 75%;
+}
+
+#mycarousel-next,
+#mycarousel-prev {
+    cursor: pointer;
+    margin-bottom: -10px;
+    text-decoration: underline;
+    font-size: 11px;
+}
+
+</style>
+
+<script type="text/javascript">
+/**
+ * We use the initCallback callback
+ * to assign functionality to the controls
+ */
+function mycarousel_initCallback(carousel) {
+    jQuery('.jcarousel-control a').bind('click', function() {
+        carousel.scroll(jQuery.jcarousel.intval(jQuery(this).text()));
+        return false;
+    });
+
+    jQuery('.jcarousel-scroll select').bind('change', function() {
+        carousel.options.scroll = jQuery.jcarousel.intval(this.options[this.selectedIndex].value);
+        return false;
+    });
+
+    jQuery('#mycarousel-next').bind('click', function() {
+        carousel.next();
+        return false;
+    });
+
+    jQuery('#mycarousel-prev').bind('click', function() {
+        carousel.prev();
+        return false;
+    });
+};
+
+// Ride the carousel...
+jQuery(document).ready(function() {
+    jQuery("#mycarousel").jcarousel({
+        scroll: 1,
+        initCallback: mycarousel_initCallback,
+        // This tells jCarousel NOT to autobuild prev/next buttons
+        buttonNextHTML: null,
+        buttonPrevHTML: null
+    });
+});
+
+</script>
+
+</head>
+<body>
+<div id="wrap">
+  <h1>jCarousel</h1>
+  <h2>Riding carousels with jQuery</h2>
+
+  <h3>Carousel with external controls</h3>
+  <p>
+    This carousel shows how to control it from outside.
+  </p>
+
+  <div id="mycarousel" class="jcarousel-skin-tango">
+    <div class="jcarousel-control">
+      <a href="#">1</a>
+      <a href="#">2</a>
+      <a href="#">3</a>
+      <a href="#">4</a>
+      <a href="#">5</a>
+      <a href="#">6</a>
+      <a href="#">7</a>
+      <a href="#">8</a>
+      <a href="#">9</a>
+      <a href="#">10</a>
+    </div>
+
+    <ul>
+      <li><img width="75" height="75" src="http://static.flickr.com/66/199481236_dc98b5abb3_s.jpg" alt="" /></li>
+      <li><img width="75" height="75" src="http://static.flickr.com/75/199481072_b4a0d09597_s.jpg" alt="" /></li>
+      <li><img width="75" height="75" src="http://static.flickr.com/57/199481087_33ae73a8de_s.jpg" alt="" /></li>
+      <li><img width="75" height="75" src="http://static.flickr.com/77/199481108_4359e6b971_s.jpg" alt="" /></li>
+      <li><img width="75" height="75" src="http://static.flickr.com/58/199481143_3c148d9dd3_s.jpg" alt="" /></li>
+      <li><img width="75" height="75" src="http://static.flickr.com/72/199481203_ad4cdcf109_s.jpg" alt="" /></li>
+      <li><img width="75" height="75" src="http://static.flickr.com/58/199481218_264ce20da0_s.jpg" alt="" /></li>
+      <li><img width="75" height="75" src="http://static.flickr.com/69/199481255_fdfe885f87_s.jpg" alt="" /></li>
+      <li><img width="75" height="75" src="http://static.flickr.com/60/199480111_87d4cb3e38_s.jpg" alt="" /></li>
+      <li><img width="75" height="75" src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" alt="" /></li>
+    </ul>
+
+    <div class="jcarousel-scroll">
+      <form action="">
+        <a href="#" id="mycarousel-prev">&laquo; Prev</a>
+        <select>
+          <option value="1">Scroll 1 item per click</option>
+          <option value="2">Scroll 2 items per click</option>
+          <option value="3">Scroll 3 items per click</option>
+          <option value="4">Scroll 4 items per click</option>
+          <option value="5">Scroll 5 items per click</option>
+        </select>
+        <a href="#" id="mycarousel-next">Next &raquo;</a>
+      </form>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

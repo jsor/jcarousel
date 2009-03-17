@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">
+<head>
+<title>jCarousel Examples</title>
+<link href="../style.css" rel="stylesheet" type="text/css" />
+<!--
+  jQuery library
+-->
+<script type="text/javascript" src="../lib/jquery-1.2.3.pack.js"></script>
+<!--
+  jCarousel library
+-->
+<script type="text/javascript" src="../lib/jquery.jcarousel.pack.js"></script>
+<!--
+  jCarousel core stylesheet
+-->
+<link rel="stylesheet" type="text/css" href="../lib/jquery.jcarousel.css" />
+
+<!--
+  Custome styles
+-->
+<style type="text/css">
+
+.jcarousel-container-vertical {
+    width: 300px;
+    height: 300px;
+    background: #e8e8e8;
+    border: 1px solid #fff;
+}
+
+.jcarousel-clip-vertical {
+    top: 15px;
+    width: 290px;
+    height: 270px;
+    margin: 0 5px;
+    z-index: 20;
+}
+
+#mycarousel li,
+.jcarousel-item-vertical,
+.jcarousel-item-placeholder-vertical {
+    width: 270px;
+    height: auto;
+    margin: 5px 0;
+}
+
+.jcarousel-item h3,
+.jcarousel-item p {
+    margin: 0;
+    font-size: 90%;
+}
+
+.jcarousel-next-vertical {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    height: 14px;
+    cursor: pointer;
+    border-top: 1px solid #fff;
+    background: #4088b8 url(../images/arrow-down.gif) no-repeat center;
+}
+
+.jcarousel-next-disabled-vertical {
+    cursor: default;
+    opacity: .5;
+    -moz-opacity: .5;
+    filter: alpha(opacity=50);
+}
+
+.jcarousel-prev-vertical {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 14px;
+    cursor: pointer;
+    border-bottom: 1px solid #fff;
+    background: #4088b8 url(../images/arrow-up.gif) no-repeat center;
+}
+
+.jcarousel-prev-disabled-vertical {
+    cursor: default;
+    opacity: .5;
+    -moz-opacity: .5;
+    filter: alpha(opacity=50);
+}
+
+.loading {
+    background: transparent url(../images/loading.gif) 50% 50% no-repeat;
+}
+
+</style>
+
+<script type="text/javascript">
+
+function mycarousel_initCallback(carousel, state)
+{
+    // Lock until all items are loaded. That prevents jCarousel from
+    // setup correctly and we have to do that in the ajax callback
+    // function with carousel.setup().
+    // We're doing that because we don't know the exact height of each
+    // items until they are added to the list.
+    carousel.lock();
+
+    jQuery.get(
+        'special_textscroller.php',
+        {
+            'feed': 'http://jquery.com/blog/feed/atom/'
+        },
+        function(xml) {
+            mycarousel_itemAddCallback(carousel, xml);
+        },
+        'xml'
+    );
+};
+
+function mycarousel_itemAddCallback(carousel, xml)
+{
+    var $items = jQuery('item', xml);
+
+    $items.each(function(i) {
+        carousel.add(i + 1, mycarousel_getItemHTML(this));
+    });
+
+    carousel.size($items.size());
+
+    // Unlock and setup.
+    carousel.unlock();
+    carousel.setup();
+};
+
+/**
+ * Item html creation helper.
+ */
+function mycarousel_getItemHTML(item)
+{
+    return '<h3><a href="'+$('link', item).text()+'">'+$('title', item).text()+'</a></h3><p>'+mycarousel_truncate($('description', item).text(), 90)+'</p>';
+};
+
+/**
+ * Utility function for truncating a string without breaking words.
+ */
+function mycarousel_truncate(str, length, suffix) {
+    if (str.length <= length) {
+        return str;
+    }
+
+    if (suffix == undefined) {
+        suffix = '...';
+    }
+
+    return str.substr(0, length).replace(/\s+?(\S+)?$/g, '') + suffix;
+};
+
+jQuery(document).ready(function() {
+    /**
+     * We show a simple loading indicator
+     * using the jQuery ajax events
+     */
+    jQuery().ajaxStart(function() {
+        jQuery(".jcarousel-clip-vertical").addClass('loading');
+    });
+
+    jQuery().ajaxStop(function() {
+        jQuery(".jcarousel-clip-vertical").removeClass('loading');
+    });
+
+    jQuery('#mycarousel').jcarousel({
+        vertical: true,
+        size: 0,
+        initCallback: mycarousel_initCallback
+    });
+});
+
+</script>
+</head>
+<body>
+<div id="wrap">
+  <h1>jCarousel</h1>
+  <h2>Riding carousels with jQuery</h2>
+  <h3>Using jCarousel as Textscroller</h3>
+  <p>
+    This example shows how to use jCarousel as a Textscroller. The data is loaded from the jQuery Blog RSS-Feed.
+  </p>
+
+  <div id="mycarousel">
+    <ul>
+      <!-- The content will be dynamically loaded in here -->
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>

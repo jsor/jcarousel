@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">
+<head>
+<title>jCarousel Examples</title>
+<link href="../style.css" rel="stylesheet" type="text/css" />
+
+<!--
+  jQuery library
+-->
+<script type="text/javascript" src="../lib/jquery-1.2.3.pack.js"></script>
+
+<!--
+  jCarousel library
+-->
+<script type="text/javascript" src="../lib/jquery.jcarousel.pack.js"></script>
+
+<!--
+  jCarousel core stylesheet
+-->
+<link rel="stylesheet" type="text/css" href="../lib/jquery.jcarousel.css" />
+
+<!--
+  jCarousel skin stylesheet
+-->
+<link rel="stylesheet" type="text/css" href="../skins/ie7/skin.css" />
+
+<style type="text/css">
+
+#mycarousel .jcarousel-item-placeholder {
+    background: transparent url(../images/loading-small.gif) 50% 50% no-repeat;
+}
+
+</style>
+<script type="text/javascript">
+
+function mycarousel_itemLoadCallback(carousel, state)
+{
+    if (carousel.prevFirst != null) {
+        // Remove the last visible items to keep the list small
+        for (var i = carousel.prevFirst; i <= carousel.prevLast; i++) {
+            // jCarousel takes care not to remove visible items
+            carousel.remove(i);
+        }
+    }
+
+    var per_page = carousel.last - carousel.first + 1;
+    var currPage = 0;
+    var f,l;
+    var cr = carousel;
+
+    for (var i = carousel.first; i <= carousel.last; i++) {
+        var page = Math.ceil(i / per_page);
+
+        if (currPage != page) {
+            currPage = page;
+
+            f = ((page - 1) * per_page) + 1;
+            l = f + per_page - 1;
+
+            f = f < carousel.first ? carousel.first : f;
+            l = l > carousel.last ? carousel.last : l;
+
+            if (carousel.has(f, l)) {
+                continue;
+            }
+
+            mycarousel_makeRequest(carousel, f, l, per_page, page);
+        }
+    }
+};
+
+function mycarousel_makeRequest(carousel, first, last, per_page, page)
+{
+    // Lock carousel until request has been made
+    carousel.lock();
+
+    jQuery.get(
+        'dynamic_flickr_api.php',
+        {
+            'per_page': per_page,
+            'page': page
+        },
+        function(data) {
+            mycarousel_itemAddCallback(carousel, first, last, data, page);
+        },
+        'xml'
+    );
+};
+
+function mycarousel_itemAddCallback(carousel, first, last, data, page)
+{
+    // Unlock
+    carousel.unlock();
+
+    // Set size
+    carousel.size($('photos', data).attr('total'));
+
+    var photos = $('photo', data);
+    var per_page = carousel.last - carousel.first + 1;
+
+    for (var i = first; i <= last; i++) {
+        var pos = i - 1;
+        var idx = Math.round(((pos / per_page) - Math.floor(pos / per_page)) * per_page);
+
+        carousel.add(i, mycarousel_getItemHTML(photos.get(idx)));
+    }
+};
+
+/**
+ * Global item html creation helper.
+ */
+function mycarousel_getItemHTML(photo)
+{
+    var url = 'http://farm'+$(photo).attr('farm')+'.static.flickr.com/'+$(photo).attr('server')+'/'+$(photo).attr('id')+'_'+$(photo).attr('secret')+'_s.jpg';
+    return '<a href="http://www.flickr.com/photos/'+$(photo).attr('owner')+'/'+$(photo).attr('id')+'/" target="_blank" title="'+$(photo).attr('title')+'"><img src="' + url + '" border="0" width="75" height="75" alt="'+$(photo).attr('title')+'" /></a>';
+};
+
+jQuery(document).ready(function() {
+    jQuery('#mycarousel').jcarousel({
+        itemLoadCallback: mycarousel_itemLoadCallback
+    });
+});
+
+</script>
+</head>
+<body>
+<div id="wrap">
+  <h1>jCarousel</h1>
+  <h2>Riding carousels with jQuery</h2>
+
+  <h3>Carousel with dynamic content loading via Ajax from the Flickr API</h3>
+  <p>
+    The data is loaded dynamically from the <a href="http://flickr.com/services/api/">Flickr API</a>
+    method <a href="http://flickr.com/services/api/flickr.photos.getRecent.html">flickr.photos.getRecent</a>.
+    All items not in the visible range are removed from the list to keep the list small.
+  </p>
+  <p>
+    Note: There are constantly added new photos at flickr, so you possibly get different photos at certain positions.
+  </p>
+
+  <div id="mycarousel" class="jcarousel-skin-ie7">
+    <ul>
+      <!-- The content will be dynamically loaded in here -->
+    </ul>
+  </div>
+
+  <p>
+    <strong>If you're using this example on your own server, don't forget to set your API key in dynamic_flickr_api.php!</strong>
+  </p>
+
+</div>
+</body>
+</html>

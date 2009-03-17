@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">
+<head>
+<title>jCarousel Examples</title>
+<link href="../style.css" rel="stylesheet" type="text/css" />
+
+<!--
+  jQuery library
+-->
+<script type="text/javascript" src="../lib/jquery-1.2.3.pack.js"></script>
+
+<!--
+  jCarousel library
+-->
+<script type="text/javascript" src="../lib/jquery.jcarousel.pack.js"></script>
+
+<!--
+  jCarousel core stylesheet
+-->
+<link rel="stylesheet" type="text/css" href="../lib/jquery.jcarousel.css" />
+
+<!--
+  jCarousel skin stylesheet
+-->
+<link rel="stylesheet" type="text/css" href="../skins/ie7/skin.css" />
+
+<script type="text/javascript">
+
+function mycarousel_itemLoadCallback(carousel, state)
+{
+    // Since we get all URLs in one file, we simply add all items
+    // at once and set the size accordingly.
+    if (state != 'init')
+        return;
+
+    jQuery.get('dynamic_ajax.txt', function(data) {
+        mycarousel_itemAddCallback(carousel, carousel.first, carousel.last, data);
+    });
+};
+
+function mycarousel_itemAddCallback(carousel, first, last, data)
+{
+    // Simply add all items at once and set the size accordingly.
+    var items = data.split('|');
+
+    for (i = 0; i < items.length; i++) {
+        carousel.add(i+1, mycarousel_getItemHTML(items[i]));
+    }
+
+    carousel.size(items.length);
+};
+
+/**
+ * Item html creation helper.
+ */
+function mycarousel_getItemHTML(url)
+{
+    return '<img src="' + url + '" width="75" height="75" alt="" />';
+};
+
+jQuery(document).ready(function() {
+    jQuery('#mycarousel').jcarousel({
+        itemLoadCallback: mycarousel_itemLoadCallback
+    });
+});
+
+</script>
+</head>
+<body>
+<div id="wrap">
+  <h1>jCarousel</h1>
+  <h2>Riding carousels with jQuery</h2>
+
+  <h3>Carousel with dynamic content loading via Ajax</h3>
+  <p>
+    The data is loaded dynamically from a simple text file which contains the image urls.
+  </p>
+
+  <div id="mycarousel" class="jcarousel-skin-ie7">
+    <ul>
+      <!-- The content will be dynamically loaded in here -->
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>

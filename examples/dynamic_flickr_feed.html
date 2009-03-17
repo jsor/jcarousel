@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">
+<head>
+<title>jCarousel Examples</title>
+<link href="../style.css" rel="stylesheet" type="text/css" />
+
+<!--
+  jQuery library
+-->
+<script type="text/javascript" src="../lib/jquery-1.2.3.pack.js"></script>
+
+<!--
+  jCarousel library
+-->
+<script type="text/javascript" src="../lib/jquery.jcarousel.pack.js"></script>
+
+<!--
+  jCarousel core stylesheet
+-->
+<link rel="stylesheet" type="text/css" href="../lib/jquery.jcarousel.css" />
+
+<!--
+  jCarousel skin stylesheet
+-->
+<link rel="stylesheet" type="text/css" href="../skins/ie7/skin.css" />
+
+<!--
+  Custom styles
+-->
+<style type="text/css">
+
+#mycarousel.jcarousel-container-horizontal {
+    width: 272px;
+}
+
+#mycarousel .jcarousel-clip-horizontal {
+    width: 272px;
+    height: 302px;
+}
+
+#mycarousel .jcarousel-item,
+#mycarousel .jcarousel-item-placeholder {
+    width: 270px;
+    height: 300px;
+}
+
+#mycarousel .jcarousel-item-horizontal img {
+    border: 1px solid #808080;
+}
+
+#mycarousel .jcarousel-item-horizontal p {
+    margin: 5px;
+    text-align: center;
+    clear: both;
+    white-space: wrap;
+}
+
+#mycarousel .jcarousel-item-placeholder {
+    background: transparent url(../images/loading.gif) 50% 50% no-repeat;
+}
+
+#mycarousel .jcarousel-next {
+    top: 150px;
+    right: 5px;
+}
+
+#mycarousel .jcarousel-prev {
+    top: 150px;
+    left: 5px;
+}
+
+#mycarousel form {
+    margin-top: 10px;
+}
+
+#mycarousel form label,
+#mycarousel form small {
+    display: block;
+}
+
+</style>
+
+<script type="text/javascript">
+
+var mycarousel_tags = '';
+
+function mycarousel_initCallback(carousel, state)
+{
+    // Do nothing of state is 'reset'
+    if (state == 'reset')
+        return;
+
+    jQuery('form', carousel.container)
+    .bind('submit', function(e) {
+        mycarousel_tags = jQuery('input[@type=text]', carousel.container).val();
+        carousel.reset();
+        return false;
+    });
+};
+
+function mycarousel_itemLoadCallback(carousel, state)
+{
+    // Only load items if they don't already exist
+    if (carousel.has(carousel.first, carousel.last)) {
+        return;
+    }
+
+    jQuery.get(
+        'dynamic_flickr_feed.php',
+        {
+            tags: mycarousel_tags
+        },
+        function(data) {
+            mycarousel_itemAddCallback(carousel, carousel.first, carousel.last, data);
+        },
+        'json'
+    );
+};
+
+function mycarousel_itemAddCallback(carousel, first, last, data)
+{
+    if (first == 1) {
+        var plural = data.length == 1 ? '' : 's';
+        jQuery('.results', carousel.container).html(data.length + ' photo' + plural + ' found');
+
+        // Set size
+        if (data.length == 0) {
+            // Add a "no results" feedback as first item if data is empty
+            carousel.size(1);
+            carousel.add(1, '<p>No results</p>');
+            return;
+        } else {
+            carousel.size(data.length);
+        }
+    }
+
+    for (var i = first; i <= last; i++) {
+        if (data[i - 1] == undefined) {
+            break;
+        }
+
+        carousel.add(i, mycarousel_decodeEntities(data[i - 1].description));
+    }
+};
+
+/**
+ * Decodes entites.
+ */
+function mycarousel_decodeEntities(s)
+{
+    return s.replace(/&amp;/g,  "&")
+            .replace(/&quot;/g, '"')
+            .replace(/&#039;/g, "'")
+            .replace(/&lt;/g,   "<")
+            .replace(/&gt;/g,   ">");
+};
+
+/**
+ * This function is needed for the flickr feed.
+ */
+function jsonFlickrFeed(o)
+{
+    return o.items;
+};
+
+jQuery(document).ready(function() {
+    jQuery('#mycarousel').jcarousel({
+        scroll: 1,
+        initCallback: mycarousel_initCallback,
+        itemLoadCallback: mycarousel_itemLoadCallback
+    });
+});
+
+</script>
+</head>
+<body>
+<div id="wrap">
+  <h1>jCarousel</h1>
+  <h2>Riding carousels with jQuery</h2>
+
+  <h3>Carousel with dynamic content loading via Ajax from the Flickr photo stream</h3>
+  <p>
+    The data is loaded dynamically from the <a href="http://www.flickr.com">Flickr</a>
+    public photos feed (format: <a href="http://api.flickr.com/services/feeds/photos_public.gne?format=json">JSON</a>)
+    and can be filtered by tags.
+  </p>
+
+  <div id="mycarousel" class="jcarousel-skin-ie7">
+    <ul>
+      <!-- The content will be dynamically loaded in here -->
+    </ul>
+    <form action="">
+        <label for="filter">Enter tag(s) to filter the feed<br />(separate multiple by comma)</label>
+        <input type="text" name="filter-tags" value="" />
+        <input type="submit" name="filter-submit" value="Filter" />
+        <small class="results"></small>
+    </form>
+  </div>
+
+</div>
+</body>
+</html>
