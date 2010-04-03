@@ -121,14 +121,14 @@ jQuery(document).ready(function() {
     <pre>
 &lt;div class=&quot;jcarousel-skin-<em>name</em>&quot;&gt;
   &lt;div class=&quot;jcarousel-container&quot;&gt;
-    &lt;div disabled=&quot;disabled&quot; class=&quot;jcarousel-prev jcarousel-prev-disabled&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;jcarousel-next&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;jcarousel-clip&quot;&gt;
       &lt;ul class=&quot;jcarousel-list&quot;&gt;
         &lt;li class=&quot;jcarousel-item-1&quot;&gt;First item&lt;/li&gt;
         &lt;li class=&quot;jcarousel-item-2&quot;&gt;Second item&lt;/li&gt;
       &lt;/ul&gt;
     &lt;/div&gt;
+    &lt;div disabled=&quot;disabled&quot; class=&quot;jcarousel-prev jcarousel-prev-disabled&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;jcarousel-next&quot;&gt;&lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 </pre>
@@ -140,11 +140,9 @@ jQuery(document).ready(function() {
   <ul>
     <li>The skin class &quot;jcarousel-skin-<em>name&quot;</em> has been moved
       from the <code>&lt;ul&gt;</code> to the top <code>&lt;div&gt;</code> element.</li>
-    <li>The&nbsp;first nested <code>&lt;div&gt;</code> under <code>&lt;div class=&quot;jcarousel-container&quot;&gt;</code>
-        illustrates a disabled button, the second an enabled one. The disabled
-        button has
-        the
-        attribute
+    <li>The last 2 nested <code>&lt;div&gt;</code>'s under <code>&lt;div class=&quot;jcarousel-container&quot;&gt;</code>
+        are the next/prev buttons of the carousel. The first one illustrates a disabled button, the second an enabled one. The disabled
+        button has the attribute
       <code>disabled</code> (which actually makes no sense for <code>&lt;div&gt;</code>
       elements, but you can also use <code>&lt;button&gt;</code> elements or
       whatever  you want) as well as the additional class <code>jcarousel-prev-disabled</code>
