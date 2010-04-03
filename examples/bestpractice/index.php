@@ -26,7 +26,7 @@ $jcarousel_size = jcarousel_countItems();
 <!--
   jCarousel library
 -->
-<script type="text/javascript" src="../../lib/jquery.jcarousel.pack.js"></script>
+<script type="text/javascript" src="../../lib/jquery.jcarousel.js"></script>
 
 <!--
   jCarousel core stylesheet
