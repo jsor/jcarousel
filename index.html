@@ -188,8 +188,25 @@ function itemLoadCallbackFunction(carousel, state)
     created. If the item already exists, it just updates the innerHTML. You can
       access the index of the first and last visible element by the public variables <code>carousel.first</code> and <code>carousel.last</code>.
   </p>
+    <a name="Accessing-The-Jcarousel-Instance"></a>
+    <h3>Accessing the jCarousel instance</h3>
+    <p>The instance of the carousel will be stored with the <code>data()</code> method of jQuery under the key <code>jcarousel</code> for a simple access.</p>
+    <p>If you have created a carousel like:</p>
+    <pre>
+jQuery(document).ready(function() {
+    jQuery('#mycarousel').jcarousel();
+});</pre>
+    <p>You can access the instance with:</p>
+    <pre>
+var carousel = jQuery('#mycarousel').data('jcarousel');</pre>
+    <p>You can also access methods of the instance directly, for example the <code>add()</code> method:
+    <pre>
+var index = 1;
+var html = 'My content of item no. 1';
+jQuery('#mycarousel').jcarousel('add', index, html);</pre>
+
     <a name="Configuration"></a>
-        <h3>Configuration</h3>
+    <h3>Configuration</h3>
   <p> jCarousel accepts a list of options to control the appearance and behaviour
     of the carousel. Here is the list of options you may set: </p>
   <table>
