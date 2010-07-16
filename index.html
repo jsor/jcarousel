@@ -23,6 +23,8 @@
     <li><a href="#Examples">Examples</a></li>
     <li><a href="#Getting-Started">Getting started</a></li>
     <li><a href="#Dynamic-Content-Loading">Dynamic content loading</a></li>
+    <li><a href="#Accessing-The-Jcarousel-Instance">Accessing the jCarousel instance</a></li>
+    <li><a href="#Defining-The-Number-Of-Visible-Items">Defining the number of visible items</a></li>
     <li><a href="#Configuration">Configuration</a></li>
     <li><a href="#Compatibility">Compatibility</a></li>
     <li><a href="#Credits">Credits</a></li>
@@ -185,9 +187,10 @@ function itemLoadCallbackFunction(carousel, state)
     <p>jCarousel contains a convenience method <code>add()</code> that can be
       passed the index of the item to create and the innerHTML string of the
       item to be
-    created. If the item already exists, it just updates the innerHTML. You can
+      created. If the item already exists, it just updates the innerHTML. You can
       access the index of the first and last visible element by the public variables <code>carousel.first</code> and <code>carousel.last</code>.
-  </p>
+    </p>
+
     <a name="Accessing-The-Jcarousel-Instance"></a>
     <h3>Accessing the jCarousel instance</h3>
     <p>The instance of the carousel will be stored with the <code>data()</code> method of jQuery under the key <code>jcarousel</code> for a simple access.</p>
@@ -204,6 +207,14 @@ var carousel = jQuery('#mycarousel').data('jcarousel');</pre>
 var index = 1;
 var html = 'My content of item no. 1';
 jQuery('#mycarousel').jcarousel('add', index, html);</pre>
+
+    <a name="Defining-The-Number-Of-Visible-Items"></a>
+    <h3>Defining the number of visible items</h3>
+
+    <p>Sometimes people are confused how to define the number of visible items because there is no option for this as they expect (Yes, there is an option <code>visible</code>, we discuss this later).</p>
+    <p>You simply define the number of visible items by defining the width (or height) with the class <code>.jcarousel-clip</code> (or the more distinct <code>.jcarousel-clip-horizontal</code> and <code>.jcarousel-clip-vertical</code> classes) in your skin stylesheet.</p>
+    <p>This offers a lot of flexibility, because you can define the width in pixel for a fixed carousel or in percent for a flexible carousel (<a href="examples/static_callbacks.html">This example</a> shows a carousel with a clip width in percent, resize the browser to see it in effect).</p>
+    <p>So, why there is an option <code>visible</code>? If you set the option <code>visible</code>, jCarousel sets the width of the visible items to always make this number of items visible. Open <a href="examples/special_flexible.html">this example</a> and resize your browser window to see it in effect.</p>
 
     <a name="Configuration"></a>
     <h3>Configuration</h3>
