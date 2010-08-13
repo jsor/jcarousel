@@ -21,13 +21,7 @@
 
 jQuery(document).ready(function() {
     jQuery('#mycarousel').jcarousel({
-    	wrap: 'circular',
-    	// This function removes items which are appended automatically for circulation.
-    	// This prevents the list from growing infinitely.
-        itemVisibleOutCallback: {onAfterAnimation: function(carousel, item, i, state, evt) {
-            if (i < 1 || i > carousel.size())
-                carousel.remove(i);
-        }}
+    	wrap: 'circular'
     });
 });
 
