@@ -11,8 +11,10 @@
   <h1>jCarousel</h1>
   <h2>Riding carousels with jQuery</h2>
   <p><strong>Author:</strong> <a href="http://sorgalla.com">Jan Sorgalla</a><br />
-    <strong>Version:</strong> 0.2.4 (<a href="changelog.html">Changelog</a>)<br />
+    <strong>Version:</strong> 0.2.5 (<a href="changelog.html">Changelog</a>)<br />
     <strong>Download:</strong> <a href="http://sorgalla.com/projects/download.php?jcarousel">jcarousel.tar.gz</a> or <a href="http://sorgalla.com/projects/download-zip.php?jcarousel">jcarousel.zip</a><br />
+    <strong>Source Code:</strong> <a href="http://github.com/jsor/jcarousel">http://github.com/jsor/jcarousel</a><br/>
+    <strong>Bugtracker:</strong> <a href="http://github.com/jsor/jcarousel/issues">http://github.com/jsor/jcarousel/issues</a><br/>
     <strong>Licence:</strong> Dual licensed under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT</a>
     and <a href="http://www.opensource.org/licenses/gpl-license.php">GPL</a> licenses.</p>
 
@@ -23,8 +25,9 @@
     <li><a href="#Examples">Examples</a></li>
     <li><a href="#Getting-Started">Getting started</a></li>
     <li><a href="#Dynamic-Content-Loading">Dynamic content loading</a></li>
+    <li><a href="#Accessing-The-Jcarousel-Instance">Accessing the jCarousel instance</a></li>
+    <li><a href="#Defining-The-Number-Of-Visible-Items">Defining the number of visible items</a></li>
     <li><a href="#Configuration">Configuration</a></li>
-    <li><a href="#Compatibility">Compatibility</a></li>
     <li><a href="#Credits">Credits</a></li>
   </ol>
 
@@ -71,7 +74,6 @@
     </li>
     <li><strong>Special Examples</strong>
       <ul>
-        <li><a href="examples/special_circular.html">Circular dynamic carousel</a></li>
         <li><a href="examples/special_textscroller.html">Using jCarousel as a
           Textscroller</a></li>
         <li><a href="examples/special_flexible.html">Flexible carousel</a></li>
@@ -185,9 +187,10 @@ function itemLoadCallbackFunction(carousel, state)
     <p>jCarousel contains a convenience method <code>add()</code> that can be
       passed the index of the item to create and the innerHTML string of the
       item to be
-    created. If the item already exists, it just updates the innerHTML. You can
+      created. If the item already exists, it just updates the innerHTML. You can
       access the index of the first and last visible element by the public variables <code>carousel.first</code> and <code>carousel.last</code>.
-  </p>
+    </p>
+
     <a name="Accessing-The-Jcarousel-Instance"></a>
     <h3>Accessing the jCarousel instance</h3>
     <p>The instance of the carousel will be stored with the <code>data()</code> method of jQuery under the key <code>jcarousel</code> for a simple access.</p>
@@ -204,6 +207,14 @@ var carousel = jQuery('#mycarousel').data('jcarousel');</pre>
 var index = 1;
 var html = 'My content of item no. 1';
 jQuery('#mycarousel').jcarousel('add', index, html);</pre>
+
+    <a name="Defining-The-Number-Of-Visible-Items"></a>
+    <h3>Defining the number of visible items</h3>
+
+    <p>Sometimes people are confused how to define the number of visible items because there is no option for this as they expect (Yes, there is an option <code>visible</code>, we discuss this later).</p>
+    <p>You simply define the number of visible items by defining the width (or height) with the class <code>.jcarousel-clip</code> (or the more distinct <code>.jcarousel-clip-horizontal</code> and <code>.jcarousel-clip-vertical</code> classes) in your skin stylesheet.</p>
+    <p>This offers a lot of flexibility, because you can define the width in pixel for a fixed carousel or in percent for a flexible carousel (<a href="examples/static_callbacks.html">This example</a> shows a carousel with a clip width in percent, resize the browser to see it in effect).</p>
+    <p>So, why there is an option <code>visible</code>? If you set the option <code>visible</code>, jCarousel sets the width of the visible items to always make this number of items visible. Open <a href="examples/special_flexible.html">this example</a> and resize your browser window to see it in effect.</p>
 
     <a name="Configuration"></a>
     <h3>Configuration</h3>
@@ -223,6 +234,12 @@ jQuery('#mycarousel').jcarousel('add', index, html);</pre>
         <td>false</td>
         <td>Specifies wether the carousel appears in horizontal or vertical orientation.
           Changes the carousel from a left/right style to a up/down style carousel.</td>
+      </tr>
+      <tr>
+        <td>rtl</td>
+        <td>bool</td>
+        <td>false</td>
+        <td>Specifies wether the carousel appears in RTL (Right-To-Left) mode.</td>
       </tr>
       <tr>
         <td>start</td>
@@ -287,12 +304,9 @@ jQuery('#mycarousel').jcarousel('add', index, html);</pre>
         <td>string</td>
         <td>null</td>
         <td>Specifies whether to wrap at the first/last item (or both) and jump
-          back to the start/end. Options are <code>&quot;first&quot;</code>, <code>&quot;last&quot;</code>
-          or <code>&quot;both&quot;</code> as string. If set to <code>null</code>,
-          wrapping is turned off (default). You can also pass <code>&quot;circular&quot;</code>
-          as option to enable support for circular carousels. See the example
-          <a href="examples/special_circular.html">Circular carousel</a> on how
-          to implement it.</td>
+          back to the start/end. Options are <code>&quot;first&quot;</code>, <code>&quot;last&quot;</code>,
+          <code>&quot;both&quot;</code> or <code>&quot;circular&quot;</code> as string. If set to <code>null</code>,
+          wrapping is turned off (default).</td>
       </tr>
       <tr>
         <td>initCallback</td>
@@ -466,21 +480,14 @@ itemVisibleOutCallback: {
         <td>&quot;click&quot;</td>
         <td>Specifies the event which triggers the prev scroll.</td>
       </tr>
+      <tr>
+        <td>itemFallbackDimension</td>
+        <td>integer</td>
+        <td>null</td>
+        <td>If, for some reason, jCarousel can not detect the width of an item, you can set a fallback dimension (width or height, depending on the orientation) here to ensure correct calculations.</td>
+      </tr>
     </tbody>
   </table>
-
-  <a name="Compatibility"></a>
-  <h3>Compatibility</h3>
-    <p>jCarousel has been tested and works on the following browsers:</p>
-    <ul>
-    <li>Internet Explorer 6 (PC)</li>
-    <li>Internet Explorer 7 (PC)</li>
-    <li>FireFox 1.5.0.6 (PC/Mac/Linux)</li>
-    <li>Opera 9.01 (PC/Mac)</li>
-    <li>Safari 2.0.4 (Mac)</li>
-    <li>Safari 3.1.0 (PC)</li>
-    <li>Konqueror 3.4.0 (Linux)</li>
-  </ul>
 
   <a name="Credits"></a>
   <h3>Credits</h3>
