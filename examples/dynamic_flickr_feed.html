@@ -88,7 +88,7 @@ function mycarousel_initCallback(carousel, state)
 
     jQuery('form', carousel.container)
     .bind('submit', function(e) {
-        mycarousel_tags = jQuery('input[@type=text]', carousel.container).val();
+        mycarousel_tags = jQuery('input[type=text]', carousel.container).val();
         carousel.reset();
         return false;
     });
@@ -107,35 +107,35 @@ function mycarousel_itemLoadCallback(carousel, state)
             tags: mycarousel_tags
         },
         function(data) {
-            mycarousel_itemAddCallback(carousel, carousel.first, carousel.last, data);
+            mycarousel_itemAddCallback(carousel, carousel.first, carousel.last, data.items);
         },
         'json'
     );
 };
 
-function mycarousel_itemAddCallback(carousel, first, last, data)
+function mycarousel_itemAddCallback(carousel, first, last, items)
 {
     if (first == 1) {
-        var plural = data.length == 1 ? '' : 's';
-        jQuery('.results', carousel.container).html(data.length + ' photo' + plural + ' found');
+        var plural = items.length == 1 ? '' : 's';
+        jQuery('.results', carousel.container).html(items.length + ' photo' + plural + ' found');
 
         // Set size
-        if (data.length == 0) {
-            // Add a "no results" feedback as first item if data is empty
+        if (items.length == 0) {
+            // Add a "no results" feedback as first item if items is empty
             carousel.size(1);
             carousel.add(1, '<p>No results</p>');
             return;
         } else {
-            carousel.size(data.length);
+            carousel.size(items.length);
         }
     }
 
     for (var i = first; i <= last; i++) {
-        if (data[i - 1] == undefined) {
+        if (items[i - 1] == undefined) {
             break;
         }
 
-        carousel.add(i, mycarousel_decodeEntities(data[i - 1].description));
+        carousel.add(i, mycarousel_decodeEntities(items[i - 1].description));
     }
 };
 
@@ -149,14 +149,6 @@ function mycarousel_decodeEntities(s)
             .replace(/&#039;/g, "'")
             .replace(/&lt;/g,   "<")
             .replace(/&gt;/g,   ">");
-};
-
-/**
- * This function is needed for the flickr feed.
- */
-function jsonFlickrFeed(o)
-{
-    return o.items;
 };
 
 jQuery(document).ready(function() {
