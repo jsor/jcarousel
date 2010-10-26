@@ -19,6 +19,10 @@
     padding: 40px 20px;
 }
 
+.jcarousel-skin-tango .jcarousel-clip {
+    overflow: hidden;
+}
+
 .jcarousel-skin-tango .jcarousel-clip-horizontal {
     width:  245px;
     height: 75px;

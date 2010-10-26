@@ -19,6 +19,10 @@
     padding: 40px 20px;
 }
 
+.jcarousel-skin-ie7 .jcarousel-clip {
+    overflow: hidden;
+}
+
 .jcarousel-skin-ie7 .jcarousel-clip-horizontal {
     width:  245px;
     height: 77px;
