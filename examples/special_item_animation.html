@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">
+<head>
+<title>jCarousel Examples</title>
+<link href="../style.css" rel="stylesheet" type="text/css" />
+<!--
+  jQuery library
+-->
+<script type="text/javascript" src="../lib/jquery-1.4.2.min.js"></script>
+<!--
+  jCarousel library
+-->
+<script type="text/javascript" src="../lib/jquery.jcarousel.js"></script>
+<!--
+  jCarousel skin stylesheet
+-->
+<link rel="stylesheet" type="text/css" href="../skins/tango/skin.css" />
+<style type="text/css">
+.jcarousel-skin-tango .jcarousel-container-horizontal {
+    width: 335px;
+}
+.jcarousel-skin-tango .jcarousel-clip-horizontal {
+    width: 100%;
+}
+</style>
+
+<script type="text/javascript">
+
+function mycarousel_itemLoadCallbackBeforeAnimation(carousel, evt, state) {
+    //Reset fade animation item
+    delete carousel.previousAnimatingItem;
+    carousel.lastAnimationWasOut = true;
+
+    //Recalculate itemAnimationDuration
+    carousel.itemAnimationDuration = 100;
+    if (typeof carousel.options.animation === 'number') {
+        carousel.itemAnimationDuration = carousel.options.animation / carousel.options.scroll;
+    } else if (carousel.options.animation == 'slow') {
+        carousel.itemAnimationDuration = 300;
+    }
+};
+
+function setupAnimation(carousel, item, startParameters, animationParameters){
+    $(item).css(startParameters);
+
+    //Use an empty call to queue to freeze this item's animation until we decide to start it
+    $(item).queue($.noop);
+    $(item).animate(animationParameters, carousel.itemAnimationDuration);
+
+    if (typeof carousel.previousAnimatingItem == "undefined") {
+        //We're the first item to animate, start immediately
+        $(item).dequeue();
+    } else {
+        //We're not the first item to animate
+        //don't start until the previous item is done
+        carousel.previousAnimatingItem.queue(function(dequeuePreviousItem){
+            //Now we can start animating the current item
+            $(item).dequeue();
+            dequeuePreviousItem();
+        });
+    }
+
+    carousel.previousAnimatingItem = $(item);
+}
+
+function mycarousel_itemVisibleInCallbackBeforeAnimation(carousel, item, idx, state) {
+    if (state == 'init') {
+        return;
+    } else {
+        //We want the "out" animations to start first, but the "in" callbacks are triggered first
+        //Check the flag that was set in "load"
+        if (carousel.lastAnimationWasOut) {
+            carousel.lastAnimationWasOut = false;
+            delete carousel.previousAnimatingItem;
+
+            //Since the list animation will be called immediately after all the visible callbacks are triggered,
+            //queue an empty operation on the list and the item to prevent animations from starting until the first "in" item is done fading out.
+            carousel.list.queue($.noop);
+            $(item).queue($.noop);
+
+            //Now we can set up the first "in" animation without worrying about the animation starting too early
+            setupAnimation(carousel, item, {"opacity":0}, {"opacity":1});
+
+            //Use a standard timer to kick off the animations, timed to the end of the first "out" animation
+            setTimeout(
+                function(){
+                    carousel.list.dequeue();
+                }
+                , carousel.itemAnimationDuration
+            );
+            setTimeout(
+                function(){
+                    $(item).dequeue();
+                }
+                , carousel.itemAnimationDuration * 2
+            );
+        } else {
+            setupAnimation(carousel, item, {"opacity":0}, {"opacity":1});
+        }
+    }
+};
+
+function mycarousel_itemVisibleOutCallbackBeforeAnimation(carousel, item, idx, state) {
+    if (state == 'init') {
+        return;
+    } else {
+        if (!carousel.lastAnimationWasOut) {
+            delete carousel.previousAnimatingItem;
+            carousel.lastAnimationWasOut = true;
+        }
+        setupAnimation(carousel, item, {"opacity":1}, {"opacity":0});
+    }
+};
+
+jQuery(document).ready(function() {
+    jQuery('#mycarousel').jcarousel({
+        scroll: 4,
+        animation: 900,
+
+        itemLoadCallback: {
+            onBeforeAnimation: mycarousel_itemLoadCallbackBeforeAnimation
+        },
+        itemVisibleInCallback: {
+            onBeforeAnimation: mycarousel_itemVisibleInCallbackBeforeAnimation
+        },
+        itemVisibleOutCallback: {
+            onBeforeAnimation: mycarousel_itemVisibleOutCallbackBeforeAnimation
+        }
+    });
+});
+
+</script>
+
+</head>
+<body>
+<div id="wrap">
+  <h1>jCarousel</h1>
+  <h2>Riding carousels with jQuery</h2>
+
+  <h3>Carousel with custom item animations</h3>
+  <p>
+    This carousel has a more advanced custom animation, using the item-level callbacks.
+  </p>
+
+
+  <ul id="mycarousel" class="jcarousel-skin-tango">
+    <li><img src="http://static.flickr.com/66/199481236_dc98b5abb3_s.jpg" width="75" height="75" alt="" /></li>
+    <li><img src="http://static.flickr.com/75/199481072_b4a0d09597_s.jpg" width="75" height="75" alt="" /></li>
+    <li><img src="http://static.flickr.com/57/199481087_33ae73a8de_s.jpg" width="75" height="75" alt="" /></li>
+    <li><img src="http://static.flickr.com/77/199481108_4359e6b971_s.jpg" width="75" height="75" alt="" /></li>
+    <li><img src="http://static.flickr.com/58/199481143_3c148d9dd3_s.jpg" width="75" height="75" alt="" /></li>
+    <li><img src="http://static.flickr.com/72/199481203_ad4cdcf109_s.jpg" width="75" height="75" alt="" /></li>
+    <li><img src="http://static.flickr.com/58/199481218_264ce20da0_s.jpg" width="75" height="75" alt="" /></li>
+    <li><img src="http://static.flickr.com/69/199481255_fdfe885f87_s.jpg" width="75" height="75" alt="" /></li>
+    <li><img src="http://static.flickr.com/60/199480111_87d4cb3e38_s.jpg" width="75" height="75" alt="" /></li>
+    <li><img src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" width="75" height="75" alt="" /></li>
+  </ul>
+
+  <p id="display"></p>
+
+</div>
+</body>
+</html>
