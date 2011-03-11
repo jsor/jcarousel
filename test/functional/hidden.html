@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>jCarousel Examples</title>
+<link href="../style.css" rel="stylesheet" type="text/css">
+<!--
+  jQuery
+-->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+<!--
+  jCarousel core
+-->
+<script type="text/javascript" src="../../src/jquery.jcarousel.js"></script>
+<!--
+  jCarousel stylesheet
+-->
+<link rel="stylesheet" type="text/css" href="horizontal.css">
+<link rel="stylesheet" type="text/css" href="vertical.css">
+
+<script type="text/javascript">
+
+$(function() {
+    $('.jcarousel').jcarousel();
+});
+
+</script>
+
+<style>
+.jcarousel li {
+    border: 1px solid black;
+    width: 75px;
+    height: 75px;
+}
+</style>
+
+</head>
+<body>
+
+    <div class="jcarousel-skin-default">
+        <div class="jcarousel" style="display:none">
+            <ul>
+                <li><img src="not_there.jpg" alt=""></li>
+                <li><img src="not_there.jpg" alt=""></li>
+                <li><img src="not_there.jpg" alt=""></li>
+                <li><img src="not_there.jpg" alt=""></li>
+                <li><img src="not_there.jpg" alt=""></li>
+                <li><img src="not_there.jpg" alt=""></li>
+                <li><img src="not_there.jpg" alt=""></li>
+                <li><img src="not_there.jpg" alt=""></li>
+                <li><img src="not_there.jpg" alt=""></li>
+                <li><img src="not_there.jpg" alt=""></li>
+            </ul>
+        </div>
+        <a href="#" onclick="$('.jcarousel').jcarousel('prev'); return false;">Prev</a>
+        <a href="#" onclick="$('.jcarousel').jcarousel('next'); return false;">Next</a>
+        |
+        <a href="#" onclick="$('.jcarousel').show(); return false;">Show</a>
+        <a href="#" onclick="$('.jcarousel').hide(); return false;">Hide</a>
+    </div>
+
+    <p>
+        <a href="#" onclick="$('html').attr('dir', 'rtl'); $('.jcarousel').jcarousel('reload'); return false;">RTL</a>
+        <a href="#" onclick="$('html').attr('dir', 'ltr'); $('.jcarousel').jcarousel('reload'); return false;">LTR</a>
+        |
+        <a href="#" onclick="$('.jcarousel').addClass('jcarousel-vertical').jcarousel('reload'); return false;">Vertical</a>
+        <a href="#" onclick="$('.jcarousel').removeClass('jcarousel-vertical').jcarousel('reload'); return false;">Horizontal</a>
+    </p>
+
+</body>
+</html>

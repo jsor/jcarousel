@@ -1,0 +1,23 @@
+.jcarousel-skin-default .jcarousel-vertical {
+    position: relative;
+    overflow: hidden;
+    width: 50%;
+    width: 75px;
+    height: 245px;
+    border: 1px solid #000;
+}
+
+.jcarousel-skin-default .jcarousel-vertical ul {
+    height: 20000px;
+    width: 75px;
+    position: absolute;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.jcarousel-skin-default .jcarousel-vertical li {
+    height: 75px;
+    margin: 0 0 10px 0;
+    padding: 0;
+}

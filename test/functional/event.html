@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>jCarousel Examples</title>
+<link href="../style.css" rel="stylesheet" type="text/css">
+<!--
+  jQuery
+-->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+<!--
+  jCarousel core
+-->
+<script type="text/javascript" src="../../src/jquery.jcarousel.js"></script>
+<!--
+  jCarousel skin stylesheet
+-->
+<link rel="stylesheet" type="text/css" href="horizontal.css">
+
+<script type="text/javascript">
+
+$(function() {
+    function log() {
+        console.log.apply(console, arguments);
+    };
+
+    var jcarousel = $('.jcarousel');
+
+    $.each(['init', 'setup', 'destroy', 'reload'], function(i, name) {
+        jcarousel.bind('jcarousel' + name, function() {
+            log(name, this);
+        })
+    });
+
+    jcarousel.find('li')
+    .bind('jcarouselvisiblein', function() {
+        log('visiblein', this);
+    })
+    .bind('jcarouselvisibleout', function() {
+        log('visibleout', this);
+    })
+    .bind('jcarouselfirstin', function() {
+        log('firstin', this);
+    })
+    .bind('jcarouselfirstout', function() {
+        log('firstout', this);
+    }).bind('jcarousellastin', function() {
+        log('lastin', this);
+    })
+    .bind('jcarousellastout', function() {
+        log('lastout', this);
+    });
+
+    jcarousel.jcarousel({scroll:2});
+});
+
+function callback(moved) {
+    if (!moved) {
+        return;
+    }
+
+    var f = $('.jcarousel').find('li:first-child');
+
+    console.log(f, 'first:jcarouselfirst', f.is(':jcarouselfirst'));
+    console.log(f, 'first:jcarousellast', f.is(':jcarousellast'));
+    console.log(f, 'first:jcarouselvisible', f.is(':jcarouselvisible'));
+
+    var l = $('.jcarousel').find('li:last-child');
+
+    console.log(l, 'last:jcarouselfirst', l.is(':jcarouselfirst'));
+    console.log(l, 'last:jcarousellast', l.is(':jcarousellast'));
+    console.log(l, 'last:jcarouselvisible', l.is(':jcarouselvisible'));
+};
+
+</script>
+
+</head>
+<body>
+
+  <div class="jcarousel-skin-default">
+      <div class="jcarousel">
+          <ul>
+            <li><img src="http://static.flickr.com/66/199481236_dc98b5abb3_s.jpg" width="75" height="75" alt=""></li>
+            <li><img src="http://static.flickr.com/75/199481072_b4a0d09597_s.jpg" width="75" height="75" alt=""></li>
+            <li><img src="http://static.flickr.com/57/199481087_33ae73a8de_s.jpg" width="75" height="75" alt=""></li>
+            <li><img src="http://static.flickr.com/77/199481108_4359e6b971_s.jpg" width="75" height="75" alt=""></li>
+            <li><img src="http://static.flickr.com/58/199481143_3c148d9dd3_s.jpg" width="75" height="75" alt=""></li>
+            <li><img src="http://static.flickr.com/72/199481203_ad4cdcf109_s.jpg" width="75" height="75" alt=""></li>
+            <li><img src="http://static.flickr.com/58/199481218_264ce20da0_s.jpg" width="75" height="75" alt=""></li>
+            <li><img src="http://static.flickr.com/69/199481255_fdfe885f87_s.jpg" width="75" height="75" alt=""></li>
+            <li><img src="http://static.flickr.com/60/199480111_87d4cb3e38_s.jpg" width="75" height="75" alt=""></li>
+            <li><img src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" width="75" height="75" alt=""></li>
+          </ul>
+      </div>
+      <a href="#" onclick="$('.jcarousel').jcarousel('prev', callback); return false;">Prev</a>
+      <a href="#" onclick="$('.jcarousel').jcarousel('next', callback); return false;">Next</a>
+  </div>
+
+</body>
+</html>
