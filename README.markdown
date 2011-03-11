@@ -14,6 +14,8 @@ To use the jCarousel component, include the [jQuery](http://jquery.com) library,
 
 The download package contains some example skin packages. Feel free to build your own skins based on it.
 
+**Note: skins will follow!**
+
 jCarousel expects a very basic HTML markup structure inside your HTML document:
 
     <div class="jcarousel-skin-name">
@@ -37,7 +39,7 @@ To setup jCarousel, add the following code inside the `<head>` tag of your HTML 
 Configuration
 -------------
 
-jCarousel accepts a list of options to control the behaviour of the carousel. Here is the list of options you may set: 
+jCarousel accepts a list of options to control the behaviour of the carousel. Here is the list of options you may set:
 
 <table>
     <tr>
@@ -119,7 +121,7 @@ Defining the number of visible items
 
 Sometimes people are confused how to define the number of visible items because there is no option for this as they expect.
 
-You simply define the number of visible items by defining the width (or height) of the element which surrounds the list (if you use the default from this doc, you do that with the class .jcarousel in your skin stylesheet).
+You simply define the number of visible items by defining the width (or height) of the element which surrounds the list (if you use the default from this document, you do that with the class `.jcarousel` in your skin stylesheet).
 
 This offers a lot of flexibility, because you can define the width in pixel for a fixed carousel or in percent for a flexible carousel.
 
@@ -355,4 +357,4 @@ After you have initialized jCarousel, you can use jCarousel specific selectors o
 Credits
 -------
 
-jCarousel is written on top of [jQuery](http://jquery.com) and inspired by the [Carousel Component](http://billwscott.com/carousel/) by [Bill Scott](http://looksgoodworkswell.com).
+jCarousel is written on top of [jQuery](http://jquery.com) and is inspired by the [Carousel Component](http://billwscott.com/carousel/) by [Bill Scott](http://looksgoodworkswell.com).
