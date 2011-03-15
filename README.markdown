@@ -90,6 +90,12 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
         <td>null</td>
         <td>Specifies whether to wrap at the first/last item (or both) and jump back to the start/end. Options are <code>"first"</code>, <code>"last"</code>, <code>"both"</code> or <code>"circular"</code> as string. If set to null, wrapping is turned off (default).</td>
     </tr>
+    <tr>
+        <td><pre>prev</pre></td>
+        <td>function</td>
+        <td>function() {}</td>
+        <td>JavaScript function that is called right after initialisation of the carousel. Two parameters are passed: The instance of the requesting carousel and the state of the carousel initialisation (init, reset or reload).</td>
+    </tr>
 </table>
 
 Navigating the carousel
@@ -249,10 +255,10 @@ You can also access methods of the instance directly, for example the `append()`
     </tr>
 </table>
 
-jCarousel specific events
-----------------------------
+jCarousel specific item events
+------------------------------
 
-After you have initialized jCarousel, jCarousel triggers specific events on the items of the carousel:
+After initialization, jCarousel triggers specific events on the items of the carousel:
 
 ### Available events are:
 
@@ -324,10 +330,10 @@ $('#mycarousel li').bind('jcarouselvisibleout', function() {
     </tr>
 </table>
 
-jCarousel specific selectors
-----------------------------
+jCarousel specific item selectors
+---------------------------------
 
-After you have initialized jCarousel, you can use jCarousel specific selectors on items of the carousel:
+After initialization, you can use jCarousel specific selectors on items of the carousel:
 
 ### Available selectors are:
 
