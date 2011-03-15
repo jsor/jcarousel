@@ -253,59 +253,59 @@ You can also access methods of the instance directly, for example the `append()`
         <th>Description</th>
     </tr>
     <tr>
-        <td>.jcarousel('destroy');</td>
+        <td><pre>.jcarousel('destroy');</pre></td>
         <td>Removes the jCarousel functionality completely. This will return the element back to its pre-init state.</td>
     </tr>
     <tr>
-        <td>.jcarousel('reload');</td>
+        <td><pre>.jcarousel('reload');</pre></td>
         <td>Reloads the carousel. This method is useful to reinitialize the carousel if you have changed the content of the list from the outside.</td>
     </tr>
     <tr>
-        <td>.jcarousel('size');</td>
+        <td><pre>.jcarousel('size');</pre></td>
         <td>Returns the number of items of the carousel.</td>
     </tr>
     <tr>
-        <td>.jcarousel('get' [, index]);</td>
+        <td><pre>.jcarousel('get' [, index]);</pre></td>
         <td>Returns the item at the given index as jQuery object. If the index argument is ommitted, it returns all items.</td>
     </tr>
     <tr>
-        <td>.jcarousel('index', item);</td>
+        <td><pre>.jcarousel('index', item);</pre></td>
         <td>Returns the index of the given item.</td>
     </tr>
     <tr>
-        <td>.jcarousel('remove', item_or_index);</td>
+        <td><pre>.jcarousel('remove', item_or_index);</pre></td>
         <td>Removes the item (or the item at the given index) from the list.</td>
     </tr>
     <tr>
-        <td>.jcarousel('next' [, callback]);</td>
+        <td><pre>.jcarousel('next' [, callback]);</pre></td>
         <td>Triggers a next scroll on the carousel. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
     </tr>
     <tr>
-        <td>.jcarousel('prev' [, callback]);</td>
+        <td><pre>.jcarousel('prev' [, callback]);</pre></td>
         <td>Triggers a prev scroll on the carousel. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
     </tr>
     <tr>
-        <td>.jcarousel('scroll', item_or_index [, animate [, callback]]);</td>
+        <td><pre>.jcarousel('scroll', item_or_index [, animate [, callback]]);</pre></td>
         <td>Scrolls to a given item or index. If the argument <code>animate</code> is given and <code>false</code>, it just jumps to the position without animation. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
     </tr>
     <tr>
-        <td>.jcarousel('after', element, item_or_index);</td>
+        <td><pre>.jcarousel('after', element, item_or_index);</pre></td>
         <td>Inserts a new element after the given item (or index).</td>
     </tr>
     <tr>
-        <td>.jcarousel('before', element, item_or_index);</td>
+        <td><pre>.jcarousel('before', element, item_or_index);</pre></td>
         <td>Inserts a new element before the given item (or index).</td>
     </tr>
     <tr>
-        <td>.jcarousel('replaceWith', element, item_or_index);</td>
+        <td><pre>.jcarousel('replaceWith', element, item_or_index);</pre></td>
         <td>Replaces the given item (or index) with a new element.</td>
     </tr>
     <tr>
-        <td>.jcarousel('append', element);</td>
+        <td><pre>.jcarousel('append', element);</pre></td>
         <td>Appends a new element to the list.</td>
     </tr>
     <tr>
-        <td>.jcarousel('prepend', element);</td>
+        <td><pre>.jcarousel('prepend', element);</pre></td>
         <td>Prepends a new element to the list.</td>
     </tr>
 </table>
