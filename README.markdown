@@ -90,12 +90,6 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
         <td>null</td>
         <td>Specifies whether to wrap at the first/last item (or both) and jump back to the start/end. Options are <code>"first"</code>, <code>"last"</code>, <code>"both"</code> or <code>"circular"</code> as string. If set to null, wrapping is turned off (default).</td>
     </tr>
-    <tr>
-        <td><pre>prev</pre></td>
-        <td>function</td>
-        <td>function() {}</td>
-        <td>JavaScript function that is called right after initialisation of the carousel. Two parameters are passed: The instance of the requesting carousel and the state of the carousel initialisation (init, reset or reload).</td>
-    </tr>
 </table>
 
 Navigating the carousel
