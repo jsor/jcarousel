@@ -524,8 +524,8 @@
 
     $(window).bind('load.jcarousel', function() { $j.windowLoaded = true; });
 
-    $.expr.filters['jcarousel'] = function(elem) {
-        return !($.data(elem, 'jcarousel') == null);
+    $.expr.filters.jcarousel = function(elem) {
+        return $.data(elem, 'jcarousel') != null;
     };
 
     $.each($j.itemData, function(i, name) {
