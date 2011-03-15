@@ -252,9 +252,9 @@ You can also access methods of the instance directly, for example the `append()`
 jCarousel specific events
 -------------------------
 
-After initialization, jCarousel triggers specific events on the root element and the items of the carousel:
+After initialization, jCarousel triggers specific events on the root element and the items of the carousel.
 
-### Available element events are:
+### Available root element events are:
 
 <table>
     <tr>
@@ -403,9 +403,9 @@ $('#mycarousel li').bind('jcarouselitemvisibleout', function() {
 jCarousel specific selectors
 ----------------------------
 
-After initialization, you can use jCarousel specific selectors on the root element and on the items of the carousel:
+After initialization, you can use jCarousel specific selectors on the root element and on the items of the carousel.
 
-### Available element selectors are:
+### Available root element selectors are:
 
 <table>
     <tr>
