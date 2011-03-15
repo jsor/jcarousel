@@ -21,7 +21,7 @@ jCarousel expects a very basic HTML markup structure inside your HTML document:
         </ul> |
     </div>
 
-This document refers to the elements as _root element, _list element_ and _item element(s)_:
+This document refers to the elements as _root element_, _list element_ and _item element(s)_:
 
     <div id="mycarousel" class="jcarousel"> <------------------| Root element
         <ul> <--------------------------------| List element   |
