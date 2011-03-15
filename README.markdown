@@ -18,7 +18,7 @@ jCarousel expects a very basic HTML markup structure inside your HTML document:
         <ul>
             <li>...</li>
             <li>...</li>
-        </ul> |
+        </ul>
     </div>
 
 This document refers to the elements as _root element_, _list element_ and _item element(s)_:
@@ -85,11 +85,11 @@ We simply surround the root element with a additional `<div>` to have a skin _na
         /* ... */
     }
 
-    .jcarousel-skin-default ul {
+    .jcarousel-skin-default .jcarousel ul {
         /* ... */
     }
 
-    .jcarousel-skin-default li {
+    .jcarousel-skin-default .jcarousel li {
         /* ... */
     }
 
