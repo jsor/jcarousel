@@ -12,18 +12,13 @@ To use the jCarousel component, include the [jQuery](http://jquery.com) library,
     <script type="text/javascript" src="/path/to/jquery.jcarousel.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/path/to/skin.css" />
 
-The download package contains some example skin packages. Feel free to build your own skins based on it.
-
-**Note: skins will follow!**
-
 jCarousel expects a very basic HTML markup structure inside your HTML document:
 
-    <div class="jcarousel-skin-name">
-        <div id="mycarousel" class="jcarousel">
-            <ul>
-                <!-- The content goes in here -->
-            </ul>
-        </div>
+    <div id="mycarousel" class="jcarousel"> <--- Root element
+        <ul> <---------------------------------- List element
+            <li>...</li> <---------------------- Item element
+            <li>...</li> <---------------------- Item element
+        </ul>
     </div>
 
 To setup jCarousel, add the following code inside the `<head>` tag of your HTML document:
@@ -35,6 +30,63 @@ To setup jCarousel, add the following code inside the `<head>` tag of your HTML 
         });
     });
     </script>
+
+These are the minimal CSS settings for a horizontal carousel:
+
+    .jcarousel {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .jcarousel ul {
+        width: 20000em;
+        position: absolute;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .jcarousel li {
+        float: left;
+    }
+
+    .jcarousel[dir=rtl] li {
+        float: right;
+    }
+
+Skinning jCarousel
+------------------
+
+**Note:** These are only conventions and nothing of it is _required_. You can adjust the class names or the whole handling of the the skinning.
+
+If you want to provide different skins for your carousel, setup with the following markup:
+
+    <div class="jcarousel-skin-name">
+        <div id="mycarousel" class="jcarousel">
+            <ul>
+                <li>...</li>
+                <li>...</li>
+            </ul>
+        </div>
+    </div>
+
+We simply surround the root element with a additional `<div>` to have a skin _namespace_. We can now style within this _namespace_:
+
+    .jcarousel-skin-default .jcarousel {
+        /* ... */
+    }
+
+    .jcarousel-skin-default ul {
+        /* ... */
+    }
+
+    .jcarousel-skin-default li {
+        /* ... */
+    }
+
+The download package contains some example skin packages. Feel free to build your own skins based on it.
+
+**Note: Skins will follow!**
 
 Configuration
 -------------
