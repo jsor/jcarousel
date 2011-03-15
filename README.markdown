@@ -14,12 +14,21 @@ To use the jCarousel component, include the [jQuery](http://jquery.com) library,
 
 jCarousel expects a very basic HTML markup structure inside your HTML document:
 
-    <div id="mycarousel" class="jcarousel"> <--- Root element
-        <ul> <---------------------------------- List element
-            <li>...</li> <---------------------- Item element
-            <li>...</li> <---------------------- Item element
-        </ul>
+    <div id="mycarousel" class="jcarousel">
+        <ul>
+            <li>...</li>
+            <li>...</li>
+        </ul> |
     </div>
+
+This document refers to the elements as _root element, _list element_ and _item element(s)_:
+
+    <div id="mycarousel" class="jcarousel"> <------------------| Root element
+        <ul> <--------------------------------| List element   |
+            <li>...</li> <---| Item element   |                |
+            <li>...</li> <---| Item element   |                |
+        </ul> <-------------------------------|                |
+    </div> <---------------------------------------------------|
 
 To setup jCarousel, add the following code inside the `<head>` tag of your HTML document:
 
