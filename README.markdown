@@ -49,43 +49,43 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
         <th>Description</th>
     </tr>
     <tr>
-        <td><pre>list</pre></td>
+        <td>list</td>
         <td>string</td>
         <td>>ul:eq(0)</td>
         <td>jQuery selector to select the list inside the root element.</td>
     </tr>
     <tr>
-        <td><pre>items</pre></td>
+        <td>items</td>
         <td>string</td>
         <td>>li</td>
         <td>jQuery selector to select the items inside the list element.</td>
     </tr>
     <tr>
-        <td><pre>start</pre></td>
+        <td>start</td>
         <td>integer</td>
         <td>0</td>
         <td>The index of the item to start with (0-based).</td>
     </tr>
     <tr>
-        <td><pre>scroll</pre></td>
+        <td>scroll</td>
         <td>integer</td>
         <td>1</td>
         <td>The number of items to scroll by.</td>
     </tr>
     <tr>
-        <td><pre>animation</pre></td>
+        <td>animation</td>
         <td>mixed</td>
         <td>&quot;normal&quot;</td>
         <td>The speed of the scroll animation as string in jQuery terms (<code>"slow"</code> or <code>"fast"</code>) or milliseconds as integer (See the <a href="http://api.jquery.com/animate">jQuery Documentation</a>). If set to 0, animation is turned off.</td>
     </tr>
     <tr>
-        <td><pre>easing</pre></td>
+        <td>easing</td>
         <td>string</td>
         <td>&quot;swing&quot;</td>
         <td>The name of the easing effect that you want to use (See the <a href="http://api.jquery.com/animate#easing">jQuery Documentation</a>).</td>
     </tr>
     <tr>
-        <td><pre>wrap</pre></td>
+        <td>wrap</td>
         <td>string</td>
         <td>null</td>
         <td>Specifies whether to wrap at the first/last item (or both) and jump back to the start/end. Options are <code>"first"</code>, <code>"last"</code>, <code>"both"</code> or <code>"circular"</code> as string. If set to null, wrapping is turned off (default).</td>
@@ -192,59 +192,59 @@ You can also access methods of the instance directly, for example the `append()`
         <th>Description</th>
     </tr>
     <tr>
-        <td><pre>.jcarousel('destroy');</pre></td>
+        <td>.jcarousel('destroy');</td>
         <td>Removes the jCarousel functionality completely. This will return the element back to its pre-init state.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('reload');</pre></td>
+        <td>.jcarousel('reload');</td>
         <td>Reloads the carousel. This method is useful to reinitialize the carousel if you have changed the content of the list from the outside.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('size');</pre></td>
+        <td>.jcarousel('size');</td>
         <td>Returns the number of items of the carousel.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('get' [, index]);</pre></td>
+        <td>.jcarousel('get' [, index]);</td>
         <td>Returns the item at the given index as jQuery object. If the index argument is ommitted, it returns all items.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('index', item);</pre></td>
+        <td>.jcarousel('index', item);</td>
         <td>Returns the index of the given item.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('remove', item_or_index);</pre></td>
+        <td>.jcarousel('remove', item_or_index);</td>
         <td>Removes the item (or the item at the given index) from the list.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('next' [, callback]);</pre></td>
+        <td>.jcarousel('next' [, callback]);</td>
         <td>Triggers a next scroll on the carousel. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('prev' [, callback]);</pre></td>
+        <td>.jcarousel('prev' [, callback]);</td>
         <td>Triggers a prev scroll on the carousel. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('scroll', item_or_index [, animate [, callback]]);</pre></td>
+        <td>.jcarousel('scroll', item_or_index [, animate [, callback]]);</td>
         <td>Scrolls to a given item or index. If the argument <code>animate</code> is given and <code>false</code>, it just jumps to the position without animation. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('after', element, item_or_index);</pre></td>
+        <td>.jcarousel('after', element, item_or_index);</td>
         <td>Inserts a new element after the given item (or index).</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('before', element, item_or_index);</pre></td>
+        <td>.jcarousel('before', element, item_or_index);</td>
         <td>Inserts a new element before the given item (or index).</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('replaceWith', element, item_or_index);</pre></pre></td>
+        <td>.jcarousel('replaceWith', element, item_or_index);</td>
         <td>Replaces the given item (or index) with a new element.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('append', element);</pre></td>
+        <td>.jcarousel('append', element);</td>
         <td>Appends a new element to the list.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('prepend', element);</pre></td>
+        <td>.jcarousel('prepend', element);</td>
         <td>Prepends a new element to the list.</td>
     </tr>
 </table>
@@ -263,7 +263,7 @@ After initialization, jCarousel triggers specific events on the root element and
         <th>Example</th>
     </tr>
     <tr>
-        <td><pre>jcarouselsetup</pre></td>
+        <td>jcarouselsetup</td>
         <td>Triggered when the <code>setup</code> method is called.</td>
         <td>
             <pre>
@@ -274,7 +274,7 @@ $('#mycarousel').bind('jcarouselsetup', function() {
         </td>
     </tr>
     <tr>
-        <td><pre>jcarouselreload</pre></td>
+        <td>jcarouselreload</td>
         <td>Triggered when the <code>reload</code> method is called.</td>
         <td>
             <pre>
@@ -285,7 +285,7 @@ $('#mycarousel').bind('jcarouselreload', function() {
         </td>
     </tr>
     <tr>
-        <td><pre>jcarouseldestroy</pre></td>
+        <td>jcarouseldestroy</td>
         <td>Triggered when the <code>destroy</code> method is called.</td>
         <td>
             <pre>
@@ -296,7 +296,7 @@ $('#mycarousel').bind('jcarouseldestroy', function() {
         </td>
     </tr>
     <tr>
-        <td><pre>jcarouselprev</pre></td>
+        <td>jcarouselprev</td>
         <td>Triggered when the <code>prev</code> method is called.</td>
         <td>
             <pre>
@@ -307,7 +307,7 @@ $('#mycarousel').bind('jcarouselprev', function() {
         </td>
     </tr>
     <tr>
-        <td><pre>jcarouselnext</pre></td>
+        <td>jcarouselnext</td>
         <td>Triggered when the <code>next</code> method is called.</td>
         <td>
             <pre>
@@ -318,7 +318,7 @@ $('#mycarousel').bind('jcarouselnext', function() {
         </td>
     </tr>
     <tr>
-        <td><pre>jcarouselscroll</pre></td>
+        <td>jcarouselscroll</td>
         <td>Triggered when the <code>scroll</code> method is called.</td>
         <td>
             <pre>
@@ -339,7 +339,7 @@ $('#mycarousel').bind('jcarouselscroll', function() {
         <th>Example</th>
     </tr>
     <tr>
-        <td><pre>jcarouselitemfirstin</pre></td>
+        <td>jcarouselitemfirstin</td>
         <td>Triggered when the item becomes the first visible item.</td>
         <td>
             <pre>
@@ -349,7 +349,7 @@ $('#mycarousel li').bind('jcarouselitemfirstin', function() {
         </td>
     </tr>
     <tr>
-        <td><pre>jcarouselitemfirstout</pre></td>
+        <td>jcarouselitemfirstout</td>
         <td>Triggered when the item is no longer the first visible item.</td>
         <td>
             <pre>
@@ -359,7 +359,7 @@ $('#mycarousel li').bind('jcarouselitemfirstout', function() {
         </td>
     </tr>
     <tr>
-        <td><pre>jcarouselitemlastin</pre></td>
+        <td>jcarouselitemlastin</td>
         <td>Triggered when the item becomes the last visible item.</td>
         <td>
             <pre>
@@ -369,7 +369,7 @@ $('#mycarousel li').bind('jcarouselitemlastin', function() {
         </td>
     </tr>
     <tr>
-        <td><pre>jcarouselitemlastout</pre></td>
+        <td>jcarouselitemlastout</td>
         <td>Triggered when the item is no longer the last visible item.</td>
         <td>
             <pre>
@@ -379,7 +379,7 @@ $('#mycarousel li').bind('jcarouselitemlastout', function() {
         </td>
     </tr>
     <tr>
-        <td><pre>jcarouselitemvisiblein</pre></td>
+        <td>jcarouselitemvisiblein</td>
         <td>Triggered when the item becomes a visible item.</td>
         <td>
             <pre>
@@ -389,7 +389,7 @@ $('#mycarousel li').bind('jcarouselitemvisiblein', function() {
         </td>
     </tr>
     <tr>
-        <td><pre>jcarouselitemvisibleout</pre></td>
+        <td>jcarouselitemvisibleout</td>
         <td>Triggered when the item is no longer a visible item.</td>
         <td>
             <pre>
@@ -414,7 +414,7 @@ After initialization, you can use jCarousel specific selectors on the root eleme
         <th>Example</th>
     </tr>
     <tr>
-        <td><pre>:jcarousel</pre></td>
+        <td>:jcarousel</td>
         <td>Selects elements which have a initialized jcarousel instance applied.</td>
         <td><pre>$('div:jcarousel');</pre></td>
     </tr>
@@ -429,17 +429,17 @@ After initialization, you can use jCarousel specific selectors on the root eleme
         <th>Example</th>
     </tr>
     <tr>
-        <td><pre>:jcarouselitemfirst</pre></td>
+        <td>:jcarouselitemfirst</td>
         <td>Selects the first visible element.</td>
         <td><pre>$('#mycarousel li:jcarouselitemfirst');</pre></td>
     </tr>
     <tr>
-        <td><pre>:jcarouselitemlast</pre></td>
+        <td>:jcarouselitemlast</td>
         <td>Selects the last visible element.</td>
         <td><pre>$('#mycarousel li:jcarouselitemlast');</pre></td>
     </tr>
     <tr>
-        <td><pre>:jcarouselitemvisible</pre></td>
+        <td>:jcarouselitemvisible</td>
         <td>Selects all visible elements.</td>
         <td><pre>$('#mycarousel li:jcarouselitemvisible');</pre></td>
     </tr>
