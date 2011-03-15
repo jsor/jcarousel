@@ -25,29 +25,30 @@ $(function() {
 
     var jcarousel = $('.jcarousel');
 
-    $.each(['init', 'setup', 'destroy', 'reload'], function(i, name) {
+    $.each(['setup', 'destroy', 'reload', 'prev', 'next', 'scroll'], function(i, name) {
         jcarousel.bind('jcarousel' + name, function() {
             log(name, this);
         })
     });
 
     jcarousel.find('li')
-    .bind('jcarouselvisiblein', function() {
-        log('visiblein', this);
+    .bind('jcarouselitemvisiblein', function() {
+        log('itemvisiblein', this);
     })
-    .bind('jcarouselvisibleout', function() {
-        log('visibleout', this);
+    .bind('jcarouselitemvisibleout', function() {
+        log('itemvisibleout', this);
     })
-    .bind('jcarouselfirstin', function() {
-        log('firstin', this);
+    .bind('jcarouselitemfirstin', function() {
+        log('itemfirstin', this);
     })
-    .bind('jcarouselfirstout', function() {
-        log('firstout', this);
-    }).bind('jcarousellastin', function() {
-        log('lastin', this);
+    .bind('jcarouselitemfirstout', function() {
+        log('itemfirstout', this);
     })
-    .bind('jcarousellastout', function() {
-        log('lastout', this);
+    .bind('jcarouselitemlastin', function() {
+        log('itemlastin', this);
+    })
+    .bind('jcarouselitemlastout', function() {
+        log('itemlastout', this);
     });
 
     jcarousel.jcarousel({scroll:2});
@@ -60,15 +61,15 @@ function callback(moved) {
 
     var f = $('.jcarousel').find('li:first-child');
 
-    console.log(f, 'first:jcarouselfirst', f.is(':jcarouselfirst'));
-    console.log(f, 'first:jcarousellast', f.is(':jcarousellast'));
-    console.log(f, 'first:jcarouselvisible', f.is(':jcarouselvisible'));
+    console.log(f, 'first:jcarouselitemfirst', f.is(':jcarouselitemfirst'));
+    console.log(f, 'first:jcarouselitemlast', f.is(':jcarouselitemlast'));
+    console.log(f, 'first:jcarouselitemvisible', f.is(':jcarouselitemvisible'));
 
     var l = $('.jcarousel').find('li:last-child');
 
-    console.log(l, 'last:jcarouselfirst', l.is(':jcarouselfirst'));
-    console.log(l, 'last:jcarousellast', l.is(':jcarousellast'));
-    console.log(l, 'last:jcarouselvisible', l.is(':jcarouselvisible'));
+    console.log(l, 'last:jcarouselitemfirst', l.is(':jcarouselitemfirst'));
+    console.log(l, 'last:jcarouselitemlast', l.is(':jcarouselitemlast'));
+    console.log(l, 'last:jcarouselitemvisible', l.is(':jcarouselitemvisible'));
 };
 
 </script>

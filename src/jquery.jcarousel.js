@@ -80,6 +80,8 @@
             return this;
         },
         setup: function() {
+            this.element.trigger('jcarouselsetup');
+
             this.list = this.element.find(this.options.list);
             this.reload();
 
@@ -88,6 +90,8 @@
             return this;
         },
         destroy: function() {
+            this.element.trigger('jcarouseldestroy');
+
             var all = this.get();
             $.each($j.itemData, function(i, name) {
                 all.removeData('jcarousel' + name);
@@ -99,6 +103,8 @@
             return this;
         },
         reload: function() {
+            this.element.trigger('jcarouselreload');
+
             this.vertical = this.element.data('jcarousel-vertical') ||
                             this.element.attr('class').toLowerCase().indexOf('jcarousel-vertical') > -1;
 
@@ -181,6 +187,8 @@
             return this;
         },
         next: function(callback) {
+            this.element.trigger('jcarouselnext');
+
             var last = this.index(this.last),
                 end = this.size() - 1,
                 scroll = Math.min(this.options.scroll, end);
@@ -217,6 +225,8 @@
             return this;
         },
         prev: function(callback) {
+            this.element.trigger('jcarouselprev');
+
             var first = this.index(this.first),
                 end = this.size() - 1,
                 scroll = Math.min(this.options.scroll, end);
@@ -269,6 +279,8 @@
             return this;
         },
         scroll: function(item, animate, callback) {
+            this.element.trigger('jcarouselscroll', [item]);
+
             if ($.isFunction(animate)) {
                 callback = animate;
                 animate = true;
@@ -412,21 +424,21 @@
             var all = this.get();
 
             $.each($j.itemData, function(i, name) {
-                all.data('jcarousel' + name, false);
+                all.data('jcarouselitem' + name, false);
             });
 
             $.each($j.itemData, function(i, name) {
-                update[name].data('jcarousel' + name, true);
+                update[name].data('jcarouselitem' + name, true);
             });
 
             if (update.first.get(0) !== this.first.get(0)) {
-                update.first.trigger('jcarouselfirstin');
-                this.first.trigger('jcarouselfirstout');
+                update.first.trigger('jcarouselitemfirstin');
+                this.first.trigger('jcarouselitemfirstout');
             }
 
             if (update.last.get(0) !== this.last.get(0)) {
-                update.last.trigger('jcarousellastin');
-                this.last.trigger('jcarousellastout');
+                update.last.trigger('jcarouselitemlastin');
+                this.last.trigger('jcarouselitemlastout');
             }
 
             var v = this.visible,
@@ -444,8 +456,8 @@
                 vin = $().pushStack(vin.get().reverse());
             }
 
-            vin.trigger('jcarouselvisiblein');
-            vout.trigger('jcarouselvisibleout');
+            vin.trigger('jcarouselitemvisiblein');
+            vout.trigger('jcarouselitemvisibleout');
 
             return this;
         },
@@ -498,7 +510,9 @@
             scroll:    1,
             animation: 'normal',
             easing:    'swing',
-            wrap:      null
+            wrap:      null,
+            prev:      $.noop,
+            next:      $.noop
         },
         itemData: ['first', 'last', 'visible'],
         windowLoaded: false,
@@ -510,9 +524,13 @@
 
     $(window).bind('load.jcarousel', function() { $j.windowLoaded = true; });
 
+    $.expr.filters['jcarousel'] = function(elem) {
+        return !($.data(elem, 'jcarousel') == null);
+    };
+
     $.each($j.itemData, function(i, name) {
-        $.expr.filters['jcarousel'  + name] = function(elem) {
-            return $.data(elem, 'jcarousel'  + name);
+        $.expr.filters['jcarouselitem'  + name] = function(elem) {
+            return $.data(elem, 'jcarouselitem'  + name);
         };
     });
 

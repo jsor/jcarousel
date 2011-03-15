@@ -255,12 +255,12 @@ You can also access methods of the instance directly, for example the `append()`
     </tr>
 </table>
 
-jCarousel specific item events
-------------------------------
+jCarousel specific events
+-------------------------
 
-After initialization, jCarousel triggers specific events on the items of the carousel:
+After initialization, jCarousel triggers specific events on the root element and the items of the carousel:
 
-### Available events are:
+### Available element events are:
 
 <table>
     <tr>
@@ -269,73 +269,149 @@ After initialization, jCarousel triggers specific events on the items of the car
         <th>Example</th>
     </tr>
     <tr>
-        <td><pre>jcarouselfirstin</pre></td>
+        <td><pre>jcarouselsetup</pre></td>
+        <td>Triggered when the <code>setup</code> method is called.</td>
+        <td>
+            <pre>
+$('#mycarousel').bind('jcarouselsetup', function() {
+    // this refers to the root element
+    var carousel = $(this).data('jcarousel');
+});</pre>
+        </td>
+    </tr>
+    <tr>
+        <td><pre>jcarouselreload</pre></td>
+        <td>Triggered when the <code>reload</code> method is called.</td>
+        <td>
+            <pre>
+$('#mycarousel').bind('jcarouselreload', function() {
+    // this refers to the root element
+    var carousel = $(this).data('jcarousel');
+});</pre>
+        </td>
+    </tr>
+    <tr>
+        <td><pre>jcarouseldestroy</pre></td>
+        <td>Triggered when the <code>destroy</code> method is called.</td>
+        <td>
+            <pre>
+$('#mycarousel').bind('jcarouseldestroy', function() {
+    // this refers to the root element
+    var carousel = $(this).data('jcarousel');
+});</pre>
+        </td>
+    </tr>
+    <tr>
+        <td><pre>jcarouselprev</pre></td>
+        <td>Triggered when the <code>prev</code> method is called.</td>
+        <td>
+            <pre>
+$('#mycarousel').bind('jcarouselprev', function() {
+    // this refers to the root element
+    var carousel = $(this).data('jcarousel');
+});</pre>
+        </td>
+    </tr>
+    <tr>
+        <td><pre>jcarouselnext</pre></td>
+        <td>Triggered when the <code>next</code> method is called.</td>
+        <td>
+            <pre>
+$('#mycarousel').bind('jcarouselnext', function() {
+    // this refers to the root element
+    var carousel = $(this).data('jcarousel');
+});</pre>
+        </td>
+    </tr>
+    <tr>
+        <td><pre>jcarouselscroll</pre></td>
+        <td>Triggered when the <code>scroll</code> method is called.</td>
+        <td>
+            <pre>
+$('#mycarousel').bind('jcarouselscroll', function() {
+    // this refers to the root element
+    var carousel = $(this).data('jcarousel');
+});</pre>
+        </td>
+    </tr>
+</table>
+
+### Available item events are:
+
+<table>
+    <tr>
+        <th>Event</th>
+        <th>Description</th>
+        <th>Example</th>
+    </tr>
+    <tr>
+        <td><pre>jcarouselitemfirstin</pre></td>
         <td>Triggered when the item becomes the first visible item.</td>
         <td>
             <pre>
-$('#mycarousel li').bind('jcarouselfirstin', function() {
+$('#mycarousel li').bind('jcarouselitemfirstin', function() {
     // this is now the first visible item
 });</pre>
         </td>
     </tr>
     <tr>
-        <td><pre>jcarouselfirstout</pre></td>
+        <td><pre>jcarouselitemfirstout</pre></td>
         <td>Triggered when the item is no longer the first visible item.</td>
         <td>
             <pre>
-$('#mycarousel li').bind('jcarouselfirstout', function() {
+$('#mycarousel li').bind('jcarouselitemfirstout', function() {
     // this is no longer the first visible item
 });</pre>
         </td>
     </tr>
     <tr>
-        <td><pre>jcarousellastin</pre></td>
+        <td><pre>jcarouselitemlastin</pre></td>
         <td>Triggered when the item becomes the last visible item.</td>
         <td>
             <pre>
-$('#mycarousel li').bind('jcarousellastin', function() {
+$('#mycarousel li').bind('jcarouselitemlastin', function() {
     // this is now the last visible item
 });</pre>
         </td>
     </tr>
     <tr>
-        <td><pre>jcarousellastout</pre></td>
+        <td><pre>jcarouselitemlastout</pre></td>
         <td>Triggered when the item is no longer the last visible item.</td>
         <td>
             <pre>
-$('#mycarousel li').bind('jcarousellastout', function() {
+$('#mycarousel li').bind('jcarouselitemlastout', function() {
     // this is no longer the last visible item
 });</pre>
         </td>
     </tr>
     <tr>
-        <td><pre>jcarouselvisiblein</pre></td>
+        <td><pre>jcarouselitemvisiblein</pre></td>
         <td>Triggered when the item becomes a visible item.</td>
         <td>
             <pre>
-$('#mycarousel li').bind('jcarouselvisiblein', function() {
+$('#mycarousel li').bind('jcarouselitemvisiblein', function() {
     // this is now a visible item
 });</pre>
         </td>
     </tr>
     <tr>
-        <td><pre>jcarouselvisibleout</pre></td>
+        <td><pre>jcarouselitemvisibleout</pre></td>
         <td>Triggered when the item is no longer a visible item.</td>
         <td>
             <pre>
-$('#mycarousel li').bind('jcarouselvisibleout', function() {
+$('#mycarousel li').bind('jcarouselitemvisibleout', function() {
     // this is no longer a visible item
 });</pre>
         </td>
     </tr>
 </table>
 
-jCarousel specific item selectors
----------------------------------
+jCarousel specific selectors
+----------------------------
 
-After initialization, you can use jCarousel specific selectors on items of the carousel:
+After initialization, you can use jCarousel specific selectors on the root element and on the items of the carousel:
 
-### Available selectors are:
+### Available element selectors are:
 
 <table>
     <tr>
@@ -344,19 +420,34 @@ After initialization, you can use jCarousel specific selectors on items of the c
         <th>Example</th>
     </tr>
     <tr>
-        <td><pre>:jcarouselfirst</pre></td>
+        <td><pre>:jcarousel</pre></td>
+        <td>Selects elements which have a initialized jcarousel instance applied.</td>
+        <td><pre>$('div:jcarousel');</pre></td>
+    </tr>
+</table>
+
+### Available item selectors are:
+
+<table>
+    <tr>
+        <th>Selector</th>
+        <th>Description</th>
+        <th>Example</th>
+    </tr>
+    <tr>
+        <td><pre>:jcarouselitemfirst</pre></td>
         <td>Selects the first visible element.</td>
-        <td><pre>$('#mycarousel li:jcarouselfirst');</pre></td>
+        <td><pre>$('#mycarousel li:jcarouselitemfirst');</pre></td>
     </tr>
     <tr>
-        <td><pre>:jcarousellast</pre></td>
+        <td><pre>:jcarouselitemlast</pre></td>
         <td>Selects the last visible element.</td>
-        <td><pre>$('#mycarousel li:jcarousellast');</pre></td>
+        <td><pre>$('#mycarousel li:jcarouselitemlast');</pre></td>
     </tr>
     <tr>
-        <td><pre>:jcarouselvisible</pre></td>
+        <td><pre>:jcarouselitemvisible</pre></td>
         <td>Selects all visible elements.</td>
-        <td><pre>$('#mycarousel li:jcarouselvisible');</pre></td>
+        <td><pre>$('#mycarousel li:jcarouselitemvisible');</pre></td>
     </tr>
 </table>
 
