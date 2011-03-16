@@ -510,9 +510,7 @@
             scroll:    1,
             animation: 'normal',
             easing:    'swing',
-            wrap:      null,
-            prev:      $.noop,
-            next:      $.noop
+            wrap:      null
         },
         itemData: ['first', 'last', 'visible'],
         windowLoaded: false,
