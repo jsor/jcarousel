@@ -83,4 +83,15 @@ $(function($){
         equals(true, $('#jcarousel2').data('jcarousel').circular, '#jcarousel2');
     });
 
+    test("setup() calls reload()", function() {
+        expect(1);
+
+        stop();
+
+        $('#jcarousel1').bind('jcarouselreload', function() {
+            ok(true, "#jcarousel1");
+            start();
+        }).jcarousel();
+    });
+
 });
