@@ -391,6 +391,16 @@ $('#mycarousel').bind('jcarouselscroll', function() {
     </tr>
 </table>
 
+**Note:** Some events like `jcarouselsetup` are triggered from the constructor, so you have to bind the events **before** you initialize the carousel:
+
+    $('#mycarousel')
+    // Bind first
+    .bind('jcarouselsetup', function() {
+        // Do something
+    })
+    // Initialize at last step
+    .jcarousel();
+
 ### Available item events are:
 
 <table>
