@@ -24,3 +24,9 @@
     float: right;
     margin: 0 0 0 10px;
 }
+
+/** Custom **/
+
+.jcarousel-skin-default li img {
+    border: 0;
+}
