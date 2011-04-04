@@ -25,15 +25,7 @@ $(function() {
         .find('a')
         .focus(function() {
             var item = $(this).parent(), carousel = item.parents('.jcarousel').data('jcarousel');
-            if (!item.is(':jcarouselitemvisible')) {
-                carousel.scroll(item);
-            } else {
-                carousel.scroll(carousel.first);
-            }
-            console.log(carousel.list.position())
-            return false;
-        })
-        click(function() {
+            carousel.scroll(item);
             return false;
         });
 });
