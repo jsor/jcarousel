@@ -75,7 +75,7 @@
 }
 
 .jcarousel-skin-tango .jcarousel-next-horizontal:hover,
-.jcarousel-skin-tango .jcarousel-next-horizontal:focus{
+.jcarousel-skin-tango .jcarousel-next-horizontal:focus {
     background-position: -32px 0;
 }
 
@@ -138,7 +138,7 @@
 }
 
 .jcarousel-skin-tango .jcarousel-next-vertical:hover,
-.jcarousel-skin-tango .jcarousel-next-vertical:focus{
+.jcarousel-skin-tango .jcarousel-next-vertical:focus {
     background-position: 0 -32px;
 }
 
