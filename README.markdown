@@ -112,13 +112,13 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
     <tr>
         <td>list</td>
         <td>string</td>
-        <td>>ul:eq(0)</td>
+        <td>&quot;&gt;ul:eq(0)&quot;</td>
         <td>jQuery selector to select the list inside the root element.</td>
     </tr>
     <tr>
         <td>items</td>
         <td>string</td>
-        <td>>li</td>
+        <td>&quot;&gt;li&quot;</td>
         <td>jQuery selector to select the items inside the list element.</td>
     </tr>
     <tr>
