@@ -36,8 +36,11 @@ $(function() {
         animation: 'fast'
     });
     $('#jcarousel2').jcarousel({
-        animation: 1000,
-        easing: 'BounceEaseOut'
+        animation: {
+            duration: 1000,
+            easing: 'BounceEaseOut'
+        },
+        wrap: 'circular'
     });
 });
 

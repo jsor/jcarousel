@@ -135,15 +135,9 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
     </tr>
     <tr>
         <td>animation</td>
-        <td>mixed</td>
+        <td>integer|string|object</td>
         <td>&quot;normal&quot;</td>
-        <td>The speed of the scroll animation as string in jQuery terms (<code>"slow"</code> or <code>"fast"</code>) or milliseconds as integer (See the <a href="http://api.jquery.com/animate">jQuery Documentation</a>). If set to 0, animation is turned off.</td>
-    </tr>
-    <tr>
-        <td>easing</td>
-        <td>string</td>
-        <td>&quot;swing&quot;</td>
-        <td>The name of the easing effect that you want to use (See the <a href="http://api.jquery.com/animate#easing">jQuery Documentation</a>).</td>
+        <td>The speed of the scroll animation as string in jQuery terms (<code>"slow"</code> or <code>"fast"</code>) or milliseconds as integer (See the <a href="http://api.jquery.com/animate">jQuery Documentation</a>). If set to 0, animation is turned off. Alternatively, this can be a map of options like the one [jQuery.animate](http://api.jquery.com/animate/#animate-properties-options) accepts as second argument.</td>
     </tr>
     <tr>
         <td>wrap</td>

@@ -339,10 +339,18 @@
                 this.list.css(properties);
                 this.onAnimationComplete(callback);
             } else {
-                var self = this;
-                this.list.animate(properties, this.options.animation, this.options.easing, function() {
+                var self = this, 
+                    opts = typeof this.options.animation === 'object' ? this.options.animation : {duration: this.options.animation},
+                    oldcomplete = opts.complete;
+
+                opts.complete = function() {
+                    if ($.isFunction(oldcomplete)) {
+                        oldcomplete.call(this);
+                    }
                     self.onAnimationComplete(callback);
-                });
+                };
+
+                this.list.animate(properties, opts);
             }
 
             return this;
@@ -509,7 +517,6 @@
             start:     0,
             scroll:    1,
             animation: 'normal',
-            easing:    'swing',
             wrap:      null
         },
         itemData: ['first', 'last', 'visible'],
