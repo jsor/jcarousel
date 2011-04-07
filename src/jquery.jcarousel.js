@@ -187,6 +187,10 @@
             return this;
         },
         next: function(callback) {
+            if (this.animating) {
+                return this;
+            }
+
             this.element.trigger('jcarouselnext');
 
             var last = this.index(this.last),
@@ -225,6 +229,10 @@
             return this;
         },
         prev: function(callback) {
+            if (this.animating) {
+                return this;
+            }
+
             this.element.trigger('jcarouselprev');
 
             var first = this.index(this.first),
@@ -279,6 +287,10 @@
             return this;
         },
         scroll: function(item, animate, callback) {
+            if (this.animating) {
+                return this;
+            }
+
             this.element.trigger('jcarouselscroll', [item]);
 
             if ($.isFunction(animate)) {
@@ -287,11 +299,6 @@
             }
 
             callback = callback || $.noop;
-
-            if (this.animating) {
-                callback.call(this, false);
-                return this;
-            }
 
             item = this.get(item);
 
