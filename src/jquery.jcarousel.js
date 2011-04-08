@@ -87,6 +87,8 @@
 
             $(window).unbind('resize.jcarousel', this.onWindowResize).bind('resize.jcarousel', this.onWindowResize);
 
+            this.element.trigger('jcarouselsetupend');
+
             return this;
         },
         destroy: function() {
@@ -99,6 +101,8 @@
 
             $(window).unbind('resize.jcarousel', this.onWindowResize);
             this.element.removeData('jcarousel');
+
+            this.element.trigger('jcarouseldestroyend');
 
             return this;
         },
@@ -148,6 +152,8 @@
 
             this.list.css({'left': 0, 'top': 0}).css(this.lt, -(pos) + 'px');
 
+            this.element.trigger('jcarouselreloadend');
+
             return this;
         },
         size: function() {
@@ -195,19 +201,26 @@
 
             var last = this.index(this.last),
                 end = this.size() - 1,
-                scroll = Math.min(this.options.scroll, end);
+                scroll = Math.min(this.options.scroll, end),
+                self = this,
+                cb = function() {
+                    self.element.trigger('jcarouselnextend');
+                    if ($.isFunction(callback)) {
+                        callback.call(self);
+                    }
+                };
 
             if (last >= end && this.tail) {
                 if (!this.inTail) {
-                    this.scrollTail(false, callback);
+                    this.scrollTail(false, cb);
                 } else {
                     if (this.options.wrap == 'both' || this.options.wrap == 'last') {
-                        this.scroll(0, callback);
+                        this.scroll(0, cb);
                     }
                 }
             } else {
                 if (last === end && (this.options.wrap == 'both' || this.options.wrap == 'last')) {
-                    return this.scroll(0, callback);
+                    return this.scroll(0, cb);
                 } else {
                     var first = this.index(this.first), index = first + scroll;
 
@@ -222,7 +235,7 @@
                         }
                     }
 
-                    this.scroll(Math.min(index, end), callback);
+                    this.scroll(Math.min(index, end), cb);
                 }
             }
 
@@ -237,17 +250,24 @@
 
             var first = this.index(this.first),
                 end = this.size() - 1,
-                scroll = Math.min(this.options.scroll, end);
+                scroll = Math.min(this.options.scroll, end),
+                self = this,
+                cb = function() {
+                    self.element.trigger('jcarouselprevend');
+                    if ($.isFunction(callback)) {
+                        callback.call(self);
+                    }
+                };
 
             if (this.inTail) {
                 if (first <= (this.index(this.last) - scroll)) {
-                    this.scrollTail(true, callback);
+                    this.scrollTail(true, cb);
                 } else {
-                    this.scroll(Math.max(first - scroll, 0), callback);
+                    this.scroll(Math.max(first - scroll, 0), cb);
                 }
             } else {
                 if (first === 0 && (this.options.wrap == 'both' || this.options.wrap == 'first')) {
-                    this.scroll(end, callback);
+                    this.scroll(end, cb);
                 } else {
                     if (this.circular && (first - scroll) < 0) {
                         var i = first - scroll, cl = end, last = this.index(this.last);
@@ -260,7 +280,7 @@
                         }
                     }
 
-                    this.scroll(Math.max(first - scroll, 0), callback);
+                    this.scroll(Math.max(first - scroll, 0), cb);
                 }
             }
 
@@ -271,7 +291,16 @@
                 return this;
             }
 
-            var pos = this.list.position()[this.lt];
+            this.element.trigger('jcarouselscrolltail', [back]);
+
+            var pos = this.list.position()[this.lt],
+                self = this,
+                cb = function() {
+                    self.element.trigger('jcarouselscrolltailend', [back]);
+                    if ($.isFunction(callback)) {
+                        callback.call(self);
+                    }
+                };
 
             this.rtl ?
                 (!back ? pos += this.tail : pos -= this.tail) :
@@ -282,7 +311,7 @@
             var properties = {};
             properties[this.lt] = pos + 'px';
 
-            this.animate(properties, true, callback);
+            this.animate(properties, true, cb);
 
             return this;
         },
@@ -298,12 +327,18 @@
                 animate = true;
             }
 
-            callback = callback || $.noop;
+            var self = this,
+                cb = function(animated) {
+                    self.element.trigger('jcarouselscrollend', [animated]);
+                    if ($.isFunction(callback)) {
+                        callback.call(self, animated);
+                    }
+                };
 
             item = this.get(item);
 
             if (item.size() === 0) {
-                callback.call(this, false);
+                cb.call(this, false);
                 return this;
             }
 
@@ -312,7 +347,7 @@
             this.positions(item);
 
             if ((this.first.offset()[this.lt] - $j.intval(this.element.css('border-' + this.rlt + '-width'))) === this.element.offset()[this.lt]) {
-                callback.call(this, false);
+                cb.call(this, false);
                 return this;
             }
 
@@ -331,7 +366,7 @@
             var properties = {};
             properties[this.lt] = -(pos) + 'px';
 
-            this.animate(properties, animate, callback);
+            this.animate(properties, animate, cb);
 
             return this;
         },
@@ -351,10 +386,10 @@
                     oldcomplete = opts.complete;
 
                 opts.complete = function() {
+                    self.onAnimationComplete(callback);
                     if ($.isFunction(oldcomplete)) {
                         oldcomplete.call(this);
                     }
-                    self.onAnimationComplete(callback);
                 };
 
                 this.list.animate(properties, opts);

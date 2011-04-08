@@ -328,9 +328,31 @@ $('#mycarousel').bind('jcarouselsetup', function() {
 });</pre>
         </td>
     </tr>
+        <tr>
+        <td>jcarouselsetupend</td>
+        <td>Triggered after the <code>setup</code> method is called.</td>
+        <td>
+            <pre>
+$('#mycarousel').bind('jcarouselsetupend', function() {
+    // this refers to the root element
+    var carousel = $(this).data('jcarousel');
+});</pre>
+        </td>
+    </tr>
     <tr>
         <td>jcarouselreload</td>
         <td>Triggered when the <code>reload</code> method is called.</td>
+        <td>
+            <pre>
+$('#mycarousel').bind('jcarouselreload', function() {
+    // this refers to the root element
+    var carousel = $(this).data('jcarousel');
+});</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>jcarouselreloadend</td>
+        <td>Triggered after the <code>reload</code> method is called.</td>
         <td>
             <pre>
 $('#mycarousel').bind('jcarouselreload', function() {
@@ -351,11 +373,33 @@ $('#mycarousel').bind('jcarouseldestroy', function() {
         </td>
     </tr>
     <tr>
+        <td>jcarouseldestroyend</td>
+        <td>Triggered after the <code>destroy</code> method is called.</td>
+        <td>
+            <pre>
+$('#mycarousel').bind('jcarouseldestroyend', function() {
+    // this refers to the root element
+    var carousel = $(this).data('jcarousel');
+});</pre>
+        </td>
+    </tr>
+    <tr>
         <td>jcarouselprev</td>
         <td>Triggered when the <code>prev</code> method is called.</td>
         <td>
             <pre>
 $('#mycarousel').bind('jcarouselprev', function() {
+    // this refers to the root element
+    var carousel = $(this).data('jcarousel');
+});</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>jcarouselprevend</td>
+        <td>Triggered after the <code>prev</code> method is called.</td>
+        <td>
+            <pre>
+$('#mycarousel').bind('jcarouselprevend', function() {
     // this refers to the root element
     var carousel = $(this).data('jcarousel');
 });</pre>
@@ -373,11 +417,55 @@ $('#mycarousel').bind('jcarouselnext', function() {
         </td>
     </tr>
     <tr>
+        <td>jcarouselnextend</td>
+        <td>Triggered after the <code>next</code> method is called.</td>
+        <td>
+            <pre>
+$('#mycarousel').bind('jcarouselnextend', function() {
+    // this refers to the root element
+    var carousel = $(this).data('jcarousel');
+});</pre>
+        </td>
+    </tr>
+    <tr>
         <td>jcarouselscroll</td>
         <td>Triggered when the <code>scroll</code> method is called.</td>
         <td>
             <pre>
 $('#mycarousel').bind('jcarouselscroll', function() {
+    // this refers to the root element
+    var carousel = $(this).data('jcarousel');
+});</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>jcarouselscrollend</td>
+        <td>Triggered after the <code>scroll</code> method is called.</td>
+        <td>
+            <pre>
+$('#mycarousel').bind('jcarouselscrollend', function() {
+    // this refers to the root element
+    var carousel = $(this).data('jcarousel');
+});</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>jcarouselscrolltail</td>
+        <td>Triggered when the <code>scrollTail</code> method is called.</td>
+        <td>
+            <pre>
+$('#mycarousel').bind('jcarouselscrolltail', function() {
+    // this refers to the root element
+    var carousel = $(this).data('jcarousel');
+});</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>jcarouselscrolltailend</td>
+        <td>Triggered after the <code>scrollTail</code> method is called.</td>
+        <td>
+            <pre>
+$('#mycarousel').bind('jcarouselscrolltailend', function() {
     // this refers to the root element
     var carousel = $(this).data('jcarousel');
 });</pre>
