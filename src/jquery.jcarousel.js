@@ -291,7 +291,7 @@
                 return this;
             }
 
-            this.element.trigger('jcarouselscroll', [item]);
+            this.element.trigger('jcarouselscroll', [typeof item === 'object' ? this.index(item) : item]);
 
             if ($.isFunction(animate)) {
                 callback = animate;
