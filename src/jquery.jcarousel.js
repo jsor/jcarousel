@@ -116,12 +116,12 @@
             this.rlt = !this.vertical ? (this.rtl ? 'right' : 'left')  : 'top';
             this.lrb = !this.vertical ? (this.rtl ? 'left'  : 'right') : 'bottom';
 
-            var item;
+            var item, end = this.size() - 1;
 
             if (this.first.size() > 0) {
                 item = this.first;
             } else {
-                item = this.get(this.options.start > (this.size() - 1) ? -1 : this.options.start);
+                item = this.get(this.options.start > end ? -1 : this.options.start);
             }
 
             this.circular = false;
@@ -129,16 +129,15 @@
             this.positions(item);
             this.remove('.jcarousel-clone');
 
-            this.circular = this.options.wrap == 'circular' && (this.index(this.first) > 0 || this.index(this.last) < (this.size() - 1));
+            this.circular = this.options.wrap == 'circular' && (this.index(this.first) > 0 || this.index(this.last) < end);
 
             var pos = this.first.position()[this.lt];
 
             if (this.rtl && !this.vertical) {
-                var ew = !this.vertical ? this.element.innerWidth() : this.element.innerHeight();
-                pos -= ew - this.dimension(this.first);
+                pos -= this.element[!this.vertical ? 'innerWidth' : 'innerHeight']() - this.dimension(this.first);
             }
 
-            if ((this.index(item) === (this.size() - 1) || this.inTail) && this.tail) {
+            if ((this.index(item) === end || this.inTail) && this.tail) {
                 pos = this.rtl ? pos - this.tail : pos + this.tail;
                 this.inTail = true;
             } else {
@@ -349,8 +348,7 @@
             var pos = this.first.position()[this.lt];
 
             if (this.rtl && !this.vertical) {
-                var ew = !this.vertical ? this.element.innerWidth() : this.element.innerHeight();
-                pos -= ew - this.dimension(this.first);
+                pos -= this.element[!this.vertical ? 'innerWidth' : 'innerHeight']() - this.dimension(this.first);
             }
 
             // If we scroll to the last item, force it to be visible if it's in tail
