@@ -17,10 +17,10 @@ $(function($){
         $('#jcarousel1').jcarousel({wrap: 'custom', foo: 'bar'});
 
         ok($('#jcarousel1').data('jcarousel').options.wrap, '#jcarousel1 (wrap exists)');
-        equals('custom', $('#jcarousel1').data('jcarousel').options.wrap, '#jcarousel1 (wrap equals)');
+        equal($('#jcarousel1').data('jcarousel').options.wrap, 'custom', '#jcarousel1 (wrap equals)');
 
         ok($('#jcarousel1').data('jcarousel').options.foo, '#jcarousel1 (foo exists)');
-        equals('bar', $('#jcarousel1').data('jcarousel').options.foo, '#jcarousel1 (foo equals)');
+        equal($('#jcarousel1').data('jcarousel').options.foo, 'bar', '#jcarousel1 (foo equals)');
     });
 
     test("init() sets data", function() {
@@ -51,36 +51,12 @@ $(function($){
         }).jcarousel();
     });
 
-    test("setup() sets vertical", function() {
-        expect(4);
-
-        $('.jcarousel').jcarousel();
-
-        equals(false, $('#jcarousel1').data('jcarousel').vertical, '#jcarousel1');
-        equals(false, $('#jcarousel2').data('jcarousel').vertical, '#jcarousel2');
-        equals(true, $('#jcarousel3').data('jcarousel').vertical, '#jcarousel3 (class: .jcarousel-vertical)');
-        equals(true, $('#jcarousel4').data('jcarousel').vertical, '#jcarousel4 (attribute: data-jcarousel-vertical="true")');
-    });
-
-    test("setup() sets rtl", function() {
-        expect(4);
-
-        $('.jcarousel').jcarousel();
-
-        equals(false, $('#jcarousel1').data('jcarousel').rtl, '#jcarousel1');
-        equals(true, $('#jcarousel2').data('jcarousel').rtl, '#jcarousel2 (attribute: dir="rtl")');
-        equals(true, $('#jcarousel3').data('jcarousel').rtl, '#jcarousel3 (parent attribute: dir="rtl")');
-        equals(false, $('#jcarousel4').data('jcarousel').rtl, '#jcarousel4');
-    });
-
-    test("setup() sets circular", function() {
-        expect(2);
+    test("setup() sets list", function() {
+        expect(1);
 
         $('#jcarousel1').jcarousel();
-        $('#jcarousel2').jcarousel({wrap: 'circular'});
 
-        equals(false, $('#jcarousel1').data('jcarousel').circular, '#jcarousel1');
-        equals(true, $('#jcarousel2').data('jcarousel').circular, '#jcarousel2');
+        equal($('#jcarousel1').data('jcarousel').list.get(0), $('#jcarousel1 ul').get(0), '#jcarousel1');
     });
 
     test("setup() calls reload()", function() {
@@ -92,6 +68,50 @@ $(function($){
             ok(true, "#jcarousel1");
             start();
         }).jcarousel();
+    });
+
+    test("destroy removes data", function() {
+        expect(2);
+
+        $('#jcarousel1').jcarousel();
+
+        notEqual($('#jcarousel1').data('jcarousel'), undefined, '#jcarousel1');
+        
+        $('#jcarousel1').jcarousel('destroy');
+
+        equal($('#jcarousel1').data('jcarousel'), undefined, '#jcarousel1');
+    });
+
+    test("reload() sets vertical", function() {
+        expect(4);
+
+        $('.jcarousel').jcarousel();
+
+        equal($('#jcarousel1').data('jcarousel').vertical, false, '#jcarousel1');
+        equal($('#jcarousel2').data('jcarousel').vertical, false, '#jcarousel2');
+        equal($('#jcarousel3').data('jcarousel').vertical, true, '#jcarousel3 (class: .jcarousel-vertical)');
+        equal($('#jcarousel4').data('jcarousel').vertical, true, '#jcarousel4 (attribute: data-jcarousel-vertical="true")');
+    });
+
+    test("reload() sets rtl", function() {
+        expect(4);
+
+        $('.jcarousel').jcarousel();
+
+        equal($('#jcarousel1').data('jcarousel').rtl, false, '#jcarousel1');
+        equal($('#jcarousel2').data('jcarousel').rtl, true, '#jcarousel2 (attribute: dir="rtl")');
+        equal($('#jcarousel3').data('jcarousel').rtl, true, '#jcarousel3 (parent attribute: dir="rtl")');
+        equal($('#jcarousel4').data('jcarousel').rtl, false, '#jcarousel4');
+    });
+
+    test("reload() sets circular", function() {
+        expect(2);
+
+        $('#jcarousel1').jcarousel();
+        $('#jcarousel2').jcarousel({wrap: 'circular'});
+
+        equal($('#jcarousel1').data('jcarousel').circular, false, '#jcarousel1');
+        equal($('#jcarousel2').data('jcarousel').circular, true, '#jcarousel2');
     });
 
 });
