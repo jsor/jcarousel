@@ -114,4 +114,30 @@ $(function($){
         equal($('#jcarousel2').data('jcarousel').circular, true, '#jcarousel2');
     });
 
+    test("get() handles integer argument", function() {
+        expect(1);
+
+        $('#jcarousel1').jcarousel();
+
+        equal($('#jcarousel1').jcarousel('get', 1).get(0), $('#jcarousel1 li:eq(1)').get(0), '#jcarousel1');
+    });
+
+    test("get() handles string argument", function() {
+        expect(1);
+
+        $('#jcarousel1').jcarousel();
+
+        equal($('#jcarousel1').jcarousel('get', ':eq(1)').get(0), $('#jcarousel1 li:eq(1)').get(0), '#jcarousel1');
+    });
+
+    test("get() handles object argument", function() {
+        expect(1);
+
+        $('#jcarousel1').jcarousel();
+
+        var obj = $('#jcarousel1 li:eq(1)').get(0);
+
+        equal($('#jcarousel1').jcarousel('get', obj).get(0), obj, '#jcarousel1');
+    });
+
 });

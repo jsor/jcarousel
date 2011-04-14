@@ -158,11 +158,13 @@
                 return this.list.find(this.options.items);
             }
 
-            if ($.type(index) === 'number' || (/^[0-9]+$/).test(index)) {
+            var t = $.type(index);
+
+            if (t === 'number') {
                 return this.list.find(this.options.items).eq(index);
-            } else if ($.type(index) === 'string') {
+            } else if (t === 'string') { // Selector
                 return this.list.find(this.options.items).filter(index);
-            } else {
+            } else { // Object, wrap in jQuery instance
                 return $(index);
             }
         },
