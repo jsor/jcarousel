@@ -573,11 +573,16 @@
     });
 
     $.fn.jcarousel = function(o) {
-        var args = Array.prototype.slice.call(arguments, 1);
-        return this.each(function() {
+        var args = Array.prototype.slice.call(arguments, 1), returnResult = false, result;
+        this.each(function() {
             var j = $(this).data('jcarousel');
             if (typeof o === 'string') {
-                j[o].apply(j, args);
+                var r = j[o].apply(j, args);
+                if (r !== j) {
+                    returnResult = true;
+                    result = r;
+                    return false;
+                }
             } else {
                 if (j) {
                     $.extend(j.options, o || {});
@@ -586,6 +591,8 @@
                 }
             }
         });
+
+        return returnResult ? result : this;
     };
 
 })(jQuery, window);
