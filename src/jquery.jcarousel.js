@@ -69,13 +69,7 @@
                 }
             };
 
-            if (!$j.windowLoaded && $.browser.safari) {
-                $(window).bind('load.jcarousel', function() {
-                    self.setup();
-                });
-            } else {
-                this.setup();
-            }
+            this.setup();
 
             return this;
         },
@@ -562,14 +556,11 @@
             wrap:      null
         },
         itemData: ['first', 'last', 'visible'],
-        windowLoaded: false,
         intval: function(v) {
             v = parseInt(v, 10);
             return isNaN(v) ? 0 : v;
         }
     });
-
-    $(window).bind('load.jcarousel', function() { $j.windowLoaded = true; });
 
     $.expr.filters.jcarousel = function(elem) {
         return $.data(elem, 'jcarousel') != null;
