@@ -155,11 +155,11 @@
         },
         get: function(index) {
             if (index == null) {
-                return this.list.find(this.options.items).filter(':not(.jcarousel-clone)');
+                return this.list.find(this.options.items);
             }
 
             if ($.type(index) === 'number' || (/^[0-9]+$/).test(index)) {
-                return this.list.find(this.options.items).filter(':not(.jcarousel-clone)').eq(index);
+                return this.list.find(this.options.items).eq(index);
             } else if ($.type(index) === 'string') {
                 return this.list.find(this.options.items).filter(index);
             } else {
@@ -167,7 +167,7 @@
             }
         },
         index: function(item) {
-            return this.list.find(this.options.items).filter(':not(.jcarousel-clone)').index(item);
+            return this.list.find(this.options.items).index(item);
         },
         remove: function(item) {
             item = this.get(item);
