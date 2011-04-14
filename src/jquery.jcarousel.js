@@ -134,7 +134,8 @@
             var pos = this.first.position()[this.lt];
 
             if (this.rtl && !this.vertical) {
-                pos -= this.dimension(this.element) - this.dimension(this.first);
+                var ew = !this.vertical ? this.element.innerWidth() : this.element.innerHeight();
+                pos -= ew - this.dimension(this.first);
             }
 
             if ((this.index(item) === (this.size() - 1) || this.inTail) && this.tail) {
@@ -348,7 +349,8 @@
             var pos = this.first.position()[this.lt];
 
             if (this.rtl && !this.vertical) {
-                pos -= this.dimension(this.element) - this.dimension(this.first);
+                var ew = !this.vertical ? this.element.innerWidth() : this.element.innerHeight();
+                pos -= ew - this.dimension(this.first);
             }
 
             // If we scroll to the last item, force it to be visible if it's in tail
