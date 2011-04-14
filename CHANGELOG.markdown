@@ -1,6 +1,16 @@
 jCarousel Changelog
 ===================
 
+Version 0.2.8 - 2011-04-14
+--------------------------
+
+  * Fixed selecting only direct childs of the current list (#61).
+  * Added static method to set windowLoaded to true manually (#60).
+  * Added setupCallback.
+  * Optimized resize callback.
+  * Added animationStepCallback option (Thanks [scy](https://github.com/scy)).
+  * Wider support of border-radius, and support of :focus in addition to :hover (Thanks [lespacedunmatin](https://github.com/lespacedunmatin)).
+
 Version 0.2.7 - 2010-10-06
 --------------------------
 
