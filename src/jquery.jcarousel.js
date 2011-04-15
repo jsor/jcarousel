@@ -74,19 +74,23 @@
             return this;
         },
         setup: function() {
-            this.element.trigger('jcarouselsetup');
+            if (false === this.notify('setup')) {
+                return this;
+            }
 
             this.list = this.element.find(this.options.list);
             this.reload();
 
             $(window).unbind('resize.jcarousel', this.onWindowResize).bind('resize.jcarousel', this.onWindowResize);
 
-            this.element.trigger('jcarouselsetupend');
+            this.notify('setupend');
 
             return this;
         },
         destroy: function() {
-            this.element.trigger('jcarouseldestroy');
+            if (false === this.notify('destroy')) {
+                return this;
+            }
 
             var all = this.get();
             $.each($j.itemData, function(i, name) {
@@ -96,12 +100,14 @@
             $(window).unbind('resize.jcarousel', this.onWindowResize);
             this.element.removeData('jcarousel');
 
-            this.element.trigger('jcarouseldestroyend');
+            this.notify('destroyend');
 
             return this;
         },
         reload: function() {
-            this.element.trigger('jcarouselreload');
+            if (false === this.notify('reload')) {
+                return this;
+            }
 
             this.vertical = this.element.data('jcarousel-vertical') ||
                             this.element.attr('class').toLowerCase().indexOf('jcarousel-vertical') > -1;
@@ -146,7 +152,7 @@
 
             this.list.css({'left': 0, 'top': 0}).css(this.lt, -(pos) + 'px');
 
-            this.element.trigger('jcarouselreloadend');
+            this.notify('reloadend');
 
             return this;
         },
@@ -193,14 +199,16 @@
                 return this;
             }
 
-            this.element.trigger('jcarouselnext');
+            if (false === this.notify('next')) {
+                return this;
+            }
 
             var last = this.index(this.last),
                 end = this.size() - 1,
                 scroll = Math.min(this.options.scroll, end),
                 self = this,
                 cb = function() {
-                    self.element.trigger('jcarouselnextend');
+                    self.notify('nextend');
                     if ($.isFunction(callback)) {
                         callback.call(self);
                     }
@@ -242,14 +250,16 @@
                 return this;
             }
 
-            this.element.trigger('jcarouselprev');
+            if (false === this.notify('prev')) {
+                return this;
+            }
 
             var first = this.index(this.first),
                 end = this.size() - 1,
                 scroll = Math.min(this.options.scroll, end),
                 self = this,
                 cb = function() {
-                    self.element.trigger('jcarouselprevend');
+                    self.notify('prevend');
                     if ($.isFunction(callback)) {
                         callback.call(self);
                     }
@@ -287,12 +297,14 @@
                 return this;
             }
 
-            this.element.trigger('jcarouselscrolltail', [back]);
+            if (false === this.notify('scrolltail', [back])) {
+                return this;
+            }
 
             var pos = this.list.position()[this.lt],
                 self = this,
                 cb = function() {
-                    self.element.trigger('jcarouselscrolltailend', [back]);
+                    self.notify('scrolltailend', [back]);
                     if ($.isFunction(callback)) {
                         callback.call(self);
                     }
@@ -316,7 +328,9 @@
                 return this;
             }
 
-            this.element.trigger('jcarouselscroll', [typeof item === 'object' ? this.index(item) : item]);
+            if (false === this.notify('scroll', [typeof item === 'object' ? this.index(item) : item])) {
+                return this;
+            }
 
             if ($.isFunction(animate)) {
                 callback = animate;
@@ -325,7 +339,7 @@
 
             var self = this,
                 cb = function(animated) {
-                    self.element.trigger('jcarouselscrollend', [animated]);
+                    self.notify('scrollend', [animated]);
                     if ($.isFunction(callback)) {
                         callback.call(self, animated);
                     }
@@ -507,6 +521,16 @@
 
             return this;
         },
+        notify: function(event, data) {
+            var e = $.Event('jcarousel' + event);
+            this.element.trigger(e, data);
+            if ($j.hooks[event]) {
+                for (var i = 0, l = $j.hooks[event].length; i < l; i++) {
+                    $j.hooks[event][i].call(this, e);
+                }
+            }
+            return !e.isDefaultPrevented();
+        },
         clipping: function() {
             return this.element['inner' + (!this.vertical ? 'Width' : 'Height')]();
         },
@@ -557,7 +581,18 @@
             animation: 'normal',
             wrap:      null
         },
+        hooks: {},
         itemData: ['first', 'last', 'visible'],
+        hook: function(types, callback) {
+            types = types.split(" ");
+		    var type, i = 0;
+            while ((type = types[i++])) {
+                if (!$j.hooks[type]) {
+                    $j.hooks[type] = [];
+                }
+                $j.hooks[type].push(callback);
+            }
+        },
         intval: function(v) {
             v = parseInt(v, 10);
             return isNaN(v) ? 0 : v;
