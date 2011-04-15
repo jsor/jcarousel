@@ -45,7 +45,7 @@
         circular: false,
         init: function(el, opts) {
             this.element = $(el);
-            this.options = $.extend({}, $j.options, opts);
+            this.options = $.extend(true, {}, $j.options, opts);
 
             this.element.data('jcarousel', this);
 
@@ -587,7 +587,7 @@
                 }
             } else {
                 if (j) {
-                    $.extend(j.options, o || {});
+                    $.extend(true, j.options, o || {});
                 } else {
                     $j(this, o);
                 }
