@@ -122,6 +122,8 @@
             this.rlt = !this.vertical ? (this.rtl ? 'right' : 'left')  : 'top';
             this.lrb = !this.vertical ? (this.rtl ? 'left'  : 'right') : 'bottom';
 
+            this.list.css({'left': 0, 'top': 0});
+
             var item, end = this.size() - 1;
 
             if (this.first.size() > 0) {
@@ -135,22 +137,24 @@
             this.positions(item);
             this.remove('.jcarousel-clone');
 
-            this.circular = this.options.wrap == 'circular' && (this.index(this.first) > 0 || this.index(this.last) < end);
+            if (this.first.size() > 0) {
+                this.circular = this.options.wrap == 'circular' && (this.index(this.first) > 0 || this.index(this.last) < end);
 
-            var pos = this.first.position()[this.lt];
+                var pos = this.first.position()[this.lt];
 
-            if (this.rtl && !this.vertical) {
-                pos -= this.element[!this.vertical ? 'innerWidth' : 'innerHeight']() - this.dimension(this.first);
+                if (this.rtl && !this.vertical) {
+                    pos -= this.element[!this.vertical ? 'innerWidth' : 'innerHeight']() - this.dimension(this.first);
+                }
+
+                if ((this.index(item) === end || this.inTail) && this.tail) {
+                    pos = this.rtl ? pos - this.tail : pos + this.tail;
+                    this.inTail = true;
+                } else {
+                    this.inTail = false;
+                }
+
+                this.list.css(this.lt, -(pos) + 'px');
             }
-
-            if ((this.index(item) === end || this.inTail) && this.tail) {
-                pos = this.rtl ? pos - this.tail : pos + this.tail;
-                this.inTail = true;
-            } else {
-                this.inTail = false;
-            }
-
-            this.list.css({'left': 0, 'top': 0}).css(this.lt, -(pos) + 'px');
 
             this.notify('reloadend');
 
