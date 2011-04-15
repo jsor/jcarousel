@@ -220,6 +220,8 @@
                 } else {
                     if (this.options.wrap == 'both' || this.options.wrap == 'last') {
                         this.scroll(0, cb);
+                    } else {
+                        this.scroll(end, cb);
                     }
                 }
             } else {
@@ -355,11 +357,6 @@
             this.inTail = false;
 
             this.positions(item);
-
-            if ((this.first.offset()[this.lt] - $j.intval(this.element.css('border-' + this.rlt + '-width'))) === this.element.offset()[this.lt]) {
-                cb.call(this, false);
-                return this;
-            }
 
             var pos = this.first.position()[this.lt];
 
