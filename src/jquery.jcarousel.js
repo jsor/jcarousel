@@ -302,6 +302,11 @@
 
             this.inTail = !back;
 
+            if (pos == $j.intval(this.list.css(this.lt))) {
+                cb.call(this, false);
+                return this;
+            }
+
             var properties = {};
             properties[this.lt] = pos + 'px';
 
@@ -338,15 +343,22 @@
                 return this;
             }
 
-            this.inTail = false;
-
             this.positions(item);
 
             var pos = this.first.position()[this.lt];
+                tailPos = this.rtl ? (pos - this.tail) : (pos + this.tail),
+                left = $j.intval(this.list.css(this.lt));
+
+            if (-pos == left || (this.inTail && -tailPos == left)) {
+                cb.call(this, false);
+                return this;
+            }
 
             if (this.rtl && !this.vertical) {
                 pos -= this.element[!this.vertical ? 'innerWidth' : 'innerHeight']() - this.dimension(this.first);
             }
+
+            this.inTail = false;
 
             // If we scroll to the last item, force it to be visible if it's in tail
             if (this.index(item) === (this.size() - 1) && this.tail) {
