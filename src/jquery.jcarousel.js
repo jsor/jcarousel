@@ -302,11 +302,6 @@
 
             this.inTail = !back;
 
-            if (pos == $j.intval(this.list.css(this.lt))) {
-                cb.call(this, false);
-                return this;
-            }
-
             var properties = {};
             properties[this.lt] = pos + 'px';
 
