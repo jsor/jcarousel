@@ -133,28 +133,8 @@
             }
 
             this.circular = false;
-
-            this.positions(item);
-            this.remove('.jcarousel-clone');
-
-            if (this.first.size() > 0) {
-                this.circular = this.options.wrap == 'circular' && (this.index(this.first) > 0 || this.index(this.last) < end);
-
-                var pos = this.first.position()[this.lt];
-
-                if (this.rtl && !this.vertical) {
-                    pos -= this.element[!this.vertical ? 'innerWidth' : 'innerHeight']() - this.dimension(this.first);
-                }
-
-                if ((this.index(item) === end || this.inTail) && this.tail) {
-                    pos = this.rtl ? pos - this.tail : pos + this.tail;
-                    this.inTail = true;
-                } else {
-                    this.inTail = false;
-                }
-
-                this.list.css(this.lt, -(pos) + 'px');
-            }
+            this.scroll(item, false);
+            this.circular = this.options.wrap == 'circular' && (this.index(this.first) > 0 || this.index(this.last) < end);
 
             this.notify('reloadend');
 
