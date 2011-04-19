@@ -26,23 +26,23 @@
     $j.fn.extend = $j.extend = $.extend;
 
     $j.fn.extend({
-        element: null,
-        list: null,
-        options: {},
-        first: $(),
-        last: $(),
-        visible: $(),
-        animating: false,
-        tail: 0,
-        inTail: false,
+        element:     null,
+        list:        null,
+        options:     {},
+        first:       $(),
+        last:        $(),
+        visible:     $(),
+        animating:   false,
+        tail:        0,
+        inTail:      false,
         resizeTimer: null,
-        lt: null,
-        wh: null,
-        rlt: null,
-        lrb: null,
-        vertical: false,
-        rtl: false,
-        circular: false,
+        lt:          null,
+        wh:          null,
+        rlt:         null,
+        lrb:         null,
+        vertical:    false,
+        rtl:         false,
+        circular:    false,
         init: function(el, opts) {
             this.element = $(el);
             this.options = $.extend(true, {}, $j.options, opts);
@@ -123,7 +123,8 @@
             this.rlt = !this.vertical ? (this.rtl ? 'right' : 'left')  : 'top';
             this.lrb = !this.vertical ? (this.rtl ? 'left'  : 'right') : 'bottom';
 
-            var item = this.first, end = this.size() - 1;
+            var item = this.first,
+                end = this.size() - 1;
 
             if (item.size() === 0) {
                 item = this.get(this.options.start > end ? -1 : this.options.start);
@@ -154,7 +155,7 @@
                 } else {
                     this.inTail = false;
                 }
-                
+
                 this.list.css(this.lt, -(pos) + 'px');
             }
 
@@ -192,11 +193,11 @@
                 return this;
             }
 
-            var last = this.index(this.last),
-                end = this.size() - 1,
+            var last   = this.index(this.last),
+                end    = this.size() - 1,
                 scroll = Math.min(this.options.scroll, end),
-                self = this,
-                cb = function() {
+                self   = this,
+                cb     = function() {
                     self.notify('nextend');
                     if ($.isFunction(callback)) {
                         callback.call(self);
@@ -217,13 +218,16 @@
                 if (last === end && (this.options.wrap == 'both' || this.options.wrap == 'last')) {
                     return this.scroll(0, cb);
                 } else {
-                    var first = this.index(this.first), index = first + scroll;
+                    var first = this.index(this.first),
+                        index = first + scroll;
 
                     if (this.circular) {
-                        var i = scroll, cl = 0;
+                        var i  = scroll,
+                            cl = 0,
+                            curr;
 
                         while (i-- > 0 && cl++ < first) {
-                            var curr = this.get(0);
+                            curr = this.get(0);
                             curr.after(curr.clone().addClass('jcarousel-clone'));
                             this.list.append(curr);
                             index--;
@@ -245,11 +249,11 @@
                 return this;
             }
 
-            var first = this.index(this.first),
-                end = this.size() - 1,
+            var first  = this.index(this.first),
+                end    = this.size() - 1,
                 scroll = Math.min(this.options.scroll, end),
-                self = this,
-                cb = function() {
+                self   = this,
+                cb     = function() {
                     self.notify('prevend');
                     if ($.isFunction(callback)) {
                         callback.call(self);
@@ -267,10 +271,13 @@
                     this.scroll(end, cb);
                 } else {
                     if (this.circular && (first - scroll) < 0) {
-                        var i = first - scroll, cl = end, last = this.index(this.last);
+                        var i    = first - scroll,
+                            cl   = end,
+                            last = this.index(this.last),
+                            curr;
 
                         while (i++ < 0 && cl-- > last) {
-                            var curr = this.get(-1);
+                            curr = this.get(-1);
                             curr.after(curr.clone().addClass('jcarousel-clone'));
                             this.list.prepend(curr);
                             this.list.css(this.lt, $j.intval(this.list.css(this.lt)) - this.dimension(curr) + 'px');
@@ -292,9 +299,9 @@
                 return this;
             }
 
-            var pos = this.list.position()[this.lt],
+            var pos  = this.list.position()[this.lt],
                 self = this,
-                cb = function() {
+                cb   = function() {
                     self.notify('scrolltailend', [back]);
                     if ($.isFunction(callback)) {
                         callback.call(self);
@@ -329,7 +336,7 @@
             }
 
             var self = this,
-                cb = function(animated) {
+                cb   = function(animated) {
                     self.notify('scrollend', [animated]);
                     if ($.isFunction(callback)) {
                         callback.call(self, animated);
@@ -382,8 +389,10 @@
                 this.list.css(properties);
                 this.onAnimationComplete(callback);
             } else {
-                var self = this,
-                    opts = typeof this.options.animation === 'object' ? this.options.animation : {duration: this.options.animation},
+                var self        = this,
+                    opts        = typeof this.options.animation === 'object' ?
+                                      this.options.animation :
+                                      {duration: this.options.animation},
                     oldcomplete = opts.complete;
 
                 opts.complete = function() {
@@ -492,8 +501,8 @@
                 this.last.trigger('jcarouselitemlastout');
             }
 
-            var v = this.visible,
-                vin = update.visible.filter(function() {
+            var v    = this.visible,
+                vin  = update.visible.filter(function() {
                     return $.inArray(this, v) < 0;
                 }),
                 vout = v.filter(function() {
@@ -579,7 +588,9 @@
     });
 
     $.fn.jcarousel = function(o) {
-        var args = Array.prototype.slice.call(arguments, 1), returnResult = false, result;
+        var args         = Array.prototype.slice.call(arguments, 1),
+            returnResult = false,
+            result;
         this.each(function() {
             var j = $(this).data('jcarousel');
             if (typeof o === 'string') {
