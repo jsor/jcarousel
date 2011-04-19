@@ -138,25 +138,12 @@
             this.list.css({'left': 0, 'top': 0});
 
             if (item.size() > 0) {
-                this.positions(item);
+                this.prepare(item);
                 this.list.find('.jcarousel-clone').remove();
 
                 this.circular = this.options.wrap == 'circular' && (this.index(this.first) > 0 || this.index(this.last) < end);
 
-                var pos = this.first.position()[this.lt];
-
-                if (this.rtl && !this.vertical) {
-                    pos -= this.element[!this.vertical ? 'innerWidth' : 'innerHeight']() - this.dimension(this.first);
-                }
-
-                if ((this.index(item) === end || this.inTail) && this.tail) {
-                    pos = this.rtl ? pos - this.tail : pos + this.tail;
-                    this.inTail = true;
-                } else {
-                    this.inTail = false;
-                }
-
-                this.list.css(this.lt, -(pos) + 'px');
+                this.list.css(this.lt, this.position(item) + 'px');
             }
 
             this.notify('reloadend');
@@ -352,27 +339,16 @@
 
             this.inTail = false;
 
-            this.positions(item);
+            this.prepare(item);
+            var pos = this.position(item);
 
-            var pos = this.first.position()[this.lt];
-
-            if (this.rtl && !this.vertical) {
-                pos -= this.element[!this.vertical ? 'innerWidth' : 'innerHeight']() - this.dimension(this.first);
-            }
-
-            // If we scroll to the last item, force it to be visible if it's in tail
-            if (this.index(item) === (this.size() - 1) && this.tail) {
-                pos = this.rtl ? pos - this.tail : pos + this.tail;
-                this.inTail = true;
-            }
-
-            if (-pos == $j.intval(this.list.css(this.lt))) {
+            if (pos == $j.intval(this.list.css(this.lt))) {
                 cb.call(this, false);
                 return this;
             }
 
             var properties = {};
-            properties[this.lt] = -pos + 'px';
+            properties[this.lt] = pos + 'px';
 
             this.animate(properties, animate, cb);
 
@@ -407,7 +383,7 @@
 
             return this;
         },
-        positions: function(item) {
+        prepare: function(item) {
             var index   = this.index(item),
                 idx     = index,
                 wh      = this.dimension(item),
@@ -479,6 +455,22 @@
             }
 
             return this;
+        },
+        position: function(item) {
+            var pos = this.first.position()[this.lt];
+
+            if (this.rtl && !this.vertical) {
+                pos -= this.element[!this.vertical ? 'innerWidth' : 'innerHeight']() - this.dimension(this.first);
+            }
+
+            if ((this.index(item) ===  (this.size() - 1) || this.inTail) && this.tail) {
+                pos = this.rtl ? pos - this.tail : pos + this.tail;
+                this.inTail = true;
+            } else {
+                this.inTail = false;
+            }
+
+            return -pos;
         },
         update: function(update) {
             var all = this.get();
