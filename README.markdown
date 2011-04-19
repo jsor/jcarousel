@@ -283,7 +283,7 @@ You can also access methods of the instance directly, for example the `scroll()`
 Manipulating the carousel
 -------------------------
 
-If you manipulate the carousel from the outside (eg. adding or removing items from the list), ensure that you call `reload()` afterwards so that jCarousel gets aware of the changes:
+If you manipulate the carousel from the outside (eg. adding or removing items from the list), ensure that you call `reload()` afterwards so that jCarousel becomes aware of the changes:
 
     <script type="text/javascript">
     $(function() {
