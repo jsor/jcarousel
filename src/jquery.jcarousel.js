@@ -370,8 +370,13 @@
                 this.inTail = true;
             }
 
+            if (-pos == $j.intval(this.list.css(this.lt))) {
+                cb.call(this, false);
+                return this;
+            }
+
             var properties = {};
-            properties[this.lt] = -(pos) + 'px';
+            properties[this.lt] = -pos + 'px';
 
             this.animate(properties, animate, cb);
 
