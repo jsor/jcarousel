@@ -63,7 +63,8 @@
 
             this.onAnimationComplete = function(callback) {
                 self.animating = false;
-                self.remove('.jcarousel-clone');
+                self.list.find('.jcarousel-clone').remove();
+                self.reload();
                 if ($.isFunction(callback)) {
                     callback.call(self, true);
                 }
@@ -137,7 +138,7 @@
 
             if (item.size() > 0) {
                 this.positions(item);
-                this.remove('.jcarousel-clone');
+                this.list.find('.jcarousel-clone').remove();
 
                 this.circular = this.options.wrap == 'circular' && (this.index(this.first) > 0 || this.index(this.last) < end);
 
@@ -162,7 +163,7 @@
             return this;
         },
         size: function() {
-            return this.list.find(this.options.items).size();
+            return this.list.find(this.options.items).filter(':not(.jcarousel-clone)').size();
         },
         get: function(index) {
             if (index == null) {
@@ -181,23 +182,6 @@
         },
         index: function(item) {
             return this.list.find(this.options.items).filter(':not(.jcarousel-clone)').index(item);
-        },
-        remove: function(item) {
-            item = this.get(item);
-
-            if (item.size() > 0) {
-                var self = this;
-                item.each(function() {
-                    if (self.first.size() > 0 && this === self.first.get(0)) {
-                        self.first = self.first.next();
-                    }
-                    item.remove();
-                });
-
-                this.reload();
-            }
-
-            return this;
         },
         next: function(callback) {
             if (this.animating) {
@@ -555,28 +539,6 @@
                     $j.intval(el.css('border-top-width')) +
                     $j.intval(el.css('border-bottom-width'));
         }
-    });
-
-    $.each(['after', 'before', 'replaceWith'], function(i, name) {
-        $j.fn[name] = function(element, item) {
-            item = this.get(item);
-
-            if (item.size() > 0) {
-                item[name](element);
-                this.reload();
-            }
-
-            return this;
-        };
-    });
-
-    $.each(['prepend', 'append'], function(i, name) {
-        $j.fn[name] = function(element) {
-            this.list[name](element);
-            this.reload();
-
-            return this;
-        };
     });
 
     $j.extend({

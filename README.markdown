@@ -235,9 +235,9 @@ You can access the instance with:
 
     var carousel = $('#mycarousel').data('jcarousel');
 
-You can also access methods of the instance directly, for example the `append()` method:
+You can also access methods of the instance directly, for example the `scroll()` method:
 
-    $('#mycarousel').jcarousel('append', '<li><!-- Item content --></li>');
+    $('#mycarousel').jcarousel('scroll', 2);
 
 ### Available methods are:
 
@@ -267,10 +267,6 @@ You can also access methods of the instance directly, for example the `append()`
         <td>Returns the index of the given item.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('remove', item_or_index);</pre></td>
-        <td>Removes the item (or the item at the given index) from the list.</td>
-    </tr>
-    <tr>
         <td><pre>.jcarousel('next' [, callback]);</pre></td>
         <td>Triggers a next scroll on the carousel. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
     </tr>
@@ -282,27 +278,28 @@ You can also access methods of the instance directly, for example the `append()`
         <td><pre>.jcarousel('scroll', item_or_index [, animate [, callback]]);</pre></td>
         <td>Scrolls to a given item or index. If the argument <code>animate</code> is given and <code>false</code>, it just jumps to the position without animation. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
     </tr>
-    <tr>
-        <td><pre>.jcarousel('after', element, item_or_index);</pre></td>
-        <td>Inserts a new element after the given item (or index).</td>
-    </tr>
-    <tr>
-        <td><pre>.jcarousel('before', element, item_or_index);</pre></td>
-        <td>Inserts a new element before the given item (or index).</td>
-    </tr>
-    <tr>
-        <td><pre>.jcarousel('replaceWith', element, item_or_index);</pre></td>
-        <td>Replaces the given item (or index) with a new element.</td>
-    </tr>
-    <tr>
-        <td><pre>.jcarousel('append', element);</pre></td>
-        <td>Appends a new element to the list.</td>
-    </tr>
-    <tr>
-        <td><pre>.jcarousel('prepend', element);</pre></td>
-        <td>Prepends a new element to the list.</td>
-    </tr>
 </table>
+
+Manipulating the carousel
+-------------------------
+
+If you manipulate the carousel from the outside (eg. adding or removing items from the list), ensure that you call `reload()` afterwards so that jCarousel gets aware of the changes:
+
+    <script type="text/javascript">
+    $(function() {
+        $('#mycarousel').jcarousel({
+            // Configuration goes here
+        });
+
+        // Append items
+        $('#mycarousel ul')
+            .append('<li>Item 1</li>')
+            .append('<li>Item 2</li>');
+
+        // Reload carousel
+        $('#mycarousel').jcarousel('reload');
+    });
+    </script>
 
 jCarousel specific events
 -------------------------

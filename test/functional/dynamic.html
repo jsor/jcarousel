@@ -22,7 +22,20 @@ $(function() {
     $('.jcarousel').jcarousel();
     
     $('form').submit(function() {
-        $('.jcarousel').jcarousel($('#method').val(), $('#item').val(), parseInt($('#index').val()));
+        var method = $('#method').val();
+
+        switch (method) {
+            case 'append':
+            case 'prepend':
+                $('.jcarousel ul')[method]($('#item').val());
+                break;
+            default:
+                $('.jcarousel li').eq(parseInt($('#index').val()))[method]($('#item').val());
+                break;
+        }
+
+        $('.jcarousel').jcarousel('reload');
+
         return false;
     });
 });
