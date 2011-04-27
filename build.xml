@@ -1,6 +1,6 @@
 <project name="jCarousel" default="lint">
 
-    <property name="file" value="src/jquery.jcarousel.js"/>
+    <property name="file" value="src/jquery.jcarousel.js plugins/buttons/src/jquery.jcarousel.buttons.js"/>
 
     <!--  lint (http://www.jslint.com/lint.html) -->
     <target name="lint">
