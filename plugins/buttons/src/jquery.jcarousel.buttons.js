@@ -10,7 +10,9 @@
  */
 (function($) {
 
-    var $j = $.jcarousel;
+    var $j = $.jcarousel,
+        btnEnabled = 'jcarouselbuttonenabled',
+        btnDisabled = 'jcarouselbuttondisabled';
 
     $.extend($j.options, {
         next:      '.jcarousel-next',
@@ -24,7 +26,7 @@
             return;
         }
 
-        var self = this, 
+        var self = this,
             o    = this.options;
 
         if ($.isFunction(o.next)) {
@@ -43,7 +45,7 @@
 
             if (o.nextEvent) {
                 this.nextButton.bind(o.nextEvent + '.jcarousel', function() {
-                    if ($(this).data('jcarouselbuttonenabled') === true) {
+                    if ($(this).data(btnEnabled) === true) {
                         self.next();
                     }
                     return false;
@@ -56,7 +58,7 @@
 
             if (o.prevEvent) {
                 this.prevButton.bind(o.prevEvent + '.jcarousel', function() {
-                    if ($(this).data('jcarouselbuttonenabled') === true) {
+                    if ($(this).data(btnEnabled) === true) {
                         self.prev();
                     }
                     return false;
@@ -75,18 +77,18 @@
             n = s > 0 && ((o.wrap && o.wrap !== 'first') || (this.index(this.last) < (s - 1)) || (this.tail && !this.inTail)) ? true : false,
             p = s > 0 && ((o.wrap && o.wrap !== 'last') || (this.index(this.first) > 0) || (this.tail && this.inTail)) ? true : false;
 
-        if (this.nextButton && this.nextButton.data('jcarouselbuttonenabled') !== n) {
+        if (this.nextButton && this.nextButton.data(btnEnabled) !== n) {
             this.nextButton
-            .data('jcarouselbuttonenabled',  n)
-            .data('jcarouselbuttondisabled', !n)
-            .trigger('jcarouselbutton' + (n ? 'enabled' : 'disabled'));
+            .data(btnEnabled,  n)
+            .data(btnDisabled, !n)
+            .trigger(n ? btnEnabled : btnDisabled);
         }
 
-        if (this.prevButton && this.prevButton.data('jcarouselbuttonenabled') !== p) {
+        if (this.prevButton && this.prevButton.data(btnEnabled) !== p) {
             this.prevButton
-            .data('jcarouselbuttonenabled',  p)
-            .data('jcarouselbuttondisabled', !p)
-            .trigger('jcarouselbutton' + (p ? 'enabled' : 'disabled'));
+            .data(btnEnabled,  p)
+            .data(btnDisabled, !p)
+            .trigger(p ? btnEnabled : btnDisabled);
         }
     });
 
@@ -97,23 +99,25 @@
 
         if (this.nextButton) {
             this.nextButton
-            .removeData('jcarouselbuttonenabled')
-            .removeData('jcarouselbuttondisabled')
+            .removeData(btnEnabled)
+            .removeData(btnDisabled)
             .unbind('.jcarousel');
         }
 
         if (this.prevButton) {
             this.prevButton
-            .removeData('jcarouselbuttonenabled')
-            .removeData('jcarouselbuttondisabled')
+            .removeData(btnEnabled)
+            .removeData(btnDisabled)
             .unbind('.jcarousel');
         }
     });
 
-    $.each(['enabled', 'disabled'], function(i, name) {
-        $.expr.filters['jcarouselbutton'  + name] = function(elem) {
-            return $.data(elem, 'jcarouselbutton'  + name);
-        };
-    });
+    $.expr.filters[btnEnabled] = function(elem) {
+        return !!$.data(elem, btnEnabled);
+    };
+
+    $.expr.filters[btnDisabled] = function(elem) {
+        return !!$.data(elem, btnDisabled);
+    };
 
 })(jQuery);
