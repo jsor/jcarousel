@@ -111,9 +111,9 @@
             }
 
             this.vertical = this.element.data('jcarousel-vertical') ||
-                            this.element.attr('class').toLowerCase().indexOf('jcarousel-vertical') > -1;
+                            ('' + this.element.attr('class')).toLowerCase().indexOf('jcarousel-vertical') > -1;
 
-            this.rtl = this.element.attr('dir').toLowerCase() === 'rtl' ||
+            this.rtl = ('' + this.element.attr('dir')).toLowerCase() === 'rtl' ||
                        this.element.parents('[dir]').filter(function() {
                            return (/rtl/i).test($(this).attr('dir'));
                        }).size() > 0;
