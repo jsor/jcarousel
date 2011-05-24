@@ -93,7 +93,7 @@
                 return this;
             }
 
-            var all = this.get();
+            var all = this.items();
             $.each($j.itemData, function(i, name) {
                 all.removeData('jcarousel' + name);
             });
@@ -124,14 +124,14 @@
             this.lrb = !this.vertical ? (this.rtl ? 'left'  : 'right') : 'bottom';
 
             var item = this.first,
-                end = this.size() - 1;
+                end = this.items().size() - 1;
 
             if (item.size() === 0) {
-                item = this.get(this.options.start > end ? -1 : this.options.start);
+                item = this.items().eq(this.options.start > end ? -1 : this.options.start);
             }
 
             if (item.size() === 0) {
-                item = this.get(0);
+                item = this.items().eq(0);
             }
 
             this.circular = false;
@@ -141,7 +141,7 @@
                 this.prepare(item);
                 this.list.find('.jcarousel-clone').remove();
 
-                this.circular = this.options.wrap == 'circular' && (this.index(this.first) > 0 || this.index(this.last) < end);
+                this.circular = this.options.wrap == 'circular' && (this.items().index(this.first) > 0 || this.items().index(this.last) < end);
 
                 this.list.css(this.lt, this.position(item) + 'px');
             }
@@ -150,26 +150,8 @@
 
             return this;
         },
-        size: function() {
-            return this.list.find(this.options.items).filter(':not(.jcarousel-clone)').size();
-        },
-        get: function(index) {
-            if (index == null) {
-                return this.list.find(this.options.items).filter(':not(.jcarousel-clone)');
-            }
-
-            var t = $.type(index);
-
-            if (t === 'number') {
-                return this.list.find(this.options.items).filter(':not(.jcarousel-clone)').eq(index);
-            } else if (t === 'string') { // Selector
-                return this.list.find(this.options.items).filter(index);
-            } else { // Object, wrap in jQuery instance
-                return $(index);
-            }
-        },
-        index: function(item) {
-            return this.list.find(this.options.items).filter(':not(.jcarousel-clone)').index(item);
+        items: function() {
+            return this.list.find(this.options.items).filter(':not(.jcarousel-clone)');
         },
         next: function(callback) {
             if (this.animating) {
@@ -180,8 +162,9 @@
                 return this;
             }
 
-            var last   = this.index(this.last),
-                end    = this.size() - 1,
+            var items  = this.items()
+                last   = items.index(this.last),
+                end    = items.size() - 1,
                 scroll = Math.min(this.options.scroll, end),
                 self   = this,
                 cb     = function() {
@@ -205,7 +188,7 @@
                 if (last === end && (this.options.wrap == 'both' || this.options.wrap == 'last')) {
                     return this.scroll(0, cb);
                 } else {
-                    var first = this.index(this.first),
+                    var first = items.index(this.first),
                         index = first + scroll;
 
                     if (this.circular) {
@@ -214,7 +197,7 @@
                             curr;
 
                         while (i-- > 0 && cl++ < first) {
-                            curr = this.get(0);
+                            curr = this.items().eq(0);
                             curr.after(curr.clone().addClass('jcarousel-clone'));
                             this.list.append(curr);
                             index--;
@@ -236,8 +219,9 @@
                 return this;
             }
 
-            var first  = this.index(this.first),
-                end    = this.size() - 1,
+            var items  = this.items(),
+                first  = items.index(this.first),
+                end    = items.size() - 1,
                 scroll = Math.min(this.options.scroll, end),
                 self   = this,
                 cb     = function() {
@@ -248,7 +232,7 @@
                 };
 
             if (this.inTail) {
-                if (first <= (this.index(this.last) - scroll)) {
+                if (first <= (items.index(this.last) - scroll)) {
                     this.scrollTail(true, cb);
                 } else {
                     this.scroll(Math.max(first - scroll, 0), cb);
@@ -260,11 +244,11 @@
                     if (this.circular && (first - scroll) < 0) {
                         var i    = first - scroll,
                             cl   = end,
-                            last = this.index(this.last),
+                            last = items.index(this.last),
                             curr;
 
                         while (i++ < 0 && cl-- > last) {
-                            curr = this.get(-1);
+                            curr = this.items().eq(-1);
                             curr.after(curr.clone().addClass('jcarousel-clone'));
                             this.list.prepend(curr);
                             this.list.css(this.lt, $j.intval(this.list.css(this.lt)) - this.dimension(curr) + 'px');
@@ -313,7 +297,7 @@
                 return this;
             }
 
-            if (false === this.notify('scroll', [typeof item === 'object' ? this.index(item) : item])) {
+            if (false === this.notify('scroll', [typeof item === 'object' ? this.items().index(item) : item])) {
                 return this;
             }
 
@@ -330,7 +314,10 @@
                     }
                 };
 
-            item = this.get(item);
+            if (typeof item !== 'object') {
+                item = this.items().eq(item);
+            }
+
 
             if (item.size() === 0) {
                 cb.call(this, false);
@@ -384,7 +371,8 @@
             return this;
         },
         prepare: function(item) {
-            var index   = this.index(item),
+            var items   = this.items(),
+                index   = items.index(item),
                 idx     = index,
                 wh      = this.dimension(item),
                 clip    = this.clipping(),
@@ -396,14 +384,14 @@
                 curr;
 
             if (wh < clip) {
-                var fidx = this.first.size() > 0 ? this.index(this.first) : 0,
+                var fidx = this.first.size() > 0 ? items.index(this.first) : 0,
                     cl   = 0;
 
                 while (true) {
-                    curr = this.get(++idx);
+                    curr = this.items().eq(++idx);
                     if (curr.size() === 0) {
                         if (this.circular && cl++ < fidx) {
-                            curr = this.get(0);
+                            curr = this.items().eq(0);
                             curr.after(curr.clone(false, false).addClass('jcarousel-clone'));
                             this.list.append(curr);
                         } else {
@@ -426,7 +414,7 @@
                     if (--idx < 0) {
                         break;
                     }
-                    curr = this.get(idx);
+                    curr = this.items().eq(idx);
                     if (curr.size() === 0) {
                         break;
                     }
@@ -446,7 +434,7 @@
             this.visible = update.visible;
             this.tail    = 0;
 
-            if (this.options.wrap !== 'circular' && this.options.wrap !== 'custom' && this.index(this.last) === (this.size() - 1)) {
+            if (this.options.wrap !== 'circular' && this.options.wrap !== 'custom' && this.items().index(this.last) === (this.items().size() - 1)) {
                 // Remove right/bottom margin from total width
                 wh -= $j.intval(this.last.css('margin-' + this.lrb));
                 if (wh > clip) {
@@ -457,13 +445,14 @@
             return this;
         },
         position: function(item) {
-            var pos = this.first.position()[this.lt];
+            var pos   = this.first.position()[this.lt],
+                items = this.items();
 
             if (this.rtl && !this.vertical) {
                 pos -= this.element[!this.vertical ? 'innerWidth' : 'innerHeight']() - this.dimension(this.first);
             }
 
-            if ((this.index(item) ===  (this.size() - 1) || this.inTail) && this.tail) {
+            if ((items.index(item) ===  (items.size() - 1) || this.inTail) && this.tail) {
                 pos = this.rtl ? pos - this.tail : pos + this.tail;
                 this.inTail = true;
             } else {
@@ -473,10 +462,10 @@
             return -pos;
         },
         update: function(update) {
-            var all = this.get();
+            var items = this.items();
 
             $.each($j.itemData, function(i, name) {
-                all.data('jcarouselitem' + name, false);
+                items.data('jcarouselitem' + name, false);
             });
 
             $.each($j.itemData, function(i, name) {
@@ -500,9 +489,9 @@
                 vout = v.filter(function() {
                     return $.inArray(this, update.visible) < 0;
                 }),
-                fidx = this.first.size() > 0 ? this.index(this.first) : 0;
+                fidx = this.first.size() > 0 ? items.index(this.first) : 0;
 
-            if (this.index(update.first) >= fidx) {
+            if (items.index(update.first) >= fidx) {
                 vout = $().pushStack(vout.get().reverse());
             } else {
                 vin = $().pushStack(vin.get().reverse());

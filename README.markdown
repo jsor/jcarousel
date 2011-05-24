@@ -255,16 +255,8 @@ You can also access methods of the instance directly, for example the `scroll()`
         <td>Reloads the carousel. This method is useful to reinitialize the carousel if you have changed the content of the list from the outside.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('size');</pre></td>
-        <td>Returns the number of items of the carousel.</td>
-    </tr>
-    <tr>
-        <td><pre>.jcarousel('get' [, index]);</pre></td>
-        <td>Returns the item at the given index as jQuery object. If the index argument is ommitted, it returns all items.</td>
-    </tr>
-    <tr>
-        <td><pre>.jcarousel('index', item);</pre></td>
-        <td>Returns the index of the given item.</td>
+        <td><pre>.jcarousel('items');</pre></td>
+        <td>Returns all items as jQuery object.</td>
     </tr>
     <tr>
         <td><pre>.jcarousel('next' [, callback]);</pre></td>
