@@ -559,12 +559,12 @@
     });
 
     $.expr.filters.jcarousel = function(elem) {
-        return $.data(elem, 'jcarousel') != null;
+        return !!$.data(elem, 'jcarousel');
     };
 
     $.each($j.itemData, function(i, name) {
         $.expr.filters['jcarouselitem'  + name] = function(elem) {
-            return $.data(elem, 'jcarouselitem'  + name);
+            return !!$.data(elem, 'jcarouselitem'  + name);
         };
     });
 
