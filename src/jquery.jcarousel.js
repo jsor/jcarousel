@@ -29,9 +29,6 @@
         element:     null,
         list:        null,
         options:     {},
-        first:       $(),
-        last:        $(),
-        visible:     $(),
         animating:   false,
         tail:        0,
         inTail:      false,
@@ -123,15 +120,16 @@
             this.rlt = !this.vertical ? (this.rtl ? 'right' : 'left')  : 'top';
             this.lrb = !this.vertical ? (this.rtl ? 'left'  : 'right') : 'bottom';
 
-            var item = this.first,
-                end = this.items().size() - 1;
+            var items = this.items(),
+                item  = items.filter(':jcarouselitemfirst'),
+                end   = items.size() - 1;
 
             if (item.size() === 0) {
-                item = this.items().eq(this.options.start > end ? -1 : this.options.start);
+                item = items.eq(this.options.start > end ? -1 : this.options.start);
             }
 
             if (item.size() === 0) {
-                item = this.items().eq(0);
+                item = items.eq(0);
             }
 
             this.circular = false;
@@ -141,7 +139,12 @@
                 this.prepare(item);
                 this.list.find('.jcarousel-clone').remove();
 
-                this.circular = this.options.wrap == 'circular' && (this.items().index(this.first) > 0 || this.items().index(this.last) < end);
+                // Reload items
+                items = this.items();
+
+                this.circular = this.options.wrap == 'circular' &&
+                                (items.filter(':jcarouselitemfirst').index() > 0 ||
+                                 items.filter(':jcarouselitemlast').index() < end);
 
                 this.list.css(this.lt, this.position(item) + 'px');
             }
@@ -162,8 +165,8 @@
                 return this;
             }
 
-            var items  = this.items()
-                last   = items.index(this.last),
+            var items  = this.items(),
+                last   = items.filter(':jcarouselitemlast').index(),
                 end    = items.size() - 1,
                 scroll = Math.min(this.options.scroll, end),
                 self   = this,
@@ -188,7 +191,7 @@
                 if (last === end && (this.options.wrap == 'both' || this.options.wrap == 'last')) {
                     return this.scroll(0, cb);
                 } else {
-                    var first = items.index(this.first),
+                    var first = items.filter(':jcarouselitemfirst').index(),
                         index = first + scroll;
 
                     if (this.circular) {
@@ -220,7 +223,7 @@
             }
 
             var items  = this.items(),
-                first  = items.index(this.first),
+                first  = items.filter(':jcarouselitemfirst').index(),
                 end    = items.size() - 1,
                 scroll = Math.min(this.options.scroll, end),
                 self   = this,
@@ -232,7 +235,7 @@
                 };
 
             if (this.inTail) {
-                if (first <= (items.index(this.last) - scroll)) {
+                if (first <= (items.filter(':jcarouselitemlast').index() - scroll)) {
                     this.scrollTail(true, cb);
                 } else {
                     this.scroll(Math.max(first - scroll, 0), cb);
@@ -244,7 +247,7 @@
                     if (this.circular && (first - scroll) < 0) {
                         var i    = first - scroll,
                             cl   = end,
-                            last = items.index(this.last),
+                            last = items.filter(':jcarouselitemlast').index(),
                             curr;
 
                         while (i++ < 0 && cl-- > last) {
@@ -384,7 +387,8 @@
                 curr;
 
             if (wh < clip) {
-                var fidx = this.first.size() > 0 ? items.index(this.first) : 0,
+                var first = items.filter(':jcarouselitemfirst'),
+                    fidx = first.size() > 0 ? first.index() : 0,
                     cl   = 0;
 
                 while (true) {
@@ -429,14 +433,11 @@
 
             this.update(update);
 
-            this.first   = update.first;
-            this.last    = update.last;
-            this.visible = update.visible;
-            this.tail    = 0;
+            this.tail = 0;
 
-            if (this.options.wrap !== 'circular' && this.options.wrap !== 'custom' && this.items().index(this.last) === (this.items().size() - 1)) {
+            if (this.options.wrap !== 'circular' && this.options.wrap !== 'custom' && update.last.index() === (this.items().size() - 1)) {
                 // Remove right/bottom margin from total width
-                wh -= $j.intval(this.last.css('margin-' + this.lrb));
+                wh -= $j.intval(update.last.css('margin-' + this.lrb));
                 if (wh > clip) {
                     this.tail = wh - clip;
                 }
@@ -445,11 +446,12 @@
             return this;
         },
         position: function(item) {
-            var pos   = this.first.position()[this.lt],
-                items = this.items();
+            var items = this.items(),
+                first = items.filter(':jcarouselitemfirst'),
+                pos   = first.position()[this.lt];
 
             if (this.rtl && !this.vertical) {
-                pos -= this.element[!this.vertical ? 'innerWidth' : 'innerHeight']() - this.dimension(this.first);
+                pos -= this.element[!this.vertical ? 'innerWidth' : 'innerHeight']() - this.dimension(first);
             }
 
             if ((items.index(item) ===  (items.size() - 1) || this.inTail) && this.tail) {
@@ -462,7 +464,9 @@
             return -pos;
         },
         update: function(update) {
-            var items = this.items();
+            var items = this.items(),
+                first = items.filter(':jcarouselitemfirst'),
+                last  = items.filter(':jcarouselitemlast');
 
             $.each($j.itemData, function(i, name) {
                 items.data('jcarouselitem' + name, false);
@@ -472,24 +476,24 @@
                 update[name].data('jcarouselitem' + name, true);
             });
 
-            if (update.first.get(0) !== this.first.get(0)) {
+            if (update.first.get(0) !== first.get(0)) {
                 update.first.trigger('jcarouselitemfirstin');
-                this.first.trigger('jcarouselitemfirstout');
+                first.trigger('jcarouselitemfirstout');
             }
 
-            if (update.last.get(0) !== this.last.get(0)) {
+            if (update.last.get(0) !== last.get(0)) {
                 update.last.trigger('jcarouselitemlastin');
-                this.last.trigger('jcarouselitemlastout');
+                last.trigger('jcarouselitemlastout');
             }
 
-            var v    = this.visible,
+            var v    = items.filter(':jcarouselitemvisible'),
                 vin  = update.visible.filter(function() {
                     return $.inArray(this, v) < 0;
                 }),
                 vout = v.filter(function() {
                     return $.inArray(this, update.visible) < 0;
                 }),
-                fidx = this.first.size() > 0 ? items.index(this.first) : 0;
+                fidx = first.size() > 0 ? first.index() : 0;
 
             if (items.index(update.first) >= fidx) {
                 vout = $().pushStack(vout.get().reverse());
