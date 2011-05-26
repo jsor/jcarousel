@@ -10,6 +10,9 @@
  */
 (function($, window) {
 
+    var filterItemFirst = ':jcarouselitemfirst',
+        filterItemLast  = ':jcarouselitemlast';
+
     var $j = $.jcarousel = function(el, opts) {
         // Allow instantiation without the 'new' keyword
         if (!this.jcarousel) {
@@ -121,7 +124,7 @@
             this.lrb = !this.vertical ? (this.rtl ? 'left'  : 'right') : 'bottom';
 
             var items = this.items(),
-                item  = items.filter(':jcarouselitemfirst'),
+                item  = items.filter(filterItemFirst),
                 end   = items.size() - 1;
 
             if (item.size() === 0) {
@@ -143,8 +146,8 @@
                 items = this.items();
 
                 this.circular = this.options.wrap == 'circular' &&
-                                (items.filter(':jcarouselitemfirst').index() > 0 ||
-                                 items.filter(':jcarouselitemlast').index() < end);
+                                (items.filter(filterItemFirst).index() > 0 ||
+                                 items.filter(filterItemLast).index() < end);
 
                 this.list.css(this.lt, this.position(item) + 'px');
             }
@@ -166,7 +169,7 @@
             }
 
             var items  = this.items(),
-                last   = items.filter(':jcarouselitemlast').index(),
+                last   = items.filter(filterItemLast).index(),
                 end    = items.size() - 1,
                 scroll = Math.min(this.options.scroll, end),
                 self   = this,
@@ -191,7 +194,7 @@
                 if (last === end && (this.options.wrap == 'both' || this.options.wrap == 'last')) {
                     return this.scroll(0, cb);
                 } else {
-                    var first = items.filter(':jcarouselitemfirst').index(),
+                    var first = items.filter(filterItemFirst).index(),
                         index = first + scroll;
 
                     if (this.circular) {
@@ -223,7 +226,7 @@
             }
 
             var items  = this.items(),
-                first  = items.filter(':jcarouselitemfirst').index(),
+                first  = items.filter(filterItemFirst).index(),
                 end    = items.size() - 1,
                 scroll = Math.min(this.options.scroll, end),
                 self   = this,
@@ -235,7 +238,7 @@
                 };
 
             if (this.inTail) {
-                if (first <= (items.filter(':jcarouselitemlast').index() - scroll)) {
+                if (first <= (items.filter(filterItemLast).index() - scroll)) {
                     this.scrollTail(true, cb);
                 } else {
                     this.scroll(Math.max(first - scroll, 0), cb);
@@ -247,7 +250,7 @@
                     if (this.circular && (first - scroll) < 0) {
                         var i    = first - scroll,
                             cl   = end,
-                            last = items.filter(':jcarouselitemlast').index(),
+                            last = items.filter(filterItemLast).index(),
                             curr;
 
                         while (i++ < 0 && cl-- > last) {
@@ -387,7 +390,7 @@
                 curr;
 
             if (wh < clip) {
-                var first = items.filter(':jcarouselitemfirst'),
+                var first = items.filter(filterItemFirst),
                     fidx = first.size() > 0 ? first.index() : 0,
                     cl   = 0;
 
@@ -447,7 +450,7 @@
         },
         position: function(item) {
             var items = this.items(),
-                first = items.filter(':jcarouselitemfirst'),
+                first = items.filter(filterItemFirst),
                 pos   = first.position()[this.lt];
 
             if (this.rtl && !this.vertical) {
@@ -465,8 +468,8 @@
         },
         update: function(update) {
             var items = this.items(),
-                first = items.filter(':jcarouselitemfirst'),
-                last  = items.filter(':jcarouselitemlast');
+                first = items.filter(filterItemFirst),
+                last  = items.filter(filterItemLast);
 
             $.each($j.itemData, function(i, name) {
                 items.data('jcarouselitem' + name, false);
