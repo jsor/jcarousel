@@ -162,11 +162,11 @@ You can do that by hand (see "Accessing the jCarousel instance" for available me
 A simple example to navigate the carousel:
 
     $('#mycarousel_prev_button').click(function() {
-        $('#mycarousel').jcarousel('prev');
+        $('#mycarousel').jcarousel().prev();
     });
 
     $('#mycarousel_next_button').click(function() {
-        $('#mycarousel').jcarousel('next');
+        $('#mycarousel').jcarousel().next();
     });
 
 A more comfortable way is to use one of the navigation plugins:
@@ -290,7 +290,7 @@ If you manipulate the carousel from the outside (eg. adding or removing items fr
             .append('<li>Item 2</li>');
 
         // Reload carousel
-        $('#mycarousel').jcarousel('reload');
+        $('#mycarousel').jcarousel().reload();
     });
     </script>
 
