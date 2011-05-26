@@ -598,7 +598,7 @@
             this.data('jcarousel').prev(callback);
             return this;
         },
-        scoll: function(item, animate, callback) {
+        scroll: function(item, animate, callback) {
             this.data('jcarousel').scroll(item, animate, callback);
             return this;
         }
