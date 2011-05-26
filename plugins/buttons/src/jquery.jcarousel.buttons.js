@@ -73,9 +73,10 @@
         }
 
         var o = this.options,
-            s = this.size(),
-            n = s > 0 && ((o.wrap && o.wrap !== 'first') || (this.index(this.last) < (s - 1)) || (this.tail && !this.inTail)) ? true : false,
-            p = s > 0 && ((o.wrap && o.wrap !== 'last') || (this.index(this.first) > 0) || (this.tail && this.inTail)) ? true : false;
+            i = this.items(),
+            s = i.size(),
+            n = s > 0 && ((o.wrap && o.wrap !== 'first') || (i.filter(':jcarouselitemlast').index() < (s - 1)) || (this.tail && !this.inTail)) ? true : false,
+            p = s > 0 && ((o.wrap && o.wrap !== 'last') || (i.filter(':jcarouselitemfirst').index() > 0) || (this.tail && this.inTail)) ? true : false;
 
         if (this.nextButton && this.nextButton.data(btnEnabled) !== n) {
             this.nextButton
