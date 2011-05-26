@@ -228,7 +228,7 @@ To define a carousel in RTL mode, simply add the `dir` attribute with a value of
 Accessing the jCarousel instance
 --------------------------------
 
-When you create a jCarousel, the jQuery object will be exchanged with a special version of jQuery which has then additional jCarousel releated methods available.
+When you create a jCarousel, the jQuery object will be exchanged with a special version of jQuery which has then additional jCarousel releated methods available (this is done by using [jQuery.sub()](http://api.jquery.com/jQuery.sub)).
 
 If you have created a carousel like:
 
@@ -236,7 +236,7 @@ If you have created a carousel like:
         $('#mycarousel').jcarousel();
     });
 
-You can access methods the methods like this (for example the `scroll()` method):
+You can access the methods like this (for example the `scroll()` method):
 
     $('#mycarousel').jcarousel().scroll(2);
 
