@@ -3,6 +3,11 @@ jCarousel - Riding carousels with jQuery
 
 jCarousel is a jQuery plugin for controlling a list of items in horizontal or vertical order. The items, which can be static HTML content or loaded with (or without) AJAX, can be scrolled back and forth (with or without animation).
 
+Requirements
+------------
+
+jCarousel requires jQuery 1.5.0 or higher.
+
 Getting started
 ---------------
 
@@ -223,7 +228,7 @@ To define a carousel in RTL mode, simply add the `dir` attribute with a value of
 Accessing the jCarousel instance
 --------------------------------
 
-The instance of the carousel will be stored with the `data()` method of jQuery under the key `jcarousel` for a simple access.
+When you create a jCarousel, the jQuery object will be exchanged with a special version of jQuery which has then additional jCarousel releated methods available.
 
 If you have created a carousel like:
 
@@ -231,13 +236,9 @@ If you have created a carousel like:
         $('#mycarousel').jcarousel();
     });
 
-You can access the instance with:
+You can access methods the methods like this (for example the `scroll()` method):
 
-    var carousel = $('#mycarousel').data('jcarousel');
-
-You can also access methods of the instance directly, for example the `scroll()` method:
-
-    $('#mycarousel').jcarousel('scroll', 2);
+    $('#mycarousel').jcarousel().scroll(2);
 
 ### Available methods are:
 
@@ -247,27 +248,27 @@ You can also access methods of the instance directly, for example the `scroll()`
         <th>Description</th>
     </tr>
     <tr>
-        <td><pre>.jcarousel('destroy');</pre></td>
-        <td>Removes the jCarousel functionality completely. This will return the element back to its pre-init state.</td>
+        <td><pre>.jcarousel().destroy();</pre></td>
+        <td>Removes the jCarousel functionality completely. This will return the element back to its pre-init state. Note that this method returns the original jQuery object and jCarousel related methods are not longer available.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('reload');</pre></td>
+        <td><pre>.jcarousel().reload();</pre></td>
         <td>Reloads the carousel. This method is useful to reinitialize the carousel if you have changed the content of the list from the outside.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('items');</pre></td>
+        <td><pre>.jcarousel().items();</pre></td>
         <td>Returns all items as jQuery object.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('next' [, callback]);</pre></td>
+        <td><pre>.jcarousel().next([, callback]);</pre></td>
         <td>Triggers a next scroll on the carousel. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('prev' [, callback]);</pre></td>
+        <td><pre>.jcarousel().prev([, callback]);</pre></td>
         <td>Triggers a prev scroll on the carousel. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('scroll', item_or_index [, animate [, callback]]);</pre></td>
+        <td><pre>.jcarousel().scroll(item_or_index [, animate [, callback]]);</pre></td>
         <td>Scrolls to a given item or index. If the argument <code>animate</code> is given and <code>false</code>, it just jumps to the position without animation. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
     </tr>
 </table>

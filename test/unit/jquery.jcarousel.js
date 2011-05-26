@@ -77,7 +77,7 @@ $(function($){
 
         notEqual($('#jcarousel1').data('jcarousel'), undefined, '#jcarousel1');
 
-        $('#jcarousel1').jcarousel('destroy');
+        $('#jcarousel1').jcarousel().destroy();
 
         equal($('#jcarousel1').data('jcarousel'), undefined, '#jcarousel1');
     });
@@ -119,7 +119,7 @@ $(function($){
 
         $('#jcarousel1').jcarousel();
 
-        equal($('#jcarousel1').jcarousel('items').get(1), $('#jcarousel1 li:eq(1)').get(0), '#jcarousel1');
+        equal($('#jcarousel1').jcarousel().items().get(1), $('#jcarousel1 li:eq(1)').get(0), '#jcarousel1');
     });
 
 });

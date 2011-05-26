@@ -64,8 +64,8 @@ $(function() {
                 <li><img src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" width="75" height="75" alt=""></li>
             </ul>
         </div>
-        <a href="#" onclick="$('#jcarousel1').jcarousel('prev'); return false;">Prev</a>
-        <a href="#" onclick="$('#jcarousel1').jcarousel('next'); return false;">Next</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel().prev(); return false;">Prev</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel().next(); return false;">Next</a>
     </div>
 
     <h2>animation: 100 / easing: BounceEaseOut</h2>
@@ -84,16 +84,16 @@ $(function() {
                 <li><img src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" width="75" height="75" alt=""></li>
             </ul>
         </div>
-        <a href="#" onclick="$('#jcarousel2').jcarousel('prev'); return false;">Prev</a>
-        <a href="#" onclick="$('#jcarousel2').jcarousel('next'); return false;">Next</a>
+        <a href="#" onclick="$('#jcarousel2').jcarousel().prev(); return false;">Prev</a>
+        <a href="#" onclick="$('#jcarousel2').jcarousel().next(); return false;">Next</a>
     </div>
 
     <p>
-        <a href="#" onclick="$('html').attr('dir', 'rtl'); $('.jcarousel').jcarousel('reload'); return false;">RTL</a>
-        <a href="#" onclick="$('html').attr('dir', 'ltr'); $('.jcarousel').jcarousel('reload'); return false;">LTR</a>
+        <a href="#" onclick="$('html').attr('dir', 'rtl'); $('.jcarousel').jcarousel().reload(); return false;">RTL</a>
+        <a href="#" onclick="$('html').attr('dir', 'ltr'); $('.jcarousel').jcarousel().reload(); return false;">LTR</a>
         |
-        <a href="#" onclick="$('.jcarousel').addClass('jcarousel-vertical').jcarousel('reload'); return false;">Vertical</a>
-        <a href="#" onclick="$('.jcarousel').removeClass('jcarousel-vertical').jcarousel('reload'); return false;">Horizontal</a>
+        <a href="#" onclick="$('.jcarousel').addClass('jcarousel-vertical').jcarousel().reload(); return false;">Vertical</a>
+        <a href="#" onclick="$('.jcarousel').removeClass('jcarousel-vertical').jcarousel().reload(); return false;">Horizontal</a>
     </p>
 
 </body>

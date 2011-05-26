@@ -575,29 +575,44 @@
         };
     });
 
+    $.jcarouselPlugin = $.sub();
+
+    $.jcarouselPlugin.fn.extend({
+        destroy: function() {
+            this.data('jcarousel').destroy();
+            // Exit out of jCarousel specific subclass and return original jQuery object
+            return $(this);
+        },
+        reload: function() {
+            this.data('jcarousel').reload();
+            return this;
+        },
+        items: function() {
+            return this.data('jcarousel').items();
+        },
+        next: function(callback) {
+            this.data('jcarousel').next(callback);
+            return this;
+        },
+        prev: function(callback) {
+            this.data('jcarousel').prev(callback);
+            return this;
+        },
+        scoll: function(item, animate, callback) {
+            this.data('jcarousel').scroll(item, animate, callback);
+            return this;
+        }
+    });
+
     $.fn.jcarousel = function(o) {
-        var args         = Array.prototype.slice.call(arguments, 1),
-            returnResult = false,
-            result;
-        this.each(function() {
+        return $.jcarouselPlugin(this).each(function() {
             var j = $(this).data('jcarousel');
-            if (typeof o === 'string') {
-                var r = j[o].apply(j, args);
-                if (r !== j) {
-                    returnResult = true;
-                    result = r;
-                    return false;
-                }
+            if (j) {
+                $.extend(true, j.options, o || {});
             } else {
-                if (j) {
-                    $.extend(true, j.options, o || {});
-                } else {
-                    $j(this, o);
-                }
+                $j(this, o);
             }
         });
-
-        return returnResult ? result : this;
     };
 
 })(jQuery, window);
