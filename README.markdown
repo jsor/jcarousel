@@ -127,12 +127,6 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
         <td>jQuery selector to select the items inside the list element.</td>
     </tr>
     <tr>
-        <td>start</td>
-        <td>integer</td>
-        <td>0</td>
-        <td>The index of the item to start with (0-based).</td>
-    </tr>
-    <tr>
         <td>scroll</td>
         <td>integer</td>
         <td>1</td>

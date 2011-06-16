@@ -128,10 +128,6 @@
                 end   = items.size() - 1;
 
             if (item.size() === 0) {
-                item = items.eq(this.options.start > end ? -1 : this.options.start);
-            }
-
-            if (item.size() === 0) {
                 item = items.eq(0);
             }
 
@@ -542,7 +538,6 @@
         options: {
             list:      '>ul:eq(0)',
             items:     '>li',
-            start:     0,
             scroll:    1,
             animation: 'normal',
             wrap:      null
