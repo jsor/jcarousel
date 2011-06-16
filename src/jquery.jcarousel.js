@@ -575,9 +575,9 @@
         };
     });
 
-    $.jcarouselPlugin = $.sub();
+    $.jcarouselSub = $.sub();
 
-    $.jcarouselPlugin.fn.extend({
+    $.jcarouselSub.fn.extend({
         destroy: function() {
             this.data('jcarousel').destroy();
             // Exit out of jCarousel specific subclass and return original jQuery object
@@ -605,7 +605,7 @@
     });
 
     $.fn.jcarousel = function(o) {
-        return $.jcarouselPlugin(this).each(function() {
+        return $.jcarouselSub(this).each(function() {
             var j = $(this).data('jcarousel');
             if (j) {
                 $.extend(true, j.options, o || {});
