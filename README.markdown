@@ -71,7 +71,7 @@ These are the minimal CSS settings for a horizontal carousel:
 Skinning jCarousel
 ------------------
 
-**Note:** These are only conventions and nothing of it is _required_. You can adjust the class names or the whole handling of the the skinning.
+**Note:** These are only conventions and nothing of it is _required_. You can adjust the class names or the whole handling of the skinning.
 
 If you want to provide different skins for your carousel, setup with the following markup:
 
@@ -84,7 +84,7 @@ If you want to provide different skins for your carousel, setup with the followi
         </div>
     </div>
 
-We simply surround the root element with a additional `<div>` to have a skin _namespace_. We can now style within this _namespace_:
+We simply surround the root element with a additional `<div class="jcarousel-skin-name">` to have a skin _namespace_. We can now style within this _namespace_:
 
     .jcarousel-skin-default .jcarousel {
         /* ... */
@@ -181,7 +181,7 @@ Defining the number of visible items
 
 Sometimes people are confused how to define the number of visible items because there is no option for this as they expect.
 
-You simply define the number of visible items by defining the width (or height) of the element which surrounds the list (if you use the default from this document, you do that with the class `.jcarousel` in your skin stylesheet).
+You simply define the number of visible items by defining the width (or height for a vertical carousel) of the element which surrounds the list (if you use the default from this document, you do that with the class `.jcarousel` in your skin stylesheet).
 
 This offers a lot of flexibility, because you can define the width in pixel for a fixed carousel or in percent for a flexible carousel.
 
@@ -198,11 +198,13 @@ To define a vertical carousel, simply use a class for your root element which co
         </div>
     </div>
 
-Alternatively, you can set a [data attribute](http://api.jquery.com/data/) `jcarousel-vertical`:
+Alternatively, you can set a [data attribute](http://api.jquery.com/data/) `jcarousel-vertical`.
+
+Either programmatically:
 
     $('#mycarousel').data('jcarousel-vertical', true).jcarousel();
 
-As of jQuery 1.4.3, you can also use HTML 5 `data-` attributes:
+Or as a HTML5 `data-` attribute:
 
     <div class="jcarousel-skin-name">
         <div id="mycarousel" data-jcarousel-vertical="true" class="jcarousel">
