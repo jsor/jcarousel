@@ -232,9 +232,9 @@ If you have created a carousel like:
         $('#mycarousel').jcarousel();
     });
 
-You can access the methods like this (for example the `scroll()` method):
+You can access the methods like this (for example the `scrollTo()` method):
 
-    $('#mycarousel').jcarousel().scroll(2);
+    $('#mycarousel').jcarousel().scrollTo(2);
 
 ### Available methods are:
 
@@ -264,7 +264,7 @@ You can access the methods like this (for example the `scroll()` method):
         <td>Triggers a prev scroll on the carousel. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel().scroll(item_or_index [, animate [, callback]]);</pre></td>
+        <td><pre>.jcarousel().scrollTo(item_or_index [, animate [, callback]]);</pre></td>
         <td>Scrolls to a given item or index. If the argument <code>animate</code> is given and <code>false</code>, it just jumps to the position without animation. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
     </tr>
 </table>
@@ -414,22 +414,22 @@ $('#mycarousel').bind('jcarouselnextend', function() {
         </td>
     </tr>
     <tr>
-        <td>jcarouselscroll</td>
-        <td>Triggered when the <code>scroll</code> method is called.</td>
+        <td>jcarouselscrollto</td>
+        <td>Triggered when the <code>scrollTo</code> method is called.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouselscroll', function() {
+$('#mycarousel').bind('jcarouselscrollto', function() {
     // this refers to the root element
     var carousel = $(this).data('jcarousel');
 });</pre>
         </td>
     </tr>
     <tr>
-        <td>jcarouselscrollend</td>
-        <td>Triggered after the <code>scroll</code> method is called.</td>
+        <td>jcarouselscrolltoend</td>
+        <td>Triggered after the <code>scrollTo</code> method is called.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouselscrollend', function() {
+$('#mycarousel').bind('jcarouselscrolltoend', function() {
     // this refers to the root element
     var carousel = $(this).data('jcarousel');
 });</pre>

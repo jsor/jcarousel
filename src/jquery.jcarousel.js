@@ -175,14 +175,14 @@
                     this.scrollTail(false, cb);
                 } else {
                     if (this.options.wrap == 'both' || this.options.wrap == 'last') {
-                        this.scroll(0, cb);
+                        this.scrollTo(0, cb);
                     } else {
-                        this.scroll(end, cb);
+                        this.scrollTo(end, cb);
                     }
                 }
             } else {
                 if (last === end && (this.options.wrap == 'both' || this.options.wrap == 'last')) {
-                    return this.scroll(0, cb);
+                    return this.scrollTo(0, cb);
                 } else {
                     var first = items.filter(filterItemFirst).index(),
                         index = first + scroll;
@@ -200,7 +200,7 @@
                         }
                     }
 
-                    this.scroll(Math.min(index, end), cb);
+                    this.scrollTo(Math.min(index, end), cb);
                 }
             }
 
@@ -231,11 +231,11 @@
                 if (first <= (items.filter(filterItemLast).index() - scroll)) {
                     this.scrollTail(true, cb);
                 } else {
-                    this.scroll(Math.max(first - scroll, 0), cb);
+                    this.scrollTo(Math.max(first - scroll, 0), cb);
                 }
             } else {
                 if (first === 0 && (this.options.wrap == 'both' || this.options.wrap == 'first')) {
-                    this.scroll(end, cb);
+                    this.scrollTo(end, cb);
                 } else {
                     if (this.circular && (first - scroll) < 0) {
                         var i    = first - scroll,
@@ -251,7 +251,7 @@
                         }
                     }
 
-                    this.scroll(Math.max(first - scroll, 0), cb);
+                    this.scrollTo(Math.max(first - scroll, 0), cb);
                 }
             }
 
@@ -288,12 +288,12 @@
 
             return this;
         },
-        scroll: function(item, animate, callback) {
+        scrollTo: function(item, animate, callback) {
             if (this.animating) {
                 return this;
             }
 
-            if (false === this.notify('scroll', [typeof item === 'object' ? this.items().index(item) : item])) {
+            if (false === this.notify('scrollto', [typeof item === 'object' ? this.items().index(item) : item])) {
                 return this;
             }
 
@@ -304,7 +304,7 @@
 
             var self = this,
                 cb   = function(animated) {
-                    self.notify('scrollend', [animated]);
+                    self.notify('scrolltoend', [animated]);
                     if ($.isFunction(callback)) {
                         callback.call(self, animated);
                     }
@@ -588,8 +588,8 @@
             this.data('jcarousel').prev(callback);
             return this;
         },
-        scroll: function(item, animate, callback) {
-            this.data('jcarousel').scroll(item, animate, callback);
+        scrollTo: function(item, animate, callback) {
+            this.data('jcarousel').scrollTo(item, animate, callback);
             return this;
         }
     });

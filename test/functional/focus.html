@@ -24,7 +24,7 @@ $(function() {
         .find('a')
         .focus(function() {
             var item = $(this).parent(), carousel = item.parents('.jcarousel').data('jcarousel');
-            carousel.scroll(item);
+            carousel.scrollTo(item);
             return false;
         });
 });

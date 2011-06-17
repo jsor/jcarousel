@@ -25,7 +25,7 @@ $(function() {
 
     var jcarousel = $('.jcarousel');
 
-    $.each(['setup', 'destroy', 'reload', 'prev', 'next', 'scroll', 'scrolltail'], function(i, name) {
+    $.each(['setup', 'destroy', 'reload', 'prev', 'next', 'scrollto', 'scrolltail'], function(i, name) {
         jcarousel.bind('jcarousel' + name, function() {
             log(name, this, Array.prototype.slice.call(arguments, 1));
         });
