@@ -60,8 +60,13 @@
 
             this.onAnimationComplete = function(callback) {
                 self.animating = false;
-                self.list.find('.jcarousel-clone').remove();
-                self.reload();
+
+                var c = self.list.find('.jcarousel-clone');
+                if (c.size() > 0) {
+                    c.remove();
+                    self.reload();
+                }
+
                 if ($.isFunction(callback)) {
                     callback.call(self, true);
                 }
@@ -175,14 +180,14 @@
                     this._scrollTail(false, cb);
                 } else {
                     if (this.options.wrap == 'both' || this.options.wrap == 'last') {
-                        this.scrollTo(0, cb);
+                        this._scroll(0, true, cb);
                     } else {
-                        this.scrollTo(end, cb);
+                        this._scroll(end, true, cb);
                     }
                 }
             } else {
                 if (last === end && (this.options.wrap == 'both' || this.options.wrap == 'last')) {
-                    return this.scrollTo(0, cb);
+                    return this._scroll(0, true, cb);
                 } else {
                     var first = items.filter(filterItemFirst).index(),
                         index = first + scroll;
@@ -200,7 +205,7 @@
                         }
                     }
 
-                    this.scrollTo(Math.min(index, end), cb);
+                    this._scroll(Math.min(index, end), true, cb);
                 }
             }
 
@@ -231,11 +236,11 @@
                 if (first <= (items.filter(filterItemLast).index() - scroll)) {
                     this._scrollTail(true, cb);
                 } else {
-                    this.scrollTo(Math.max(first - scroll, 0), cb);
+                    this._scroll(Math.max(first - scroll, 0), true, cb);
                 }
             } else {
                 if (first === 0 && (this.options.wrap == 'both' || this.options.wrap == 'first')) {
-                    this.scrollTo(end, cb);
+                    this._scroll(end, true, cb);
                 } else {
                     if (this.circular && (first - scroll) < 0) {
                         var i    = first - scroll,
@@ -251,7 +256,7 @@
                         }
                     }
 
-                    this.scrollTo(Math.max(first - scroll, 0), cb);
+                    this._scroll(Math.max(first - scroll, 0), true, cb);
                 }
             }
 
@@ -279,13 +284,21 @@
                     }
                 };
 
+            this._scroll(item, animate, cb);
+
+            return this;
+        },
+        _scroll: function(item, animate, callback) {
+            if (this.animating) {
+                return this;
+            }
+
             if (typeof item !== 'object') {
                 item = this.items().eq(item);
             }
 
-
             if (item.size() === 0) {
-                cb.call(this, false);
+                callback(false);
                 return this;
             }
 
@@ -295,14 +308,14 @@
             var pos = this._position(item);
 
             if (pos == $j.intval(this.list.css(this.lt))) {
-                cb.call(this, false);
+                callback(false);
                 return this;
             }
 
             var properties = {};
             properties[this.lt] = pos + 'px';
 
-            this._animate(properties, animate, cb);
+            this._animate(properties, animate, callback);
 
             return this;
         },
@@ -311,7 +324,7 @@
                 return this;
             }
 
-            var pos  = this.list.position()[this.lt];
+            var pos = this.list.position()[this.lt];
 
             this.rtl ?
                 (!back ? pos += this.tail : pos -= this.tail) :
