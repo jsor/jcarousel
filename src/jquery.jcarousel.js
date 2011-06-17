@@ -311,13 +311,7 @@
                 return this;
             }
 
-            var pos  = this.list.position()[this.lt],
-                self = this,
-                cb   = function() {
-                    if ($.isFunction(callback)) {
-                        callback.call(self);
-                    }
-                };
+            var pos  = this.list.position()[this.lt];
 
             this.rtl ?
                 (!back ? pos += this.tail : pos -= this.tail) :
@@ -328,7 +322,7 @@
             var properties = {};
             properties[this.lt] = pos + 'px';
 
-            this._animate(properties, true, cb);
+            this._animate(properties, true, callback);
 
             return this;
         },
