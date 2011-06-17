@@ -153,7 +153,7 @@
             return this;
         },
         items: function() {
-            return this.list.find(this.options.items).filter(':not(.jcarousel-clone)');
+            return this.list.find(this.options.items).not('.jcarousel-clone');
         },
         next: function(callback) {
             if (this.animating) {
