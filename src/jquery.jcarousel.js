@@ -37,9 +37,6 @@
         inTail:      false,
         resizeTimer: null,
         lt:          null,
-        wh:          null,
-        rlt:         null,
-        lrb:         null,
         vertical:    false,
         rtl:         false,
         circular:    false,
@@ -118,10 +115,7 @@
                            return (/rtl/i).test($(this).attr('dir'));
                        }).size() > 0;
 
-            this.wh  = !this.vertical ? 'width' : 'height';
-            this.lt  = !this.vertical ? 'left'  : 'top';
-            this.rlt = !this.vertical ? (this.rtl ? 'right' : 'left')  : 'top';
-            this.lrb = !this.vertical ? (this.rtl ? 'left'  : 'right') : 'bottom';
+            this.lt = this.vertical ? 'top' : 'left';
 
             var items = this.items(),
                 item  = items.filter(filterItemFirst),
@@ -436,7 +430,8 @@
 
             if (this.options.wrap !== 'circular' && this.options.wrap !== 'custom' && update.last.index() === (this.items().size() - 1)) {
                 // Remove right/bottom margin from total width
-                wh -= $j.intval(update.last.css('margin-' + this.lrb));
+                var lrb = this.vertical ? 'bottom' : (this.rtl ? 'left'  : 'right');
+                wh -= $j.intval(update.last.css('margin-' + lrb));
                 if (wh > clip) {
                     this.tail = wh - clip;
                 }
@@ -450,7 +445,7 @@
                 pos   = first.position()[this.lt];
 
             if (this.rtl && !this.vertical) {
-                pos -= this.element[!this.vertical ? 'innerWidth' : 'innerHeight']() - this.dimension(first);
+                pos -= this.clipping() - this.dimension(first);
             }
 
             if ((items.index(item) ===  (items.size() - 1) || this.inTail) && this.tail) {
@@ -516,21 +511,21 @@
             return !e.isDefaultPrevented();
         },
         clipping: function() {
-            return this.element['inner' + (!this.vertical ? 'Width' : 'Height')]();
+            return this.element['inner' + (this.vertical ? 'Height' : 'Width')]();
         },
         dimension: function(el) {
             // outerWidth()/outerHeight() doesn't seem to work on hidden elements
-            return !this.vertical ?
-                el.innerWidth() +
-                    $j.intval(el.css('margin-left')) +
-                    $j.intval(el.css('margin-right')) +
-                    $j.intval(el.css('border-left-width')) +
-                    $j.intval(el.css('border-right-width')) :
+            return this.vertical ?
                 el.innerHeight()  +
                     $j.intval(el.css('margin-top')) +
                     $j.intval(el.css('margin-bottom')) +
                     $j.intval(el.css('border-top-width')) +
-                    $j.intval(el.css('border-bottom-width'));
+                    $j.intval(el.css('border-bottom-width')) :
+                el.innerWidth() +
+                    $j.intval(el.css('margin-left')) +
+                    $j.intval(el.css('margin-right')) +
+                    $j.intval(el.css('border-left-width')) +
+                    $j.intval(el.css('border-right-width'));
         }
     });
 
