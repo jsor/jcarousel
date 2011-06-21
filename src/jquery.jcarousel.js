@@ -233,11 +233,7 @@
                 };
 
             if (this.inTail) {
-                if (first <= (items.filter(filterItemLast).index() - scroll)) {
-                    this._scrollTail(true, cb);
-                } else {
-                    this._scroll(Math.max(first - scroll, 0), true, cb);
-                }
+                this._scroll(Math.max((first - scroll) + 1, 0), true, cb);
             } else {
                 if (first === 0 && (this.options.wrap == 'both' || this.options.wrap == 'first')) {
                     this._scroll(end, true, cb);
@@ -319,18 +315,15 @@
 
             return this;
         },
-        _scrollTail: function(back, callback) {
+        _scrollTail: function(callback) {
             if (this.animating || !this.tail) {
                 return this;
             }
 
             var pos = this.list.position()[this.lt];
 
-            this.rtl ?
-                (!back ? pos += this.tail : pos -= this.tail) :
-                (!back ? pos -= this.tail : pos += this.tail);
-
-            this.inTail = !back;
+            this.rtl ? pos += this.tail : pos -= this.tail;
+            this.inTail = true;
 
             var properties = {};
             properties[this.lt] = pos + 'px';
