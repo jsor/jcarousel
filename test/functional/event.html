@@ -25,7 +25,7 @@ $(function() {
 
     var jcarousel = $('.jcarousel');
 
-    $.each(['setup', 'destroy', 'reload', 'prev', 'next', 'scrollto', 'scrolltail'], function(i, name) {
+    $.each(['setup', 'destroy', 'reload', 'scrollby', 'scrollto'], function(i, name) {
         jcarousel.bind('jcarousel' + name, function() {
             log(name, this, Array.prototype.slice.call(arguments, 1));
         });
@@ -54,7 +54,7 @@ $(function() {
         log('itemlastout', this);
     });
 
-    jcarousel.jcarousel({scroll: 2});
+    jcarousel.jcarousel();
 });
 
 function callback(moved) {
@@ -95,8 +95,8 @@ function callback(moved) {
                 <li><a href=""><img src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" width="75" height="75" alt=""></a></li>
             </ul>
         </div>
-        <a href="#" onclick="$('#jcarousel1').jcarousel().prev(); return false;">Prev</a>
-        <a href="#" onclick="$('#jcarousel1').jcarousel().next(); return false;">Next</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel().scrollBy(-2); return false;">Prev</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel().scrollBy(2); return false;">Next</a>
     </div>
 
     <p>

@@ -20,7 +20,7 @@
 
 $(function() {
     $('.jcarousel').jcarousel();
-    
+
     $('form').submit(function() {
         var method = $('#method').val();
 
@@ -66,8 +66,8 @@ $(function() {
                 <li><img src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" width="75" height="75" alt=""></li>
             </ul>
         </div>
-        <a href="#" onclick="$('.jcarousel').jcarousel().prev(); return false;">Prev</a>
-        <a href="#" onclick="$('.jcarousel').jcarousel().next(); return false;">Next</a>
+        <a href="#" onclick="$('.jcarousel').jcarousel().scrollBy(-1); return false;">Prev</a>
+        <a href="#" onclick="$('.jcarousel').jcarousel().scrollBy(1); return false;">Next</a>
 
         <form>
             <label>Item</label>

@@ -57,11 +57,11 @@ $(function() {
                 <li><img src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" width="75" height="75" alt=""></li>
             </ul>
         </div>
-        <a href="#" onclick="$('#jcarousel1').jcarousel().prev(); return false;">Prev</a>
-        <a href="#" onclick="$('#jcarousel1').jcarousel().next(); return false;">Next</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel().scrollBy(-1); return false;">Prev</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel().scrollBy(1); return false;">Next</a>
         |
-        <a href="#" onclick="$('#jcarousel1').data('jcarousel').options.scroll = 1; return false;">scroll: 1</a>
-        <a href="#" onclick="$('#jcarousel1').data('jcarousel').options.scroll = 20; return false;">scroll: 20</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel().scrollBy(-20); return false;">Prev (20)</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel().scrollBy(20); return false;">Next (20)</a>
     </div>
 
     <h2>wrap: last</h2>
@@ -80,12 +80,11 @@ $(function() {
                 <li><img src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" width="75" height="75" alt=""></li>
             </ul>
         </div>
-        <a href="#" onclick="$('#jcarousel2').jcarousel().prev(); return false;">Prev</a>
-        <a href="#" onclick="$('#jcarousel2').jcarousel().next(); return false;">Next</a>
+        <a href="#" onclick="$('#jcarousel2').jcarousel().scrollBy(-1); return false;">Prev</a>
+        <a href="#" onclick="$('#jcarousel2').jcarousel().scrollBy(1); return false;">Next</a>
         |
-        <a href="#" onclick="$('#jcarousel2').data('jcarousel').options.scroll = 1; return false;">scroll: 1</a>
-        <a href="#" onclick="$('#jcarousel2').data('jcarousel').options.scroll = 2; return false;">scroll: 2</a>
-        <a href="#" onclick="$('#jcarousel2').data('jcarousel').options.scroll = 20; return false;">scroll: 20</a>
+        <a href="#" onclick="$('#jcarousel2').jcarousel().scrollBy(-20); return false;">Prev (20)</a>
+        <a href="#" onclick="$('#jcarousel2').jcarousel().scrollBy(20); return false;">Next (20)</a>
     </div>
 
     <h2>wrap: both</h2>
@@ -104,12 +103,11 @@ $(function() {
                 <li><img src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" width="75" height="75" alt=""></li>
             </ul>
         </div>
-        <a href="#" onclick="$('#jcarousel3').jcarousel().prev(); return false;">Prev</a>
-        <a href="#" onclick="$('#jcarousel3').jcarousel().next(); return false;">Next</a>
+        <a href="#" onclick="$('#jcarousel3').jcarousel().scrollBy(-1); return false;">Prev</a>
+        <a href="#" onclick="$('#jcarousel3').jcarousel().scrollBy(1); return false;">Next</a>
         |
-        <a href="#" onclick="$('#jcarousel3').data('jcarousel').options.scroll = 1; return false;">scroll: 1</a>
-        <a href="#" onclick="$('#jcarousel3').data('jcarousel').options.scroll = 2; return false;">scroll: 2</a>
-        <a href="#" onclick="$('#jcarousel3').data('jcarousel').options.scroll = 20; return false;">scroll: 20</a>
+        <a href="#" onclick="$('#jcarousel3').jcarousel().scrollBy(-20); return false;">Prev (20)</a>
+        <a href="#" onclick="$('#jcarousel3').jcarousel().scrollBy(20); return false;">Next (20)</a>
     </div>
 
     <h2>wrap: circular</h2>
@@ -128,14 +126,11 @@ $(function() {
                 <li><img src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" width="75" height="75" alt=""></li>
             </ul>
         </div>
-        <a href="#" onclick="$('#jcarousel4').jcarousel().prev(); return false;">Prev</a>
-        <a href="#" onclick="$('#jcarousel4').jcarousel().next(); return false;">Next</a>
+        <a href="#" onclick="$('#jcarousel4').jcarousel().scrollBy(-1); return false;">Prev</a>
+        <a href="#" onclick="$('#jcarousel4').jcarousel().scrollBy(1); return false;">Next</a>
         |
-        <a href="#" onclick="$('#jcarousel4').data('jcarousel').options.scroll = 1; return false;">scroll: 1</a>
-        <a href="#" onclick="$('#jcarousel4').data('jcarousel').options.scroll = 2; return false;">scroll: 2</a>
-        <a href="#" onclick="$('#jcarousel4').data('jcarousel').options.scroll = 3; return false;">scroll: 3</a>
-        <a href="#" onclick="$('#jcarousel4').data('jcarousel').options.scroll = 10; return false;">scroll: 10</a>
-        <a href="#" onclick="$('#jcarousel4').data('jcarousel').options.scroll = 20; return false;">scroll: 20</a>
+        <a href="#" onclick="$('#jcarousel4').jcarousel().scrollBy(-20); return false;">Prev (20)</a>
+        <a href="#" onclick="$('#jcarousel4').jcarousel().scrollBy(20); return false;">Next (20)</a>
     </div>
 
     <h2>wrap: custom</h2>
@@ -154,12 +149,11 @@ $(function() {
                 <li><img src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" width="75" height="75" alt=""></li>
             </ul>
         </div>
-        <a href="#" onclick="$('#jcarousel5').jcarousel().prev(); return false;">Prev</a>
-        <a href="#" onclick="$('#jcarousel5').jcarousel().next(); return false;">Next</a>
+        <a href="#" onclick="$('#jcarousel5').jcarousel().scrollBy(-1); return false;">Prev</a>
+        <a href="#" onclick="$('#jcarousel5').jcarousel().scrollBy(1); return false;">Next</a>
         |
-        <a href="#" onclick="$('#jcarousel5').data('jcarousel').options.scroll = 1; return false;">scroll: 1</a>
-        <a href="#" onclick="$('#jcarousel5').data('jcarousel').options.scroll = 2; return false;">scroll: 2</a>
-        <a href="#" onclick="$('#jcarousel5').data('jcarousel').options.scroll = 20; return false;">scroll: 20</a>
+        <a href="#" onclick="$('#jcarousel5').jcarousel().scrollBy(-20); return false;">Prev (20)</a>
+        <a href="#" onclick="$('#jcarousel5').jcarousel().scrollBy(20); return false;">Next (20)</a>
     </div>
 
     <p>

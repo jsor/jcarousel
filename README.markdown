@@ -127,12 +127,6 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
         <td>jQuery selector to select the items inside the list element.</td>
     </tr>
     <tr>
-        <td>scroll</td>
-        <td>integer</td>
-        <td>1</td>
-        <td>The number of items to scroll by.</td>
-    </tr>
-    <tr>
         <td>animation</td>
         <td>integer|string|object</td>
         <td>&quot;normal&quot;</td>
@@ -156,11 +150,11 @@ You can do that by hand (see "Accessing the jCarousel instance" for available me
 A simple example to navigate the carousel:
 
     $('#mycarousel_prev_button').click(function() {
-        $('#mycarousel').jcarousel().prev();
+        $('#mycarousel').jcarousel().scrollBy(-1);
     });
 
     $('#mycarousel_next_button').click(function() {
-        $('#mycarousel').jcarousel().next();
+        $('#mycarousel').jcarousel().scrollBy(1);
     });
 
 A more comfortable way is to use one of the navigation plugins:
@@ -256,12 +250,8 @@ You can access the methods like this (for example the `scrollTo()` method):
         <td>Returns all items as jQuery object.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel().next([, callback]);</pre></td>
-        <td>Triggers a next scroll on the carousel. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
-    </tr>
-    <tr>
-        <td><pre>.jcarousel().prev([, callback]);</pre></td>
-        <td>Triggers a prev scroll on the carousel. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
+        <td><pre>.jcarousel().scrollBy(offset [, animate [, callback]]);</pre></td>
+        <td>Scrolls by a given offset (offset can be negative to scroll backwards). If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
     </tr>
     <tr>
         <td><pre>.jcarousel().scrollTo(item_or_index [, animate [, callback]]);</pre></td>
@@ -370,44 +360,22 @@ $('#mycarousel').bind('jcarouseldestroyend', function() {
         </td>
     </tr>
     <tr>
-        <td>jcarouselprev</td>
-        <td>Triggered when the <code>prev</code> method is called.</td>
+        <td>jcarouselscrollby</td>
+        <td>Triggered when the <code>scrollBy</code> method is called.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouselprev', function() {
+$('#mycarousel').bind('jcarouselscrollby', function() {
     // this refers to the root element
     var carousel = $(this).data('jcarousel');
 });</pre>
         </td>
     </tr>
     <tr>
-        <td>jcarouselprevend</td>
-        <td>Triggered after the <code>prev</code> method is called.</td>
+        <td>jcarouselscrollbyend</td>
+        <td>Triggered after the <code>scrollBy</code> method is called.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouselprevend', function() {
-    // this refers to the root element
-    var carousel = $(this).data('jcarousel');
-});</pre>
-        </td>
-    </tr>
-    <tr>
-        <td>jcarouselnext</td>
-        <td>Triggered when the <code>next</code> method is called.</td>
-        <td>
-            <pre>
-$('#mycarousel').bind('jcarouselnext', function() {
-    // this refers to the root element
-    var carousel = $(this).data('jcarousel');
-});</pre>
-        </td>
-    </tr>
-    <tr>
-        <td>jcarouselnextend</td>
-        <td>Triggered after the <code>next</code> method is called.</td>
-        <td>
-            <pre>
-$('#mycarousel').bind('jcarouselnextend', function() {
+$('#mycarousel').bind('jcarouselscrollbyend', function() {
     // this refers to the root element
     var carousel = $(this).data('jcarousel');
 });</pre>
@@ -430,28 +398,6 @@ $('#mycarousel').bind('jcarouselscrollto', function() {
         <td>
             <pre>
 $('#mycarousel').bind('jcarouselscrolltoend', function() {
-    // this refers to the root element
-    var carousel = $(this).data('jcarousel');
-});</pre>
-        </td>
-    </tr>
-    <tr>
-        <td>jcarouselscrolltail</td>
-        <td>Triggered when the <code>scrollTail</code> method is called.</td>
-        <td>
-            <pre>
-$('#mycarousel').bind('jcarouselscrolltail', function() {
-    // this refers to the root element
-    var carousel = $(this).data('jcarousel');
-});</pre>
-        </td>
-    </tr>
-    <tr>
-        <td>jcarouselscrolltailend</td>
-        <td>Triggered after the <code>scrollTail</code> method is called.</td>
-        <td>
-            <pre>
-$('#mycarousel').bind('jcarouselscrolltailend', function() {
     // this refers to the root element
     var carousel = $(this).data('jcarousel');
 });</pre>
