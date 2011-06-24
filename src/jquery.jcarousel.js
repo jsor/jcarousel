@@ -172,7 +172,7 @@
 
             var items  = this.items(),
                 end    = items.size() - 1,
-                scroll = Math.min(Math.abs(offset), end),
+                scroll = Math.abs(offset),
                 self   = this,
                 cb     = function() {
                     self._notify('scrollbyend');
@@ -201,46 +201,47 @@
                         var first = items.filter(filterItemFirst).index(),
                             index = first + scroll;
 
-                        if (this.circular) {
-                            var i  = scroll,
-                                cl = 0,
-                                curr;
+                        if (this.circular && index > end) {
+                            var i    = end,
+                                curr = items.get(-1);
 
-                            while (i-- > 0 && cl++ < first) {
+                            while (i++ < index) {
                                 curr = this.items().eq(0);
-                                curr.after(curr.clone().addClass('jcarousel-clone'));
+                                curr.after(curr.clone(true).addClass('jcarousel-clone'));
                                 this.list.append(curr);
-                                index--;
                             }
-                        }
 
-                        this._scroll(Math.min(index, end), animate, cb);
+                            this._scroll(curr, animate, cb);
+                        } else {
+                            this._scroll(Math.min(index, end), animate, cb);
+                        }
                     }
                 }
             } else {
-                var first = items.filter(filterItemFirst).index();
+                var first = items.filter(filterItemFirst).index()
+                    index = first - scroll;
 
                 if (this.inTail) {
-                    this._scroll(Math.max((first - scroll) + 1, 0), animate, cb);
+                    this._scroll(Math.max(index + 1, 0), animate, cb);
                 } else {
                     if (first === 0 && (this.options.wrap == 'both' || this.options.wrap == 'first')) {
                         this._scroll(end, animate, cb);
                     } else {
-                        if (this.circular && (first - scroll) < 0) {
-                            var i    = first - scroll,
-                                cl   = end,
-                                last = items.filter(filterItemLast).index(),
-                                curr;
+                        if (this.circular && index < 0) {
+                            var i    = index,
+                                curr = items.get(0);
 
-                            while (i++ < 0 && cl-- > last) {
+                            while (i++ < 0) {
                                 curr = this.items().eq(-1);
-                                curr.after(curr.clone().addClass('jcarousel-clone'));
+                                curr.after(curr.clone(true).addClass('jcarousel-clone'));
                                 this.list.prepend(curr);
                                 this.list.css(this.lt, $j.intval(this.list.css(this.lt)) - this._dimension(curr) + 'px');
                             }
-                        }
 
-                        this._scroll(Math.max(first - scroll, 0), animate, cb);
+                            this._scroll(curr, animate, cb);
+                        } else {
+                            this._scroll(Math.max(first - scroll, 0), animate, cb);
+                        }
                     }
                 }
             }
@@ -364,16 +365,12 @@
                 curr;
 
             if (wh < clip) {
-                var first = items.filter(filterItemFirst),
-                    fidx = first.size() > 0 ? first.index() : 0,
-                    cl   = 0;
-
                 while (true) {
                     curr = this.items().eq(++idx);
                     if (curr.size() === 0) {
-                        if (this.circular && cl++ < fidx) {
+                        if (this.circular) {
                             curr = this.items().eq(0);
-                            curr.after(curr.clone(false, false).addClass('jcarousel-clone'));
+                            curr.after(curr.clone(true).addClass('jcarousel-clone'));
                             this.list.append(curr);
                         } else {
                             break;
