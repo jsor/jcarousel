@@ -13,7 +13,7 @@
 <!--
   jCarousel buttons plugin
 -->
-<script type="text/javascript" src="../../src/jquery.jcarousel.buttons.js"></script>
+<script type="text/javascript" src="../../src/jquery.jcarousel.prevnext.js"></script>
 <!--
   jCarousel stylesheet
 -->
@@ -23,27 +23,7 @@
 <script type="text/javascript">
 
 $(function() {
-
-    $('#jcarousel1').jcarousel({
-        next: function() {
-            return $('.jcarousel-next', this.element.parent())
-                    .bind('jcarouselbuttonenabled', function() {
-                        console.log('Next enabled');
-                    })
-                    .bind('jcarouselbuttondisabled', function() {
-                        console.log('Next disabled');
-                    });
-        },
-        prev: function() {
-            return $('.jcarousel-prev', this.element.parent())
-                    .bind('jcarouselbuttonenabled', function() {
-                        console.log('Prev enabled');
-                    })
-                    .bind('jcarouselbuttondisabled', function() {
-                        console.log('Prev disabled');
-                    });
-        }
-    });
+    $('#jcarousel1').jcarousel();
 });
 
 </script>
