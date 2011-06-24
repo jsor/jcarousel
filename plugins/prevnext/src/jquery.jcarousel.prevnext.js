@@ -15,10 +15,20 @@
         btnDisabled = 'jcarouselbuttondisabled';
 
     $.extend($j.options, {
+        scroll:    1,
         next:      '.jcarousel-next',
         prev:      '.jcarousel-prev',
         nextEvent: 'click',
         prevEvent: 'click'
+    });
+
+    $.jcarousel.fn.extend({
+        prev: function() {
+            this.scrollBy(-this.options.scroll);
+        },
+        next: function() {
+            this.scrollBy(this.options.scroll);
+        }
     });
 
     $j.hook('reloadend', function(e) {
@@ -67,7 +77,7 @@
         }
     });
 
-    $j.hook('reloadend scrollend scrolltailend', function(e) {
+    $j.hook('reloadend scrolltoend scrollbyend', function(e) {
         if (e.isDefaultPrevented()) {
             return;
         }
