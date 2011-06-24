@@ -1,5 +1,5 @@
 /*!
- * jCarousel Buttons Plugin v@VERSION
+ * jCarousel PrevNext Plugin v@VERSION
  * http://sorgalla.com/jcarousel/
  *
  * Copyright 2011, Jan Sorgalla
