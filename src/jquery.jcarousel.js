@@ -514,7 +514,6 @@
         options: {
             list:      '>ul:eq(0)',
             items:     '>li',
-            scroll:    1,
             animation: 'normal',
             wrap:      null
         },
