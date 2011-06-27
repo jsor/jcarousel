@@ -179,7 +179,11 @@
                     if ($.isFunction(callback)) {
                         callback.call(self);
                     }
-                };
+                },
+                first,
+                index,
+                curr,
+                i;
 
             if (offset > 0) {
                 var last = items.filter(filterItemLast).index();
@@ -198,12 +202,12 @@
                     if (last === end && (this.options.wrap == 'both' || this.options.wrap == 'last')) {
                         return this._scroll(0, animate, cb);
                     } else {
-                        var first = items.filter(filterItemFirst).index(),
-                            index = first + scroll;
+                        first = items.filter(filterItemFirst).index();
+                        index = first + scroll;
 
                         if (this.circular && index > end) {
-                            var i    = end,
-                                curr = items.get(-1);
+                            i = end;
+                            curr = items.get(-1);
 
                             while (i++ < index) {
                                 curr = this.items().eq(0);
@@ -218,8 +222,8 @@
                     }
                 }
             } else {
-                var first = items.filter(filterItemFirst).index()
-                    index = first - scroll;
+                first = items.filter(filterItemFirst).index();
+                index = first - scroll;
 
                 if (this.inTail) {
                     this._scroll(Math.max(index + 1, 0), animate, cb);
@@ -228,8 +232,8 @@
                         this._scroll(end, animate, cb);
                     } else {
                         if (this.circular && index < 0) {
-                            var i    = index,
-                                curr = items.get(0);
+                            i = index;
+                            curr = items.get(0);
 
                             while (i++ < 0) {
                                 curr = this.items().eq(-1);
