@@ -49,6 +49,9 @@ $(function() {
         </div>
         <a href="#" class="jcarousel-prev">Prev</a>
         <a href="#" class="jcarousel-next">Next</a>
+        |
+        <a href="#" onclick="$('.jcarousel').jcarousel().prev(); return false;">Prev Static</a>
+        <a href="#" onclick="$('.jcarousel').jcarousel().next(); return false;">Next Static</a>
     </div>
 
     <p>
@@ -58,7 +61,7 @@ $(function() {
         <a href="#" onclick="$('.jcarousel').addClass('jcarousel-vertical').jcarousel().reload(); return false;">Vertical</a>
         <a href="#" onclick="$('.jcarousel').removeClass('jcarousel-vertical').jcarousel().reload(); return false;">Horizontal</a>
         |
-        <a href="#" onclick="$('.jcarousel').jcarousel('destroy'); return false;">Destroy</a>
+        <a href="#" onclick="$('.jcarousel').jcarousel().destroy(); return false;">Destroy</a>
     </p>
 
 </body>
