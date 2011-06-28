@@ -15,23 +15,29 @@
     $.extend($j.options, {
         pagination: {
             perpage: null,
-            container: '.jcarousel-pagination',
+            root: '.jcarousel-pagination',
             item: function(page) {
-                return $('<li><a href="#' + page + '>' + page + '</a></li>');
+                return $('<a class="jcarousel-pagination-item" href="#' + page + '">' + page + '</a>');
+            },
+            active: function(item) {
+                return item.addClass('jcarousel-item-active');
+            },
+            inactive: function(item) {
+                return item.removeClass('jcarousel-item-active');
             }
         }
     });
 
     $.jcarousel.fn.extend({
-        container: null,
-        pages: {},
+        paginationRoot: null,
         scrollToPage: function(page) {
-            if (this.pages[page]) {
-                this.scrollTo(this.pages[page]);
+            var pages = this.pages();
+            if (pages[page]) {
+                this.scrollTo(pages[page]);
             }
             return this;
         },
-        setupPages: function() {
+        pages: function() {
             var o = this.options.pagination;
 
             if (o.perpage == null) {
@@ -52,7 +58,7 @@
                         }
 
                         if (!pages[page]) {
-                            pages[page] =  curr;
+                            pages[page] = curr;
                         }
 
                         wh += this._dimension(curr);
@@ -68,9 +74,10 @@
             }
 
             if ($.isFunction(o.perpage)) {
-                this.pages = o.perpage.call(this);
+                return o.perpage.call(this);
             } else {
-                var pp    = $j.intval(o.perpage),
+                var pages = {},
+                    pp    = $j.intval(o.perpage),
                     items = this.items(),
                     page  = 1,
                     i     = 0,
@@ -83,65 +90,58 @@
                         break;
                     }
 
-                    this.pages[page++] = curr;
+                    pages[page++] = curr;
                     i += pp;
                 }
-            }
 
-            return this;
+                return pages;
+            }
         },
-        generatePagination: function() {
-            this.setupPages();
+        pagination: function() {
+            var pages = this.pages(),
+                o     = this.options.pagination;
 
-            var o = this.options.pagination;
-
-            if ($.isFunction(o.container)) {
-                o.container = o.container.call(this);
+            if ($.isFunction(o.root)) {
+                o.root = o.root.call(this);
             }
 
-            if (o.container) {
-                this.container = (o.container.jquery ? o.container : this.root.parent().find(o.container));
+            if (o.root) {
+                this.paginationRoot = (o.root.jquery ? o.root : this.root.parent().find(o.root));
             } else {
-                this.container = $();
+                this.paginationRoot = $();
             }
 
-            if (this.container.size() > 0) {
+            if (this.paginationRoot.size() > 0) {
+                this.paginationRoot.empty();
 
+                var self = this;
+                $.each(pages, function(page, item) {
+                    var el = $(o.item.call(self, page, item)).click(function(e) {
+                        e.preventDefault();
+                        self.scrollToPage(page);
+                    });
+                    self.paginationRoot.append(el);
+                });
             }
 
             return this;
         }
-    });
-
-    $j.hook('scrolltoend scrollbyend', function(e) {
-        if (e.isDefaultPrevented()) {
-            return;
-        }
-
-        this.setupPages();
     });
 
     $j.hook('reloadend', function(e) {
-        if (e.isDefaultPrevented()) {
-            return;
+        if (!e.isDefaultPrevented()) {
+            this.pagination();
         }
-
-        this.generatePagination();
     });
 
     $j.hook('destroy', function(e) {
-        if (e.isDefaultPrevented()) {
-            return;
+        if (!e.isDefaultPrevented()) {
+            this.paginationRoot.empty();
         }
-
-        this.container.empty();
     });
 
-    $.jcarouselSub.fn.extend({
-        scrollToPage: function(page) {
-            this.data('jcarousel').scrollToPage(page);
-            return this;
-        }
+    $.jcarousel.api({
+        scrollToPage: true
     });
 
 })(jQuery);
