@@ -27,7 +27,7 @@ $(function() {
     $('#jcarousel1').jcarousel({
         prevnext: {
             next: function() {
-                return $('.jcarousel-next', this.element.parent())
+                return $('.jcarousel-next', this.root.parent())
                         .bind('jcarouselbuttonenabled', function() {
                             console.log('Next enabled');
                         })
@@ -36,7 +36,7 @@ $(function() {
                         });
             },
             prev: function() {
-                return $('.jcarousel-prev', this.element.parent())
+                return $('.jcarousel-prev', this.root.parent())
                         .bind('jcarouselbuttonenabled', function() {
                             console.log('Prev enabled');
                         })

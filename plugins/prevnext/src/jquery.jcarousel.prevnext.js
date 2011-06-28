@@ -53,7 +53,7 @@
         this.prevButton = null;
 
         if (o.next) {
-            this.nextButton = (o.next.jquery ? o.next : this.element.parent().find(o.next)).unbind('.jcarousel');
+            this.nextButton = (o.next.jquery ? o.next : this.root.parent().find(o.next)).unbind('.jcarousel');
 
             if (o.nextEvent) {
                 this.nextButton.bind(o.nextEvent + '.jcarousel', function() {
@@ -66,7 +66,7 @@
         }
 
         if (o.prev) {
-            this.prevButton = (o.prev.jquery ? o.prev : this.element.parent().find(o.prev)).unbind('.jcarousel');
+            this.prevButton = (o.prev.jquery ? o.prev : this.root.parent().find(o.prev)).unbind('.jcarousel');
 
             if (o.prevEvent) {
                 this.prevButton.bind(o.prevEvent + '.jcarousel', function() {

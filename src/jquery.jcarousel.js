@@ -31,7 +31,7 @@
     $j.fn.extend = $j.extend = $.extend;
 
     $j.fn.extend({
-        element:     null,
+        root:        null,
         list:        null,
         options:     {},
         animating:   false,
@@ -43,10 +43,10 @@
         rtl:         false,
         circular:    false,
         init: function(el, opts) {
-            this.element = $(el);
+            this.root    = $(el);
             this.options = $.extend(true, {}, $j.options, opts);
 
-            this.element.data('jcarousel', this);
+            this.root.data('jcarousel', this);
 
             var self = this;
 
@@ -83,7 +83,7 @@
                 return this;
             }
 
-            this.list = this.element.find(this.options.list);
+            this.list = this.root.find(this.options.list);
             this.reload();
 
             $(window).unbind('resize.jcarousel', this.onWindowResize).bind('resize.jcarousel', this.onWindowResize);
@@ -103,7 +103,7 @@
             });
 
             $(window).unbind('resize.jcarousel', this.onWindowResize);
-            this.element.removeData('jcarousel');
+            this.root.removeData('jcarousel');
 
             this._notify('destroyend');
 
@@ -114,11 +114,11 @@
                 return this;
             }
 
-            this.vertical = this.element.data('jcarousel-vertical') ||
-                            ('' + this.element.attr('class')).toLowerCase().indexOf('jcarousel-vertical') > -1;
+            this.vertical = this.root.data('jcarousel-vertical') ||
+                            ('' + this.root.attr('class')).toLowerCase().indexOf('jcarousel-vertical') > -1;
 
-            this.rtl = ('' + this.element.attr('dir')).toLowerCase() === 'rtl' ||
-                       this.element.parents('[dir]').filter(function() {
+            this.rtl = ('' + this.root.attr('dir')).toLowerCase() === 'rtl' ||
+                       this.root.parents('[dir]').filter(function() {
                            return (/rtl/i).test($(this).attr('dir'));
                        }).size() > 0;
 
@@ -489,7 +489,7 @@
         },
         _notify: function(event, data) {
             var e = $.Event('jcarousel' + event);
-            this.element.trigger(e, data);
+            this.root.trigger(e, data);
             if ($j.hooks[event]) {
                 for (var i = 0, l = $j.hooks[event].length; i < l; i++) {
                     $j.hooks[event][i].call(this, e);
@@ -498,7 +498,7 @@
             return !e.isDefaultPrevented();
         },
         _clipping: function() {
-            return this.element['inner' + (this.vertical ? 'Height' : 'Width')]();
+            return this.root['inner' + (this.vertical ? 'Height' : 'Width')]();
         },
         _dimension: function(el) {
             // outerWidth()/outerHeight() doesn't seem to work on hidden elements
@@ -573,7 +573,7 @@
             return $(this);
         },
         reload:   true,
-        items:    true,
+        items:    false,
         scrollBy: true,
         scrollTo: true
     });

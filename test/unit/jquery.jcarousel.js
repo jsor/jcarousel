@@ -2,13 +2,13 @@ $(function($){
 
     module("jquery.jcarousel");
 
-    test("init() sets element", function() {
+    test("init() sets root", function() {
         expect(2);
 
         $('#jcarousel1').jcarousel();
 
-        ok($('#jcarousel1').data('jcarousel').element, '#jcarousel1 (element exists)');
-        ok($('#jcarousel1').data('jcarousel').element.jquery, '#jcarousel1 (element is jQuery object)');
+        ok($('#jcarousel1').data('jcarousel').root, '#jcarousel1 (root exists)');
+        ok($('#jcarousel1').data('jcarousel').root.jquery, '#jcarousel1 (root is jQuery object)');
     });
 
     test("init() sets options", function() {
@@ -118,6 +118,8 @@ $(function($){
         expect(1);
 
         $('#jcarousel1').jcarousel();
+
+        console.log($('#jcarousel1').jcarousel().items())
 
         equal($('#jcarousel1').jcarousel().items().get(1), $('#jcarousel1 li:eq(1)').get(0), '#jcarousel1');
     });

@@ -100,7 +100,7 @@
             }
 
             if (o.container) {
-                this.container = (o.container.jquery ? o.container : this.element.parent().find(o.container));
+                this.container = (o.container.jquery ? o.container : this.root.parent().find(o.container));
             } else {
                 this.container = $();
             }
