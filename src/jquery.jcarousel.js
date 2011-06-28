@@ -498,7 +498,9 @@
             this.root.trigger(e, data);
             if ($j.hooks[event]) {
                 for (var i = 0, l = $j.hooks[event].length; i < l; i++) {
-                    $j.hooks[event][i].call(this, e);
+                    if (false === $j.hooks[event][i].call(this, e)) {
+                        e.preventDefault();
+                    }
                 }
             }
             return !e.isDefaultPrevented();
