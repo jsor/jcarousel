@@ -13,15 +13,17 @@
     var $j = $.jcarousel;
 
     $.extend($j.options, {
-        perpage: null,
-        pagination: '.jcarousel-pagination',
-        paginationItem: function(page) {
-            return $('<li><a href="#' + page + '>' + page + '</a></li>');
+        pagination: {
+            perpage: null,
+            container: '.jcarousel-pagination',
+            item: function(page) {
+                return $('<li><a href="#' + page + '>' + page + '</a></li>');
+            }
         }
     });
 
     $.jcarousel.fn.extend({
-        pagination: null,
+        container: null,
         pages: {},
         scrollToPage: function(page) {
             if (this.pages[page]) {
@@ -30,7 +32,7 @@
             return this;
         },
         setupPages: function() {
-            var o = this.options;
+            var o = this.options.pagination;
 
             if (o.perpage == null) {
                 o.perpage = function() {
@@ -91,19 +93,19 @@
         generatePagination: function() {
             this.setupPages();
 
-            var o = this.options;
+            var o = this.options.pagination;
 
-            if ($.isFunction(o.pagination)) {
-                o.pagination = o.pagination.call(this);
+            if ($.isFunction(o.container)) {
+                o.container = o.container.call(this);
             }
 
-            if (o.pagination) {
-                this.pagination = (o.pagination.jquery ? o.pagination : this.element.parent().find(o.pagination));
+            if (o.container) {
+                this.container = (o.container.jquery ? o.container : this.element.parent().find(o.container));
             } else {
-                this.pagination = $();
+                this.container = $();
             }
 
-            if (this.pagination.size() > 0) {
+            if (this.container.size() > 0) {
 
             }
 
@@ -132,7 +134,7 @@
             return;
         }
 
-        this.pagination.empty();
+        this.container.empty();
     });
 
     $.jcarouselSub.fn.extend({
