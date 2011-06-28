@@ -15,19 +15,21 @@
         btnDisabled = 'jcarouselbuttondisabled';
 
     $.extend($j.options, {
-        scroll:    1,
-        next:      '.jcarousel-next',
-        prev:      '.jcarousel-prev',
-        nextEvent: 'click',
-        prevEvent: 'click'
+        prevnext: {
+            scroll:    1,
+            next:      '.jcarousel-next',
+            prev:      '.jcarousel-prev',
+            nextEvent: 'click',
+            prevEvent: 'click'
+        }
     });
 
     $.jcarousel.fn.extend({
         prev: function() {
-            this.scrollBy(-this.options.scroll);
+            this.scrollBy(-this.options.prevnext.scroll);
         },
         next: function() {
-            this.scrollBy(this.options.scroll);
+            this.scrollBy(this.options.prevnext.scroll);
         }
     });
 
@@ -37,7 +39,7 @@
         }
 
         var self = this,
-            o    = this.options;
+            o    = this.options.prevnext;
 
         if ($.isFunction(o.next)) {
             o.next = o.next.call(this);
@@ -82,11 +84,11 @@
             return;
         }
 
-        var o = this.options,
-            i = this.items(),
-            s = i.size(),
-            n = s > 0 && ((o.wrap && o.wrap !== 'first') || (i.filter(':jcarouselitemlast').index() < (s - 1)) || (this.tail && !this.inTail)) ? true : false,
-            p = s > 0 && ((o.wrap && o.wrap !== 'last') || (i.filter(':jcarouselitemfirst').index() > 0) || (this.tail && this.inTail)) ? true : false;
+        var wrap = this.options.wrap,
+            i    = this.items(),
+            s    = i.size(),
+            n    = s > 0 && ((wrap && wrap !== 'first') || (i.filter(':jcarouselitemlast').index() < (s - 1)) || (this.tail && !this.inTail)) ? true : false,
+            p    = s > 0 && ((wrap && wrap !== 'last') || (i.filter(':jcarouselitemfirst').index() > 0) || (this.tail && this.inTail)) ? true : false;
 
         if (this.nextButton && this.nextButton.data(btnEnabled) !== n) {
             this.nextButton
