@@ -20,67 +20,45 @@
                 return $('<a class="jcarousel-pagination-item" href="#' + page + '">' + page + '</a>');
             },
             active: function(item) {
-                return item.addClass('jcarousel-item-active');
+                item.addClass('jcarousel-pagination-item-active');
             },
             inactive: function(item) {
-                return item.removeClass('jcarousel-item-active');
+                item.removeClass('jcarousel-pagination-item-active');
             }
         }
     });
 
     $.jcarousel.fn.extend({
         paginationRoot: null,
+        paginationPages: {},
+        paginationItems: {},
         scrollToPage: function(page) {
-            var pages = this.pages();
-            if (pages[page]) {
-                this.scrollTo(pages[page]);
+            if (this.paginationPages[page]) {
+                this.scrollTo(this.paginationPages[page]);
             }
             return this;
-        },
-        pages: function() {
-            var o = this.options.pagination;
+        }
+    });
 
-            if (o.perpage == null) {
-                o.perpage = function() {
-                    var items = this.items(),
-                        clip  = this._clipping(),
-                        wh    = 0,
-                        idx   = 0,
-                        page  = 1,
-                        pages = {},
-                        curr;
+    $j.hook('reloadend', function(e) {
+        if (e.isDefaultPrevented()) {
+            return;
+        }
 
-                    while (true) {
-                        curr = items.eq(idx++);
+        var o = this.options.pagination;
 
-                        if (curr.size() === 0) {
-                            break;
-                        }
+        this.paginationPages = {};
+        this.paginationItems = {};
 
-                        if (!pages[page]) {
-                            pages[page] = curr;
-                        }
-
-                        wh += this._dimension(curr);
-
-                        if (wh >= clip) {
-                            page++;
-                            wh = 0;
-                        }
-                    }
-
-                    return pages;
-                };
-            }
-
-            if ($.isFunction(o.perpage)) {
-                return o.perpage.call(this);
-            } else {
-                var pages = {},
-                    pp    = $j.intval(o.perpage),
-                    items = this.items(),
+        // Calculate pages
+        if (o.perpage == null) {
+            o.perpage = function() {
+                var items = this.items(),
+                    clip  = this._clipping(),
+                    wh    = 0,
+                    idx   = 0,
                     page  = 1,
-                    i     = 0,
+                    pages = {},
                     curr;
 
                 while (true) {
@@ -90,48 +68,76 @@
                         break;
                     }
 
-                    pages[page++] = curr;
-                    i += pp;
+                    if (!pages[page]) {
+                        pages[page] = curr;
+                    }
+
+                    wh += this._dimension(curr);
+
+                    if (wh >= clip) {
+                        page++;
+                        wh = 0;
+                    }
                 }
 
                 return pages;
+            };
+        }
+
+        if ($.isFunction(o.perpage)) {
+            this.paginationPages = o.perpage.call(this);
+        } else {
+            var pp    = $j.intval(o.perpage),
+                items = this.items(),
+                page  = 1,
+                i     = 0,
+                curr;
+
+            while (true) {
+                curr = items.eq(idx++);
+
+                if (curr.size() === 0) {
+                    break;
+                }
+
+                this.paginationPages[page++] = curr;
+                i += pp;
             }
-        },
-        pagination: function() {
-            var pages = this.pages(),
-                o     = this.options.pagination;
+        }
 
-            if ($.isFunction(o.root)) {
-                o.root = o.root.call(this);
-            }
+        // Build pagination
+        if ($.isFunction(o.root)) {
+            o.root = o.root.call(this);
+        }
 
-            if (o.root) {
-                this.paginationRoot = (o.root.jquery ? o.root : this.root.parent().find(o.root));
-            } else {
-                this.paginationRoot = $();
-            }
+        if (o.root) {
+            this.paginationRoot = (o.root.jquery ? o.root : this.root.parent().find(o.root));
+        } else {
+            this.paginationRoot = $();
+        }
 
-            if (this.paginationRoot.size() > 0) {
-                this.paginationRoot.empty();
+        if (this.paginationRoot.size() > 0) {
+            this.paginationRoot.empty();
 
-                var self = this;
-                $.each(pages, function(page, item) {
-                    var el = $(o.item.call(self, page, item)).click(function(e) {
-                        e.preventDefault();
-                        self.scrollToPage(page);
-                    });
-                    self.paginationRoot.append(el);
-                });
-            }
-
-            return this;
+            var self = this;
+            $.each(this.paginationPages, function(page, item) {
+                self.paginationItems[page] = $(o.item.call(self, page, item)).click(function(e) {
+                    e.preventDefault();
+                    self.scrollTo(item);
+                }).appendTo(self.paginationRoot);
+            });
         }
     });
 
-    $j.hook('reloadend', function(e) {
-        if (!e.isDefaultPrevented()) {
-            this.pagination();
+    $j.hook('setupend animate', function(e) {
+        if (e.isDefaultPrevented()) {
+            return;
         }
+
+        var self = this;
+        $.each(this.paginationPages, function(page, item) {
+            self.options.pagination[item.is(':jcarouselitemvisible') ? 'active' : 'inactive'](self.paginationItems[page]);
+        });
     });
 
     $j.hook('destroy', function(e) {
