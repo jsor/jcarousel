@@ -131,15 +131,9 @@
         return !!$.data(elem, btnDisabled);
     };
 
-    $.jcarouselSub.fn.extend({
-        next: function() {
-            this.data('jcarousel').next();
-            return this;
-        },
-        prev: function() {
-            this.data('jcarousel').prev();
-            return this;
-        }
+    $.jcarousel.api({
+        next: true,
+        prev: true
     });
 
 })(jQuery);
