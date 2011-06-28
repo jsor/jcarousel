@@ -69,6 +69,8 @@
                     self.reload();
                 }
 
+                self._notify('animateend');
+
                 if ($.isFunction(callback)) {
                     callback.call(self, true);
                 }
@@ -330,6 +332,10 @@
         },
         _animate: function(properties, animate, callback) {
             if (this.animating) {
+                return this;
+            }
+
+            if (false === this._notify('animate')) {
                 return this;
             }
 
