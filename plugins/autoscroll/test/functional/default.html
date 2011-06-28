@@ -23,11 +23,15 @@
 <script type="text/javascript">
 
 $(function() {
-    $('#jcarousel1').jcarousel();
+    $('#jcarousel1').jcarousel().startAuto();
 
     $('#jcarousel2').jcarousel({
-        wrap: 'circular'
-    });
+        wrap: 'circular',
+        autoscroll: {
+            scroll: 2,
+            interval: 1000
+        }
+    }).startAuto();
 });
 
 </script>

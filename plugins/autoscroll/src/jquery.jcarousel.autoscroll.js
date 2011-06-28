@@ -13,24 +13,25 @@
     var $j = $.jcarousel;
 
     $.extend($j.options, {
-        scroll:    1,
-        interval:  3000,
-        autostart: true
+        autoscroll: {
+            scroll:   1,
+            interval: 3000
+        }
     });
 
     $.jcarousel.fn.extend({
         autoscrollTimer: null,
         autoscrollPaused: null,
-        startAuto: function(interval) {
-            var self = this;
+        startAuto: function(options) {
+            var self = this, opts = $.extend({}, this.options.autoscroll, options);
 
             this.stopAuto();
 
             this.autoscrollTimer = window.setInterval(function() {
                 if (!self.autoscrollPaused) {
-                    self.scrollBy(self.options.scroll);
+                    self.scrollBy(opts.scroll);
                 }
-            }, interval || this.options.interval);
+            }, opts.interval);
 
             return this;
         },
@@ -53,41 +54,17 @@
         }
     });
 
-    $j.hook('setupend', function(e) {
-        if (e.isDefaultPrevented()) {
-            return;
-        }
-
-        if (this.options.autostart) {
-            this.startAuto();
-        }
-    });
-
     $j.hook('destroy', function(e) {
-        if (e.isDefaultPrevented()) {
-            return;
+        if (!e.isDefaultPrevented()) {
+            this.stopAuto();
         }
-
-        this.stopAuto();
     });
 
-    $.jcarouselSub.fn.extend({
-        startAuto: function() {
-            this.data('jcarousel').startAuto();
-            return this;
-        },
-        pauseAuto: function() {
-            this.data('jcarousel').pauseAuto();
-            return this;
-        },
-        resumeAuto: function() {
-            this.data('jcarousel').resumeAuto();
-            return this;
-        },
-        stopAuto: function() {
-            this.data('jcarousel').stopAuto();
-            return this;
-        }
+    $.jcarousel.api({
+        startAuto:  true,
+        pauseAuto:  true,
+        resumeAuto: true,
+        stopAuto:   true
     });
 
 })(jQuery, window);
