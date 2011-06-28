@@ -13,6 +13,8 @@
     var filterItemFirst = ':jcarouselitemfirst',
         filterItemLast  = ':jcarouselitemlast';
 
+    $.jcarouselSub = $.sub();
+
     var $j = $.jcarousel = function(el, opts) {
         // Allow instantiation without the 'new' keyword
         if (!this.jcarousel) {
@@ -533,6 +535,21 @@
                 $j.hooks[type].push(callback);
             }
         },
+        api: function(methods) {
+            $.each(methods, function(method, ret) {
+                if (!$.isFunction(ret)) {
+                    ret = (function(method, ret) {
+                        return function() {
+                            var j = this.data('jcarousel'),
+                                res = j[method].apply(j, arguments);
+                            return ret ? this : res;
+                        };
+                    })(method, ret);
+                }
+
+                $.jcarouselSub.fn[method] = ret;
+            });
+        },
         intval: function(v) {
             v = parseInt(v, 10);
             return isNaN(v) ? 0 : v;
@@ -549,29 +566,16 @@
         };
     });
 
-    $.jcarouselSub = $.sub();
-
-    $.jcarouselSub.fn.extend({
+    $.jcarousel.api({
         destroy: function() {
             this.data('jcarousel').destroy();
             // Exit out of jCarousel specific subclass and return original jQuery object
             return $(this);
         },
-        reload: function() {
-            this.data('jcarousel').reload();
-            return this;
-        },
-        items: function() {
-            return this.data('jcarousel').items();
-        },
-        scrollBy: function(offset, animate, callback) {
-            this.data('jcarousel').scrollBy(offset, animate, callback);
-            return this;
-        },
-        scrollTo: function(item, animate, callback) {
-            this.data('jcarousel').scrollTo(item, animate, callback);
-            return this;
-        }
+        reload:   true,
+        items:    true,
+        scrollBy: true,
+        scrollTo: true
     });
 
     $.fn.jcarousel = function(o) {
