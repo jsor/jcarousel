@@ -56,7 +56,7 @@
         if (o.perpage == null) {
             o.perpage = function() {
                 var items = this.items(),
-                    clip  = this._clipping(),
+                    clip  = this.clipping(),
                     wh    = 0,
                     idx   = 0,
                     page  = 1,
@@ -74,7 +74,7 @@
                         pages[page] = curr;
                     }
 
-                    wh += this._dimension(curr);
+                    wh += this.dimension(curr);
 
                     if (wh >= clip) {
                         page++;

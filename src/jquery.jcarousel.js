@@ -69,7 +69,7 @@
                     self.reload();
                 }
 
-                self._notify('animateend');
+                self.notify('animateend');
 
                 if ($.isFunction(callback)) {
                     callback.call(self, true);
@@ -81,7 +81,7 @@
             return this;
         },
         setup: function() {
-            if (false === this._notify('setup')) {
+            if (false === this.notify('setup')) {
                 return this;
             }
 
@@ -90,12 +90,12 @@
 
             $(window).unbind('resize.jcarousel', this.onWindowResize).bind('resize.jcarousel', this.onWindowResize);
 
-            this._notify('setupend');
+            this.notify('setupend');
 
             return this;
         },
         destroy: function() {
-            if (false === this._notify('destroy')) {
+            if (false === this.notify('destroy')) {
                 return this;
             }
 
@@ -107,12 +107,12 @@
             $(window).unbind('resize.jcarousel', this.onWindowResize);
             this.root.removeData('jcarousel');
 
-            this._notify('destroyend');
+            this.notify('destroyend');
 
             return this;
         },
         reload: function() {
-            if (false === this._notify('reload')) {
+            if (false === this.notify('reload')) {
                 return this;
             }
 
@@ -138,7 +138,7 @@
             this.list.css({'left': 0, 'top': 0});
 
             if (item.size() > 0) {
-                this._prepare(item);
+                this.prepare(item);
                 this.list.find('.jcarousel-clone').remove();
 
                 // Reload items
@@ -148,10 +148,10 @@
                                 (items.filter(filterItemFirst).index() > 0 ||
                                  items.filter(filterItemLast).index() < end);
 
-                this.list.css(this.lt, this._position(item) + 'px');
+                this.list.css(this.lt, this.position(item) + 'px');
             }
 
-            this._notify('reloadend');
+            this.notify('reloadend');
 
             return this;
         },
@@ -165,7 +165,7 @@
                 return this;
             }
 
-            if (false === this._notify('scrollby', [offset])) {
+            if (false === this.notify('scrollby', [offset])) {
                 return this;
             }
 
@@ -179,7 +179,7 @@
                 scroll = Math.abs(offset),
                 self   = this,
                 cb     = function() {
-                    self._notify('scrollbyend');
+                    self.notify('scrollbyend');
                     if ($.isFunction(callback)) {
                         callback.call(self);
                     }
@@ -194,17 +194,17 @@
 
                 if (last >= end && this.tail) {
                     if (!this.inTail) {
-                        this._scrollTail(animate, cb);
+                        this.scrollTail(animate, cb);
                     } else {
                         if (this.options.wrap == 'both' || this.options.wrap == 'last') {
-                            this._scroll(0, animate, cb);
+                            this.scroll(0, animate, cb);
                         } else {
-                            this._scroll(end, animate, cb);
+                            this.scroll(end, animate, cb);
                         }
                     }
                 } else {
                     if (last === end && (this.options.wrap == 'both' || this.options.wrap == 'last')) {
-                        return this._scroll(0, animate, cb);
+                        return this.scroll(0, animate, cb);
                     } else {
                         first = items.filter(filterItemFirst).index();
                         index = first + scroll;
@@ -219,9 +219,9 @@
                                 this.list.append(curr);
                             }
 
-                            this._scroll(curr, animate, cb);
+                            this.scroll(curr, animate, cb);
                         } else {
-                            this._scroll(Math.min(index, end), animate, cb);
+                            this.scroll(Math.min(index, end), animate, cb);
                         }
                     }
                 }
@@ -230,10 +230,10 @@
                 index = first - scroll;
 
                 if (this.inTail) {
-                    this._scroll(Math.max(index + 1, 0), animate, cb);
+                    this.scroll(Math.max(index + 1, 0), animate, cb);
                 } else {
                     if (first === 0 && (this.options.wrap == 'both' || this.options.wrap == 'first')) {
-                        this._scroll(end, animate, cb);
+                        this.scroll(end, animate, cb);
                     } else {
                         if (this.circular && index < 0) {
                             i = index;
@@ -243,12 +243,12 @@
                                 curr = this.items().eq(-1);
                                 curr.after(curr.clone(true).addClass('jcarousel-clone'));
                                 this.list.prepend(curr);
-                                this.list.css(this.lt, $j.intval(this.list.css(this.lt)) - this._dimension(curr) + 'px');
+                                this.list.css(this.lt, $j.intval(this.list.css(this.lt)) - this.dimension(curr) + 'px');
                             }
 
-                            this._scroll(curr, animate, cb);
+                            this.scroll(curr, animate, cb);
                         } else {
-                            this._scroll(Math.max(first - scroll, 0), animate, cb);
+                            this.scroll(Math.max(first - scroll, 0), animate, cb);
                         }
                     }
                 }
@@ -261,7 +261,7 @@
                 return this;
             }
 
-            if (false === this._notify('scrollto', [typeof item === 'object' ? this.items().index(item) : item])) {
+            if (false === this.notify('scrollto', [typeof item === 'object' ? this.items().index(item) : item])) {
                 return this;
             }
 
@@ -272,17 +272,17 @@
 
             var self = this,
                 cb   = function(animated) {
-                    self._notify('scrolltoend', [animated]);
+                    self.notify('scrolltoend', [animated]);
                     if ($.isFunction(callback)) {
                         callback.call(self, animated);
                     }
                 };
 
-            this._scroll(item, animate, cb);
+            this.scroll(item, animate, cb);
 
             return this;
         },
-        _scroll: function(item, animate, callback) {
+        scroll: function(item, animate, callback) {
             if (this.animating) {
                 return this;
             }
@@ -298,8 +298,8 @@
 
             this.inTail = false;
 
-            this._prepare(item);
-            var pos = this._position(item);
+            this.prepare(item);
+            var pos = this.position(item);
 
             if (pos == $j.intval(this.list.css(this.lt))) {
                 callback(false);
@@ -309,11 +309,11 @@
             var properties = {};
             properties[this.lt] = pos + 'px';
 
-            this._animate(properties, animate, callback);
+            this.animate(properties, animate, callback);
 
             return this;
         },
-        _scrollTail: function(animate, callback) {
+        scrollTail: function(animate, callback) {
             if (this.animating || !this.tail) {
                 return this;
             }
@@ -326,16 +326,16 @@
             var properties = {};
             properties[this.lt] = pos + 'px';
 
-            this._animate(properties, animate, callback);
+            this.animate(properties, animate, callback);
 
             return this;
         },
-        _animate: function(properties, animate, callback) {
+        animate: function(properties, animate, callback) {
             if (this.animating) {
                 return this;
             }
 
-            if (false === this._notify('animate')) {
+            if (false === this.notify('animate')) {
                 return this;
             }
 
@@ -363,12 +363,12 @@
 
             return this;
         },
-        _prepare: function(item) {
+        prepare: function(item) {
             var items   = this.items(),
                 index   = items.index(item),
                 idx     = index,
-                wh      = this._dimension(item),
-                clip    = this._clipping(),
+                wh      = this.dimension(item),
+                clip    = this.clipping(),
                 update  = {
                     first:   item,
                     last:    item,
@@ -388,7 +388,7 @@
                             break;
                         }
                     }
-                    wh += this._dimension(curr);
+                    wh += this.dimension(curr);
                     update.last = curr;
                     update.visible = update.visible.add(curr);
                     if (wh >= clip) {
@@ -408,7 +408,7 @@
                     if (curr.size() === 0) {
                         break;
                     }
-                    wh += this._dimension(curr);
+                    wh += this.dimension(curr);
                     update.first = curr;
                     update.visible = update.visible.add(curr);
                     if (wh >= clip) {
@@ -417,7 +417,7 @@
                 }
             }
 
-            this._update(update);
+            this.update(update);
 
             this.tail = 0;
 
@@ -432,13 +432,13 @@
 
             return this;
         },
-        _position: function(item) {
+        position: function(item) {
             var items = this.items(),
                 first = items.filter(filterItemFirst),
                 pos   = first.position()[this.lt];
 
             if (this.rtl && !this.vertical) {
-                pos -= this._clipping() - this._dimension(first);
+                pos -= this.clipping() - this.dimension(first);
             }
 
             if ((items.index(item) > items.index(first) || this.inTail) && this.tail) {
@@ -450,7 +450,7 @@
 
             return -pos;
         },
-        _update: function(update) {
+        update: function(update) {
             var items = this.items(),
                 first = items.filter(filterItemFirst),
                 last  = items.filter(filterItemLast);
@@ -493,7 +493,7 @@
 
             return this;
         },
-        _notify: function(event, data) {
+        notify: function(event, data) {
             var e = $.Event('jcarousel' + event);
             this.root.trigger(e, data);
             if ($j.hooks[event]) {
@@ -505,10 +505,10 @@
             }
             return !e.isDefaultPrevented();
         },
-        _clipping: function() {
+        clipping: function() {
             return this.root['inner' + (this.vertical ? 'Height' : 'Width')]();
         },
-        _dimension: function(el) {
+        dimension: function(el) {
             // outerWidth()/outerHeight() doesn't seem to work on hidden elements
             return this.vertical ?
                 el.innerHeight()  +
