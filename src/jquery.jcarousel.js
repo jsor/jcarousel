@@ -441,7 +441,7 @@
                 pos -= this._clipping() - this._dimension(first);
             }
 
-            if ((items.index(item) ===  (items.size() - 1) || this.inTail) && this.tail) {
+            if ((items.index(item) > items.index(first) || this.inTail) && this.tail) {
                 pos = this.rtl ? pos - this.tail : pos + this.tail;
                 this.inTail = true;
             } else {
