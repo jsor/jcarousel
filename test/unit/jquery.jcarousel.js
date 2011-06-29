@@ -119,8 +119,6 @@ $(function($){
 
         $('#jcarousel1').jcarousel();
 
-        console.log($('#jcarousel1').jcarousel().items())
-
         equal($('#jcarousel1').jcarousel().items().get(1), $('#jcarousel1 li:eq(1)').get(0), '#jcarousel1');
     });
 
