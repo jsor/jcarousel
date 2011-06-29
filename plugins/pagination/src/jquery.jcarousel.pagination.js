@@ -15,7 +15,7 @@
     $.extend($j.options, {
         pagination: {
             perpage: null,
-            root: '.jcarousel-pagination',
+            root:    '.jcarousel-pagination',
             item: function(page) {
                 return $('<a class="jcarousel-pagination-item" href="#' + page + '">' + page + '</a>');
             },
@@ -28,14 +28,15 @@
         }
     });
 
-    $.jcarousel.fn.extend({
-        paginationRoot: null,
+    $j.fn.extend({
+        paginationRoot:  null,
         paginationPages: {},
         paginationItems: {},
         scrollToPage: function(page) {
             if (this.paginationPages[page]) {
                 this.scrollTo(this.paginationPages[page]);
             }
+
             return this;
         }
     });
@@ -47,6 +48,7 @@
 
         var o = this.options.pagination;
 
+        this.paginationRoot  = null;
         this.paginationPages = {};
         this.paginationItems = {};
 
@@ -112,20 +114,21 @@
 
         if (o.root) {
             this.paginationRoot = (o.root.jquery ? o.root : this.root.parent().find(o.root));
-        } else {
-            this.paginationRoot = $();
-        }
 
-        if (this.paginationRoot.size() > 0) {
-            this.paginationRoot.empty();
+            if (this.paginationRoot.size() > 0) {
+                this.paginationRoot.empty();
 
-            var self = this;
-            $.each(this.paginationPages, function(page, item) {
-                self.paginationItems[page] = $(o.item.call(self, page, item)).click(function(e) {
-                    e.preventDefault();
-                    self.scrollTo(item);
-                }).appendTo(self.paginationRoot);
-            });
+                var self = this;
+                $.each(this.paginationPages, function(page, item) {
+                    var el = $(o.item.call(self, page, item)).click(function(e) {
+                        e.preventDefault();
+                        self.scrollTo(item);
+                    }).appendTo(self.paginationRoot);
+
+                    o[item.is(':jcarouselitemvisible') ? 'active' : 'inactive'].call(self, el);
+                    self.paginationItems[page] = el;
+                });
+            }
         }
     });
 
@@ -136,17 +139,21 @@
 
         var self = this;
         $.each(this.paginationPages, function(page, item) {
-            self.options.pagination[item.is(':jcarouselitemvisible') ? 'active' : 'inactive'](self.paginationItems[page]);
+            self.options.pagination[item.is(':jcarouselitemvisible') ? 'active' : 'inactive'].call(self, self.paginationItems[page]);
         });
     });
 
     $j.hook('destroy', function(e) {
-        if (!e.isDefaultPrevented()) {
+        if (e.isDefaultPrevented()) {
+            return;
+        }
+
+        if (this.paginationRoot) {
             this.paginationRoot.empty();
         }
     });
 
-    $.jcarousel.api({
+    $j.api({
         scrollToPage: true
     });
 
