@@ -18,7 +18,7 @@
     var $j = $.jcarousel = function(el, opts) {
         // Allow instantiation without the 'new' keyword
         if (!this.jcarousel) {
-            return new $.jcarousel(el, opts);
+            return new $j(el, opts);
         }
 
         this.init(el, opts);
@@ -574,7 +574,7 @@
         };
     });
 
-    $.jcarousel.api({
+    $j.api({
         destroy: function() {
             this.data('jcarousel').destroy();
             // Exit out of jCarousel specific subclass and return original jQuery object

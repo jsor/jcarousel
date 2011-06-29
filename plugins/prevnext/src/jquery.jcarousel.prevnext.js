@@ -24,7 +24,7 @@
         }
     });
 
-    $.jcarousel.fn.extend({
+    $j.fn.extend({
         prev: function() {
             this.scrollBy(-this.options.prevnext.scroll);
         },
@@ -133,7 +133,7 @@
         return !!$.data(elem, btnDisabled);
     };
 
-    $.jcarousel.api({
+    $j.api({
         next: true,
         prev: true
     });

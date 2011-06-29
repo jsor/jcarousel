@@ -19,7 +19,7 @@
         }
     });
 
-    $.jcarousel.fn.extend({
+    $j.fn.extend({
         autoscrollTimer: null,
         autoscrollPaused: null,
         startAuto: function(options) {
@@ -60,7 +60,7 @@
         }
     });
 
-    $.jcarousel.api({
+    $j.api({
         startAuto:  true,
         pauseAuto:  true,
         resumeAuto: true,
