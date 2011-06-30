@@ -48,6 +48,10 @@
 
         var o = this.options.pagination;
 
+        if (this.paginationRoot) {
+            this.paginationRoot.empty();
+        }
+
         this.paginationRoot  = null;
         this.paginationPages = {};
         this.paginationItems = {};
