@@ -8,7 +8,7 @@
  *
  * Date: @DATE
  */
-(function($, window) {
+(function($, window, undefined) {
 
     var filterItemFirst = ':jcarouselitemfirst',
         filterItemLast  = ':jcarouselitemlast';
@@ -515,8 +515,18 @@
 
             if ($j.hooks[event]) {
                 for (var i = 0, l = $j.hooks[event].length; i < l; i++) {
-                    if (false === $j.hooks[event][i].call(this, e)) {
-                        e.preventDefault();
+                    var ret = $j.hooks[event][i].call(this, e);
+
+                    if (ret !== undefined) {
+                        e.result = ret;
+                        if (ret === false) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }
+                    }
+
+                    if (e.isImmediatePropagationStopped()) {
+                        break;
                     }
                 }
             }
