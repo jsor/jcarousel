@@ -13,8 +13,6 @@
     var filterItemFirst = ':jcarouselitemfirst',
         filterItemLast  = ':jcarouselitemlast';
 
-    $.jcarouselSub = $.sub();
-
     var $j = $.jcarousel = function(el, opts) {
         // Allow instantiation without the 'new' keyword
         if (!this.jcarousel) {
@@ -156,6 +154,23 @@
             }
 
             this._notify('reloadend');
+
+            return this;
+        },
+        option: function(key, value) {
+            if (arguments.length === 0) {
+                return $.extend({}, this.options);
+            }
+
+            if (typeof key === "string") {
+                if (value === undefined) {
+                    return this.options[key] === undefined ? null : this.options[key];
+                }
+
+                this.options[key] = value;
+            } else {
+                $.extend(true, this.options, key);
+            }
 
             return this;
         },
@@ -571,21 +586,6 @@
                 $j.hooks[type].push(callback);
             }
         },
-        api: function(methods) {
-            $.each(methods, function(method, ret) {
-                if (!$.isFunction(ret)) {
-                    ret = (function(method, ret) {
-                        return function() {
-                            var j = this.data('jcarousel'),
-                                res = j[method].apply(j, arguments);
-                            return ret ? this : res;
-                        };
-                    })(method, ret);
-                }
-
-                $.jcarouselSub.fn[method] = ret;
-            });
-        },
         intval: function(v) {
             v = parseInt(v, 10);
             return isNaN(v) ? 0 : v;
@@ -602,29 +602,39 @@
         };
     });
 
-    $j.api({
-        destroy: function() {
-            this.data('jcarousel').destroy();
+    $.fn.jcarousel = function(options) {
+        var args        = Array.prototype.slice.call(arguments, 1),
+            returnValue = this;
 
-            // Exit out of jCarousel specific subclass and return original jQuery object
-            return $(this);
-        },
-        reload:   true,
-        items:    false,
-        scrollBy: true,
-        scrollTo: true
-    });
+        if (typeof options === "string") {
+            this.each(function() {
+                var instance = $.data(this, 'jcarousel');
+                if (!instance) {
+                    return $.error("Cannot call methods prior to initialization; attempted to call method '" + options + "'");
+                }
+                if (!$.isFunction( instance[options] ) || options.charAt( 0 ) === "_") {
+                    return $.error("No such method '" + options + "'");
+                }
+                var methodValue = instance[options].apply(instance, args);
+                if (methodValue !== instance && methodValue !== undefined) {
+                    returnValue = methodValue;
+                    return false;
+                }
+            });
+        } else {
+            this.each(function() {
+                var instance = $.data(this, 'jcarousel');
+                if (instance) {
+                    if (options) {
+                        instance.option(options).reload();
+                    }
+                } else {
+                    $j(this, options);
+                }
+            });
+        }
 
-    $.fn.jcarousel = function(o) {
-        return $.jcarouselSub(this).each(function() {
-            var j = $(this).data('jcarousel');
-
-            if (j) {
-                $.extend(true, j.options, o || {});
-            } else {
-                $j(this, o);
-            }
-        });
+        return returnValue;
     };
 
 })(jQuery, window);
