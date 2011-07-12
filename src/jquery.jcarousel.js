@@ -21,7 +21,7 @@
             return new $j(el, opts);
         }
 
-        this.init(el, opts);
+        this._init(el, opts);
     };
 
     $j.fn = $j.prototype = {
@@ -42,7 +42,7 @@
         vertical:    false,
         rtl:         false,
         circular:    false,
-        init: function(el, opts) {
+        _init: function(el, opts) {
             this.root    = $(el);
             this.options = $.extend(true, {}, $j.options, opts);
 
@@ -70,7 +70,7 @@
                     self.reload();
                 }
 
-                self.notify('animateend');
+                self._notify('animateend');
 
                 if ($.isFunction(callback)) {
                     callback.call(self, true);
@@ -82,7 +82,7 @@
             return this;
         },
         setup: function() {
-            if (false === this.notify('setup')) {
+            if (false === this._notify('setup')) {
                 return this;
             }
 
@@ -92,12 +92,12 @@
 
             $(window).unbind('resize.jcarousel', this.onWindowResize).bind('resize.jcarousel', this.onWindowResize);
 
-            this.notify('setupend');
+            this._notify('setupend');
 
             return this;
         },
         destroy: function() {
-            if (false === this.notify('destroy')) {
+            if (false === this._notify('destroy')) {
                 return this;
             }
 
@@ -111,12 +111,12 @@
 
             this.root.removeData('jcarousel');
 
-            this.notify('destroyend');
+            this._notify('destroyend');
 
             return this;
         },
         reload: function() {
-            if (false === this.notify('reload')) {
+            if (false === this._notify('reload')) {
                 return this;
             }
 
@@ -142,7 +142,7 @@
             this.list.css({'left': 0, 'top': 0});
 
             if (item.size() > 0) {
-                this.prepare(item);
+                this._prepare(item);
                 this.list.find('.jcarousel-clone').remove();
 
                 // Reload items
@@ -152,10 +152,10 @@
                                 (items.filter(filterItemFirst).index() > 0 ||
                                  items.filter(filterItemLast).index() < end);
 
-                this.list.css(this.lt, this.position(item) + 'px');
+                this.list.css(this.lt, this._position(item) + 'px');
             }
 
-            this.notify('reloadend');
+            this._notify('reloadend');
 
             return this;
         },
@@ -169,7 +169,7 @@
                 return this;
             }
 
-            if (false === this.notify('scrollby', [offset])) {
+            if (false === this._notify('scrollby', [offset])) {
                 return this;
             }
 
@@ -183,7 +183,7 @@
                 scroll = Math.abs(offset),
                 self   = this,
                 cb     = function() {
-                    self.notify('scrollbyend');
+                    self._notify('scrollbyend');
                     if ($.isFunction(callback)) {
                         callback.call(self);
                     }
@@ -198,17 +198,17 @@
 
                 if (last >= end && this.tail) {
                     if (!this.inTail) {
-                        this.scrollTail(animate, cb);
+                        this._scrollTail(animate, cb);
                     } else {
                         if (this.options.wrap == 'both' || this.options.wrap == 'last') {
-                            this.scroll(0, animate, cb);
+                            this._scroll(0, animate, cb);
                         } else {
-                            this.scroll(end, animate, cb);
+                            this._scroll(end, animate, cb);
                         }
                     }
                 } else {
                     if (last === end && (this.options.wrap == 'both' || this.options.wrap == 'last')) {
-                        return this.scroll(0, animate, cb);
+                        return this._scroll(0, animate, cb);
                     } else {
                         first = items.filter(filterItemFirst).index();
                         index = first + scroll;
@@ -223,9 +223,9 @@
                                 this.list.append(curr);
                             }
 
-                            this.scroll(curr, animate, cb);
+                            this._scroll(curr, animate, cb);
                         } else {
-                            this.scroll(Math.min(index, end), animate, cb);
+                            this._scroll(Math.min(index, end), animate, cb);
                         }
                     }
                 }
@@ -234,10 +234,10 @@
                 index = first - scroll;
 
                 if (this.inTail) {
-                    this.scroll(Math.max(index + 1, 0), animate, cb);
+                    this._scroll(Math.max(index + 1, 0), animate, cb);
                 } else {
                     if (first === 0 && (this.options.wrap == 'both' || this.options.wrap == 'first')) {
-                        this.scroll(end, animate, cb);
+                        this._scroll(end, animate, cb);
                     } else {
                         if (this.circular && index < 0) {
                             i = index;
@@ -250,9 +250,9 @@
                                 this.list.css(this.lt, $j.intval(this.list.css(this.lt)) - this.dimension(curr) + 'px');
                             }
 
-                            this.scroll(curr, animate, cb);
+                            this._scroll(curr, animate, cb);
                         } else {
-                            this.scroll(Math.max(first - scroll, 0), animate, cb);
+                            this._scroll(Math.max(first - scroll, 0), animate, cb);
                         }
                     }
                 }
@@ -265,7 +265,7 @@
                 return this;
             }
 
-            if (false === this.notify('scrollto', [typeof item === 'object' ? this.items().index(item) : item])) {
+            if (false === this._notify('scrollto', [typeof item === 'object' ? this.items().index(item) : item])) {
                 return this;
             }
 
@@ -276,17 +276,17 @@
 
             var self = this,
                 cb   = function(animated) {
-                    self.notify('scrolltoend', [animated]);
+                    self._notify('scrolltoend', [animated]);
                     if ($.isFunction(callback)) {
                         callback.call(self, animated);
                     }
                 };
 
-            this.scroll(item, animate, cb);
+            this._scroll(item, animate, cb);
 
             return this;
         },
-        scroll: function(item, animate, callback) {
+        _scroll: function(item, animate, callback) {
             if (this.animating) {
                 return this;
             }
@@ -302,8 +302,8 @@
 
             this.inTail = false;
 
-            this.prepare(item);
-            var pos = this.position(item);
+            this._prepare(item);
+            var pos = this._position(item);
 
             if (pos == $j.intval(this.list.css(this.lt))) {
                 callback(false);
@@ -313,11 +313,11 @@
             var properties = {};
             properties[this.lt] = pos + 'px';
 
-            this.animate(properties, animate, callback);
+            this._animate(properties, animate, callback);
 
             return this;
         },
-        scrollTail: function(animate, callback) {
+        _scrollTail: function(animate, callback) {
             if (this.animating || !this.tail) {
                 return this;
             }
@@ -330,16 +330,16 @@
             var properties = {};
             properties[this.lt] = pos + 'px';
 
-            this.animate(properties, animate, callback);
+            this._animate(properties, animate, callback);
 
             return this;
         },
-        animate: function(properties, animate, callback) {
+        _animate: function(properties, animate, callback) {
             if (this.animating) {
                 return this;
             }
 
-            if (false === this.notify('animate')) {
+            if (false === this._notify('animate')) {
                 return this;
             }
 
@@ -367,7 +367,7 @@
 
             return this;
         },
-        prepare: function(item) {
+        _prepare: function(item) {
             var items   = this.items(),
                 index   = items.index(item),
                 idx     = index,
@@ -430,7 +430,7 @@
                 }
             }
 
-            this.update(update);
+            this._update(update);
 
             this.tail = 0;
 
@@ -447,7 +447,7 @@
 
             return this;
         },
-        position: function(item) {
+        _position: function(item) {
             var items = this.items(),
                 first = items.filter(filterItemFirst),
                 pos   = first.position()[this.lt];
@@ -465,7 +465,7 @@
 
             return -pos;
         },
-        update: function(update) {
+        _update: function(update) {
             var items = this.items(),
                 first = items.filter(filterItemFirst),
                 last  = items.filter(filterItemLast);
@@ -508,7 +508,7 @@
 
             return this;
         },
-        notify: function(event, data) {
+        _notify: function(event, data) {
             var e = $.Event('jcarousel' + event);
 
             this.root.trigger(e, data);
