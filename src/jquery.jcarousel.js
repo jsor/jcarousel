@@ -31,7 +31,7 @@
     $j.fn.extend = $j.extend = $.extend;
 
     $j.fn.extend({
-        root:        null,
+        element:     null,
         list:        null,
         options:     {},
         animating:   false,
@@ -43,10 +43,10 @@
         rtl:         false,
         circular:    false,
         _init: function(el, opts) {
-            this.root    = $(el);
+            this.element    = $(el);
             this.options = $.extend(true, {}, $j.options, opts);
 
-            this.root.data('jcarousel', this);
+            this.element.data('jcarousel', this);
 
             var self = this;
 
@@ -86,7 +86,7 @@
                 return this;
             }
 
-            this.list = this.root.find(this.options.list);
+            this.list = this.element.find(this.options.list);
 
             this.reload();
 
@@ -109,7 +109,7 @@
 
             $(window).unbind('resize.jcarousel', this.onWindowResize);
 
-            this.root.removeData('jcarousel');
+            this.element.removeData('jcarousel');
 
             this._notify('destroyend');
 
@@ -120,11 +120,11 @@
                 return this;
             }
 
-            this.vertical = this.root.data('jcarousel-vertical') ||
-                            ('' + this.root.attr('class')).toLowerCase().indexOf('jcarousel-vertical') > -1;
+            this.vertical = this.element.data('jcarousel-vertical') ||
+                            ('' + this.element.attr('class')).toLowerCase().indexOf('jcarousel-vertical') > -1;
 
-            this.rtl = ('' + this.root.attr('dir')).toLowerCase() === 'rtl' ||
-                       this.root.parents('[dir]').filter(function() {
+            this.rtl = ('' + this.element.attr('dir')).toLowerCase() === 'rtl' ||
+                       this.element.parents('[dir]').filter(function() {
                            return (/rtl/i).test($(this).attr('dir'));
                        }).size() > 0;
 
@@ -511,7 +511,7 @@
         _notify: function(event, data) {
             var e = $.Event('jcarousel' + event);
 
-            this.root.trigger(e, data);
+            this.element.trigger(e, data);
 
             if ($j.hooks[event]) {
                 for (var i = 0, l = $j.hooks[event].length; i < l; i++) {
@@ -534,7 +534,7 @@
             return !e.isDefaultPrevented();
         },
         clipping: function() {
-            return this.root['inner' + (this.vertical ? 'Height' : 'Width')]();
+            return this.element['inner' + (this.vertical ? 'Height' : 'Width')]();
         },
         dimension: function(el) {
             // outerWidth()/outerHeight() doesn't seem to work on hidden elements
