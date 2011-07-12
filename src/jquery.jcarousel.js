@@ -11,7 +11,8 @@
 (function($, window, undefined) {
 
     var filterItemFirst = ':jcarouselitemfirst',
-        filterItemLast  = ':jcarouselitemlast';
+        filterItemLast  = ':jcarouselitemlast',
+        itemData        = ['first', 'last', 'visible'];
 
     var $j = $.jcarousel = function(el, opts) {
         // Allow instantiation without the 'new' keyword
@@ -101,7 +102,7 @@
 
             var all = this.items();
 
-            $.each($j.itemData, function(i, name) {
+            $.each(itemData, function(i, name) {
                 all.removeData('jcarousel' + name);
             });
 
@@ -485,11 +486,11 @@
                 first = items.filter(filterItemFirst),
                 last  = items.filter(filterItemLast);
 
-            $.each($j.itemData, function(i, name) {
+            $.each(itemData, function(i, name) {
                 items.data('jcarouselitem' + name, false);
             });
 
-            $.each($j.itemData, function(i, name) {
+            $.each(itemData, function(i, name) {
                 update[name].data('jcarouselitem' + name, true);
             });
 
@@ -574,7 +575,6 @@
             animation: 'normal',
             wrap:      null
         },
-        itemData: ['first', 'last', 'visible'],
         hooks: {},
         hook: function(types, callback) {
             types = types.split(" ");
@@ -596,7 +596,7 @@
         return !!$.data(elem, 'jcarousel');
     };
 
-    $.each($j.itemData, function(i, name) {
+    $.each(itemData, function(i, name) {
         $.expr.filters['jcarouselitem'  + name] = function(elem) {
             return !!$.data(elem, 'jcarouselitem'  + name);
         };
