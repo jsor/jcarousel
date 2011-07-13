@@ -598,7 +598,7 @@
 
     $.each(itemData, function(i, name) {
         $.expr.filters['jcarouselitem'  + name] = function(elem) {
-            return !!$.data(elem, 'jcarouselitem'  + name);
+            return !!$.data(elem, 'jcarouselitem' + name);
         };
     });
 
@@ -614,7 +614,7 @@
                     return $.error("Cannot call methods prior to initialization; attempted to call method '" + options + "'");
                 }
 
-                if (!$.isFunction( instance[options] ) || options.charAt( 0 ) === "_") {
+                if (!$.isFunction(instance[options]) || options.charAt(0) === "_") {
                     return $.error("No such method '" + options + "'");
                 }
 
