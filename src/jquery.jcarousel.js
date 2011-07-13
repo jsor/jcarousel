@@ -42,7 +42,7 @@
         rtl:         false,
         circular:    false,
         _init: function(el, opts) {
-            this.element    = $(el);
+            this.element = $(el);
             this.options = $.extend(true, {}, $j.options, opts);
 
             this.element.data('jcarousel', this);
@@ -609,13 +609,17 @@
         if (typeof options === "string") {
             this.each(function() {
                 var instance = $.data(this, 'jcarousel');
+
                 if (!instance) {
                     return $.error("Cannot call methods prior to initialization; attempted to call method '" + options + "'");
                 }
+
                 if (!$.isFunction( instance[options] ) || options.charAt( 0 ) === "_") {
                     return $.error("No such method '" + options + "'");
                 }
+
                 var methodValue = instance[options].apply(instance, args);
+
                 if (methodValue !== instance && methodValue !== undefined) {
                     returnValue = methodValue;
                     return false;
@@ -624,6 +628,7 @@
         } else {
             this.each(function() {
                 var instance = $.data(this, 'jcarousel');
+
                 if (instance) {
                     if (options) {
                         instance.option(options).reload();
