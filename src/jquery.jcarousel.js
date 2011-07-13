@@ -43,7 +43,7 @@
         circular:    false,
         _init: function(el, opts) {
             this.element = $(el);
-            this.options = $.extend(true, {}, $j.options, opts);
+            this.options = $.extend(true, {}, $j.defaults, opts);
 
             this.element.data('jcarousel', this);
 
@@ -569,7 +569,7 @@
     });
 
     $j.extend({
-        options: {
+        defaults: {
             list:      '>ul:eq(0)',
             items:     '>li',
             animation: 'normal',
