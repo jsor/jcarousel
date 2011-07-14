@@ -207,8 +207,8 @@
                 end    = items.size() - 1,
                 scroll = Math.abs(offset),
                 self   = this,
-                cb     = function() {
-                    self._trigger('scrollByEnd');
+                cb     = function(animated) {
+                    self._trigger('scrollByEnd', null, [animated]);
                     if ($.isFunction(callback)) {
                         callback.call(self);
                     }
