@@ -12,15 +12,21 @@ $(function($){
     });
 
     test("init() sets options", function() {
-        expect(4);
+        expect(8);
 
         $('#jcarousel1').jcarousel({wrap: 'custom', foo: 'bar'});
 
-        ok($('#jcarousel1').data('jcarousel').options.wrap, '#jcarousel1 (wrap exists)');
-        equal($('#jcarousel1').data('jcarousel').options.wrap, 'custom', '#jcarousel1 (wrap equals)');
+        ok($('#jcarousel1').data('jcarousel').options.wrap, '#jcarousel1 (wrap exists in property)');
+        equal($('#jcarousel1').data('jcarousel').options.wrap, 'custom', '#jcarousel1 (wrap equals in property)');
 
-        ok($('#jcarousel1').data('jcarousel').options.foo, '#jcarousel1 (foo exists)');
-        equal($('#jcarousel1').data('jcarousel').options.foo, 'bar', '#jcarousel1 (foo equals)');
+        ok($('#jcarousel1').jcarousel('option', 'wrap'), '#jcarousel1 (wrap exists through option())');
+        equal($('#jcarousel1').jcarousel('option', 'wrap'), 'custom', '#jcarousel1 (wrap equals through option())');
+
+        ok($('#jcarousel1').data('jcarousel').options.foo, '#jcarousel1 (foo exists in property)');
+        equal($('#jcarousel1').data('jcarousel').options.foo, 'bar', '#jcarousel1 (foo equals in property)');
+
+        ok($('#jcarousel1').jcarousel('option', 'foo'), '#jcarousel1 (foo exists through option())');
+        equal($('#jcarousel1').jcarousel('option', 'foo'), 'bar', '#jcarousel1 (foo equals through option())');
     });
 
     test("init() sets data", function() {
