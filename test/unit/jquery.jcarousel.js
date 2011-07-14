@@ -2,13 +2,13 @@ $(function($){
 
     module("jquery.jcarousel");
 
-    test("init() sets root", function() {
+    test("init() sets element", function() {
         expect(2);
 
         $('#jcarousel1').jcarousel();
 
-        ok($('#jcarousel1').data('jcarousel').root, '#jcarousel1 (root exists)');
-        ok($('#jcarousel1').data('jcarousel').root.jquery, '#jcarousel1 (root is jQuery object)');
+        ok($('#jcarousel1').data('jcarousel').element, '#jcarousel1 (element exists)');
+        ok($('#jcarousel1').data('jcarousel').element.jquery, '#jcarousel1 (element is jQuery object)');
     });
 
     test("init() sets options", function() {
@@ -77,7 +77,7 @@ $(function($){
 
         notEqual($('#jcarousel1').data('jcarousel'), undefined, '#jcarousel1');
 
-        $('#jcarousel1').jcarousel().destroy();
+        $('#jcarousel1').jcarousel('destroy');
 
         equal($('#jcarousel1').data('jcarousel'), undefined, '#jcarousel1');
     });
@@ -119,7 +119,7 @@ $(function($){
 
         $('#jcarousel1').jcarousel();
 
-        equal($('#jcarousel1').jcarousel().items().get(1), $('#jcarousel1 li:eq(1)').get(0), '#jcarousel1');
+        equal($('#jcarousel1').jcarousel('items').get(1), $('#jcarousel1 li:eq(1)').get(0), '#jcarousel1');
     });
 
 });
