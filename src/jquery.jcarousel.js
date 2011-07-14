@@ -80,6 +80,11 @@
                 }
             };
 
+            // Safari wants this
+            window.setTimeout(function() {
+                 self.setup();
+            }, 10);
+
             return this;
         },
         setup: function() {
