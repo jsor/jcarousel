@@ -42,10 +42,14 @@
         rtl:         false,
         circular:    false,
         _init: function(element, options) {
-            this.element = $(element);
-            this.options = $j.dataOptions(this.element, $.extend(true, {}, $j.defaults, options));
+            this.element  = $(element);
+            this.options  = $j.dataOptions(this.element, $.extend(true, {}, $j.defaults, options));
 
             this.element.data('jcarousel', this);
+
+            if (this.options.events) {
+                this._bind(this.options.events);
+            }
 
             var self = this;
 
@@ -69,19 +73,17 @@
                     self.reload();
                 }
 
-                self._notify('animateend');
+                self._trigger('animateEnd');
 
                 if ($.isFunction(callback)) {
                     callback.call(self, true);
                 }
             };
 
-            this.setup();
-
             return this;
         },
         setup: function() {
-            if (false === this._notify('setup')) {
+            if (false === this._trigger('setup')) {
                 return this;
             }
 
@@ -91,12 +93,12 @@
 
             $(window).unbind('resize.jcarousel', this.onWindowResize).bind('resize.jcarousel', this.onWindowResize);
 
-            this._notify('setupend');
+            this._trigger('setupEnd');
 
             return this;
         },
         destroy: function() {
-            if (false === this._notify('destroy')) {
+            if (false === this._trigger('destroy')) {
                 return this;
             }
 
@@ -108,14 +110,16 @@
 
             $(window).unbind('resize.jcarousel', this.onWindowResize);
 
-            this.element.removeData('jcarousel');
+            this.element
+                .unbind('.jcarousel')
+                .removeData('jcarousel');
 
-            this._notify('destroyend');
+            this._trigger('destroyEnd');
 
             return this;
         },
         reload: function() {
-            if (false === this._notify('reload')) {
+            if (false === this._trigger('reload')) {
                 return this;
             }
 
@@ -154,7 +158,7 @@
                 this.list.css(this.lt, this._position(item) + 'px');
             }
 
-            this._notify('reloadend');
+            this._trigger('reloadEnd');
 
             return this;
         },
@@ -185,7 +189,7 @@
                 return this;
             }
 
-            if (false === this._notify('scrollby', [offset])) {
+            if (false === this._trigger('scrollBy', null, [offset])) {
                 return this;
             }
 
@@ -199,7 +203,7 @@
                 scroll = Math.abs(offset),
                 self   = this,
                 cb     = function() {
-                    self._notify('scrollbyend');
+                    self._trigger('scrollByEnd');
                     if ($.isFunction(callback)) {
                         callback.call(self);
                     }
@@ -281,7 +285,7 @@
                 return this;
             }
 
-            if (false === this._notify('scrollto', [typeof item === 'object' ? this.items().index(item) : item])) {
+            if (false === this._trigger('scrollTo', null, [typeof item === 'object' ? this.items().index(item) : item])) {
                 return this;
             }
 
@@ -292,7 +296,7 @@
 
             var self = this,
                 cb   = function(animated) {
-                    self._notify('scrolltoend', [animated]);
+                    self._trigger('scrollToEnd', null, [animated]);
                     if ($.isFunction(callback)) {
                         callback.call(self, animated);
                     }
@@ -355,7 +359,7 @@
                 return this;
             }
 
-            if (false === this._notify('animate')) {
+            if (false === this._trigger('animate')) {
                 return this;
             }
 
@@ -524,30 +528,12 @@
 
             return this;
         },
-        _notify: function(event, data) {
-            var e = $.Event('jcarousel' + event);
-
-            this.element.trigger(e, data);
-
-            if ($j.hooks[event]) {
-                for (var i = 0, l = $j.hooks[event].length; i < l; i++) {
-                    var ret = $j.hooks[event][i].call(this, e);
-
-                    if (ret !== undefined) {
-                        e.result = ret;
-                        if (ret === false) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                        }
-                    }
-
-                    if (e.isImmediatePropagationStopped()) {
-                        break;
-                    }
-                }
-            }
-
-            return !e.isDefaultPrevented();
+        _trigger: function(type, event, data) {
+            return $j.trigger(this.element, type, event, data);
+        },
+        _bind: function(event, handler) {
+            $j.bind(this, this.element, event, handler);
+            return this;
         },
         clipping: function() {
             return this.element['inner' + (this.vertical ? 'Height' : 'Width')]();
@@ -603,6 +589,39 @@
             });
 
             return options;
+        },
+        trigger: function(element, type, event, data) {
+            event = $.Event(event);
+            event.type = ('jcarousel' + type).toLowerCase();
+            data = data || {};
+
+            // copy original event properties over to the new event
+            // this would happen if we could call $.event.fix instead of $.Event
+            // but we don't have a way to force an event to be fixed multiple times
+            if (event.originalEvent) {
+                for (var i = $.event.props.length, prop; i;) {
+                    prop = $.event.props[--i];
+                    event[prop] = event.originalEvent[prop];
+                }
+            }
+
+            element.trigger(event, data);
+
+            return !event.isDefaultPrevented();
+        },
+        bind: function(instance, element, event, handler) {
+            var events = {};
+            if (typeof event === 'string') {
+                events[event] = handler;
+            } else {
+                events = event;
+            }
+
+            $.each(events, function(event, handler) {
+                element.bind('jcarousel' + event.toLowerCase() + '.jcarousel', function() {
+                    handler.apply(instance, arguments);
+                });
+            });
         }
     });
 

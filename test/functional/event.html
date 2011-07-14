@@ -23,16 +23,24 @@ $(function() {
         console.log.apply(console, arguments);
     };
 
-    var jcarousel = $('.jcarousel');
+    var jcarousel = $('.jcarousel'), opts = {events: {}};
 
-    $.each(['setup', 'destroy', 'reload', 'scrollby', 'scrollto', 'animate'], function(i, name) {
-        jcarousel.bind('jcarousel' + name, function() {
-            log(name, this, Array.prototype.slice.call(arguments, 1));
+    $.each(['setup', 'destroy', 'reload', 'scrollBy', 'scrollTo', 'animate'], function(i, name) {
+        jcarousel.bind('jcarousel' + name.toLowerCase(), function() {
+            log(name.toLowerCase(), this, arguments);
         });
-        jcarousel.bind('jcarousel' + name + 'end', function() {
-            log(name+ 'end', this, Array.prototype.slice.call(arguments, 1));
-        })
+        jcarousel.bind('jcarousel' + name.toLowerCase() + 'end', function() {
+            log(name.toLowerCase() + 'end', this, arguments);
+        });
+        opts.events[name] = function() {
+            log(name, this, arguments);
+        };
+        opts.events[name + 'End'] = function() {
+            log(name + 'End', this, arguments);
+        };
     });
+
+    console.log(opts)
 
     jcarousel.find('li')
     .bind('jcarouselitemvisiblein', function() {
@@ -54,7 +62,7 @@ $(function() {
         log('itemlastout', this);
     });
 
-    jcarousel.jcarousel();
+    jcarousel.jcarousel(opts);
 });
 
 function callback(moved) {
