@@ -14,13 +14,13 @@
         filterItemLast  = ':jcarouselitemlast',
         itemData        = ['first', 'last', 'visible'];
 
-    var $j = $.jcarousel = function(el, opts) {
+    var $j = $.jcarousel = function(element, options) {
         // Allow instantiation without the 'new' keyword
         if (!this.jcarousel) {
-            return new $j(el, opts);
+            return new $j(element, options);
         }
 
-        this._init(el, opts);
+        this._init(element, options);
     };
 
     $j.fn = $j.prototype = {
@@ -41,9 +41,9 @@
         vertical:    false,
         rtl:         false,
         circular:    false,
-        _init: function(el, opts) {
-            this.element = $(el);
-            this.options = $.extend(true, {}, $j.defaults, opts);
+        _init: function(element, options) {
+            this.element = $(element);
+            this.options = $j.dataOptions(this.element, $.extend(true, {}, $j.defaults, options));
 
             this.element.data('jcarousel', this);
 
@@ -552,19 +552,19 @@
         clipping: function() {
             return this.element['inner' + (this.vertical ? 'Height' : 'Width')]();
         },
-        dimension: function(el) {
+        dimension: function(element) {
             // outerWidth()/outerHeight() doesn't seem to work on hidden elements
             return this.vertical ?
-                el.innerHeight()  +
-                    $j.intval(el.css('margin-top')) +
-                    $j.intval(el.css('margin-bottom')) +
-                    $j.intval(el.css('border-top-width')) +
-                    $j.intval(el.css('border-bottom-width')) :
-                el.innerWidth() +
-                    $j.intval(el.css('margin-left')) +
-                    $j.intval(el.css('margin-right')) +
-                    $j.intval(el.css('border-left-width')) +
-                    $j.intval(el.css('border-right-width'));
+                element.innerHeight()  +
+                    $j.intval(element.css('margin-top')) +
+                    $j.intval(element.css('margin-bottom')) +
+                    $j.intval(element.css('border-top-width')) +
+                    $j.intval(element.css('border-bottom-width')) :
+                element.innerWidth() +
+                    $j.intval(element.css('margin-left')) +
+                    $j.intval(element.css('margin-right')) +
+                    $j.intval(element.css('border-left-width')) +
+                    $j.intval(element.css('border-right-width'));
         }
     });
 
@@ -586,19 +586,33 @@
                 $j.hooks[type].push(callback);
             }
         },
-        intval: function(v) {
-            v = parseInt(v, 10);
-            return isNaN(v) ? 0 : v;
+        intval: function(value) {
+            value = parseInt(value, 10);
+            return isNaN(value) ? 0 : value;
+        },
+        dataOptions: function(element, options) {
+            $.each(options, function(option) {
+                var value = element.data('jcarousel-' + option.replace(/[A-Z]/g, function(c) {
+                        return "-" + c.toLowerCase();
+                    })
+                );
+
+                if (value !== undefined) {
+                    options[option] = value;
+                }
+            });
+
+            return options;
         }
     });
 
-    $.expr.filters.jcarousel = function(elem) {
-        return !!$.data(elem, 'jcarousel');
+    $.expr.filters.jcarousel = function(element) {
+        return !!$.data(element, 'jcarousel');
     };
 
     $.each(itemData, function(i, name) {
-        $.expr.filters['jcarouselitem'  + name] = function(elem) {
-            return !!$.data(elem, 'jcarouselitem' + name);
+        $.expr.filters['jcarouselitem'  + name] = function(element) {
+            return !!$.data(element, 'jcarouselitem' + name);
         };
     });
 
