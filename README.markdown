@@ -13,7 +13,7 @@ Getting started
 
 To use the jCarousel component, include the [jQuery](http://jquery.com) library, the jCarousel source file and a jCarousel skin stylesheet file inside the `<head>` tag of your HTML document:
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script type="text/javascript" src="/path/to/jquery.jcarousel.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/path/to/skin.css" />
 
@@ -138,6 +138,18 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
         <td>null</td>
         <td>Specifies whether to wrap at the first/last item (or both) and jump back to the start/end. Options are <code>"first"</code>, <code>"last"</code>, <code>"both"</code> or <code>"circular"</code> as string. If set to null, wrapping is turned off (default).</td>
     </tr>
+    <tr>
+        <td>vertical</td>
+        <td>boolean</td>
+        <td>null</td>
+        <td>Specifies whether the carousel appears in vertical orientation. Changes the carousel from a left/right style to a up/down style carousel. If not set, jCarousel looks for a class `jcarousel-vertical` on the root element and if found, automatically sets `vertical` to `true`.</td>
+    </tr>
+    <tr>
+        <td>rtl</td>
+        <td>boolean</td>
+        <td>null</td>
+        <td>Specifies wether the carousel appears in RTL (Right-To-Left) mode. If not set, jCarousel looks for `dir` attribute with a value of `rtl` on the root element (or to any of its parent elements) and if found, automatically sets `rtl` to `true`.</td>
+    </tr>
 </table>
 
 Navigating the carousel
@@ -150,11 +162,11 @@ You can do that by hand (see "Accessing the jCarousel instance" for available me
 A simple example to navigate the carousel:
 
     $('#mycarousel_prev_button').click(function() {
-        $('#mycarousel').jcarousel().scrollBy(-1);
+        $('#mycarousel').jcarousel('scrollBy', -1);
     });
 
     $('#mycarousel_next_button').click(function() {
-        $('#mycarousel').jcarousel().scrollBy(1);
+        $('#mycarousel').jcarousel('scrollBy', 1);
     });
 
 A more comfortable way is to use one of the navigation plugins:
@@ -176,7 +188,11 @@ This offers a lot of flexibility, because you can define the width in pixel for 
 Vertical carousels
 ------------------
 
-To define a vertical carousel, simply use a class for your root element which contains the string `jcarousel-vertical`:
+To create a vertical carousel, set the `vertical` option to `true`:
+
+    $('#mycarousel').jcarousel({vertical: true});
+
+Alternatively, you can simply use a class for your root element which contains the string `jcarousel-vertical`:
 
     <div class="jcarousel-skin-name">
         <div id="mycarousel" class="jcarousel-vertical">
@@ -186,26 +202,14 @@ To define a vertical carousel, simply use a class for your root element which co
         </div>
     </div>
 
-Alternatively, you can set a [data attribute](http://api.jquery.com/data/) `jcarousel-vertical`.
-
-Either programmatically:
-
-    $('#mycarousel').data('jcarousel-vertical', true).jcarousel();
-
-Or as a HTML5 `data-` attribute:
-
-    <div class="jcarousel-skin-name">
-        <div id="mycarousel" data-jcarousel-vertical="true" class="jcarousel">
-            <ul>
-                <!-- The content goes in here -->
-            </ul>
-        </div>
-    </div>
-
 RTL (Right-To-Left) carousels
 -----------------------------
 
-To define a carousel in RTL mode, simply add the `dir` attribute with a value of `rtl` to the root element (or to any of its parent elements):
+To create a carousel in RTL mode, set the `rtl` option to `true`:
+
+    $('#mycarousel').jcarousel({rtl: true});
+
+Alternatively, you can simply add the `dir` attribute with a value of `rtl` to the root element (or to any of its parent elements):
 
     <div class="jcarousel-skin-name">
         <div id="mycarousel" class="jcarousel" dir="rtl">
@@ -228,7 +232,7 @@ If you have created a carousel like:
 
 You can access the methods like this (for example the `scrollTo()` method):
 
-    $('#mycarousel').jcarousel().scrollTo(2);
+    $('#mycarousel').jcarousel('scrollTo', 2);
 
 ### Available methods are:
 
@@ -238,24 +242,32 @@ You can access the methods like this (for example the `scrollTo()` method):
         <th>Description</th>
     </tr>
     <tr>
-        <td><pre>.jcarousel().destroy();</pre></td>
+        <td><pre>.jcarousel('destroy');</pre></td>
         <td>Removes the jCarousel functionality completely. This will return the element back to its pre-init state. Note that this method returns the original jQuery object and jCarousel related methods are not longer available.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel().reload();</pre></td>
+        <td><pre>.jcarousel('reload');</pre></td>
         <td>Reloads the carousel. This method is useful to reinitialize the carousel if you have changed the content of the list from the outside.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel().items();</pre></td>
+        <td><pre>.jcarousel('items');</pre></td>
         <td>Returns all items as jQuery object.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel().scrollBy(offset [, animate [, callback]]);</pre></td>
+        <td><pre>.jcarousel('scrollBy', offset [, animate [, callback]]);</pre></td>
         <td>Scrolls by a given offset (offset can be negative to scroll backwards). If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel().scrollTo(item_or_index [, animate [, callback]]);</pre></td>
+        <td><pre>.jcarousel('scrollTo', item_or_index [, animate [, callback]]);</pre></td>
         <td>Scrolls to a given item or index. If the argument <code>animate</code> is given and <code>false</code>, it just jumps to the position without animation. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
+    </tr>
+    <tr>
+        <td><pre>.jcarousel('option', name, [value]);</pre></td>
+        <td>Get or set any jCarousel option. If no value is specified, will act as a getter.</td>
+    </tr>
+    <tr>
+        <td><pre>.jcarousel('option', options);</pre></td>
+        <td>Set multiple jCarousel options at once by providing an options object.</td>
     </tr>
 </table>
 
@@ -276,7 +288,7 @@ If you manipulate the carousel from the outside (eg. adding or removing items fr
             .append('<li>Item 2</li>');
 
         // Reload carousel
-        $('#mycarousel').jcarousel().reload();
+        $('#mycarousel').jcarousel('reload');
     });
     </script>
 
@@ -403,6 +415,28 @@ $('#mycarousel').bind('jcarouselscrolltoend', function() {
 });</pre>
         </td>
     </tr>
+    <tr>
+        <td>jcarouselanimate</td>
+        <td>Triggered when jCarousel starts a animation.</td>
+        <td>
+            <pre>
+$('#mycarousel').bind('jcarouselanimate', function() {
+    // this refers to the root element
+    var carousel = $(this).data('jcarousel');
+});</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>jcarouselscrolltoend</td>
+        <td>Triggered after jCarousel has finished a animation.</td>
+        <td>
+            <pre>
+$('#mycarousel').bind('jcarouselanimateend', function() {
+    // this refers to the root element
+    var carousel = $(this).data('jcarousel');
+});</pre>
+        </td>
+    </tr>
 </table>
 
 **Note:** Some events like `jcarouselsetup` are triggered from the constructor, so you have to bind the events **before** you initialize the carousel:
@@ -503,7 +537,7 @@ After initialization, you can use jCarousel specific selectors on the root eleme
     <tr>
         <td>:jcarousel</td>
         <td>Selects elements which have a initialized jcarousel instance applied.</td>
-        <td><pre>$('div:jcarousel');</pre></td>
+        <td><pre>$(':jcarousel');</pre></td>
     </tr>
 </table>
 
@@ -518,17 +552,17 @@ After initialization, you can use jCarousel specific selectors on the root eleme
     <tr>
         <td>:jcarouselitemfirst</td>
         <td>Selects the first visible element.</td>
-        <td><pre>$('#mycarousel li:jcarouselitemfirst');</pre></td>
+        <td><pre>$('#mycarousel :jcarouselitemfirst');</pre></td>
     </tr>
     <tr>
         <td>:jcarouselitemlast</td>
         <td>Selects the last visible element.</td>
-        <td><pre>$('#mycarousel li:jcarouselitemlast');</pre></td>
+        <td><pre>$('#mycarousel :jcarouselitemlast');</pre></td>
     </tr>
     <tr>
         <td>:jcarouselitemvisible</td>
         <td>Selects all visible elements.</td>
-        <td><pre>$('#mycarousel li:jcarouselitemvisible');</pre></td>
+        <td><pre>$('#mycarousel :jcarouselitemvisible');</pre></td>
     </tr>
 </table>
 
