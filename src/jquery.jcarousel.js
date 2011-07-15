@@ -88,12 +88,12 @@
 
             // Safari wants this
             window.setTimeout(function() {
-                 self.setup();
+                 self._setup();
             }, 10);
 
             return this;
         },
-        setup: function() {
+        _setup: function() {
             if (false === this._trigger('setup')) {
                 return this;
             }
@@ -281,7 +281,7 @@
                                 curr = this.items().eq(-1);
                                 curr.after(curr.clone(true).addClass('jcarousel-clone'));
                                 this.list.prepend(curr);
-                                this.list.css(this.lt, $j.intval(this.list.css(this.lt)) - this.dimension(curr) + 'px');
+                                this.list.css(this.lt, $j.intval(this.list.css(this.lt)) - this._dimension(curr) + 'px');
                             }
 
                             this._scroll(curr, animate, cb);
@@ -405,8 +405,8 @@
             var items   = this.items(),
                 index   = items.index(item),
                 idx     = index,
-                wh      = this.dimension(item),
-                clip    = this.clipping(),
+                wh      = this._dimension(item),
+                clip    = this._clipping(),
                 update  = {
                     first:   item,
                     last:    item,
@@ -428,7 +428,7 @@
                         }
                     }
 
-                    wh += this.dimension(curr);
+                    wh += this._dimension(curr);
 
                     update.last = curr;
                     update.visible = update.visible.add(curr);
@@ -453,7 +453,7 @@
                         break;
                     }
 
-                    wh += this.dimension(curr);
+                    wh += this._dimension(curr);
 
                     update.first = curr;
                     update.visible = update.visible.add(curr);
@@ -487,7 +487,7 @@
                 pos   = first.position()[this.lt];
 
             if (this.rtl && !this.vertical) {
-                pos -= this.clipping() - this.dimension(first);
+                pos -= this._clipping() - this._dimension(first);
             }
 
             if ((items.index(item) > items.index(first) || this.inTail) && this.tail) {
@@ -549,10 +549,10 @@
             $j.bind(this, this.element, event, handler);
             return this;
         },
-        clipping: function() {
+        _clipping: function() {
             return this.element['inner' + (this.vertical ? 'Height' : 'Width')]();
         },
-        dimension: function(element) {
+        _dimension: function(element) {
             // outerWidth()/outerHeight() doesn't seem to work on hidden elements
             return this.vertical ?
                 element.innerHeight()  +
