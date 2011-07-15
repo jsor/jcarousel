@@ -310,9 +310,9 @@ After initialization, jCarousel triggers specific events on the root element and
         <td>Triggered when the <code>setup</code> method is called.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouselsetup', function() {
-    // this refers to the root element
-    var carousel = $(this).data('jcarousel');
+$('#mycarousel').bind('jcarouselsetup', function(carousel) {
+    // "this" refers to the root element
+    // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
@@ -321,9 +321,9 @@ $('#mycarousel').bind('jcarouselsetup', function() {
         <td>Triggered after the <code>setup</code> method is called.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouselsetupend', function() {
-    // this refers to the root element
-    var carousel = $(this).data('jcarousel');
+$('#mycarousel').bind('jcarouselsetupend', function(carousel) {
+    // "this" refers to the root element
+    // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
@@ -332,9 +332,9 @@ $('#mycarousel').bind('jcarouselsetupend', function() {
         <td>Triggered when the <code>reload</code> method is called.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouselreload', function() {
-    // this refers to the root element
-    var carousel = $(this).data('jcarousel');
+$('#mycarousel').bind('jcarouselreload', function(carousel) {
+    // "this" refers to the root element
+    // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
@@ -343,9 +343,9 @@ $('#mycarousel').bind('jcarouselreload', function() {
         <td>Triggered after the <code>reload</code> method is called.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouselreload', function() {
-    // this refers to the root element
-    var carousel = $(this).data('jcarousel');
+$('#mycarousel').bind('jcarouselreload', function(carousel) {
+    // "this" refers to the root element
+    // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
@@ -354,9 +354,9 @@ $('#mycarousel').bind('jcarouselreload', function() {
         <td>Triggered when the <code>destroy</code> method is called.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouseldestroy', function() {
-    // this refers to the root element
-    var carousel = $(this).data('jcarousel');
+$('#mycarousel').bind('jcarouseldestroy', function(carousel) {
+    // "this" refers to the root element
+    // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
@@ -365,9 +365,9 @@ $('#mycarousel').bind('jcarouseldestroy', function() {
         <td>Triggered after the <code>destroy</code> method is called.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouseldestroyend', function() {
-    // this refers to the root element
-    var carousel = $(this).data('jcarousel');
+$('#mycarousel').bind('jcarouseldestroyend', function(carousel) {
+    // "this" refers to the root element
+    // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
@@ -376,9 +376,11 @@ $('#mycarousel').bind('jcarouseldestroyend', function() {
         <td>Triggered when the <code>scrollBy</code> method is called.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouselscrollby', function() {
-    // this refers to the root element
-    var carousel = $(this).data('jcarousel');
+$('#mycarousel').bind('jcarouselscrollby', function(carousel, offset, animate) {
+    // "this" refers to the root element
+    // "carousel" is the jCarousel instance
+    // "offset" is the offset jCarousel was requested to scroll by
+    // "animate" is a boolean indicating whether jCarousel was requested to do an animation
 });</pre>
         </td>
     </tr>
@@ -387,9 +389,10 @@ $('#mycarousel').bind('jcarouselscrollby', function() {
         <td>Triggered after the <code>scrollBy</code> method is called.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouselscrollbyend', function() {
-    // this refers to the root element
-    var carousel = $(this).data('jcarousel');
+$('#mycarousel').bind('jcarouselscrollbyend', function(carousel, animated) {
+    // "this" refers to the root element
+    // "carousel" is the jCarousel instance
+    // "animated" is a boolean indicating whether jCarousel actually moved
 });</pre>
         </td>
     </tr>
@@ -398,9 +401,11 @@ $('#mycarousel').bind('jcarouselscrollbyend', function() {
         <td>Triggered when the <code>scrollTo</code> method is called.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouselscrollto', function() {
-    // this refers to the root element
-    var carousel = $(this).data('jcarousel');
+$('#mycarousel').bind('jcarouselscrollto', function(carousel, item, animate) {
+    // "this" refers to the root element
+    // "carousel" is the jCarousel instance
+    // "item" is the item jCarousel was requested to scroll to. This can be either an object or an integer.
+    // "animate" is a boolean indicating whether jCarousel was requested to do an animation
 });</pre>
         </td>
     </tr>
@@ -409,9 +414,10 @@ $('#mycarousel').bind('jcarouselscrollto', function() {
         <td>Triggered after the <code>scrollTo</code> method is called.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouselscrolltoend', function() {
-    // this refers to the root element
-    var carousel = $(this).data('jcarousel');
+$('#mycarousel').bind('jcarouselscrolltoend', function(carousel) {
+    // "this" refers to the root element
+    // "carousel" is the jCarousel instance
+    // "animated" is a boolean indicating whether jCarousel actually moved
 });</pre>
         </td>
     </tr>
@@ -420,9 +426,9 @@ $('#mycarousel').bind('jcarouselscrolltoend', function() {
         <td>Triggered when jCarousel starts a animation.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouselanimate', function() {
-    // this refers to the root element
-    var carousel = $(this).data('jcarousel');
+$('#mycarousel').bind('jcarouselanimate', function(carousel) {
+    // "this" refers to the root element
+    // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
@@ -431,9 +437,9 @@ $('#mycarousel').bind('jcarouselanimate', function() {
         <td>Triggered after jCarousel has finished a animation.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouselanimateend', function() {
-    // this refers to the root element
-    var carousel = $(this).data('jcarousel');
+$('#mycarousel').bind('jcarouselanimateend', function(carousel) {
+    // "this" refers to the root element
+    // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
@@ -444,7 +450,7 @@ $('#mycarousel').bind('jcarouselanimateend', function() {
     $('#mycarousel')
 
         // Bind first
-        .bind('jcarouselsetup', function() {
+        .bind('jcarouselsetup', function(carousel) {
             // Do something
         })
 
@@ -464,8 +470,10 @@ $('#mycarousel').bind('jcarouselanimateend', function() {
         <td>Triggered when the item becomes the first visible item.</td>
         <td>
             <pre>
-$('#mycarousel li').bind('jcarouselitemfirstin', function() {
-    // this is now the first visible item
+$('#mycarousel li').bind('jcarouselitemfirstin', function(carousel) {
+    // This is now the first visible item
+    // "this" refers to the item element
+    // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
@@ -474,8 +482,10 @@ $('#mycarousel li').bind('jcarouselitemfirstin', function() {
         <td>Triggered when the item is no longer the first visible item.</td>
         <td>
             <pre>
-$('#mycarousel li').bind('jcarouselitemfirstout', function() {
-    // this is no longer the first visible item
+$('#mycarousel li').bind('jcarouselitemfirstout', function(carousel) {
+    // This is no longer the first visible item
+    // "this" refers to the item element
+    // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
@@ -484,8 +494,10 @@ $('#mycarousel li').bind('jcarouselitemfirstout', function() {
         <td>Triggered when the item becomes the last visible item.</td>
         <td>
             <pre>
-$('#mycarousel li').bind('jcarouselitemlastin', function() {
-    // this is now the last visible item
+$('#mycarousel li').bind('jcarouselitemlastin', function(carousel) {
+    // This is now the last visible item
+    // "this" refers to the item element
+    // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
@@ -494,8 +506,10 @@ $('#mycarousel li').bind('jcarouselitemlastin', function() {
         <td>Triggered when the item is no longer the last visible item.</td>
         <td>
             <pre>
-$('#mycarousel li').bind('jcarouselitemlastout', function() {
-    // this is no longer the last visible item
+$('#mycarousel li').bind('jcarouselitemlastout', function(carousel) {
+    // This is no longer the last visible item
+    // "this" refers to the item element
+    // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
@@ -504,8 +518,10 @@ $('#mycarousel li').bind('jcarouselitemlastout', function() {
         <td>Triggered when the item becomes a visible item.</td>
         <td>
             <pre>
-$('#mycarousel li').bind('jcarouselitemvisiblein', function() {
-    // this is now a visible item
+$('#mycarousel li').bind('jcarouselitemvisiblein', function(carousel) {
+    // This is now a visible item
+    // "this" refers to the item element
+    // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
@@ -514,8 +530,10 @@ $('#mycarousel li').bind('jcarouselitemvisiblein', function() {
         <td>Triggered when the item is no longer a visible item.</td>
         <td>
             <pre>
-$('#mycarousel li').bind('jcarouselitemvisibleout', function() {
-    // this is no longer a visible item
+$('#mycarousel li').bind('jcarouselitemvisibleout', function(carousel) {
+    // This is no longer a visible item
+    // "this" refers to the item element
+    // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>

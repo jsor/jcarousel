@@ -50,10 +50,6 @@
 
             this.element.data('jcarousel', this);
 
-            if (this.options.events) {
-                this._bind(this.options.events);
-            }
-
             var self = this;
 
             $.each(plugins, function(name, plugin) {
@@ -204,7 +200,7 @@
                 return this;
             }
 
-            if (false === this._trigger('scrollBy', null, [offset])) {
+            if (false === this._trigger('scrollBy', null, [offset, animate])) {
                 return this;
             }
 
@@ -300,7 +296,7 @@
                 return this;
             }
 
-            if (false === this._trigger('scrollTo', null, [typeof item === 'object' ? this.items().index(item) : item])) {
+            if (false === this._trigger('scrollTo', null, [item, animate])) {
                 return this;
             }
 
@@ -514,13 +510,13 @@
             });
 
             if (update.first.get(0) !== first.get(0)) {
-                $j.trigger(update.first, 'itemFirstIn');
-                $j.trigger(first, 'itemFirstOut');
+                this._trigger('itemFirstIn', update.first);
+                this._trigger('itemFirstOut', first);
             }
 
             if (update.last.get(0) !== last.get(0)) {
-                $j.trigger(update.last, 'itemLastIn');
-                $j.trigger(last, 'itemLastOut');
+                this._trigger('itemLastIn', update.last);
+                this._trigger('itemLastOut', last);
             }
 
             var v    = items.filter(filterItemVisible),
@@ -538,17 +534,14 @@
                 vin = $().pushStack(vin.get().reverse());
             }
 
-            $j.trigger(vin, 'itemVisibleIn');
-            $j.trigger(vout, 'itemVisibleOut');
+            this._trigger('itemVisibleIn', vin);
+            this._trigger('itemVisibleOut', vout);
 
             return this;
         },
-        _trigger: function(type, event, data) {
-            return $j.trigger(this.element, type, event, data);
-        },
-        _bind: function(event, handler) {
-            $j.bind(this, this.element, event, handler);
-            return this;
+        _trigger: function(type, element, data) {
+            element = element || this.element;
+            return $j.trigger(element, type, [this].concat(data || []));
         },
         _clipping: function() {
             return this.element['inner' + (this.vertical ? 'Height' : 'Width')]();
@@ -599,7 +592,7 @@
 
             return options;
         },
-        trigger: function(element, type, event, data) {
+        trigger: function(element, type, data, event) {
             event = $.Event(event);
             event.type = ('jcarousel' + type).toLowerCase();
             data = data || {};
@@ -614,20 +607,6 @@
             element.trigger(event, data);
 
             return !event.isDefaultPrevented();
-        },
-        bind: function(instance, element, event, handler) {
-            var events = {};
-            if (typeof event === 'string') {
-                events[event] = handler;
-            } else {
-                events = event;
-            }
-
-            $.each(events, function(event, handler) {
-                element.bind('jcarousel' + event.toLowerCase() + '.jcarousel', function() {
-                    handler.apply(instance, arguments);
-                });
-            });
         }
     });
 

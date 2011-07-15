@@ -23,7 +23,7 @@ $(function() {
         console.log.apply(console, arguments);
     };
 
-    var jcarousel = $('.jcarousel'), opts = {events: {}};
+    var jcarousel = $('.jcarousel');
 
     $.each(['setup', 'destroy', 'reload', 'scrollBy', 'scrollTo', 'animate'], function(i, name) {
         jcarousel.bind('jcarousel' + name.toLowerCase(), function() {
@@ -32,15 +32,7 @@ $(function() {
         jcarousel.bind('jcarousel' + name.toLowerCase() + 'end', function() {
             log(name.toLowerCase() + 'end', this, arguments);
         });
-        opts.events[name] = function() {
-            log(name, this, arguments);
-        };
-        opts.events[name + 'End'] = function() {
-            log(name + 'End', this, arguments);
-        };
     });
-
-    console.log(opts)
 
     jcarousel.find('li')
     .bind('jcarouselitemvisiblein', function() {
@@ -62,7 +54,7 @@ $(function() {
         log('itemlastout', this);
     });
 
-    jcarousel.jcarousel(opts);
+    jcarousel.jcarousel();
 });
 
 function callback(moved) {
