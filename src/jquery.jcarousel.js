@@ -12,7 +12,8 @@
 
     var filterItemFirst = ':jcarouselitemfirst',
         filterItemLast  = ':jcarouselitemlast',
-        itemData        = ['first', 'last', 'visible'];
+        itemData        = ['first', 'last', 'visible'],
+        plugins         = {};
 
     var $j = $.jcarousel = function(element, options) {
         // Allow instantiation without the 'new' keyword
@@ -41,6 +42,7 @@
         vertical:    false,
         rtl:         false,
         circular:    false,
+        plugins:     {},
         _init: function(element, options) {
             this.element  = $(element);
             this.options  = $j.dataOptions(this.element, $.extend(true, {}, $j.defaults, options));
@@ -52,6 +54,10 @@
             }
 
             var self = this;
+
+            $.each(plugins, function(name, plugin) {
+                self.plugins[name] = new plugin(self);
+            });
 
             this.onWindowResize = function() {
                 if (self.resizeTimer) {
@@ -566,16 +572,8 @@
             animation: 'normal',
             wrap:      null
         },
-        hooks: {},
-        hook: function(types, callback) {
-            types = types.split(" ");
-            var type, i = 0;
-            while ((type = types[i++])) {
-                if (!$j.hooks[type]) {
-                    $j.hooks[type] = [];
-                }
-                $j.hooks[type].push(callback);
-            }
+        plugin: function(name, plugin) {
+            plugins[name] = plugin;
         },
         intval: function(value) {
             value = parseInt(value, 10);
