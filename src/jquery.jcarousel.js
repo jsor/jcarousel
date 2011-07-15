@@ -134,13 +134,16 @@
                 return this;
             }
 
-            this.vertical = this.element.data('jcarousel-vertical') ||
-                            ('' + this.element.attr('class')).toLowerCase().indexOf('jcarousel-vertical') > -1;
+            this.vertical = this.options.vertical == null ?
+                ('' + this.element.attr('class')).toLowerCase().indexOf('jcarousel-vertical') > -1 :
+                this.options.vertical;
 
-            this.rtl = ('' + this.element.attr('dir')).toLowerCase() === 'rtl' ||
-                       this.element.parents('[dir]').filter(function() {
-                           return (/rtl/i).test($(this).attr('dir'));
-                       }).size() > 0;
+            this.rtl = this.options.rtl == null ?
+                ('' + this.element.attr('dir')).toLowerCase() === 'rtl' ||
+                this.element.parents('[dir]').filter(function() {
+                    return (/rtl/i).test($(this).attr('dir'));
+                }).size() > 0 :
+                this.options.rtl;
 
             this.lt = this.vertical ? 'top' : 'left';
 
@@ -570,7 +573,9 @@
             list:      '>ul:eq(0)',
             items:     '>li',
             animation: 'normal',
-            wrap:      null
+            wrap:      null,
+            vertical:  null,
+            rtl:       null
         },
         plugin: function(name, plugin) {
             plugins[name] = plugin;
