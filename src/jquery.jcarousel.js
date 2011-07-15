@@ -25,13 +25,56 @@
         this._init(element, options);
     };
 
-    $j.fn = $j.prototype = {
-        jcarousel: '@VERSION'
-    };
+    $.extend($j, {
+        defaults: {
+            list:      '>ul:eq(0)',
+            items:     '>li',
+            animation: 'normal',
+            wrap:      null,
+            vertical:  null,
+            rtl:       null
+        },
+        plugin: function(name, plugin) {
+            plugins[name] = plugin;
+        },
+        intval: function(value) {
+            value = parseInt(value, 10);
+            return isNaN(value) ? 0 : value;
+        },
+        dataOptions: function(element, options) {
+            $.each(options, function(option) {
+                var value = element.data('jcarousel-' + option.replace(/[A-Z]/g, function(c) {
+                        return '-' + c.toLowerCase();
+                    })
+                );
 
-    $j.fn.extend = $j.extend = $.extend;
+                if (value !== undefined) {
+                    options[option] = value;
+                }
+            });
 
-    $j.fn.extend({
+            return options;
+        },
+        trigger: function(element, type, data, event) {
+            event = $.Event(event);
+            event.type = ('jcarousel' + type).toLowerCase();
+            data = data || {};
+
+            if (event.originalEvent) {
+                for (var i = $.event.props.length, prop; i;) {
+                    prop = $.event.props[--i];
+                    event[prop] = event.originalEvent[prop];
+                }
+            }
+
+            element.trigger(event, data);
+
+            return !event.isDefaultPrevented();
+        }
+    });
+
+    $.extend($j.prototype, {
+        jcarousel: '@VERSION',
         element:     null,
         list:        null,
         options:     {},
@@ -559,54 +602,6 @@
                     $j.intval(element.css('margin-right')) +
                     $j.intval(element.css('border-left-width')) +
                     $j.intval(element.css('border-right-width'));
-        }
-    });
-
-    $j.extend({
-        defaults: {
-            list:      '>ul:eq(0)',
-            items:     '>li',
-            animation: 'normal',
-            wrap:      null,
-            vertical:  null,
-            rtl:       null
-        },
-        plugin: function(name, plugin) {
-            plugins[name] = plugin;
-        },
-        intval: function(value) {
-            value = parseInt(value, 10);
-            return isNaN(value) ? 0 : value;
-        },
-        dataOptions: function(element, options) {
-            $.each(options, function(option) {
-                var value = element.data('jcarousel-' + option.replace(/[A-Z]/g, function(c) {
-                        return '-' + c.toLowerCase();
-                    })
-                );
-
-                if (value !== undefined) {
-                    options[option] = value;
-                }
-            });
-
-            return options;
-        },
-        trigger: function(element, type, data, event) {
-            event = $.Event(event);
-            event.type = ('jcarousel' + type).toLowerCase();
-            data = data || {};
-
-            if (event.originalEvent) {
-                for (var i = $.event.props.length, prop; i;) {
-                    prop = $.event.props[--i];
-                    event[prop] = event.originalEvent[prop];
-                }
-            }
-
-            element.trigger(event, data);
-
-            return !event.isDefaultPrevented();
         }
     });
 
