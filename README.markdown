@@ -550,19 +550,19 @@ After initialization, you can use jCarousel specific selectors on the root eleme
         <th>Example</th>
     </tr>
     <tr>
-        <td>:jcarouselitemfirst</td>
+        <td>:jcarousel-item-first</td>
         <td>Selects the first visible element.</td>
-        <td><pre>$('#mycarousel :jcarouselitemfirst');</pre></td>
+        <td><pre>$('#mycarousel :jcarousel-item-first');</pre></td>
     </tr>
     <tr>
-        <td>:jcarouselitemlast</td>
+        <td>:jcarousel-item-last</td>
         <td>Selects the last visible element.</td>
-        <td><pre>$('#mycarousel :jcarouselitemlast');</pre></td>
+        <td><pre>$('#mycarousel :jcarousel-item-last');</pre></td>
     </tr>
     <tr>
-        <td>:jcarouselitemvisible</td>
+        <td>:jcarousel-item-visible</td>
         <td>Selects all visible elements.</td>
-        <td><pre>$('#mycarousel :jcarouselitemvisible');</pre></td>
+        <td><pre>$('#mycarousel :jcarousel-item-visible');</pre></td>
     </tr>
 </table>
 

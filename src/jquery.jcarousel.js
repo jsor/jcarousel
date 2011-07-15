@@ -10,9 +10,9 @@
  */
 (function($, window, undefined) {
 
-    var filterItemFirst    = ':jcarouselitemfirst',
-        filterItemLast     = ':jcarouselitemlast',
-        filterItemVisible  = ':jcarouselitemvisible',
+    var filterItemFirst    = ':jcarousel-item-first',
+        filterItemLast     = ':jcarousel-item-last',
+        filterItemVisible  = ':jcarousel-item-visible',
         itemData           = ['first', 'last', 'visible'],
         plugins            = {};
 
@@ -117,7 +117,7 @@
             var items = this.items().unbind('.jcarousel');
 
             $.each(itemData, function(i, name) {
-                items.removeData('jcarousel' + name);
+                items.removeData('jcarousel-item-' + name);
             });
 
             $(window).unbind('resize.jcarousel', this.onWindowResize);
@@ -506,21 +506,21 @@
                 last  = items.filter(filterItemLast);
 
             $.each(itemData, function(i, name) {
-                items.data('jcarouselitem' + name, false);
+                items.data('jcarousel-item-' + name, false);
             });
 
             $.each(itemData, function(i, name) {
-                update[name].data('jcarouselitem' + name, true);
+                update[name].data('jcarousel-item-' + name, true);
             });
 
             if (update.first.get(0) !== first.get(0)) {
-                $j.trigger(update.first, 'itemfirstin');
-                $j.trigger(first, 'itemfirstout');
+                $j.trigger(update.first, 'itemFirstIn');
+                $j.trigger(first, 'itemFirstOut');
             }
 
             if (update.last.get(0) !== last.get(0)) {
-                $j.trigger(update.last, 'itemlastin');
-                $j.trigger(last, 'itemlastout');
+                $j.trigger(update.last, 'itemLastIn');
+                $j.trigger(last, 'itemLastOut');
             }
 
             var v    = items.filter(filterItemVisible),
@@ -538,8 +538,8 @@
                 vin = $().pushStack(vin.get().reverse());
             }
 
-            $j.trigger(vin, 'itemvisiblein');
-            $j.trigger(vout, 'itemvisibleout');
+            $j.trigger(vin, 'itemVisibleIn');
+            $j.trigger(vout, 'itemVisibleOut');
 
             return this;
         },
@@ -636,8 +636,8 @@
     };
 
     $.each(itemData, function(i, name) {
-        $.expr[':']['jcarouselitem'  + name] = function(element) {
-            return !!$.data(element, 'jcarouselitem' + name);
+        $.expr[':']['jcarousel-item-'  + name] = function(element) {
+            return !!$.data(element, 'jcarousel-item-' + name);
         };
     });
 
