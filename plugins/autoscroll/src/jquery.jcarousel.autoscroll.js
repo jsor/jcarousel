@@ -12,7 +12,7 @@
 
     var $j = $.jcarousel;
 
-    $.extend($j.options, {
+    $.extend($j.defaults, {
         autoscroll: {
             scroll:   1,
             interval: 3000

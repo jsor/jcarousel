@@ -35,6 +35,25 @@ $(function($){
         equal($('#jcarousel1').jcarousel('option', 'wrap'), 'custom', '#jcarousel1 (wrap equals through option())');
     });
 
+    test("option() sets nested options", function() {
+        $('#jcarousel1').jcarousel({
+            foo: {
+                bar: "baz",
+                qux: {
+                    quux: "xyzzy"
+                }
+            },
+            'nested.option': 'test'
+        });
+
+        equal($('#jcarousel1').jcarousel('option', 'foo.bar'), 'baz', 'one level deep - string');
+        equal($('#jcarousel1').jcarousel('option', 'nested.option'), 'test', 'one level deep set a nested key - string');
+        deepEqual($('#jcarousel1').jcarousel('option', 'foo.qux'), {quux: 'xyzzy'}, 'one level deep - object');
+        equal($('#jcarousel1').jcarousel('option', 'foo.qux.quux'), 'xyzzy', 'two levels deep - string');
+        equal($('#jcarousel1').jcarousel('option', 'x.y'), null, 'top level non-existent');
+        equal($('#jcarousel1').jcarousel('option', 'foo.x.y'), null, 'one level deep - non-existent');
+    });
+
     test("init() sets data", function() {
         expect(1);
 

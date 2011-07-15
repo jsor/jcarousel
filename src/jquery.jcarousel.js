@@ -89,7 +89,7 @@
         plugins:     {},
         _init: function(element, options) {
             this.element  = $(element);
-            this.options  = $j.dataOptions(this.element, $.extend(true, {}, $j.defaults, options));
+            this.option($j.dataOptions(this.element, $.extend(true, {}, $j.defaults, options)));
 
             this.element.data('jcarousel', this);
 
@@ -217,18 +217,51 @@
             return this;
         },
         option: function(key, value) {
+            var options = key,
+                parts,
+                curOption,
+                i;
+
             if (arguments.length === 0) {
-                return $.extend({}, this.options);
+                // Don't return a reference to the internal hash
+                return $.widget.extend({}, this.options);
             }
 
-            if (typeof key === "string") {
-                if (value === undefined) {
-                    return this.options[key] === undefined ? null : this.options[key];
+            if (typeof key === 'string') {
+                // Handle nested keys, e.g., "foo.bar" => { foo: { bar: ___ } }
+                options = {};
+                parts = key.split('.');
+                key = parts.shift();
+
+                if (parts.length) {
+                    curOption = options[key] = $.extend({}, this.options[key]);
+
+                    for (i = 0; i < parts.length - 1; i++) {
+                        curOption[parts[i]] = curOption[parts[i]] || {};
+                        curOption = curOption[parts[i]];
+                    }
+
+                    key = parts.pop();
+
+                    if (value === undefined) {
+                        return curOption[key] === undefined ? null : curOption[key];
+                    }
+
+                    curOption[key] = value;
+                } else {
+                    if (value === undefined) {
+                        return this.options[key] === undefined ? null : this.options[key];
+                    }
+
+                    options[key] = value;
                 }
 
-                this.options[key] = value;
+                $.extend(true, this.options, options);
             } else {
-                $.extend(true, this.options, key);
+                var self = this;
+                $.each(options, function(key, val) {
+                    self.option(key, val);
+                });
             }
 
             return this;
