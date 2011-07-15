@@ -126,10 +126,7 @@
                 }
             };
 
-            // Safari wants this
-            window.setTimeout(function() {
-                 self._setup();
-            }, 10);
+            this._setup();
 
             return this;
         },
