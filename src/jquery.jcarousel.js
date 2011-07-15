@@ -113,10 +113,10 @@
                 return this;
             }
 
-            var all = this.items();
+            var items = this.items().unbind('.jcarousel');
 
             $.each(itemData, function(i, name) {
-                all.removeData('jcarousel' + name);
+                items.removeData('jcarousel' + name);
             });
 
             $(window).unbind('resize.jcarousel', this.onWindowResize);
