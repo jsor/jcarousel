@@ -10,10 +10,11 @@
  */
 (function($, window, undefined) {
 
-    var filterItemFirst = ':jcarouselitemfirst',
-        filterItemLast  = ':jcarouselitemlast',
-        itemData        = ['first', 'last', 'visible'],
-        plugins         = {};
+    var filterItemFirst    = ':jcarouselitemfirst',
+        filterItemLast     = ':jcarouselitemlast',
+        filterItemVisible  = ':jcarouselitemvisible',
+        itemData           = ['first', 'last', 'visible'],
+        plugins            = {};
 
     var $j = $.jcarousel = function(element, options) {
         // Allow instantiation without the 'new' keyword
@@ -513,16 +514,16 @@
             });
 
             if (update.first.get(0) !== first.get(0)) {
-                update.first.trigger('jcarouselitemfirstin');
-                first.trigger('jcarouselitemfirstout');
+                $j.trigger(update.first, 'itemfirstin');
+                $j.trigger(first, 'itemfirstout');
             }
 
             if (update.last.get(0) !== last.get(0)) {
-                update.last.trigger('jcarouselitemlastin');
-                last.trigger('jcarouselitemlastout');
+                $j.trigger(update.last, 'itemlastin');
+                $j.trigger(last, 'itemlastout');
             }
 
-            var v    = items.filter(':jcarouselitemvisible'),
+            var v    = items.filter(filterItemVisible),
                 vin  = update.visible.filter(function() {
                     return $.inArray(this, v) < 0;
                 }),
@@ -537,8 +538,8 @@
                 vin = $().pushStack(vin.get().reverse());
             }
 
-            vin.trigger('jcarouselitemvisiblein');
-            vout.trigger('jcarouselitemvisibleout');
+            $j.trigger(vin, 'itemvisiblein');
+            $j.trigger(vout, 'itemvisibleout');
 
             return this;
         },
@@ -587,7 +588,7 @@
         dataOptions: function(element, options) {
             $.each(options, function(option) {
                 var value = element.data('jcarousel-' + option.replace(/[A-Z]/g, function(c) {
-                        return "-" + c.toLowerCase();
+                        return '-' + c.toLowerCase();
                     })
                 );
 
@@ -603,9 +604,6 @@
             event.type = ('jcarousel' + type).toLowerCase();
             data = data || {};
 
-            // copy original event properties over to the new event
-            // this would happen if we could call $.event.fix instead of $.Event
-            // but we don't have a way to force an event to be fixed multiple times
             if (event.originalEvent) {
                 for (var i = $.event.props.length, prop; i;) {
                     prop = $.event.props[--i];
@@ -633,12 +631,12 @@
         }
     });
 
-    $.expr.filters.jcarousel = function(element) {
+    $.expr[':'].jcarousel = function(element) {
         return !!$.data(element, 'jcarousel');
     };
 
     $.each(itemData, function(i, name) {
-        $.expr.filters['jcarouselitem'  + name] = function(element) {
+        $.expr[':']['jcarouselitem'  + name] = function(element) {
             return !!$.data(element, 'jcarouselitem' + name);
         };
     });
@@ -647,16 +645,16 @@
         var args        = Array.prototype.slice.call(arguments, 1),
             returnValue = this;
 
-        if (typeof options === "string") {
+        if (typeof options === 'string') {
             this.each(function() {
                 var instance = $.data(this, 'jcarousel');
 
                 if (!instance) {
-                    return $.error("Cannot call methods prior to initialization; attempted to call method '" + options + "'");
+                    return $.error('Cannot call methods prior to initialization; attempted to call method "' + options + '"');
                 }
 
                 if (!$.isFunction(instance[options]) || options.charAt(0) === "_") {
-                    return $.error("No such method '" + options + "'");
+                    return $.error('No such method "' + options + '"');
                 }
 
                 var methodValue = instance[options].apply(instance, args);
