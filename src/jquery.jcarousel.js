@@ -39,6 +39,7 @@
             return isNaN(value) ? 0 : value;
         },
         dataOptions: function(element, options) {
+            var dataOptions = {};
             $.each(options, function(option) {
                 var value = element.data('jcarousel-' + option.replace(/[A-Z]/g, function(c) {
                         return '-' + c.toLowerCase();
@@ -46,11 +47,11 @@
                 );
 
                 if (value !== undefined) {
-                    options[option] = value;
+                    dataOptions[option] = value;
                 }
             });
 
-            return options;
+            return dataOptions;
         },
         trigger: function(element, type, data, event) {
             event = $.Event(event);
@@ -86,7 +87,10 @@
         plugins:     {},
         _init: function(element, options) {
             this.element  = $(element);
-            this.option($j.dataOptions(this.element, $.extend(true, {}, $j.defaults, options)));
+            this.option($.extend(true, {}, $j.defaults, options));
+
+            // Allow overwriting of options via data-* attributes
+            this.option($j.dataOptions(this.element, this.options));
 
             this.element.data('jcarousel', this);
 
@@ -185,7 +189,7 @@
 
             if (arguments.length === 0) {
                 // Don't return a reference to the internal hash
-                return $.widget.extend({}, this.options);
+                return $.extend({}, this.options);
             }
 
             if (typeof key === 'string') {
@@ -217,7 +221,7 @@
                     options[key] = value;
                 }
 
-                $.extend(true, this.options, options);
+                this.options = $.extend(true, {}, this.options, options);
             } else {
                 var self = this;
                 $.each(options, function(key, val) {
