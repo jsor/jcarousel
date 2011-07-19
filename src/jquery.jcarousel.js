@@ -13,8 +13,7 @@
     var filterItemFirst    = ':jcarousel-item-first',
         filterItemLast     = ':jcarousel-item-last',
         filterItemVisible  = ':jcarousel-item-visible',
-        itemData           = ['first', 'last', 'visible'],
-        plugins            = {};
+        itemData           = ['first', 'last', 'visible'];
 
     var $j = $.jcarousel = function(element, options) {
         // Allow instantiation without the 'new' keyword
@@ -34,9 +33,7 @@
             vertical:  null,
             rtl:       null
         },
-        plugin: function(name, plugin) {
-            plugins[name] = plugin;
-        },
+        plugins: {},
         intval: function(value) {
             value = parseInt(value, 10);
             return isNaN(value) ? 0 : value;
@@ -95,8 +92,11 @@
 
             var self = this;
 
-            $.each(plugins, function(name, plugin) {
-                self.plugins[name] = new plugin(self);
+            $.each($j.plugins, function(name, plugin) {
+                var instance = plugin(self);
+                if (instance) {
+                    self.plugins[name] = instance;
+                }
             });
 
             this.onWindowResize = function() {
