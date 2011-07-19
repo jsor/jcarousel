@@ -137,7 +137,7 @@
 
             this.list = this.element.find(this.options.list);
 
-            this.reload();
+            this._reload();
 
             $(window).unbind('resize.jcarousel', this.onWindowResize).bind('resize.jcarousel', this.onWindowResize);
 
@@ -171,43 +171,7 @@
                 return this;
             }
 
-            this.vertical = this.options.vertical == null ?
-                ('' + this.element.attr('class')).toLowerCase().indexOf('jcarousel-vertical') > -1 :
-                this.options.vertical;
-
-            this.rtl = this.options.rtl == null ?
-                ('' + this.element.attr('dir')).toLowerCase() === 'rtl' ||
-                this.element.parents('[dir]').filter(function() {
-                    return (/rtl/i).test($(this).attr('dir'));
-                }).size() > 0 :
-                this.options.rtl;
-
-            this.lt = this.vertical ? 'top' : 'left';
-
-            var items = this.items(),
-                item  = items.filter(filterItemFirst),
-                end   = items.size() - 1;
-
-            if (item.size() === 0) {
-                item = items.eq(0);
-            }
-
-            this.circular = false;
-            this.list.css({'left': 0, 'top': 0});
-
-            if (item.size() > 0) {
-                this._prepare(item);
-                this.list.find('.jcarousel-clone').remove();
-
-                // Reload items
-                items = this.items();
-
-                this.circular = this.options.wrap == 'circular' &&
-                                (items.filter(filterItemFirst).index() > 0 ||
-                                 items.filter(filterItemLast).index() < end);
-
-                this.list.css(this.lt, this._position(item) + 'px');
-            }
+            this._reload();
 
             this._trigger('reloadEnd');
 
@@ -387,6 +351,50 @@
                 };
 
             this._scroll(item, animate, cb);
+
+            return this;
+        },
+        _reload: function(item) {
+            this.vertical = this.options.vertical == null ?
+                ('' + this.element.attr('class')).toLowerCase().indexOf('jcarousel-vertical') > -1 :
+                this.options.vertical;
+
+            this.rtl = this.options.rtl == null ?
+                ('' + this.element.attr('dir')).toLowerCase() === 'rtl' ||
+                this.element.parents('[dir]').filter(function() {
+                    return (/rtl/i).test($(this).attr('dir'));
+                }).size() > 0 :
+                this.options.rtl;
+
+            this.lt = this.vertical ? 'top' : 'left';
+
+            var items = this.items(),
+                end   = items.size() - 1;
+
+            if (!item || item.size() === 0) {
+                item  = items.filter(filterItemFirst)
+            }
+
+            if (item.size() === 0) {
+                item = items.eq(0);
+            }
+
+            if (item.size() > 0) {
+                this._prepare(item);
+                this.list.find('.jcarousel-clone').remove();
+
+                // Reload items
+                items = this.items();
+
+                this.circular = this.options.wrap == 'circular' &&
+                                (items.filter(filterItemFirst).index() > 0 ||
+                                 items.filter(filterItemLast).index() < end);
+
+                this.list.css(this.lt, this._position(item) + 'px');
+            } else {
+                this.circular = false;
+                this.list.css({'left': 0, 'top': 0});
+            }
 
             return this;
         },
