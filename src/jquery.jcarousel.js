@@ -25,14 +25,6 @@
     };
 
     $.extend($j, {
-        defaults: {
-            list:      '>ul:eq(0)',
-            items:     '>li',
-            animation: 'normal',
-            wrap:      null,
-            vertical:  null,
-            rtl:       null
-        },
         plugins: {},
         intval: function(value) {
             value = parseInt(value, 10);
@@ -75,7 +67,14 @@
         jcarousel: '@VERSION',
         element:     null,
         list:        null,
-        options:     {},
+        options:     {
+            list:      '>ul:eq(0)',
+            items:     '>li',
+            animation: 'normal',
+            wrap:      null,
+            vertical:  null,
+            rtl:       null
+        },
         animating:   false,
         tail:        0,
         inTail:      false,
@@ -87,21 +86,19 @@
         plugins:     {},
         _init: function(element, options) {
             this.element  = $(element);
-            this.option($.extend(true, {}, $j.defaults, options));
-
-            // Allow overwriting of options via data-* attributes
-            this.option($j.dataOptions(this.element, this.options));
-
             this.element.data('jcarousel', this);
 
             var self = this;
 
             $.each($j.plugins, function(name, plugin) {
-                var instance = plugin(self);
-                if (instance) {
-                    self.plugins[name] = instance;
-                }
+                self.plugins[name] = new plugin(self);
             });
+
+            // Set passed options
+            this.option(options);
+
+            // Allow overwriting of options via data-* attributes
+            this.option($j.dataOptions(this.element, this.options));
 
             this.onWindowResize = function() {
                 if (self.resizeTimer) {
