@@ -95,7 +95,7 @@
             });
 
             // Set passed options
-            this.option(options);
+            this.option(options || {});
 
             // Allow overwriting of options via data-* attributes
             this.option($j.dataOptions(this.element, this.options));
