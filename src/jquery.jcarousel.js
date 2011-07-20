@@ -73,7 +73,8 @@
             animation: 'normal',
             wrap:      null,
             vertical:  null,
-            rtl:       null
+            rtl:       null,
+            center:    true
         },
         animating:   false,
         tail:        0,
@@ -491,6 +492,11 @@
                 },
                 curr;
 
+            if (this.options.center) {
+                wh /= 2;
+                clip /= 2;
+            }
+
             if (wh < clip) {
                 while (true) {
                     curr = this.items().eq(++idx);
@@ -565,6 +571,10 @@
 
             if (this.rtl && !this.vertical) {
                 pos -= this._clipping() - this._dimension(first);
+            }
+
+            if (this.options.center) {
+                pos -= (this._clipping() / 2) - (this._dimension(first) / 2);
             }
 
             if ((items.index(item) > items.index(first) || this.inTail) && this.tail) {
