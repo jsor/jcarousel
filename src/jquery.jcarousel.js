@@ -355,7 +355,7 @@
 
             return this;
         },
-        _reload: function(item) {
+        _reload: function() {
             this.vertical = this.options.vertical == null ?
                 ('' + this.element.attr('class')).toLowerCase().indexOf('jcarousel-vertical') > -1 :
                 this.options.vertical;
@@ -370,15 +370,16 @@
             this.lt = this.vertical ? 'top' : 'left';
 
             var items = this.items(),
+                item  = items.filter(filterItemFirst),
                 end   = items.size() - 1;
-
-            if (!item || item.size() === 0) {
-                item  = items.filter(filterItemFirst)
-            }
 
             if (item.size() === 0) {
                 item = items.eq(0);
             }
+
+            // _prepare() needs this here
+            this.circular = false;
+            this.list.css({'left': 0, 'top': 0});
 
             if (item.size() > 0) {
                 this._prepare(item);
@@ -392,9 +393,6 @@
                                  items.filter(filterItemLast).index() < end);
 
                 this.list.css(this.lt, this._position(item) + 'px');
-            } else {
-                this.circular = false;
-                this.list.css({'left': 0, 'top': 0});
             }
 
             return this;
