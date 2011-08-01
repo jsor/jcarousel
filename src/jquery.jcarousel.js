@@ -74,7 +74,7 @@
             wrap:      null,
             vertical:  null,
             rtl:       null,
-            center:    true
+            center:    false
         },
         animating:   false,
         tail:        0,
