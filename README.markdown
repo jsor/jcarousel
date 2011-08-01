@@ -13,9 +13,11 @@ Getting started
 
 To use the jCarousel component, include the [jQuery](http://jquery.com) library, the jCarousel source file and a jCarousel skin stylesheet file inside the `<head>` tag of your HTML document:
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-    <script type="text/javascript" src="/path/to/jquery.jcarousel.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/path/to/skin.css" />
+```html
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript" src="/path/to/jquery.jcarousel.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/path/to/skin.css" />
+```
 
 jCarousel expects a very basic HTML markup structure inside your HTML document:
 
@@ -37,36 +39,40 @@ This document refers to the elements as _root element_, _list element_ and _item
 
 To setup jCarousel, add the following code inside the `<head>` tag of your HTML document:
 
-    <script type="text/javascript">
-    $(function() {
-        $('#mycarousel').jcarousel({
-            // Configuration goes here
-        });
+```javascript
+<script type="text/javascript">
+$(function() {
+    $('#mycarousel').jcarousel({
+        // Configuration goes here
     });
-    </script>
+});
+</script>
+```
 
 These are the minimal CSS settings for a horizontal carousel:
 
-    .jcarousel {
-        position: relative;
-        overflow: hidden;
-    }
+```css
+.jcarousel {
+    position: relative;
+    overflow: hidden;
+}
 
-    .jcarousel ul {
-        width: 20000em;
-        position: absolute;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
+.jcarousel ul {
+    width: 20000em;
+    position: absolute;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
 
-    .jcarousel li {
-        float: left;
-    }
+.jcarousel li {
+    float: left;
+}
 
-    .jcarousel[dir=rtl] li {
-        float: right;
-    }
+.jcarousel[dir=rtl] li {
+    float: right;
+}
+```
 
 Skinning jCarousel
 ------------------
