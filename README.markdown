@@ -252,8 +252,6 @@ Alternatively, you can simply add the `dir` attribute with a value of `rtl` to t
 Accessing the jCarousel instance
 --------------------------------
 
-When you create a jCarousel, the jQuery object will be exchanged with a special version of jQuery which has then additional jCarousel releated methods available (this is done by using [jQuery.sub()](http://api.jquery.com/jQuery.sub)).
-
 If you have created a carousel like:
 
 ```javascript
@@ -262,11 +260,22 @@ $(function() {
 });
 ```
 
-You can access the methods like this (for example the `scrollTo()` method):
+You can later access the jCarousel instance with:
+
+```javascript
+var jcarousel = $('#mycarousel').data('jcarousel');
+
+// Call a method
+jcarousel.scrollTo(2);
+```
+
+Methods can be also called directly like this:
 
 ```javascript
 $('#mycarousel').jcarousel('scrollTo', 2);
 ```
+
+The first argument is the method name. The following arguments are the arguments for the called method.
 
 ### Available methods are:
 
