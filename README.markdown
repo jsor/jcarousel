@@ -150,6 +150,12 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
         <td>null</td>
         <td>Specifies wether the carousel appears in RTL (Right-To-Left) mode. If not set, jCarousel looks for `dir` attribute with a value of `rtl` on the root element (or to any of its parent elements) and if found, automatically sets `rtl` to `true`.</td>
     </tr>
+    <tr>
+        <td>center</td>
+        <td>boolean</td>
+        <td>false</td>
+        <td>Specifies wether the carousel should be centered inside the root element. _Note:_ This feature is experimental and may not work with all carousel setups.</td>
+    </tr>
 </table>
 
 Navigating the carousel
