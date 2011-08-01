@@ -14,66 +14,68 @@ Getting started
 To use the jCarousel component, include the [jQuery](http://jquery.com) library, the jCarousel source file and a jCarousel skin stylesheet file inside the `<head>` tag of your HTML document:
 
 ```html
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-    <script type="text/javascript" src="/path/to/jquery.jcarousel.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/path/to/skin.css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript" src="/path/to/jquery.jcarousel.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/path/to/skin.css" />
 ```
 
 jCarousel expects a very basic HTML markup structure inside your HTML document:
 
 ```html
-    <div id="mycarousel" class="jcarousel">
-        <ul>
-            <li>...</li>
-            <li>...</li>
-        </ul>
-    </div>
+<div id="mycarousel" class="jcarousel">
+    <ul>
+        <li>...</li>
+        <li>...</li>
+    </ul>
+</div>
 ```
 
 This document refers to the elements as _root element_, _list element_ and _item element(s)_:
 
-    <div id="mycarousel" class="jcarousel"> <------------------| Root element
-        <ul> <--------------------------------| List element   |
-            <li>...</li> <---| Item element   |                |
-            <li>...</li> <---| Item element   |                |
-        </ul> <-------------------------------|                |
-    </div> <---------------------------------------------------|
+```
+<div id="mycarousel" class="jcarousel"> <------------------| Root element
+    <ul> <--------------------------------| List element   |
+        <li>...</li> <---| Item element   |                |
+        <li>...</li> <---| Item element   |                |
+    </ul> <-------------------------------|                |
+</div> <---------------------------------------------------|
+```
 
 To setup jCarousel, add the following code inside the `<head>` tag of your HTML document:
 
 ```html
-    <script type="text/javascript">
-    $(function() {
-        $('#mycarousel').jcarousel({
-            // Configuration goes here
-        });
+<script type="text/javascript">
+$(function() {
+    $('#mycarousel').jcarousel({
+        // Configuration goes here
     });
-    </script>
+});
+</script>
 ```
 
 These are the minimal CSS settings for a horizontal carousel:
 
 ```css
-    .jcarousel {
-        position: relative;
-        overflow: hidden;
-    }
+.jcarousel {
+    position: relative;
+    overflow: hidden;
+}
 
-    .jcarousel ul {
-        width: 20000em;
-        position: absolute;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
+.jcarousel ul {
+    width: 20000em;
+    position: absolute;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
 
-    .jcarousel li {
-        float: left;
-    }
+.jcarousel li {
+    float: left;
+}
 
-    .jcarousel[dir=rtl] li {
-        float: right;
-    }
+.jcarousel[dir=rtl] li {
+    float: right;
+}
 ```
 
 Skinning jCarousel
@@ -84,30 +86,30 @@ Skinning jCarousel
 If you want to provide different skins for your carousel, setup with the following markup:
 
 ```html
-    <div class="jcarousel-skin-name">
-        <div id="mycarousel" class="jcarousel">
-            <ul>
-                <li>...</li>
-                <li>...</li>
-            </ul>
-        </div>
+<div class="jcarousel-skin-name">
+    <div id="mycarousel" class="jcarousel">
+        <ul>
+            <li>...</li>
+            <li>...</li>
+        </ul>
     </div>
+</div>
 ```
 
 We simply surround the root element with a additional `<div class="jcarousel-skin-name">` to have a skin _namespace_. We can now style within this _namespace_:
 
 ```css
-    .jcarousel-skin-default .jcarousel {
-        /* ... */
-    }
+.jcarousel-skin-default .jcarousel {
+    /* ... */
+}
 
-    .jcarousel-skin-default .jcarousel ul {
-        /* ... */
-    }
+.jcarousel-skin-default .jcarousel ul {
+    /* ... */
+}
 
-    .jcarousel-skin-default .jcarousel li {
-        /* ... */
-    }
+.jcarousel-skin-default .jcarousel li {
+    /* ... */
+}
 ```
 
 The download package contains some example skin packages. Feel free to build your own skins based on it.
@@ -180,13 +182,13 @@ You can do that by hand (see "Accessing the jCarousel instance" for available me
 A simple example to navigate the carousel:
 
 ```javascript
-    $('#mycarousel_prev_button').click(function() {
-        $('#mycarousel').jcarousel('scrollBy', -1);
-    });
+$('#mycarousel_prev_button').click(function() {
+    $('#mycarousel').jcarousel('scrollBy', -1);
+});
 
-    $('#mycarousel_next_button').click(function() {
-        $('#mycarousel').jcarousel('scrollBy', 1);
-    });
+$('#mycarousel_next_button').click(function() {
+    $('#mycarousel').jcarousel('scrollBy', 1);
+});
 ```
 
 A more comfortable way is to use one of the navigation plugins:
@@ -211,19 +213,19 @@ Vertical carousels
 To create a vertical carousel, set the `vertical` option to `true`:
 
 ```javascript
-    $('#mycarousel').jcarousel({vertical: true});
+$('#mycarousel').jcarousel({vertical: true});
 ```
 
 Alternatively, you can simply use a class for your root element which contains the string `jcarousel-vertical`:
 
 ```html
-    <div class="jcarousel-skin-name">
-        <div id="mycarousel" class="jcarousel-vertical">
-            <ul>
-                <!-- The content goes in here -->
-            </ul>
-        </div>
+<div class="jcarousel-skin-name">
+    <div id="mycarousel" class="jcarousel-vertical">
+        <ul>
+            <!-- The content goes in here -->
+        </ul>
     </div>
+</div>
 ```
 
 RTL (Right-To-Left) carousels
@@ -232,19 +234,19 @@ RTL (Right-To-Left) carousels
 To create a carousel in RTL mode, set the `rtl` option to `true`:
 
 ```javascript
-    $('#mycarousel').jcarousel({rtl: true});
+$('#mycarousel').jcarousel({rtl: true});
 ```
 
 Alternatively, you can simply add the `dir` attribute with a value of `rtl` to the root element (or to any of its parent elements):
 
 ```html
-    <div class="jcarousel-skin-name">
-        <div id="mycarousel" class="jcarousel" dir="rtl">
-            <ul>
-                <!-- The content goes in here -->
-            </ul>
-        </div>
+<div class="jcarousel-skin-name">
+    <div id="mycarousel" class="jcarousel" dir="rtl">
+        <ul>
+            <!-- The content goes in here -->
+        </ul>
     </div>
+</div>
 ```
 
 Accessing the jCarousel instance
@@ -255,15 +257,15 @@ When you create a jCarousel, the jQuery object will be exchanged with a special 
 If you have created a carousel like:
 
 ```javascript
-    $(function() {
-        $('#mycarousel').jcarousel();
-    });
+$(function() {
+    $('#mycarousel').jcarousel();
+});
 ```
 
 You can access the methods like this (for example the `scrollTo()` method):
 
 ```javascript
-    $('#mycarousel').jcarousel('scrollTo', 2);
+$('#mycarousel').jcarousel('scrollTo', 2);
 ```
 
 ### Available methods are:
@@ -309,19 +311,19 @@ Manipulating the carousel
 If you manipulate the carousel from the outside (eg. adding or removing items from the list), ensure that you call `reload()` afterwards so that jCarousel becomes aware of the changes:
 
 ```javascript
-    $(function() {
-        $('#mycarousel').jcarousel({
-            // Configuration goes here
-        });
-
-        // Append items
-        $('#mycarousel ul')
-            .append('<li>Item 1</li>')
-            .append('<li>Item 2</li>');
-
-        // Reload carousel
-        $('#mycarousel').jcarousel('reload');
+$(function() {
+    $('#mycarousel').jcarousel({
+        // Configuration goes here
     });
+
+    // Append items
+    $('#mycarousel ul')
+        .append('<li>Item 1</li>')
+        .append('<li>Item 2</li>');
+
+    // Reload carousel
+    $('#mycarousel').jcarousel('reload');
+});
 ```
 
 jCarousel specific events
@@ -480,15 +482,15 @@ $('#mycarousel').bind('jcarouselanimateend', function(carousel) {
 **Note:** Some events like `jcarouselsetup` are triggered from the constructor, so you have to bind the events **before** you initialize the carousel:
 
 ```javascript
-    $('#mycarousel')
+$('#mycarousel')
 
-        // Bind first
-        .bind('jcarouselsetup', function(carousel) {
-            // Do something
-        })
+    // Bind first
+    .bind('jcarouselsetup', function(carousel) {
+        // Do something
+    })
 
-        // Initialize at last step
-        .jcarousel();
+    // Initialize at last step
+    .jcarousel();
 ```
 
 ### Available item events are:
