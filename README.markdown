@@ -154,7 +154,7 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
         <td>center</td>
         <td>boolean</td>
         <td>false</td>
-        <td>Specifies wether the carousel should be centered inside the root element. _Note:_ This feature is experimental and may not work with all carousel setups.</td>
+        <td>Specifies wether the carousel should be centered inside the root element. <strong>Note:</strong> This feature is experimental and may not work with all carousel setups.</td>
     </tr>
 </table>
 
