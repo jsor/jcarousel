@@ -90,17 +90,6 @@ $(function($){
         equal($('#jcarousel1').data('jcarousel').list.get(0), $('#jcarousel1 ul').get(0), '#jcarousel1');
     });
 
-    test("setup() calls reload()", function() {
-        expect(1);
-
-        stop();
-
-        $('#jcarousel1').bind('jcarouselreload', function() {
-            ok(true, "#jcarousel1");
-            start();
-        }).jcarousel();
-    });
-
     test("destroy removes data", function() {
         expect(2);
 
