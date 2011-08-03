@@ -30,6 +30,23 @@
             value = parseInt(value, 10);
             return isNaN(value) ? 0 : value;
         },
+        detect: function(object) {
+            object = $(object);
+
+            var instance;
+
+            while (object.size() > 0) {
+                instance = object.filter(':jcarousel').data('jcarousel') ||
+                           object.find(':jcarousel').data('jcarousel');
+                if (instance) {
+                    break;
+                }
+
+                object = object.end().parent();
+            }
+
+            return instance;
+        },
         dataOptions: function(element, options) {
             var dataOptions = {};
             $.each(options, function(option) {
