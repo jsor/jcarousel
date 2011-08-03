@@ -118,6 +118,12 @@
             // Allow overwriting of options via data-* attributes
             this.option($j.dataOptions(this.element, this.options));
 
+            $.each(this.plugins, function(name, plugin) {
+                if ($.isFunction(plugin.init)) {
+                    plugin.init(self);
+                }
+            });
+
             this.onWindowResize = function() {
                 if (self.resizeTimer) {
                     clearTimeout(self.resizeTimer);
@@ -684,6 +690,10 @@
             returnValue = this;
 
         if (typeof options === 'string') {
+            var parts = options.split('.'),
+                plugin = parts[1] ? parts[0] : null,
+                method = parts[1] || parts[0];
+
             this.each(function() {
                 var instance = $.data(this, 'jcarousel');
 
@@ -691,11 +701,19 @@
                     return $.error('Cannot call methods prior to initialization; attempted to call method "' + options + '"');
                 }
 
-                if (!$.isFunction(instance[options]) || options.charAt(0) === "_") {
-                    return $.error('No such method "' + options + '"');
+                if (plugin) {
+                    if (!instance.plugins[plugin]) {
+                        return $.error('No such plugin "' + plugin + '"');
+                    }
+
+                    instance = instance.plugins[plugin];
                 }
 
-                var methodValue = instance[options].apply(instance, args);
+                if (!$.isFunction(instance[method]) || method.charAt(0) === "_") {
+                    return $.error('No such method "' + method + '"');
+                }
+
+                var methodValue = instance[method].apply(instance, args);
 
                 if (methodValue !== instance && methodValue !== undefined) {
                     returnValue = methodValue;

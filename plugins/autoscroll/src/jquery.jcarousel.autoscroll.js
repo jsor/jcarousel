@@ -10,61 +10,58 @@
  */
 (function($, window) {
 
-    var $j = $.jcarousel;
+    var autoscroll = $.jcarousel.plugins.autoscroll = function(carousel) {
+        $.extend(carousel.options, {
+            autoscroll: {
+                scroll:   1,
+                interval: 3000
+            }
+        });
+    };
 
-    $.extend($j.defaults, {
-        autoscroll: {
-            scroll:   1,
-            interval: 3000
-        }
-    });
+    $.extend(autoscroll.prototype, {
+        timer: null,
+        paused: false,
+        init: function(carousel) {
+            var self = this;
+            carousel.element.bind('jcarouseldestroy', function(e) {
+                if (!e.isDefaultPrevented()) {
+                    self.stop();
+                }
+            });
 
-    $j.fn.extend({
-        autoscrollTimer: null,
-        autoscrollPaused: null,
-        startAuto: function(options) {
-            var self = this, opts = $.extend({}, this.options.autoscroll, options);
+            this.carousel = carousel;
+        },
+        start: function() {
+            var self = this, opts = this.carousel.options.autoscroll;
 
-            this.stopAuto();
+            this.stop();
 
-            this.autoscrollTimer = window.setInterval(function() {
-                if (!self.autoscrollPaused) {
-                    self.scrollBy(opts.scroll);
+            this.timer = window.setInterval(function() {
+                if (!self.paused) {
+                    self.carousel.scrollBy(opts.scroll);
                 }
             }, opts.interval);
 
             return this;
         },
-        pauseAuto: function() {
-            this.autoscrollPaused = true;
+        pause: function() {
+            this.paused = true;
 
             return this;
         },
-        resumeAuto: function() {
-            this.autoscrollPaused = false;
+        resume: function() {
+            this.paused = false;
 
             return this;
         },
-        stopAuto: function() {
-            if (this.autoscrollTimer) {
-                this.autoscrollTimer = window.clearInterval(this.autoscrollTimer);
+        stop: function() {
+            if (this.timer) {
+                this.timer = window.clearInterval(this.timer);
             }
 
             return this;
         }
-    });
-
-    $j.hook('destroy', function(e) {
-        if (!e.isDefaultPrevented()) {
-            this.stopAuto();
-        }
-    });
-
-    $j.api({
-        startAuto:  true,
-        pauseAuto:  true,
-        resumeAuto: true,
-        stopAuto:   true
     });
 
 })(jQuery, window);
