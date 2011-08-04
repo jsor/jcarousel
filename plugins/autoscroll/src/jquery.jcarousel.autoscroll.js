@@ -18,10 +18,9 @@
             }
         });
 
-        var self = this;
-        carousel.element.bind('jcarouseldestroy', function(e) {
+        carousel.bind('destroy', function(e) {
             if (!e.isDefaultPrevented()) {
-                self.stop();
+                this.autoscroll.stop();
             }
         });
 
