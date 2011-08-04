@@ -118,12 +118,6 @@
             // Allow overwriting of options via data-* attributes
             this.option($j.dataOptions(this.element, this.options));
 
-            $.each(this.plugins, function(name, plugin) {
-                if ($.isFunction(plugin.init)) {
-                    plugin.init(self);
-                }
-            });
-
             this.onWindowResize = function() {
                 if (self.resizeTimer) {
                     clearTimeout(self.resizeTimer);
