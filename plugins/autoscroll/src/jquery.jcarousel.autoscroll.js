@@ -17,21 +17,20 @@
                 interval: 3000
             }
         });
+
+        var self = this;
+        carousel.element.bind('jcarouseldestroy', function(e) {
+            if (!e.isDefaultPrevented()) {
+                self.stop();
+            }
+        });
+
+        this.carousel = carousel;
     };
 
     $.extend(autoscroll.prototype, {
         timer: null,
         paused: false,
-        init: function(carousel) {
-            var self = this;
-            carousel.element.bind('jcarouseldestroy', function(e) {
-                if (!e.isDefaultPrevented()) {
-                    self.stop();
-                }
-            });
-
-            this.carousel = carousel;
-        },
         start: function() {
             var self = this, opts = this.carousel.options.autoscroll;
 

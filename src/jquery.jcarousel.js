@@ -101,7 +101,6 @@
         vertical:    false,
         rtl:         false,
         circular:    false,
-        plugins:     {},
         _init: function(element, options) {
             this.element  = $(element);
             this.element.data('jcarousel', this);
@@ -109,7 +108,7 @@
             var self = this;
 
             $.each($j.plugins, function(name, plugin) {
-                self.plugins[name] = new plugin(self);
+                self[name] = new plugin(self);
             });
 
             // Set passed options
@@ -695,15 +694,15 @@
                     return $.error('Cannot call methods prior to initialization; attempted to call method "' + options + '"');
                 }
 
-                if (plugin) {
-                    if (!instance.plugins[plugin]) {
+                if (plugin && plugin.charAt(0) !== '_') {
+                    if (!instance[plugin]) {
                         return $.error('No such plugin "' + plugin + '"');
                     }
 
-                    instance = instance.plugins[plugin];
+                    instance = instance[plugin];
                 }
 
-                if (!$.isFunction(instance[method]) || method.charAt(0) === "_") {
+                if (!$.isFunction(instance[method]) || method.charAt(0) === '_') {
                     return $.error('No such method "' + method + '"');
                 }
 
