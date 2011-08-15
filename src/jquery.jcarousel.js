@@ -25,7 +25,6 @@
     };
 
     $.extend($j, {
-        plugins: {},
         intval: function(value) {
             value = parseInt(value, 10);
             return isNaN(value) ? 0 : value;
@@ -105,17 +104,9 @@
             this.element  = $(element);
             this.element.data('jcarousel', this);
 
+            this.options = $.extend({}, this.options, options || {}, $j.dataOptions(this.element, this.options));
+
             var self = this;
-
-            $.each($j.plugins, function(name, plugin) {
-                self[name] = new plugin(self);
-            });
-
-            // Set passed options
-            this.option(options || {});
-
-            // Allow overwriting of options via data-* attributes
-            this.option($j.dataOptions(this.element, this.options));
 
             this.onWindowResize = function() {
                 if (self.resizeTimer) {
@@ -196,51 +187,19 @@
             return this;
         },
         option: function(key, value) {
-            var options = key,
-                parts,
-                curOption,
-                i;
-
             if (arguments.length === 0) {
                 // Don't return a reference to the internal hash
                 return $.extend({}, this.options);
             }
 
             if (typeof key === 'string') {
-                // Handle nested keys, e.g., "foo.bar" => { foo: { bar: ___ } }
-                options = {};
-                parts = key.split('.');
-                key = parts.shift();
-
-                if (parts.length) {
-                    curOption = options[key] = $.extend({}, this.options[key]);
-
-                    for (i = 0; i < parts.length - 1; i++) {
-                        curOption[parts[i]] = curOption[parts[i]] || {};
-                        curOption = curOption[parts[i]];
-                    }
-
-                    key = parts.pop();
-
-                    if (value === undefined) {
-                        return curOption[key] === undefined ? null : curOption[key];
-                    }
-
-                    curOption[key] = value;
-                } else {
-                    if (value === undefined) {
-                        return this.options[key] === undefined ? null : this.options[key];
-                    }
-
-                    options[key] = value;
+                if (value === undefined) {
+                    return this.options[key] === undefined ? null : this.options[key];
                 }
 
-                this.options = $.extend(true, {}, this.options, options);
+                this.options[key] = value;
             } else {
-                var self = this;
-                $.each(options, function(key, val) {
-                    self.option(key, val);
-                });
+                this.options = $.extend({}, this.options, key);
             }
 
             return this;
@@ -690,10 +649,6 @@
             returnValue = this;
 
         if (typeof options === 'string') {
-            var parts = options.split('.'),
-                plugin = parts[1] ? parts[0] : null,
-                method = parts[1] || parts[0];
-
             this.each(function() {
                 var instance = $.data(this, 'jcarousel');
 
@@ -701,19 +656,11 @@
                     return $.error('Cannot call methods prior to initialization; attempted to call method "' + options + '"');
                 }
 
-                if (plugin && plugin.charAt(0) !== '_') {
-                    if (!instance[plugin]) {
-                        return $.error('No such plugin "' + plugin + '"');
-                    }
-
-                    instance = instance[plugin];
+                if (!$.isFunction(instance[options]) || options.charAt(0) === '_') {
+                    return $.error('No such method "' + options + '"');
                 }
 
-                if (!$.isFunction(instance[method]) || method.charAt(0) === '_') {
-                    return $.error('No such method "' + method + '"');
-                }
-
-                var methodValue = instance[method].apply(instance, args);
+                var methodValue = instance[options].apply(instance, args);
 
                 if (methodValue !== instance && methodValue !== undefined) {
                     returnValue = methodValue;
