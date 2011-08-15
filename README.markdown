@@ -286,7 +286,7 @@ The first argument is the method name. The following arguments are the arguments
     </tr>
     <tr>
         <td><pre>.jcarousel('destroy');</pre></td>
-        <td>Removes the jCarousel functionality completely. This will return the element back to its pre-init state. Note that this method returns the original jQuery object and jCarousel related methods are not longer available.</td>
+        <td>Removes the jCarousel functionality completely. This will return the element back to its pre-init state.</td>
     </tr>
     <tr>
         <td><pre>.jcarousel('reload');</pre></td>
