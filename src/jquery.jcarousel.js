@@ -86,8 +86,7 @@
         rtl:         false,
         circular:    false,
         _init: function(element, options) {
-            this.element = $(element);
-            this.element.data('jcarousel', this);
+            this.element = $(element).data('jcarousel', this);
 
             this.option(options);
 
