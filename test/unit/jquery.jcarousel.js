@@ -23,10 +23,12 @@ $(function($){
         equal($('#jcarousel1').jcarousel('option', 'wrap'), 'custom', '#jcarousel1 (wrap equals through option())');
     });
 
-    test("init() sets options from data-attributes", function() {
+    test("init() sets options as function", function() {
         expect(4);
 
-        $('#jcarousel1').jcarousel({wrap: 'foo'});
+        $('#jcarousel1').jcarousel(function() {
+            return {wrap: 'custom'};
+        });
 
         ok($('#jcarousel1').data('jcarousel').options.wrap, '#jcarousel1 (wrap exists in property)');
         equal($('#jcarousel1').data('jcarousel').options.wrap, 'custom', '#jcarousel1 (wrap equals in property)');
@@ -84,25 +86,23 @@ $(function($){
     });
 
     test("reload() sets vertical", function() {
-        expect(4);
+        expect(3);
 
         $('.jcarousel').jcarousel();
 
         equal($('#jcarousel1').data('jcarousel').vertical, false, '#jcarousel1');
         equal($('#jcarousel2').data('jcarousel').vertical, false, '#jcarousel2');
         equal($('#jcarousel3').data('jcarousel').vertical, true, '#jcarousel3 (class: .jcarousel-vertical)');
-        equal($('#jcarousel4').data('jcarousel').vertical, true, '#jcarousel4 (attribute: data-jcarousel-vertical="true")');
     });
 
     test("reload() sets rtl", function() {
-        expect(4);
+        expect(3);
 
         $('.jcarousel').jcarousel();
 
         equal($('#jcarousel1').data('jcarousel').rtl, false, '#jcarousel1');
         equal($('#jcarousel2').data('jcarousel').rtl, true, '#jcarousel2 (attribute: dir="rtl")');
         equal($('#jcarousel3').data('jcarousel').rtl, true, '#jcarousel3 (parent attribute: dir="rtl")');
-        equal($('#jcarousel4').data('jcarousel').rtl, false, '#jcarousel4');
     });
 
     test("reload() sets circular", function() {

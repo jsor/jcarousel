@@ -46,21 +46,6 @@
 
             return instance;
         },
-        dataOptions: function(element, options) {
-            var dataOptions = {};
-            $.each(options, function(option) {
-                var value = element.data('jcarousel-' + option.replace(/[A-Z]/g, function(c) {
-                        return '-' + c.toLowerCase();
-                    })
-                );
-
-                if (value !== undefined) {
-                    dataOptions[option] = value;
-                }
-            });
-
-            return dataOptions;
-        },
         trigger: function(element, type, data, event) {
             event = $.Event(event);
             event.type = ('jcarousel' + type).toLowerCase();
@@ -101,10 +86,10 @@
         rtl:         false,
         circular:    false,
         _init: function(element, options) {
-            this.element  = $(element);
+            this.element = $(element);
             this.element.data('jcarousel', this);
 
-            this.options = $.extend({}, this.options, options || {}, $j.dataOptions(this.element, this.options));
+            this.option(options);
 
             var self = this;
 
@@ -199,6 +184,10 @@
 
                 this.options[key] = value;
             } else {
+                if ($.isFunction(key)) {
+                    key = key.call(this);
+                }
+
                 this.options = $.extend({}, this.options, key);
             }
 
