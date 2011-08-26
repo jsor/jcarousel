@@ -80,7 +80,7 @@
     });
 
     $.extend($j.prototype, {
-        jcarousel: '@VERSION',
+        jcarousel:  '@VERSION',
         element:     null,
         list:        null,
         options:     {
