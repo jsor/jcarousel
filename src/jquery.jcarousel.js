@@ -45,22 +45,6 @@
             }
 
             return instance;
-        },
-        trigger: function(element, type, data, event) {
-            event = $.Event(event);
-            event.type = ('jcarousel' + type).toLowerCase();
-            data = data || {};
-
-            if (event.originalEvent) {
-                for (var i = $.event.props.length, prop; i;) {
-                    prop = $.event.props[--i];
-                    event[prop] = event.originalEvent[prop];
-                }
-            }
-
-            element.trigger(event, data);
-
-            return !event.isDefaultPrevented();
         }
     });
 
@@ -599,9 +583,23 @@
 
             return this;
         },
-        _trigger: function(type, element, data) {
+        _trigger: function(type, element, data, event) {
             element = element || this.element;
-            return $j.trigger(element, type, [this].concat(data || []));
+
+            event = $.Event(event);
+            event.type = ('jcarousel' + type).toLowerCase();
+            data = [this].concat(data || []);
+
+            if (event.originalEvent) {
+                for (var i = $.event.props.length, prop; i;) {
+                    prop = $.event.props[--i];
+                    event[prop] = event.originalEvent[prop];
+                }
+            }
+
+            element.trigger(event, data);
+
+            return !event.isDefaultPrevented();
         },
         _clipping: function() {
             return this.element['inner' + (this.vertical ? 'Height' : 'Width')]();
