@@ -17,7 +17,7 @@
 
     var $j = $.jcarousel = function(element, options) {
         // Allow instantiation without the 'new' keyword
-        if (!this.jcarousel) {
+        if (!this.version) {
             return new $j(element, options);
         }
 
@@ -49,7 +49,7 @@
     });
 
     $.extend($j.prototype, {
-        jcarousel:  '@VERSION',
+        version:  '@VERSION',
         element:     null,
         list:        null,
         options:     {
