@@ -15,43 +15,148 @@
         filterItemVisible  = ':jcarousel-item-visible',
         itemData           = ['first', 'last', 'visible'];
 
-    var $j = $.jcarousel = function(element, options) {
-        // Allow instantiation without the 'new' keyword
-        if (!this.version) {
-            return new $j(element, options);
-        }
-
-        this._init(element, options);
-    };
-
-    $.extend($j, {
+    var $j = $.jcarousel = {
         intval: function(value) {
             value = parseInt(value, 10);
             return isNaN(value) ? 0 : value;
         },
-        detect: function(object) {
-            object = $(object);
-
-            var instance;
-
-            while (object.size() > 0) {
-                instance = object.filter(':jcarousel').data('jcarousel') ||
-                           object.find(':jcarousel').data('jcarousel');
-                if (instance) {
-                    break;
+        base: {
+            version: '@VERSION',
+            options: {},
+            _options: $.noop,
+            _init: $.noop,
+            option: function(key, value) {
+                if (arguments.length === 0) {
+                    // Don't return a reference to the internal hash
+                    return $.extend({}, this.options);
                 }
 
-                object = object.end().parent();
+                if (typeof key === 'string') {
+                    if (value === undefined) {
+                        return this.options[key] === undefined ? null : this.options[key];
+                    }
+
+                    this.options[key] = value;
+                } else {
+                    if ($.isFunction(key)) {
+                        key = key.call(this);
+                    }
+
+                    this.options = $.extend({}, this.options, key);
+                }
+
+                return this;
+            },
+            carousel: function() {
+                var element = this.element,
+                    carousel = element.filter(':jcarousel');
+
+                if (carousel.length) {
+                    return carousel;
+                }
+
+                while (element.size() > 0) {
+                    carousel = element.find(':jcarousel');
+
+                    if (carousel.length) {
+                        return carousel;
+                    }
+
+                    element = element.parent();
+                }
+
+                return $();
+            },
+            _bind: function(type, handler) {
+                var self = this;
+                this.element.bind(('jcarousel' + type).toLowerCase(), function() {
+                    handler.apply(self, arguments);
+                });
+                return this;
+            },
+            _trigger: function(type, element, data, event) {
+                element = element || this.element;
+
+                event = $.Event(event);
+                event.type = ('jcarousel' + type).toLowerCase();
+                data = [this].concat(data || []);
+
+                if (event.originalEvent) {
+                    for (var i = $.event.props.length, prop; i;) {
+                        prop = $.event.props[--i];
+                        event[prop] = event.originalEvent[prop];
+                    }
+                }
+
+                element.trigger(event, data);
+
+                return !event.isDefaultPrevented();
+            }
+        },
+        create: function(name, prototype) {
+            $j[name] = function(element, options) {
+                // allow instantiation without "new" keyword
+                if (!this._init) {
+                    return new $j[name](element, options);
+                }
+
+                this.element = $(element).data(name, this);
+                this.options = $.extend({},
+			this.options,
+			this._options(),
+			options);
+                this._init();
             }
 
-            return instance;
-        }
-    });
+            $.extend($j[name].prototype, $j.base, prototype);
 
-    $.extend($j.prototype, {
-        version:  '@VERSION',
-        element:     null,
-        list:        null,
+            $.expr[':'][name] = function(element) {
+                return !!$.data(element, name);
+            };
+
+            $.fn[name] = function(options) {
+                var args        = Array.prototype.slice.call(arguments, 1),
+                    returnValue = this;
+
+                if (typeof options === 'string') {
+                    this.each(function() {
+                        var instance = $.data(this, name);
+
+                        if (!instance) {
+                            return $.error('Cannot call methods on ' + name + ' prior to initialization; attempted to call method "' + options + '"');
+                        }
+
+                        if (!$.isFunction(instance[options]) || options.charAt(0) === '_') {
+                            return $.error('No such method "' + options + '"');
+                        }
+
+                        var methodValue = instance[options].apply(instance, args);
+
+                        if (methodValue !== instance && methodValue !== undefined) {
+                            returnValue = methodValue;
+                            return false;
+                        }
+                    });
+                } else {
+                    this.each(function() {
+                        var instance = $.data(this, name);
+
+                        if (instance) {
+                            if (options) {
+                                instance.option(options);
+                            }
+                        } else {
+                            $j[name](this, options);
+                        }
+                    });
+                }
+
+                return returnValue;
+            };
+        }
+    };
+
+    $j.create('jcarousel', {
         options:     {
             list:      '>ul:eq(0)',
             items:     '>li',
@@ -61,6 +166,7 @@
             rtl:       null,
             center:    false
         },
+        list:        null,
         animating:   false,
         tail:        0,
         inTail:      false,
@@ -69,10 +175,14 @@
         vertical:    false,
         rtl:         false,
         circular:    false,
-        _init: function(element, options) {
-            this.element = $(element).data('jcarousel', this);
+        _init: function() {
+            if (false === this._trigger('init')) {
+                return this;
+            }
 
-            this.option(options);
+            this.list = this.element.find(this.options.list);
+
+            this._reload();
 
             var self = this;
 
@@ -85,6 +195,8 @@
                     self.reload();
                 }, 100);
             };
+
+            $(window).bind('resize.jcarousel', this.onWindowResize);
 
             this.onAnimationComplete = function(callback) {
                 self.animating = false;
@@ -103,22 +215,7 @@
                 }
             };
 
-            this._setup();
-
-            return this;
-        },
-        _setup: function() {
-            if (false === this._trigger('setup')) {
-                return this;
-            }
-
-            this.list = this.element.find(this.options.list);
-
-            this._reload();
-
-            $(window).unbind('resize.jcarousel', this.onWindowResize).bind('resize.jcarousel', this.onWindowResize);
-
-            this._trigger('setupEnd');
+            this._trigger('initEnd');
 
             return this;
         },
@@ -152,35 +249,6 @@
 
             this._trigger('reloadEnd');
 
-            return this;
-        },
-        option: function(key, value) {
-            if (arguments.length === 0) {
-                // Don't return a reference to the internal hash
-                return $.extend({}, this.options);
-            }
-
-            if (typeof key === 'string') {
-                if (value === undefined) {
-                    return this.options[key] === undefined ? null : this.options[key];
-                }
-
-                this.options[key] = value;
-            } else {
-                if ($.isFunction(key)) {
-                    key = key.call(this);
-                }
-
-                this.options = $.extend({}, this.options, key);
-            }
-
-            return this;
-        },
-        bind: function(type, handler) {
-            var self = this;
-            this.element.bind(('jcarousel' + type).toLowerCase(), function() {
-                handler.apply(self, arguments);
-            });
             return this;
         },
         items: function() {
@@ -583,24 +651,6 @@
 
             return this;
         },
-        _trigger: function(type, element, data, event) {
-            element = element || this.element;
-
-            event = $.Event(event);
-            event.type = ('jcarousel' + type).toLowerCase();
-            data = [this].concat(data || []);
-
-            if (event.originalEvent) {
-                for (var i = $.event.props.length, prop; i;) {
-                    prop = $.event.props[--i];
-                    event[prop] = event.originalEvent[prop];
-                }
-            }
-
-            element.trigger(event, data);
-
-            return !event.isDefaultPrevented();
-        },
         _clipping: function() {
             return this.element['inner' + (this.vertical ? 'Height' : 'Width')]();
         },
@@ -620,54 +670,10 @@
         }
     });
 
-    $.expr[':'].jcarousel = function(element) {
-        return !!$.data(element, 'jcarousel');
-    };
-
     $.each(itemData, function(i, name) {
         $.expr[':']['jcarousel-item-'  + name] = function(element) {
             return !!$.data(element, 'jcarousel-item-' + name);
         };
     });
-
-    $.fn.jcarousel = function(options) {
-        var args        = Array.prototype.slice.call(arguments, 1),
-            returnValue = this;
-
-        if (typeof options === 'string') {
-            this.each(function() {
-                var instance = $.data(this, 'jcarousel');
-
-                if (!instance) {
-                    return $.error('Cannot call methods prior to initialization; attempted to call method "' + options + '"');
-                }
-
-                if (!$.isFunction(instance[options]) || options.charAt(0) === '_') {
-                    return $.error('No such method "' + options + '"');
-                }
-
-                var methodValue = instance[options].apply(instance, args);
-
-                if (methodValue !== instance && methodValue !== undefined) {
-                    returnValue = methodValue;
-                    return false;
-                }
-            });
-        } else {
-            this.each(function() {
-                var instance = $.data(this, 'jcarousel');
-
-                if (instance) {
-                    if (options) {
-                        instance.option(options).reload();
-                    }
-                } else {
-                    $j(this, options);
-                }
-            });
-        }
-
-        return returnValue;
-    };
 
 })(jQuery, window);

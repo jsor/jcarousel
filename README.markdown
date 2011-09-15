@@ -353,22 +353,22 @@ After initialization, jCarousel triggers specific events on the root element and
         <th>Example</th>
     </tr>
     <tr>
-        <td>jcarouselsetup</td>
-        <td>Triggered when the <code>setup</code> method is called.</td>
+        <td>jcarouselinit</td>
+        <td>Triggered on initialization of the carousel.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouselsetup', function(carousel) {
+$('#mycarousel').bind('jcarouselinit', function(carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
         <tr>
-        <td>jcarouselsetupend</td>
-        <td>Triggered after the <code>setup</code> method is called.</td>
+        <td>jcarouselinitend</td>
+        <td>Triggered after initialization of the carousel.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouselsetupend', function(carousel) {
+$('#mycarousel').bind('jcarouselinitend', function(carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });</pre>
@@ -492,13 +492,13 @@ $('#mycarousel').bind('jcarouselanimateend', function(carousel) {
     </tr>
 </table>
 
-**Note:** Some events like `jcarouselsetup` are triggered from the constructor, so you have to bind the events **before** you initialize the carousel:
+**Note:** Some events like `jcarouselinit` are triggered from the constructor, so you have to bind the events **before** you initialize the carousel:
 
 ```javascript
 $('#mycarousel')
 
     // Bind first
-    .bind('jcarouselsetup', function(carousel) {
+    .bind('jcarouselinit', function(carousel) {
         // Do something
     })
 
