@@ -25,6 +25,7 @@
             options: {},
             _options: $.noop,
             _init: $.noop,
+            _carousel: null,
             option: function(key, value) {
                 if (arguments.length === 0) {
                     // Don't return a reference to the internal hash
@@ -48,24 +49,26 @@
                 return this;
             },
             carousel: function() {
-                var element = this.element,
-                    carousel = element.filter(':jcarousel');
+                if (this._carousel === null) {
+                    var element = this.element,
+                        carousel = element.filter(':jcarousel');
 
-                if (carousel.length) {
-                    return carousel;
-                }
+                    if (carousel.size() === 0) {
+                        while (element.size() > 0) {
+                            carousel = element.find(':jcarousel');
 
-                while (element.size() > 0) {
-                    carousel = element.find(':jcarousel');
+                            if (carousel.size() > 0) {
+                                break;
+                            }
 
-                    if (carousel.length) {
-                        return carousel;
+                            element = element.parent();
+                        }
                     }
 
-                    element = element.parent();
+                    this._carousel = carousel;
                 }
 
-                return $();
+                return this._carousel;
             },
             _trigger: function(type, element, data, event) {
                 element = element || this.element;
@@ -173,6 +176,7 @@
                 return this;
             }
 
+            this._carousel = this.element;
             this.list = this.element.find(this.options.list);
 
             this._reload();
