@@ -108,7 +108,7 @@
                     options);
 
                 this._init();
-            }
+            };
 
             $.extend($j[name].prototype, $j.base, {
                 _selector: selector,
