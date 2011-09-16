@@ -25,7 +25,6 @@
             options: {},
             _options: $.noop,
             _init: $.noop,
-            _carousel: null,
             option: function(key, value) {
                 if (arguments.length === 0) {
                     // Don't return a reference to the internal hash
@@ -49,26 +48,24 @@
                 return this;
             },
             carousel: function() {
-                if (this._carousel === null) {
-                    var element = this.element,
-                        carousel = element.filter(':jcarousel');
+                var element = this.element,
+                    carousel = element.filter(':jcarousel');
 
-                    if (carousel.size() === 0) {
-                        while (element.size() > 0) {
-                            carousel = element.find(':jcarousel');
-
-                            if (carousel.size() > 0) {
-                                break;
-                            }
-
-                            element = element.parent();
-                        }
-                    }
-
-                    this._carousel = carousel;
+                if (carousel.length) {
+                    return carousel;
                 }
 
-                return this._carousel;
+                while (element.size() > 0) {
+                    carousel = element.find(':jcarousel');
+
+                    if (carousel.length) {
+                        return carousel;
+                    }
+
+                    element = element.parent();
+                }
+
+                return $();
             },
             _trigger: function(type, element, data, event) {
                 element = element || this.element;
@@ -90,13 +87,25 @@
             }
         },
         create: function(name, prototype) {
+            var split = name.split('.'),
+                selector,
+                event;
+
+            if (split.length > 1) {
+                selector = (split[0] + '-' + split[1]).toLowerCase();
+                event    = (split[0] + split[1]).toLowerCase();
+                name     = split[0] + split[1].charAt(0).toUpperCase() + split[1].slice(1);
+            } else {
+                selector = event = name.toLowerCase();
+            }
+
             $j[name] = function(element, options) {
                 // allow instantiation without "new" keyword
                 if (!this._init) {
                     return new $j[name](element, options);
                 }
 
-                this.element = $(element).data(name, this);
+                this.element = $(element).data(selector, this);
 
                 this.options = $.extend({},
                     this.options,
@@ -106,10 +115,13 @@
                 this._init();
             }
 
-            $.extend($j[name].prototype, $j.base, prototype);
+            $.extend($j[name].prototype, $j.base, {
+                _selector: selector,
+                _event: event
+            }, prototype);
 
-            $.expr[':'][name] = function(element) {
-                return !!$.data(element, name);
+            $.expr[':'][selector] = function(element) {
+                return !!$.data(element, selector);
             };
 
             $.fn[name] = function(options) {
@@ -118,7 +130,7 @@
 
                 if (typeof options === 'string') {
                     this.each(function() {
-                        var instance = $.data(this, name);
+                        var instance = $.data(this, selector);
 
                         if (!instance) {
                             return $.error('Cannot call methods on ' + name + ' prior to initialization; attempted to call method "' + options + '"');
@@ -137,7 +149,7 @@
                     });
                 } else {
                     this.each(function() {
-                        var instance = $.data(this, name);
+                        var instance = $.data(this, selector);
 
                         if (instance) {
                             if (options) {
@@ -178,7 +190,6 @@
                 return this;
             }
 
-            this._carousel = this.element;
             this.list = this.element.find(this.options.list);
 
             this._reload();
@@ -217,6 +228,9 @@
             this._trigger('initEnd');
 
             return this;
+        },
+        carousel: function() {
+            return this.element;
         },
         destroy: function() {
             if (false === this._trigger('destroy')) {
