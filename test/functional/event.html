@@ -25,7 +25,7 @@ $(function() {
 
     var jcarousel = $('.jcarousel');
 
-    $.each(['setup', 'destroy', 'reload', 'scrollBy', 'scrollTo', 'animate'], function(i, name) {
+    $.each(['init', 'destroy', 'reload', 'scrollBy', 'scrollTo', 'animate'], function(i, name) {
         jcarousel.bind('jcarousel' + name.toLowerCase(), function() {
             log(name.toLowerCase(), this, arguments);
         });
@@ -36,44 +36,26 @@ $(function() {
 
     jcarousel.find('li')
     .bind('jcarouselitemvisiblein', function() {
-        log('itemvisiblein', this);
+        log('itemvisiblein', this, arguments);
     })
     .bind('jcarouselitemvisibleout', function() {
-        log('itemvisibleout', this);
+        log('itemvisibleout', this, arguments);
     })
     .bind('jcarouselitemfirstin', function() {
-        log('itemfirstin', this);
+        log('itemfirstin', this, arguments);
     })
     .bind('jcarouselitemfirstout', function() {
-        log('itemfirstout', this);
+        log('itemfirstout', this, arguments);
     })
     .bind('jcarouselitemlastin', function() {
-        log('itemlastin', this);
+        log('itemlastin', this, arguments);
     })
     .bind('jcarouselitemlastout', function() {
-        log('itemlastout', this);
+        log('itemlastout', this, arguments);
     });
 
     jcarousel.jcarousel();
 });
-
-function callback(moved) {
-    if (!moved) {
-        return;
-    }
-
-    var f = $('.jcarousel').find('li:first-child');
-
-    console.log(f, 'first:jcarouselitemfirst', f.is(':jcarouselitemfirst'));
-    console.log(f, 'first:jcarouselitemlast', f.is(':jcarouselitemlast'));
-    console.log(f, 'first:jcarouselitemvisible', f.is(':jcarouselitemvisible'));
-
-    var l = $('.jcarousel').find('li:last-child');
-
-    console.log(l, 'last:jcarouselitemfirst', l.is(':jcarouselitemfirst'));
-    console.log(l, 'last:jcarouselitemlast', l.is(':jcarouselitemlast'));
-    console.log(l, 'last:jcarouselitemvisible', l.is(':jcarouselitemvisible'));
-};
 
 </script>
 
