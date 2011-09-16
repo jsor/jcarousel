@@ -128,11 +128,12 @@
                         var instance = $.data(this, selector);
 
                         if (!instance) {
-                            return $.error('Cannot call methods on ' + name + ' prior to initialization; attempted to call method "' + options + '"');
+                            return $.error('Cannot call methods on ' + name + ' prior to initialization; ' +
+                                           'attempted to call method "' + options + '"');
                         }
 
                         if (!$.isFunction(instance[options]) || options.charAt(0) === '_') {
-                            return $.error('No such method "' + options + '"');
+                            return $.error('No such method "' + options + '" for ' + name + ' instance');
                         }
 
                         var methodValue = instance[options].apply(instance, args);
