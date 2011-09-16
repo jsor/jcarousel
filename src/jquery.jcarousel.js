@@ -97,10 +97,12 @@
                 }
 
                 this.element = $(element).data(name, this);
+
                 this.options = $.extend({},
-			this.options,
-			this._options(),
-			options);
+                    this.options,
+                    this._options(),
+                    options);
+
                 this._init();
             }
 
