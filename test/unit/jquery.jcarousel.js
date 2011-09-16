@@ -2,7 +2,7 @@ $(function($){
 
     module("jquery.jcarousel");
 
-    test("init() sets element", function() {
+    test("constructor sets element", function() {
         expect(2);
 
         $('#jcarousel1').jcarousel();
@@ -11,7 +11,7 @@ $(function($){
         ok($('#jcarousel1').data('jcarousel').element.jquery, '#jcarousel1 (element is jQuery object)');
     });
 
-    test("init() sets options", function() {
+    test("constructor sets options", function() {
         expect(4);
 
         $('#jcarousel1').jcarousel({wrap: 'custom'});
@@ -23,21 +23,7 @@ $(function($){
         equal($('#jcarousel1').jcarousel('option', 'wrap'), 'custom', '#jcarousel1 (wrap equals through option())');
     });
 
-    test("init() sets options as function", function() {
-        expect(4);
-
-        $('#jcarousel1').jcarousel(function() {
-            return {wrap: 'custom'};
-        });
-
-        ok($('#jcarousel1').data('jcarousel').options.wrap, '#jcarousel1 (wrap exists in property)');
-        equal($('#jcarousel1').data('jcarousel').options.wrap, 'custom', '#jcarousel1 (wrap equals in property)');
-
-        ok($('#jcarousel1').jcarousel('option', 'wrap'), '#jcarousel1 (wrap exists through option())');
-        equal($('#jcarousel1').jcarousel('option', 'wrap'), 'custom', '#jcarousel1 (wrap equals through option())');
-    });
-
-    test("init() sets data", function() {
+    test("constructor sets data", function() {
         expect(1);
 
         $('#jcarousel1').jcarousel();
@@ -45,7 +31,7 @@ $(function($){
         ok($('#jcarousel1').data('jcarousel'), '#jcarousel1');
     });
 
-    test("init() sets callbacks", function() {
+    test("_init() sets callbacks", function() {
         expect(2);
 
         $('#jcarousel1').jcarousel();
@@ -54,18 +40,17 @@ $(function($){
         ok($('#jcarousel1').data('jcarousel').onAnimationComplete, '#jcarousel1 (onAnimationComplete)');
     });
 
-    test("init() calls setup()", function() {
-        expect(1);
+    test("_init() triggers events", function() {
+        expect(2);
 
-        stop();
-
-        $('#jcarousel1').bind('jcarouselsetup', function() {
-            ok(true, "#jcarousel1");
-            start();
+        $('#jcarousel1').bind('jcarouselinit', function() {
+            ok(true, "#jcarousel1 (init)");
+        }).bind('jcarouselinitend', function() {
+            ok(true, "#jcarousel1 (initend)");
         }).jcarousel();
     });
 
-    test("setup() sets list", function() {
+    test("_init() sets list", function() {
         expect(1);
 
         $('#jcarousel1').jcarousel();
@@ -73,7 +58,7 @@ $(function($){
         equal($('#jcarousel1').data('jcarousel').list.get(0), $('#jcarousel1 ul').get(0), '#jcarousel1');
     });
 
-    test("destroy removes data", function() {
+    test("destroy() removes data", function() {
         expect(2);
 
         $('#jcarousel1').jcarousel();
