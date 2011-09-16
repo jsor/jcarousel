@@ -23,14 +23,12 @@
 <script type="text/javascript">
 
 $(function() {
-    $('#jcarousel1').jcarousel().jcarousel('autoscroll.start');
+    $('#jcarousel1').jcarousel().jcarouselAutoscroll();
 
     $('#jcarousel2').jcarousel({
-        wrap: 'circular',
-        autoscroll: {
-            scroll: 2,
-            interval: 1000
-        }
+        wrap: 'circular'
+    }).jcarouselAutoscroll({
+        autostart: false
     });
 });
 
@@ -72,10 +70,10 @@ $(function() {
 
         |
 
-        <a href="#" onclick="$('#jcarousel1').jcarousel('autoscroll.start'); return false;">Start</a>
-        <a href="#" onclick="$('#jcarousel1').jcarousel('autoscroll.pause'); return false;">Pause</a>
-        <a href="#" onclick="$('#jcarousel1').jcarousel('autoscroll.resume'); return false;">Resume</a>
-        <a href="#" onclick="$('#jcarousel1').jcarousel('autoscroll.stop'); return false;">Stop</a>
+        <a href="#" onclick="$('#jcarousel1').jcarouselAutoscroll('play'); return false;">Play</a>
+        <a href="#" onclick="$('#jcarousel1').jcarouselAutoscroll('pause'); return false;">Pause</a>
+        <a href="#" onclick="$('#jcarousel1').jcarouselAutoscroll('resume'); return false;">Resume</a>
+        <a href="#" onclick="$('#jcarousel1').jcarouselAutoscroll('stop'); return false;">Stop</a>
     </div>
 
     <h2>Wrap: circular</h2>
@@ -111,10 +109,10 @@ $(function() {
 
         |
 
-        <a href="#" onclick="$('#jcarousel2').jcarousel('autoscroll.start'); return false;">Start</a>
-        <a href="#" onclick="$('#jcarousel2').jcarousel('autoscroll.pause'); return false;">Pause</a>
-        <a href="#" onclick="$('#jcarousel2').jcarousel('autoscroll.resume'); return false;">Resume</a>
-        <a href="#" onclick="$('#jcarousel2').jcarousel('autoscroll.stop'); return false;">Stop</a>
+        <a href="#" onclick="$('#jcarousel2').jcarouselAutoscroll('play'); return false;">Play</a>
+        <a href="#" onclick="$('#jcarousel2').jcarouselAutoscroll('pause'); return false;">Pause</a>
+        <a href="#" onclick="$('#jcarousel2').jcarouselAutoscroll('resume'); return false;">Resume</a>
+        <a href="#" onclick="$('#jcarousel2').jcarouselAutoscroll('stop'); return false;">Stop</a>
     </div>
 
     <p>

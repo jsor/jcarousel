@@ -10,47 +10,55 @@
  */
 (function($, window) {
 
-    var autoscroll = $.jcarousel.plugins.autoscroll = function(carousel) {
-        $.extend(carousel.options, {
-            autoscroll: {
-                scroll:   1,
-                interval: 3000
-            }
-        });
-
-        carousel.bind('destroy', function(e) {
-            if (!e.isDefaultPrevented()) {
-                this.autoscroll.stop();
-            }
-        });
-
-        this.carousel = carousel;
-    };
-
-    $.extend(autoscroll.prototype, {
+    $.jcarousel.create('jcarousel.autoscroll', {
+        options: {
+            scroll:   1,
+            interval: 3000,
+            autostart: true
+        },
         timer: null,
         paused: false,
-        start: function() {
-            var self = this, opts = this.carousel.options.autoscroll;
+        _init: function() {
+            var self = this;
+            this.carousel().bind('jcarouseldestroy', function() {
+                self.stop();
+            });
 
+            if (this.option('autostart')) {
+                this._start();
+            }
+        },
+        _start: function() {
             this.stop();
+
+            var self = this,
+                carousel = this.carousel(),
+                scroll = this.option('scroll');
+
+            if (carousel.size() === 0) {
+                return this;
+            }
 
             this.timer = window.setInterval(function() {
                 if (!self.paused) {
-                    self.carousel.scrollBy(opts.scroll);
+                    carousel.jcarousel('scrollBy', scroll);
                 }
-            }, opts.interval);
+            }, this.option('interval'));
+
+            return this;
+        },
+        play: function() {
+            this._start();
+            this.carousel().jcarousel('scrollBy', this.option('scroll'));
 
             return this;
         },
         pause: function() {
             this.paused = true;
-
             return this;
         },
         resume: function() {
             this.paused = false;
-
             return this;
         },
         stop: function() {
