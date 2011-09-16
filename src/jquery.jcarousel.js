@@ -67,13 +67,6 @@
 
                 return $();
             },
-            _bind: function(type, handler) {
-                var self = this;
-                this.element.bind(('jcarousel' + type).toLowerCase(), function() {
-                    handler.apply(self, arguments);
-                });
-                return this;
-            },
             _trigger: function(type, element, data, event) {
                 element = element || this.element;
 
