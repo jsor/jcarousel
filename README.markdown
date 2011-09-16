@@ -308,7 +308,7 @@ The first argument is the method name. The following arguments are the arguments
         <td>Set multiple jCarousel options at once by providing an options object.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('option', callback());</pre></td>
+        <td><pre>.jcarousel('option', callback);</pre></td>
         <td>Set multiple jCarousel options by passing a function which returns an options object. The function is executed in the context of the carousel instance.</td>
     </tr>
 </table>
