@@ -11,9 +11,9 @@
 -->
 <script type="text/javascript" src="../../../../src/jquery.jcarousel.js"></script>
 <!--
-  jCarousel prevnext plugin
+  jCarousel button plugin
 -->
-<script type="text/javascript" src="../../src/jquery.jcarousel.prevnext.js"></script>
+<script type="text/javascript" src="../../src/jquery.jcarousel.button.js"></script>
 <!--
   jCarousel stylesheet
 -->
@@ -24,6 +24,24 @@
 
 $(function() {
     $('#jcarousel1').jcarousel();
+
+    $('.jcarousel-prev')
+        .bind('jcarouselbuttonenabled', function() {
+            console.log('Prev enabled');
+        })
+        .bind('jcarouselbuttondisabled', function() {
+            console.log('Prev disabled');
+        })
+        .jcarouselButton({scroll: -1});
+
+    $('.jcarousel-next')
+        .bind('jcarouselbuttonenabled', function() {
+            console.log('Next enabled');
+        })
+        .bind('jcarouselbuttondisabled', function() {
+            console.log('Next disabled');
+        })
+        .jcarouselButton({scroll: 1});
 });
 
 </script>
@@ -49,19 +67,16 @@ $(function() {
         </div>
         <a href="#" class="jcarousel-prev">Prev</a>
         <a href="#" class="jcarousel-next">Next</a>
-        |
-        <a href="#" onclick="$('.jcarousel').jcarousel().prev(); return false;">Prev Static</a>
-        <a href="#" onclick="$('.jcarousel').jcarousel().next(); return false;">Next Static</a>
     </div>
 
     <p>
-        <a href="#" onclick="$('html').attr('dir', 'rtl'); $('.jcarousel').jcarousel().reload(); return false;">RTL</a>
-        <a href="#" onclick="$('html').attr('dir', 'ltr'); $('.jcarousel').jcarousel().reload(); return false;">LTR</a>
+        <a href="#" onclick="$('html').attr('dir', 'rtl'); $('.jcarousel').jcarousel('reload'); return false;">RTL</a>
+        <a href="#" onclick="$('html').attr('dir', 'ltr'); $('.jcarousel').jcarousel('reload'); return false;">LTR</a>
         |
-        <a href="#" onclick="$('.jcarousel').addClass('jcarousel-vertical').jcarousel().reload(); return false;">Vertical</a>
-        <a href="#" onclick="$('.jcarousel').removeClass('jcarousel-vertical').jcarousel().reload(); return false;">Horizontal</a>
+        <a href="#" onclick="$('.jcarousel').addClass('jcarousel-vertical').jcarousel('reload'); return false;">Vertical</a>
+        <a href="#" onclick="$('.jcarousel').removeClass('jcarousel-vertical').jcarousel('reload'); return false;">Horizontal</a>
         |
-        <a href="#" onclick="$('.jcarousel').jcarousel().destroy(); return false;">Destroy</a>
+        <a href="#" onclick="$('.jcarousel').jcarousel('destroy'); return false;">Destroy</a>
     </p>
 
 </body>
