@@ -131,7 +131,7 @@
                 this._init();
             };
 
-            $.extend($j[name].prototype, $j.base, {
+            $j[name].prototype = $.extend({}, $j.base, {
                 _selector: selector,
                 _event: event
             }, prototype);
