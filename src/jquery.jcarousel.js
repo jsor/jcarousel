@@ -19,7 +19,9 @@
         },
         parseTarget: function(target) {
             var relative = false,
-                parts    = typeof target !== 'object' ? relativeTarget.exec(target) : null;
+                parts    = typeof target !== 'object' ?
+                               relativeTarget.exec(target) :
+                               null;
 
             if (parts) {
                 target = $j.intval(parts[2]);
@@ -49,7 +51,9 @@
 
                 if (typeof key === 'string') {
                     if (value === undefined) {
-                        return this.options[key] === undefined ? null : this.options[key];
+                        return this.options[key] === undefined ?
+                            null :
+                            this.options[key];
                     }
 
                     this.options[key] = value;
@@ -110,7 +114,9 @@
             if (split.length > 1) {
                 selector = (split[0] + '-' + split[1]).toLowerCase();
                 event    = (split[0] + split[1]).toLowerCase();
-                name     = split[0] + split[1].charAt(0).toUpperCase() + split[1].slice(1);
+                name     = split[0] +
+                           split[1].charAt(0).toUpperCase() +
+                           split[1].slice(1);
             } else {
                 selector = event = name.toLowerCase();
             }
@@ -149,12 +155,16 @@
                         var instance = $.data(this, selector);
 
                         if (!instance) {
-                            return $.error('Cannot call methods on ' + name + ' prior to initialization; ' +
-                                           'attempted to call method "' + options + '"');
+                            return $.error(
+                                'Cannot call methods on ' + name + ' prior to initialization; ' +
+                                'attempted to call method "' + options + '"'
+                            );
                         }
 
                         if (!$.isFunction(instance[options]) || options.charAt(0) === '_') {
-                            return $.error('No such method "' + options + '" for ' + name + ' instance');
+                            return $.error(
+                                'No such method "' + options + '" for ' + name + ' instance'
+                            );
                         }
 
                         var methodValue = instance[options].apply(instance, args);
@@ -339,14 +349,16 @@
                         if (!this.inTail) {
                             this._scrollTail(animate, cb);
                         } else {
-                            if (this.options.wrap == 'both' || this.options.wrap == 'last') {
+                            if (this.options.wrap == 'both' ||
+                                this.options.wrap == 'last') {
                                 this._scroll(0, animate, cb);
                             } else {
                                 this._scroll(end, animate, cb);
                             }
                         }
                     } else {
-                        if (last === end && (this.options.wrap == 'both' || this.options.wrap == 'last')) {
+                        if (last === end &&
+                            (this.options.wrap == 'both' || this.options.wrap == 'last')) {
                             return this._scroll(0, animate, cb);
                         } else {
                             first = items.filter(':jcarousel-item-first').index();
@@ -375,7 +387,8 @@
                     if (this.inTail) {
                         this._scroll(Math.max(index + 1, 0), animate, cb);
                     } else {
-                        if (first === 0 && (this.options.wrap == 'both' || this.options.wrap == 'first')) {
+                        if (first === 0 &&
+                            (this.options.wrap == 'both' || this.options.wrap == 'first')) {
                             this._scroll(end, animate, cb);
                         } else {
                             if (this.circular && index < 0) {
@@ -386,7 +399,11 @@
                                     curr = this.items().eq(-1);
                                     curr.after(curr.clone(true).addClass('jcarousel-clone'));
                                     this.list.prepend(curr);
-                                    this.list.css(this.lt, $j.intval(this.list.css(this.lt)) - this._dimension(curr) + 'px');
+                                    this.list.css(
+                                        this.lt,
+                                        $j.intval(this.list.css(this.lt)) -
+                                            this._dimension(curr) + 'px'
+                                    );
                                 }
 
                                 this._scroll(curr, animate, cb);
@@ -606,7 +623,10 @@
 
             this.tail = 0;
 
-            if (this.options.wrap !== 'circular' && this.options.wrap !== 'custom' && update.last.index() === (this.items().size() - 1)) {
+            if (this.options.wrap !== 'circular' &&
+                this.options.wrap !== 'custom' &&
+                update.last.index() === (this.items().size() - 1)) {
+
                 // Remove right/bottom margin from total width
                 var lrb = this.vertical ? 'bottom' : (this.rtl ? 'left'  : 'right');
 
