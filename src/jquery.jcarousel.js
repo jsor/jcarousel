@@ -162,6 +162,8 @@
         }
     };
 
+    var relativeScroll = /^([+\-]=)?(.+)$/;
+
     $j.create('jcarousel', {
         options:     {
             list:      '>ul:eq(0)',
@@ -279,110 +281,12 @@
                      (items.filter(':jcarousel-item-first').index() > 0) ||
                      (this.tail && this.inTail)) ? true : false;
         },
-        scrollBy: function(offset, animate, callback) {
-            offset = $j.intval(offset);
-
-            if (this.animating || !offset) {
-                return this;
-            }
-
-            if (false === this._trigger('scrollBy', null, [offset, animate])) {
-                return this;
-            }
-
-            if ($.isFunction(animate)) {
-                callback = animate;
-                animate = true;
-            }
-
-            var items  = this.items(),
-                end    = items.size() - 1,
-                scroll = Math.abs(offset),
-                self   = this,
-                cb     = function(animated) {
-                    self._trigger('scrollByEnd', null, [animated]);
-                    if ($.isFunction(callback)) {
-                        callback.call(self);
-                    }
-                },
-                first,
-                index,
-                curr,
-                i;
-
-            if (offset > 0) {
-                var last = items.filter(':jcarousel-item-last').index();
-
-                if (last >= end && this.tail) {
-                    if (!this.inTail) {
-                        this._scrollTail(animate, cb);
-                    } else {
-                        if (this.options.wrap == 'both' || this.options.wrap == 'last') {
-                            this._scroll(0, animate, cb);
-                        } else {
-                            this._scroll(end, animate, cb);
-                        }
-                    }
-                } else {
-                    if (last === end && (this.options.wrap == 'both' || this.options.wrap == 'last')) {
-                        return this._scroll(0, animate, cb);
-                    } else {
-                        first = items.filter(':jcarousel-item-first').index();
-                        index = first + scroll;
-
-                        if (this.circular && index > end) {
-                            i = end;
-                            curr = items.get(-1);
-
-                            while (i++ < index) {
-                                curr = this.items().eq(0);
-                                curr.after(curr.clone(true).addClass('jcarousel-clone'));
-                                this.list.append(curr);
-                            }
-
-                            this._scroll(curr, animate, cb);
-                        } else {
-                            this._scroll(Math.min(index, end), animate, cb);
-                        }
-                    }
-                }
-            } else {
-                first = items.filter(':jcarousel-item-first').index();
-                index = first - scroll;
-
-                if (this.inTail) {
-                    this._scroll(Math.max(index + 1, 0), animate, cb);
-                } else {
-                    if (first === 0 && (this.options.wrap == 'both' || this.options.wrap == 'first')) {
-                        this._scroll(end, animate, cb);
-                    } else {
-                        if (this.circular && index < 0) {
-                            i = index;
-                            curr = items.get(0);
-
-                            while (i++ < 0) {
-                                curr = this.items().eq(-1);
-                                curr.after(curr.clone(true).addClass('jcarousel-clone'));
-                                this.list.prepend(curr);
-                                this.list.css(this.lt, $j.intval(this.list.css(this.lt)) - this._dimension(curr) + 'px');
-                            }
-
-                            this._scroll(curr, animate, cb);
-                        } else {
-                            this._scroll(Math.max(first - scroll, 0), animate, cb);
-                        }
-                    }
-                }
-            }
-
-            return this;
-        },
-        scrollTo: function(item, animate, callback) {
+        scroll: function(target, animate, callback) {
             if (this.animating) {
                 return this;
             }
 
-            if (false === this._trigger('scrollTo', null, [item, animate])) {
+            if (false === this._trigger('scroll', null, [target, animate])) {
                 return this;
             }
 
@@ -393,13 +297,101 @@
 
             var self = this,
                 cb   = function(animated) {
-                    self._trigger('scrollToEnd', null, [animated]);
+                    self._trigger('scrollEnd', null, [animated]);
                     if ($.isFunction(callback)) {
-                        callback.call(self, animated);
+                        callback.call(self);
                     }
-                };
+                },
+                relative = false,
+                parts    = typeof target !== 'object' ? relativeScroll.exec(target) : null;
 
-            this._scroll(item, animate, cb);
+            if (parts) {
+                target = $j.intval(parts[2]);
+
+                if (parts[1]) {
+                    relative = true;
+                    target = (parts[1] === '-=' ? -1 : 1) * target;
+                }
+            } else if (typeof target !== 'object') {
+                target = $j.intval(target);
+            }
+
+            if (relative) {
+                var items  = this.items(),
+                    end    = items.size() - 1,
+                    scroll = Math.abs(target),
+                    first,
+                    index,
+                    curr,
+                    i;
+
+                if (target > 0) {
+                    var last = items.filter(':jcarousel-item-last').index();
+
+                    if (last >= end && this.tail) {
+                        if (!this.inTail) {
+                            this._scrollTail(animate, cb);
+                        } else {
+                            if (this.options.wrap == 'both' || this.options.wrap == 'last') {
+                                this._scroll(0, animate, cb);
+                            } else {
+                                this._scroll(end, animate, cb);
+                            }
+                        }
+                    } else {
+                        if (last === end && (this.options.wrap == 'both' || this.options.wrap == 'last')) {
+                            return this._scroll(0, animate, cb);
+                        } else {
+                            first = items.filter(':jcarousel-item-first').index();
+                            index = first + scroll;
+
+                            if (this.circular && index > end) {
+                                i = end;
+                                curr = items.get(-1);
+
+                                while (i++ < index) {
+                                    curr = this.items().eq(0);
+                                    curr.after(curr.clone(true).addClass('jcarousel-clone'));
+                                    this.list.append(curr);
+                                }
+
+                                this._scroll(curr, animate, cb);
+                            } else {
+                                this._scroll(Math.min(index, end), animate, cb);
+                            }
+                        }
+                    }
+                } else {
+                    first = items.filter(':jcarousel-item-first').index();
+                    index = first - scroll;
+
+                    if (this.inTail) {
+                        this._scroll(Math.max(index + 1, 0), animate, cb);
+                    } else {
+                        if (first === 0 && (this.options.wrap == 'both' || this.options.wrap == 'first')) {
+                            this._scroll(end, animate, cb);
+                        } else {
+                            if (this.circular && index < 0) {
+                                i = index;
+                                curr = items.get(0);
+
+                                while (i++ < 0) {
+                                    curr = this.items().eq(-1);
+                                    curr.after(curr.clone(true).addClass('jcarousel-clone'));
+                                    this.list.prepend(curr);
+                                    this.list.css(this.lt, $j.intval(this.list.css(this.lt)) - this._dimension(curr) + 'px');
+                                }
+
+                                this._scroll(curr, animate, cb);
+                            } else {
+                                this._scroll(Math.max(first - scroll, 0), animate, cb);
+                            }
+                        }
+                    }
+                }
+            } else {
+                this._scroll(target, animate, cb);
+            }
 
             return this;
         },

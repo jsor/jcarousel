@@ -23,9 +23,9 @@ $(function() {
         console.log.apply(console, arguments);
     };
 
-    var jcarousel = $('.jcarousel');
+    var jcarousel = $('#jcarousel1');
 
-    $.each(['init', 'destroy', 'reload', 'scrollBy', 'scrollTo', 'animate'], function(i, name) {
+    $.each(['init', 'destroy', 'reload', 'scroll', 'animate'], function(i, name) {
         jcarousel.bind('jcarousel' + name.toLowerCase(), function() {
             log(name.toLowerCase(), this, arguments);
         });
@@ -77,20 +77,20 @@ $(function() {
                 <li><a href=""><img src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" width="75" height="75" alt=""></a></li>
             </ul>
         </div>
-        <a href="#" onclick="$('#jcarousel1').jcarousel('scrollBy', -1); return false;">Prev (1)</a>
-        <a href="#" onclick="$('#jcarousel1').jcarousel('scrollBy', 1); return false;">Next (1)</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '-=1'); return false;">Prev (1)</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '+=1'); return false;">Next (1)</a>
         |
-        <a href="#" onclick="$('#jcarousel1').jcarousel('scrollBy', -2); return false;">Prev (2)</a>
-        <a href="#" onclick="$('#jcarousel1').jcarousel('scrollBy', 2); return false;">Next (2)</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '-=2'); return false;">Prev (2)</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '+=2'); return false;">Next (2)</a>
         |
-        <a href="#" onclick="$('#jcarousel1').jcarousel('scrollBy', -5); return false;">Prev (5)</a>
-        <a href="#" onclick="$('#jcarousel1').jcarousel('scrollBy', 5); return false;">Next (5)</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '-=5'); return false;">Prev (5)</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '+=5'); return false;">Next (5)</a>
         |
-        <a href="#" onclick="$('#jcarousel1').jcarousel('scrollBy', -10); return false;">Prev (10)</a>
-        <a href="#" onclick="$('#jcarousel1').jcarousel('scrollBy', 10); return false;">Next (10)</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '-=10'); return false;">Prev (10)</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '+=10'); return false;">Next (10)</a>
         |
-        <a href="#" onclick="$('#jcarousel1').jcarousel('scrollBy', -20); return false;">Prev (20)</a>
-        <a href="#" onclick="$('#jcarousel1').jcarousel('scrollBy', 20); return false;">Next (20)</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '-=20'); return false;">Prev (20)</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '+=20'); return false;">Next (20)</a>
     </div>
 
     <p>

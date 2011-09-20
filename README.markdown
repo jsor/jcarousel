@@ -170,28 +170,63 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
 Navigating the carousel
 -----------------------
 
-By default, jCarousel offers no built in way to navigate through the carousel (scroll prev, next or to a specific position).
+By default, jCarousel offers no built in controls to navigate through the carousel. But you can simply implement navgiation controls using the `scroll` method.
 
-You can do that by hand (see "Accessing the jCarousel instance" for available methods) or use a plugin for that.
+```javascript
+$('#mycarousel').jcarousel('scroll', target);
+```
 
-A simple example to navigate the carousel:
+Available formats for the `target` argument are:
+
+<table>
+    <tr>
+        <th>Format</th>
+        <th>Description</th>
+        <th>Example</th>
+    </tr>
+    <tr>
+        <td>index</td>
+        <td>Scrolls to the item at the given index (Note that indexes are 0-based).</td>
+        <td><pre>$('#mycarousel').jcarousel('scroll', 0);</pre></td>
+    </tr>
+    <tr>
+        <td>-index</td>
+        <td>Scrolls to the item at the given index counting backwards from the last item.</td>
+        <td><pre>$('#mycarousel').jcarousel('scroll', -1);</pre></td>
+    </tr>
+    <tr>
+        <td>object</td>
+        <td>Scrolls to the given DOM object.</td>
+        <td><pre>$('#mycarousel').jcarousel('scroll', $('#mycarousel li:eq(2)').get(0));</pre></td>
+    </tr>
+    <tr>
+        <td>+=offset</td>
+        <td>Scrolls the carousel forward by the given offset relatively from the current position.</td>
+        <td><pre>$('#mycarousel').jcarousel('scroll', '+=1');</pre></td>
+    </tr>
+    <tr>
+        <td>-=offset</td>
+        <td>Scrolls the carousel backwards by the given offset relatively from the current position.</td>
+        <td><pre>$('#mycarousel').jcarousel('scroll', '-=1');</pre></td>
+    </tr>
+</table>
+
+A simple example for previous and next controls:
 
 ```javascript
 $('#mycarousel_prev_button').click(function() {
-    $('#mycarousel').jcarousel('scrollBy', -1);
+    $('#mycarousel').jcarousel('scroll', '-=1');
 });
 
 $('#mycarousel_next_button').click(function() {
-    $('#mycarousel').jcarousel('scrollBy', 1);
+    $('#mycarousel').jcarousel('scroll', '+=1');
 });
 ```
 
 A more comfortable way is to use one of the navigation plugins:
 
-  * jquery.jcarousel.buttons.js
+  * jquery.jcarousel.button.js
   * jquery.jcarousel.pagination.js
-
-**Note: Plugins will follow!**
 
 Defining the number of visible items
 ------------------------------------
@@ -261,13 +296,13 @@ You can later access the jCarousel instance with:
 var jcarousel = $('#mycarousel').data('jcarousel');
 
 // Call a method
-jcarousel.scrollTo(2);
+jcarousel.scroll('+=2');
 ```
 
 Methods can be also called directly like this:
 
 ```javascript
-$('#mycarousel').jcarousel('scrollTo', 2);
+$('#mycarousel').jcarousel('scroll', '+=2');
 ```
 
 The first argument is the method name. The following arguments are the arguments for the called method.
@@ -292,12 +327,8 @@ The first argument is the method name. The following arguments are the arguments
         <td>Returns all items as jQuery object.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('scrollBy', offset [, animate [, callback]]);</pre></td>
-        <td>Scrolls by a given offset (offset can be negative to scroll backwards). If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
-    </tr>
-    <tr>
-        <td><pre>.jcarousel('scrollTo', item_or_index [, animate [, callback]]);</pre></td>
-        <td>Scrolls to a given item or index. If the argument <code>animate</code> is given and <code>false</code>, it just jumps to the position without animation. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
+        <td><pre>.jcarousel('scroll', target [, animate [, callback]]);</pre></td>
+        <td>Scrolls to a specific item or relative by a given offset (See section &quot;Navigating the carousel&quot; for more information about the target argument). If the argument <code>animate</code> is given and <code>false</code>, it just jumps to the position without animation. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
     </tr>
     <tr>
         <td><pre>.jcarousel('option', name, [value]);</pre></td>
@@ -414,49 +445,24 @@ $('#mycarousel').bind('jcarouseldestroyend', function(carousel) {
         </td>
     </tr>
     <tr>
-        <td>jcarouselscrollby</td>
-        <td>Triggered when the <code>scrollBy</code> method is called.</td>
+        <td>jcarouselscroll</td>
+        <td>Triggered when the <code>scroll</code> method is called.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouselscrollby', function(carousel, offset, animate) {
+$('#mycarousel').bind('jcarouselscroll', function(carousel, target, animate) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
-    // "offset" is the offset jCarousel was requested to scroll by
-    // "animate" is a boolean indicating whether jCarousel was requested to do an animation
+    // "target" is the target argument passed to the `scroll` method
+    // "animate" is the animate argument passed to the `scroll` method indicating whether jCarousel was requested to do an animation
 });</pre>
         </td>
     </tr>
     <tr>
-        <td>jcarouselscrollbyend</td>
-        <td>Triggered after the <code>scrollBy</code> method is called.</td>
+        <td>jcarouselscrollend</td>
+        <td>Triggered after the <code>scroll</code> method is called.</td>
         <td>
             <pre>
-$('#mycarousel').bind('jcarouselscrollbyend', function(carousel, animated) {
-    // "this" refers to the root element
-    // "carousel" is the jCarousel instance
-    // "animated" is a boolean indicating whether jCarousel actually moved
-});</pre>
-        </td>
-    </tr>
-    <tr>
-        <td>jcarouselscrollto</td>
-        <td>Triggered when the <code>scrollTo</code> method is called.</td>
-        <td>
-            <pre>
-$('#mycarousel').bind('jcarouselscrollto', function(carousel, item, animate) {
-    // "this" refers to the root element
-    // "carousel" is the jCarousel instance
-    // "item" is the item jCarousel was requested to scroll to. This can be either an object or an integer.
-    // "animate" is a boolean indicating whether jCarousel was requested to do an animation
-});</pre>
-        </td>
-    </tr>
-    <tr>
-        <td>jcarouselscrolltoend</td>
-        <td>Triggered after the <code>scrollTo</code> method is called.</td>
-        <td>
-            <pre>
-$('#mycarousel').bind('jcarouselscrolltoend', function(carousel) {
+$('#mycarousel').bind('jcarouselscrollend', function(carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
     // "animated" is a boolean indicating whether jCarousel actually moved
@@ -475,7 +481,7 @@ $('#mycarousel').bind('jcarouselanimate', function(carousel) {
         </td>
     </tr>
     <tr>
-        <td>jcarouselscrolltoend</td>
+        <td>jcarouselanimateend</td>
         <td>Triggered after jCarousel has finished a animation.</td>
         <td>
             <pre>
