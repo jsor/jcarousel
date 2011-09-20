@@ -40,27 +40,11 @@
             this.reload();
         },
         reload: function() {
-            var carousel = this.carousel(),
-                scroll   = this.option('scroll'),
+            var scroll   = this.option('scroll'),
                 enabled  = false;
 
-            carousel.each(function() {
-                var instance = $.data(this, 'jcarousel'),
-                    wrap     = instance.option('wrap'),
-                    items    = instance.items(),
-                    size     = items.size();
-
-                if (scroll > 0) {
-                    enabled = size > 0 &&
-                        ((wrap && wrap !== 'first') ||
-                         (items.filter(':jcarousel-item-last').index() < (size - 1)) ||
-                         (instance.tail && !instance.inTail)) ? true : false;
-                } else {
-                    enabled = size > 0 &&
-                        ((wrap && wrap !== 'last') ||
-                         (items.filter(':jcarousel-item-first').index() > 0) ||
-                         (instance.tail && instance.inTail)) ? true : false;
-                }
+            this.carousel().each(function() {
+                enabled = $.data(this, 'jcarousel')[scroll > 0 ? 'hasNext' : 'hasPrev']();
 
                 if (enabled) {
                     return false;

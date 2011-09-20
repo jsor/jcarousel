@@ -260,6 +260,25 @@
         items: function() {
             return this.list.find(this.options.items).not('.jcarousel-clone');
         },
+        hasNext: function() {
+            var wrap  = this.option('wrap'),
+                items = this.items(),
+                end   = items.size() - 1;
+
+            return end >= 0 &&
+                    ((wrap && wrap !== 'first') ||
+                     (items.filter(':jcarousel-item-last').index() < end) ||
+                     (this.tail && !this.inTail)) ? true : false;
+        },
+        hasPrev: function() {
+            var wrap  = this.option('wrap'),
+                items = this.items();
+
+            return items.size() > 0 &&
+                    ((wrap && wrap !== 'last') ||
+                     (items.filter(':jcarousel-item-first').index() > 0) ||
+                     (this.tail && this.inTail)) ? true : false;
+        },
         scrollBy: function(offset, animate, callback) {
             offset = $j.intval(offset);
 
