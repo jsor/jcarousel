@@ -37,7 +37,6 @@
                 .bind(this.option('event') + '.' + this._event, function() {
                     if ($.data(this, 'jcarousel-button-enabled')) {
                         carousel.jcarousel('scrollBy', scroll);
-
                     }
                     return false;
                 });
