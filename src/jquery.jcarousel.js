@@ -225,9 +225,6 @@
 
             return this;
         },
-        carousel: function() {
-            return this.element;
-        },
         destroy: function() {
             if (false === this._trigger('destroy')) {
                 return this;
