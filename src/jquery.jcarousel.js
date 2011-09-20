@@ -253,7 +253,7 @@
 
             var items = this.items().unbind('.jcarousel');
 
-            $.each(['first', 'last', 'visible'], function(i, name) {
+            $.each(['first', 'last', 'visible', 'fullyvisible'], function(i, name) {
                 items.removeData('jcarousel-item-' + name);
             });
 
@@ -532,9 +532,10 @@
                 wh      = this._dimension(item),
                 clip    = this._clipping(),
                 update  = {
-                    first:   item,
-                    last:    item,
-                    visible: item
+                    first:        item,
+                    last:         item,
+                    visible:      item,
+                    fullyvisible: wh <= clip ? item : $()
                 },
                 curr;
 
@@ -562,6 +563,10 @@
                     update.last = curr;
                     update.visible = update.visible.add(curr);
 
+                    if (wh <= clip) {
+                        update.fullyvisible = update.fullyvisible.add(curr);
+                    }
+
                     if (wh >= clip) {
                         break;
                     }
@@ -586,6 +591,10 @@
 
                     update.first = curr;
                     update.visible = update.visible.add(curr);
+
+                    if (wh <= clip) {
+                        update.fullyvisible = update.fullyvisible.add(curr);
+                    }
 
                     if (wh >= clip) {
                         break;
@@ -633,42 +642,48 @@
             return -pos;
         },
         _update: function(update) {
-            var items = this.items(),
+            var self = this,
+                items = this.items(),
                 first = items.filter(':jcarousel-item-first'),
-                last  = items.filter(':jcarousel-item-last');
+                last  = items.filter(':jcarousel-item-last'),
+                v     = {
+                    visible:      items.filter(':jcarousel-item-visible'),
+                    fullyvisible: items.filter(':jcarousel-item-fullyvisible')
+                };
 
-            $.each(['first', 'last', 'visible'], function(i, name) {
+            $.each(['first', 'last', 'visible', 'fullyvisible'], function(i, name) {
                 items.data('jcarousel-item-' + name, false);
                 update[name].data('jcarousel-item-' + name, true);
             });
 
             if (update.first.get(0) !== first.get(0)) {
-                this._trigger('itemFirstIn', update.first);
-                this._trigger('itemFirstOut', first);
+                this._trigger('itemfirstin', update.first);
+                this._trigger('itemfirstout', first);
             }
 
             if (update.last.get(0) !== last.get(0)) {
-                this._trigger('itemLastIn', update.last);
-                this._trigger('itemLastOut', last);
+                this._trigger('itemlastin', update.last);
+                this._trigger('itemlastout', last);
             }
 
-            var v    = items.filter(':jcarousel-item-visible'),
-                vin  = update.visible.filter(function() {
-                    return $.inArray(this, v) < 0;
-                }),
-                vout = v.filter(function() {
-                    return $.inArray(this, update.visible) < 0;
-                }),
-                fidx = first.size() > 0 ? first.index() : 0;
+            $.each(['visible', 'fullyvisible'], function(i, name) {
+                var vin  = update[name].filter(function() {
+                        return $.inArray(this, v[name]) < 0;
+                    }),
+                    vout = v[name].filter(function() {
+                        return $.inArray(this, update[name]) < 0;
+                    }),
+                    fidx = first.size() > 0 ? first.index() : 0;
 
-            if (items.index(update.first) >= fidx) {
-                vout = $().pushStack(vout.get().reverse());
-            } else {
-                vin = $().pushStack(vin.get().reverse());
-            }
+                if (items.index(update.first) >= fidx) {
+                    vout = $().pushStack(vout.get().reverse());
+                } else {
+                    vin = $().pushStack(vin.get().reverse());
+                }
 
-            this._trigger('itemVisibleIn', vin);
-            this._trigger('itemVisibleOut', vout);
+                self._trigger('item' + name + 'in', vin);
+                self._trigger('item' + name + 'out', vout);
+            });
 
             return this;
         },
@@ -691,7 +706,7 @@
         }
     });
 
-    $.each(['first', 'last', 'visible'], function(i, name) {
+    $.each(['first', 'last', 'visible', 'fullyvisible'], function(i, name) {
         $.expr[':']['jcarousel-item-'  + name] = function(element) {
             return !!$.data(element, 'jcarousel-item-' + name);
         };

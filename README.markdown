@@ -587,6 +587,30 @@ $('#mycarousel li').bind('jcarouselitemvisibleout', function(carousel) {
 });</pre>
         </td>
     </tr>
+    <tr>
+        <td>jcarouselitemfullyvisiblein</td>
+        <td>Triggered when the item becomes a fully visible item.</td>
+        <td>
+            <pre>
+$('#mycarousel li').bind('jcarouselitemfullyvisiblein', function(carousel) {
+    // This is now a fully visible item
+    // "this" refers to the item element
+    // "carousel" is the jCarousel instance
+});</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>jcarouselitemfullyvisibleout</td>
+        <td>Triggered when the item is no longer a fully visible item.</td>
+        <td>
+            <pre>
+$('#mycarousel li').bind('jcarouselitemfullyvisibleout', function(carousel) {
+    // This is no longer a fully visible item
+    // "this" refers to the item element
+    // "carousel" is the jCarousel instance
+});</pre>
+        </td>
+    </tr>
 </table>
 
 jCarousel specific selectors
@@ -631,6 +655,11 @@ After initialization, you can use jCarousel specific selectors on the root eleme
         <td>:jcarousel-item-visible</td>
         <td>Selects all visible elements.</td>
         <td><pre>$('#mycarousel :jcarousel-item-visible');</pre></td>
+    </tr>
+    <tr>
+        <td>:jcarousel-item-fullyvisible</td>
+        <td>Selects all fully visible elements.</td>
+        <td><pre>$('#mycarousel :jcarousel-item-fullyvisible');</pre></td>
     </tr>
 </table>
 
