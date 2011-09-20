@@ -12,7 +12,7 @@
 
     $.jcarousel.create('jcarousel.control', {
         options: {
-            scroll: 1,
+            scroll: '+=1',
             event: 'click'
         },
         _init: function() {
@@ -20,11 +20,11 @@
                 carousel = this.carousel(),
                 scroll   = this.option('scroll');
 
-            this.carousel()
+            carousel
                 .bind('jcarouseldestroy', function() {
                     self.destroy();
                 })
-                .bind('jcarouselreloadend jcarouselscrolltoend jcarouselscrollbyend', function() {
+                .bind('jcarouselreloadend jcarouselscrollend', function() {
                     self.reload();
                 });
 
@@ -32,7 +32,7 @@
                 .unbind('.' + this._event)
                 .bind(this.option('event') + '.' + this._event, function() {
                     if ($.data(this, 'jcarousel-control-enabled')) {
-                        carousel.jcarousel('scrollBy', scroll);
+                        carousel.jcarousel('scroll', scroll);
                     }
                     return false;
                 });
@@ -40,11 +40,20 @@
             this.reload();
         },
         reload: function() {
-            var scroll   = this.option('scroll'),
-                enabled  = false;
+            var parsed  = $.jcarousel.parseTarget(this.option('scroll')),
+                enabled = false;
 
             this.carousel().each(function() {
-                enabled = $.data(this, 'jcarousel')[scroll > 0 ? 'hasNext' : 'hasPrev']();
+                var instance = $.data(this, 'jcarousel');
+
+                if (parsed.relative) {
+                    enabled = instance[parsed.target > 0 ? 'hasNext' : 'hasPrev']();
+                } else {
+                    enabled = !$(typeof parsed.target !== 'object' ?
+                                     instance.items().eq(parsed.target) :
+                                     parsed.target)
+                                  .is(':jcarousel-item-fullyvisible');
+                }
 
                 if (enabled) {
                     return false;

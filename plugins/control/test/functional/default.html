@@ -23,10 +23,12 @@
 <script type="text/javascript">
 
 $(function() {
-    $('#jcarousel1').jcarousel();
+    $('#jcarousel1').jcarousel({
+        wrap: 'circular'
+    });
 
-    $('.jcarousel-prev').jcarouselControl({scroll: -1});
-    $('.jcarousel-next').jcarouselControl({scroll: 1});
+    $('.jcarousel-prev').jcarouselControl({scroll: '-=1'});
+    $('.jcarousel-next').jcarouselControl({scroll: '+=1'});
 });
 
 </script>

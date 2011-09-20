@@ -32,7 +32,7 @@ $(function() {
         .bind('jcarouselcontroldisabled', function() {
             console.log('Prev disabled');
         })
-        .jcarouselControl({scroll: -1});
+        .jcarouselControl({scroll: '-=1'});
 
     $('.jcarousel-next')
         .bind('jcarouselcontrolenabled', function() {
@@ -41,7 +41,43 @@ $(function() {
         .bind('jcarouselcontroldisabled', function() {
             console.log('Next disabled');
         })
-        .jcarouselControl({scroll: 1});
+        .jcarouselControl({scroll: '+=1'});
+
+    $('.jcarousel-first')
+        .bind('jcarouselcontrolenabled', function() {
+            console.log('First enabled');
+        })
+        .bind('jcarouselcontroldisabled', function() {
+            console.log('First disabled');
+        })
+        .jcarouselControl({scroll: 0});
+
+    $('.jcarousel-last')
+        .bind('jcarouselcontrolenabled', function() {
+            console.log('Last enabled');
+        })
+        .bind('jcarouselcontroldisabled', function() {
+            console.log('Last disabled');
+        })
+        .jcarouselControl({scroll: -1});
+
+    $('.jcarousel-first-object')
+        .bind('jcarouselcontrolenabled', function() {
+            console.log('First (object) enabled');
+        })
+        .bind('jcarouselcontroldisabled', function() {
+            console.log('First (object) disabled');
+        })
+        .jcarouselControl({scroll: $('#jcarousel1 li:first')});
+
+    $('.jcarousel-last-object')
+        .bind('jcarouselcontrolenabled', function() {
+            console.log('Last (object) enabled');
+        })
+        .bind('jcarouselcontroldisabled', function() {
+            console.log('Last (object) disabled');
+        })
+        .jcarouselControl({scroll: $('#jcarousel1 li:last')});
 });
 
 </script>
@@ -49,7 +85,7 @@ $(function() {
 </head>
 <body>
 
-    <h2>Default</h2>
+    <h2>Event</h2>
     <div class="jcarousel-skin-default">
         <div class="jcarousel" id="jcarousel1">
             <ul>
@@ -67,6 +103,12 @@ $(function() {
         </div>
         <a href="#" class="jcarousel-prev">Prev</a>
         <a href="#" class="jcarousel-next">Next</a>
+        |
+        <a href="#" class="jcarousel-first">First</a>
+        <a href="#" class="jcarousel-last">Last</a>
+        |
+        <a href="#" class="jcarousel-first-object">First (Object)</a>
+        <a href="#" class="jcarousel-last-object">Last (Object)</a>
     </div>
 
     <p>
