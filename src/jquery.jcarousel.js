@@ -399,11 +399,13 @@
                                     curr = this.items().eq(-1);
                                     curr.after(curr.clone(true).addClass('jcarousel-clone'));
                                     this.list.prepend(curr);
-                                    this.list.css(
-                                        this.lt,
-                                        $j.intval(this.list.css(this.lt)) -
-                                            this._dimension(curr) + 'px'
-                                    );
+
+                                    var lt  = $j.intval(this.list.css(this.lt)),
+                                        dim = this._dimension(curr);
+
+                                    this.rtl ? lt += dim : lt -= dim;
+
+                                    this.list.css(this.lt, lt + 'px');
                                 }
 
                                 this._scroll(curr, animate, cb);
