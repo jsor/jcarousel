@@ -12,7 +12,7 @@
 
     $.jcarousel.create('jcarousel.autoscroll', {
         options: {
-            scroll:   1,
+            scroll:   '+=1',
             interval: 3000,
             autostart: true
         },
@@ -41,7 +41,7 @@
 
             this.timer = window.setInterval(function() {
                 if (!self.paused) {
-                    carousel.jcarousel('scrollBy', scroll);
+                    carousel.jcarousel('scroll', scroll);
                 }
             }, this.option('interval'));
 
@@ -49,7 +49,7 @@
         },
         play: function() {
             this._start();
-            this.carousel().jcarousel('scrollBy', this.option('scroll'));
+            this.carousel().jcarousel('scroll', this.option('scroll'));
 
             return this;
         },
