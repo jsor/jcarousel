@@ -21,10 +21,10 @@
                 scroll   = this.option('scroll');
 
             carousel
-                .bind('jcarouseldestroy', function() {
+                .bind('jcarouseldestroy.' + this._event, function() {
                     self.destroy();
                 })
-                .bind('jcarouselreloadend jcarouselscrollend', function() {
+                .bind('jcarouselreloadend.' + this._event + ' jcarouselscrollend.' + this._event, function() {
                     self.reload();
                 });
 
@@ -70,9 +70,12 @@
             return this;
         },
         destroy: function() {
+            this.carousel().unbind('.' + this._event);
+
             this.element
-                .removeData(':jcarousel-control-enabled')
-                .removeData(':jcarousel-control-disabled')
+                .removeData(this._selector)
+                .removeData('jcarousel-control-enabled')
+                .removeData('jcarousel-control-disabled')
                 .unbind('.' + this._event);
         }
     });

@@ -20,8 +20,8 @@
         paused: false,
         _init: function() {
             var self = this;
-            this.carousel().bind('jcarouseldestroy', function() {
-                self.stop();
+            this.carousel().bind('jcarouseldestroy.' + this._event, function() {
+                self.destroy();
             });
 
             if (this.option('autostart')) {
@@ -67,6 +67,11 @@
             }
 
             return this;
+        },
+        destroy: function() {
+            this.stop();
+            this.carousel().unbind('.' + this._event);
+            this.element.removeData(this._selector);
         }
     });
 

@@ -100,6 +100,7 @@
         },
         destroy: function() {
             this.carousel().unbind('.' + this._event);
+            this.element.removeData(this._selector);
         }
     });
 
