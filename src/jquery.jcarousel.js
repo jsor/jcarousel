@@ -10,10 +10,31 @@
  */
 (function($, window, undefined) {
 
+    var relativeTarget = /^([+\-]=)?(.+)$/;
+
     var $j = $.jcarousel = {
         intval: function(value) {
             value = parseInt(value, 10);
             return isNaN(value) ? 0 : value;
+        },
+        parseTarget: function(target) {
+            var relative = false,
+                parts    = typeof target !== 'object' ? relativeTarget.exec(target) : null;
+
+            if (parts) {
+                target = $j.intval(parts[2]);
+
+                if (parts[1]) {
+                    relative = true;
+                    if (parts[1] === '-=') {
+                        target *= -1;
+                    }
+                }
+            } else if (typeof target !== 'object') {
+                target = $j.intval(target);
+            }
+
+            return {target: target, relative: relative}
         },
         base: {
             version: '@VERSION',
@@ -162,8 +183,6 @@
         }
     };
 
-    var relativeScroll = /^([+\-]=)?(.+)$/;
-
     $j.create('jcarousel', {
         options:     {
             list:      '>ul:eq(0)',
@@ -302,30 +321,18 @@
                         callback.call(self);
                     }
                 },
-                relative = false,
-                parts    = typeof target !== 'object' ? relativeScroll.exec(target) : null;
+                parsed = $j.parseTarget(target);
 
-            if (parts) {
-                target = $j.intval(parts[2]);
-
-                if (parts[1]) {
-                    relative = true;
-                    target = (parts[1] === '-=' ? -1 : 1) * target;
-                }
-            } else if (typeof target !== 'object') {
-                target = $j.intval(target);
-            }
-
-            if (relative) {
+            if (parsed.relative) {
                 var items  = this.items(),
                     end    = items.size() - 1,
-                    scroll = Math.abs(target),
+                    scroll = Math.abs(parsed.target),
                     first,
                     index,
                     curr,
                     i;
 
-                if (target > 0) {
+                if (parsed.target > 0) {
                     var last = items.filter(':jcarousel-item-last').index();
 
                     if (last >= end && this.tail) {
@@ -390,7 +397,7 @@
                     }
                 }
             } else {
-                this._scroll(target, animate, cb);
+                this._scroll(parsed.target, animate, cb);
             }
 
             return this;
