@@ -11,9 +11,9 @@
 -->
 <script type="text/javascript" src="../../../../src/jquery.jcarousel.js"></script>
 <!--
-  jCarousel button plugin
+  jCarousel control plugin
 -->
-<script type="text/javascript" src="../../src/jquery.jcarousel.button.js"></script>
+<script type="text/javascript" src="../../src/jquery.jcarousel.control.js"></script>
 <!--
   jCarousel stylesheet
 -->
@@ -25,23 +25,8 @@
 $(function() {
     $('#jcarousel1').jcarousel();
 
-    $('.jcarousel-prev')
-        .bind('jcarouselbuttonenabled', function() {
-            console.log('Prev enabled');
-        })
-        .bind('jcarouselbuttondisabled', function() {
-            console.log('Prev disabled');
-        })
-        .jcarouselButton({scroll: -1});
-
-    $('.jcarousel-next')
-        .bind('jcarouselbuttonenabled', function() {
-            console.log('Next enabled');
-        })
-        .bind('jcarouselbuttondisabled', function() {
-            console.log('Next disabled');
-        })
-        .jcarouselButton({scroll: 1});
+    $('.jcarousel-prev').jcarouselControl({scroll: -1});
+    $('.jcarousel-next').jcarouselControl({scroll: 1});
 });
 
 </script>

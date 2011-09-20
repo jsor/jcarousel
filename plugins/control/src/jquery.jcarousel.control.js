@@ -1,5 +1,5 @@
 /*!
- * jCarousel Button Plugin v@VERSION
+ * jCarousel Control Plugin v@VERSION
  * http://sorgalla.com/jcarousel/
  *
  * Copyright 2011, Jan Sorgalla
@@ -10,7 +10,7 @@
  */
 (function($) {
 
-    $.jcarousel.create('jcarousel.button', {
+    $.jcarousel.create('jcarousel.control', {
         options: {
             scroll: 1,
             event: 'click'
@@ -31,7 +31,7 @@
             this.element
                 .unbind('.' + this._event)
                 .bind(this.option('event') + '.' + this._event, function() {
-                    if ($.data(this, 'jcarousel-button-enabled')) {
+                    if ($.data(this, 'jcarousel-control-enabled')) {
                         carousel.jcarousel('scrollBy', scroll);
                     }
                     return false;
@@ -51,29 +51,29 @@
                 }
             });
 
-            if (this.element.data('jcarousel-button-enabled') !== enabled) {
+            if (this.element.data('jcarousel-control-enabled') !== enabled) {
                 this.element
-                    .data('jcarousel-button-enabled',  enabled)
-                    .data('jcarousel-button-disabled', !enabled)
-                    .trigger('jcarouselbutton' + (enabled ? 'enabled' : 'disabled'));
+                    .data('jcarousel-control-enabled',  enabled)
+                    .data('jcarousel-control-disabled', !enabled)
+                    .trigger('jcarouselcontrol' + (enabled ? 'enabled' : 'disabled'));
             }
 
             return this;
         },
         destroy: function() {
             this.element
-                .removeData(':jcarousel-button-enabled')
-                .removeData(':jcarousel-button-disabled')
+                .removeData(':jcarousel-control-enabled')
+                .removeData(':jcarousel-control-disabled')
                 .unbind('.' + this._event);
         }
     });
 
-    $.expr.filters['jcarousel-button-enabled'] = function(elem) {
-        return !!$.data(elem, 'jcarousel-button-enabled');
+    $.expr.filters['jcarousel-control-enabled'] = function(elem) {
+        return !!$.data(elem, 'jcarousel-control-enabled');
     };
 
-    $.expr.filters['jcarousel-button-disabled'] = function(elem) {
-        return !!$.data(elem, 'jcarousel-button-disabled');
+    $.expr.filters['jcarousel-control-disabled'] = function(elem) {
+        return !!$.data(elem, 'jcarousel-control-disabled');
     };
 
 })(jQuery);
