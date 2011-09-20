@@ -16,7 +16,9 @@
             event: 'click'
         },
         _init: function() {
-            var self = this;
+            var self = this,
+                carousel = this.carousel(),
+                scroll   = this.option('scroll');
 
             this.carousel()
                 .bind('jcarouseldestroy', function() {
@@ -25,12 +27,6 @@
                 .bind('jcarouselreloadend jcarouselscrolltoend jcarouselscrollbyend', function() {
                     self.reload();
                 });
-
-            this.reload();
-        },
-        reload: function() {
-            var carousel = this.carousel(),
-                scroll   = this.option('scroll');
 
             this.element
                 .unbind('.' + this._event)
@@ -41,17 +37,18 @@
                     return false;
                 });
 
-            var enabled = false,
-                instance,
-                wrap,
-                items,
-                size;
+            this.reload();
+        },
+        reload: function() {
+            var carousel = this.carousel(),
+                scroll   = this.option('scroll'),
+                enabled  = false;
 
             carousel.each(function() {
-                instance = $.data(this, 'jcarousel');
-                wrap     = instance.option('wrap');
-                items    = instance.items();
-                size     = items.size();
+                var instance = $.data(this, 'jcarousel'),
+                    wrap     = instance.option('wrap'),
+                    items    = instance.items(),
+                    size     = items.size();
 
                 if (scroll > 0) {
                     enabled = size > 0 &&
