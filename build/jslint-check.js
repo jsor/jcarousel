@@ -1,6 +1,6 @@
 load("build/jslint.js");
 
-var files = arguments[0].split(' ');
+var files = arguments[0].split(/\s+/);
 
 for (var j = 0, l = files.length; j < l; j++) {
 
