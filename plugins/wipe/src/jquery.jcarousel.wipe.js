@@ -54,7 +54,7 @@
         _stop: function() {
             this.carousel().unbind('touchmove.' + this._event + ' mousemove.' + this._event, this.onMove);
             this.startX = this.startY = null;
-    		this.moving = false;
+            this.moving = false;
 
             return this;
         },
