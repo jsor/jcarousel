@@ -36,7 +36,7 @@
                 target = $j.intval(target);
             }
 
-            return {target: target, relative: relative}
+            return {target: target, relative: relative};
         },
         base: {
             version: '@VERSION',
