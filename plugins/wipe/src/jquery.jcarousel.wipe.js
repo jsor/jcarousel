@@ -11,90 +11,137 @@
 (function($) {
 
     $.jcarousel.create('jcarousel.wipe', {
-        options: {
-            scroll:         1,
-            sensitivity:    40,
-            preventDefault: true
-        },
-        startX: null,
-        startY: false,
-        moving: false,
+        options: {},
+        instance: null,
+        startX:   null,
+        startY:   null,
+        startPos: null,
+        lrt:      null,
+        width:    0,
+        moving:   false,
         _init: function() {
+            this._eventNames = {
+                mousedown: ($.vmouse ? 'v' : '') + 'mousedown.' + this._event,
+                mousemove: ($.vmouse ? 'v' : '') + 'mousemove.' + this._event,
+                mouseup:   ($.vmouse ? 'v' : '') + 'mouseup.'   + this._event
+            };
+
             var self = this;
 
             this.carousel()
                 .bind('jcarouseldestroy.' + this._event, function() {
                     self.destroy();
                 })
-                .bind('touchstart.' + this._event + ' mousedown.' + this._event, function(e) {
+                .bind(this._eventNames.mousedown, function(e) {
                     self._start(e);
+                })
+                .bind(this._eventNames.mouseup, function(e) {
+                    self._stop(e);
+                })
+                .bind(this._eventNames.mousemove, function(e) {
+                    self._move(e);
+                })
+                .bind('mouseleave.' + this._event, function(e) {
+                    self._stop(e);
                 });
-
-            this.onMove = function(e) {
-                self._move(e);
-            };
         },
         _start: function(e) {
-            if (e.originalEvent.touches) {
-                if (e.originalEvent.touches.length == 1) {
-                     this.startX = e.originalEvent.touches[0].pageX;
-                     this.startY = e.originalEvent.touches[0].pageY;
-                     this.moving = true;
-                     this.carousel().bind('touchmove.' + this._event, this.onMove);
-                 }
-            } else {
-                this.startX = e.pageX;
-                this.startY = e.pageY;
-                this.moving = true;
-                this.carousel().bind('mousemove.' + this._event, this.onMove);
-            }
-
-            return this;
-        },
-        _stop: function() {
-            this.carousel().unbind('touchmove.' + this._event + ' mousemove.' + this._event, this.onMove);
-            this.startX = this.startY = null;
-            this.moving = false;
-
-            return this;
-        },
-        _move: function(e) {
-            if (this.option('preventDefault')) {
-                e.preventDefault();
-            }
-
-            if (!this.moving) {
-                return this;
-            }
-
-            var instance = $.data(e.currentTarget, 'jcarousel'),
-                end,
-                distance,
-                prefix;
+            var instance = this.instance = $.data(e.currentTarget, 'jcarousel');
 
             if (!instance) {
                 return this;
             }
 
-            if (instance.vertical) {
-                end = e.originalEvent.touches ? e.originalEvent.touches[0].pageY : e.pageY;
-                distance = this.startY - end;
-            } else {
-                end = e.originalEvent.touches ? e.originalEvent.touches[0].pageX : e.pageX;
-                distance = this.startX - end;
+            this.lrt      = instance.vertical ?
+                                'top' :
+                                (instance.rtl ? 'right'  : 'left');
+            this.startPos = $.jcarousel.intval(instance.list.css(this.lrt));
+            this.startX   = $.jcarousel.intval(e.pageX);
+            this.startY   = $.jcarousel.intval(e.pageY);
+            this.moving   = true;
+
+            var width  = 0,
+                margin = 0,
+                // Remove right/bottom margin from total width
+                lrb    = instance.vertical ?
+                             'bottom' :
+                             (instance.rtl ? 'left'  : 'right');
+
+            this.instance.items().each(function() {
+                var el = $(this);
+                width += instance._dimension(el);
+                margin = el.css('margin-' + lrb);
+            });
+
+            this.width = width - $.jcarousel.intval(margin);
+
+            e.stopPropagation();
+            e.preventDefault();
+
+            return this;
+        },
+        _stop: function() {
+            if (!this.moving || !this.instance) {
+                return this;
             }
 
-            if (Math.abs(distance) >= this.option('sensitivity')) {
-                this._stop();
+            var list = this.instance.list,
+                clip = this.instance._clipping();
 
-                if (instance.rtl && !instance.vertical) {
-                    prefix = distance > 0 ? '-=' : '+=';
-                } else {
-                    prefix = distance > 0 ? '+=' : '-=';
+            if (this.instance.rtl && !this.instance.vertical) {
+                var right = $.jcarousel.intval(list.css('right'));
+
+                if (right > 0) {
+                    this.instance.scroll(-1);
+                } else if (right < (this.width - clip)) {
+                    this.instance.scroll(0);
+                }
+            } else {
+                var left = $.jcarousel.intval(list.css('left'));
+
+                if (left > 0) {
+                    this.instance.scroll(0);
+                } else if (left < -(this.width - clip)) {
+                    this.instance.scroll(-1);
+                }
+            }
+
+            this.instance = this.lrt = this.startPos = this.startX = this.startY = null;
+            this.moving = false;
+
+            return this;
+        },
+        _move: function(e) {
+            if (!this.moving || !this.instance) {
+                return this;
+            }
+
+            var distance = this.instance.vertical ?
+                               this.startY - $.jcarousel.intval(e.pageY) :
+                               this.startX - $.jcarousel.intval(e.pageX),
+                list     = this.instance.list,
+                clip     = this.instance._clipping(),
+                pos;
+
+            if (this.instance.rtl && !this.instance.vertical) {
+                pos = Math.ceil($.jcarousel.intval(list.css('right')));
+
+                if (pos > 0 || pos < (this.width - clip)) {
+                    distance /= 3;
                 }
 
-                instance.scroll(prefix + this.option('scroll'));
+                distance *= -1;
+            } else {
+                pos = Math.ceil($.jcarousel.intval(list.css('left')));
+
+                if (pos > 0 || pos < -(this.width - clip)) {
+                    distance /= 3;
+                }
             }
+
+            list
+                .stop(true, false)
+                .css(this.lrt, Math.ceil(this.startPos - distance) + 'px');
 
             return this;
         },

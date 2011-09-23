@@ -6,6 +6,7 @@
   jQuery
 -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="https://raw.github.com/jquery/jquery-mobile/master/js/jquery.mobile.vmouse.js"></script>
 <!--
   jCarousel core
 -->
@@ -25,7 +26,8 @@
 $(function() {
     $('#jcarousel1')
         .jcarousel({
-            wrap: 'circular'
+            //wrap: 'circular',
+            animation: 'fast'
         })
         .jcarouselWipe({scroll: 1});
 });
