@@ -4,7 +4,7 @@
                                  plugins/autoscroll/src/jquery.jcarousel.autoscroll.js
                                  plugins/control/src/jquery.jcarousel.control.js
                                  plugins/pagination/src/jquery.jcarousel.pagination.js
-                                 plugins/wipe/src/jquery.jcarousel.wipe.js"/>
+                                 plugins/swipe/src/jquery.jcarousel.swipe.js"/>
 
     <!--  lint (http://www.jslint.com/lint.html) -->
     <target name="lint">

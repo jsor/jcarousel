@@ -1,5 +1,5 @@
 /*!
- * jCarousel AutoScroll Plugin v@VERSION
+ * jCarousel Swipe Plugin v@VERSION
  * http://sorgalla.com/jcarousel/
  *
  * Copyright 2011, Jan Sorgalla
@@ -12,7 +12,7 @@
 
     var $j = $.jcarousel;
 
-    $j.create('jcarousel.wipe', {
+    $j.create('jcarousel.swipe', {
         options:  {},
         instance: null,
         startX:   null,
