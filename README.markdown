@@ -9,7 +9,7 @@ Getting started
 To use the jCarousel component, include the [jQuery](http://jquery.com) library, the jCarousel source file and a jCarousel skin stylesheet file inside the `<head>` tag of your HTML document:
 
 ```html
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <script type="text/javascript" src="/path/to/jquery.jcarousel.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/path/to/skin.css" />
 ```
