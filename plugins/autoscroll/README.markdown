@@ -1,5 +1,5 @@
 jCarousel AutoScroll Plugin
-=========================
+===========================
 
 The jCarousel AutoScroll Plugin provides autoscrolling support for jCarousel.
 
