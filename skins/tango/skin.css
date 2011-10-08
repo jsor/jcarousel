@@ -1,3 +1,22 @@
+.jcarousel-skin-tango {
+    display: inline-block;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    overflow: auto;
+    white-space: nowrap;
+    margin: 0px;
+    padding: 0px;
+}
+
+.jcarousel-skin-tango > *{
+    display: inline-block;
+}
+
+.jcarousel-vertical > *{
+    display: block;
+}
+
 .jcarousel-skin-tango .jcarousel-container {
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
