@@ -1,10 +1,9 @@
 .jcarousel-skin-tango {
-    display: block;
+    display: inline-block;
     list-style-image: none;
     list-style-position: outside;
     list-style-type: none;
-    overflow-x: auto;
-    overflow-y: auto;
+    overflow: auto;
     white-space: nowrap;
     margin: 0px;
     padding: 0px;
@@ -12,6 +11,10 @@
 
 .jcarousel-skin-tango li{
     display: inline-block;
+}
+
+.jcarousel-vertical li{
+    display: block;
 }
 
 .jcarousel-skin-tango .jcarousel-container {
