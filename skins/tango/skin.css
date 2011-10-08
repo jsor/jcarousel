@@ -9,11 +9,11 @@
     padding: 0px;
 }
 
-.jcarousel-skin-tango li{
+.jcarousel-skin-tango > *{
     display: inline-block;
 }
 
-.jcarousel-vertical li{
+.jcarousel-vertical > *{
     display: block;
 }
 

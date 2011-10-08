@@ -9,11 +9,11 @@
     padding: 0px;
 }
 
-.jcarousel-skin-ie7 li{
+.jcarousel-skin-ie7 > *{
     display: inline-block;
 }
 
-.jcarousel-vertical li{
+.jcarousel-vertical > *{
     display: block;
 }
 
