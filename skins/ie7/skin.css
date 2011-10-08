@@ -1,3 +1,19 @@
+.jcarousel-skin-ie7 {
+    display: block;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    overflow-x: auto;
+    overflow-y: auto;
+    white-space: nowrap;
+    margin: 0px;
+    padding: 0px;
+}
+
+.jcarousel-skin-ie7 li{
+    display: inline-block;
+}
+
 .jcarousel-skin-ie7 .jcarousel-container {
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
