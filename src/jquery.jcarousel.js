@@ -68,6 +68,10 @@
                 return this;
             },
             carousel: function(element) {
+                if (!!this.options.carousel) {
+                    return this.options.carousel;
+                }
+
                 var el = element || this.element,
                     carousel = el.filter(':jcarousel');
 
