@@ -111,18 +111,17 @@
             }
         },
         create: function(name, prototype) {
-            var split = name.split('.'),
-                selector,
+            var selector,
                 event;
 
-            if (split.length > 1) {
-                selector = (split[0] + '-' + split[1]).toLowerCase();
-                event    = (split[0] + split[1]).toLowerCase();
-                name     = split[0] +
-                           split[1].charAt(0).toUpperCase() +
-                           split[1].slice(1);
+            if (name !== 'jcarousel') {
+                selector = 'jcarousel-' + name.toLowerCase();
+                event    = 'jcarousel' + name.toLowerCase();
+                name     = 'jcarousel' +
+                           name.charAt(0).toUpperCase() +
+                           name.slice(1);
             } else {
-                selector = event = name.toLowerCase();
+                selector = event = name;
             }
 
             $j[name] = function(element, options) {

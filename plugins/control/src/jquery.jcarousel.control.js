@@ -10,7 +10,7 @@
  */
 (function($) {
 
-    $.jcarousel.create('jcarousel.control', {
+    $.jcarousel.create('control', {
         options: {
             scroll: '+=1',
             event: 'click'

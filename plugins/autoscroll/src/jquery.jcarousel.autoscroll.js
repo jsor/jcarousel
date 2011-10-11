@@ -10,7 +10,7 @@
  */
 (function($, window) {
 
-    $.jcarousel.create('jcarousel.autoscroll', {
+    $.jcarousel.create('autoscroll', {
         options: {
             scroll:   '+=1',
             interval: 3000,

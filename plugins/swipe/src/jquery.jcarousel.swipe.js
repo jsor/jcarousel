@@ -12,7 +12,7 @@
 
     var $j = $.jcarousel;
 
-    $j.create('jcarousel.swipe', {
+    $j.create('swipe', {
         options:  {},
         instance: null,
         startX:   null,
