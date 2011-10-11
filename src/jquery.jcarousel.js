@@ -145,10 +145,6 @@
                 _event: event
             }, prototype);
 
-            $.expr[':'][selector] = function(element) {
-                return !!$.data(element, selector);
-            };
-
             $.fn[name] = function(options) {
                 var args        = Array.prototype.slice.call(arguments, 1),
                     returnValue = this;
@@ -730,6 +726,10 @@
                     $j.intval(element.css('border-right-width'));
         }
     });
+
+    $.expr[':'].jcarousel = function(element) {
+        return !!$.data(element, 'jcarousel');
+    };
 
     $.each(['first', 'last', 'visible', 'fullyvisible'], function(i, name) {
         $.expr[':']['jcarousel-item-'  + name] = function(element) {
