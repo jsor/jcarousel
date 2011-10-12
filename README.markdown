@@ -459,7 +459,7 @@ $('#mycarousel').bind('jcarouselscroll', function(carousel, target, animate) {
     </tr>
     <tr>
         <td>jcarouselscrollend</td>
-        <td>Triggered after the <code>scroll</code> method is called.</td>
+        <td>Triggered after the <code>scroll</code> method is called. Note that this method is triggered at the end of the scroll method and not at the end of a animation.</td>
         <td>
             <pre>
 $('#mycarousel').bind('jcarouselscrollend', function(carousel) {

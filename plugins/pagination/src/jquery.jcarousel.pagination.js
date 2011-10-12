@@ -36,7 +36,7 @@
                 .bind('jcarouselreloadend.' + this._event, function() {
                     self.reload();
                 })
-                .bind('jcarouselreloadend.' + this._event + ' jcarouselanimate.' + this._event, function() {
+                .bind('jcarouselreloadend.' + this._event + ' jcarouselscrollend.' + this._event, function() {
                     self.update();
                 });
 
@@ -124,10 +124,13 @@
             });
         },
         update: function() {
-            var self = this;
+            var self = this,
+                // We can only control 1 carousel
+                carousel = this.carousel().data('jcarousel');
+
             $.each(this.pages, function(page, carouselItem) {
                 var el = self.items[page];
-                if (carouselItem.is(':jcarousel-item-first')) {
+                if (carousel.target().index(carouselItem) >= 0) {
                     el.data('jcarousel-pagination-item-active', true);
                     self.options.active.call(self, el);
                 } else {

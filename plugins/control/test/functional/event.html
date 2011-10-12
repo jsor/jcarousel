@@ -68,7 +68,7 @@ $(function() {
         .bind('jcarouselcontroldisabled', function() {
             console.log('First (object) disabled');
         })
-        .jcarouselControl({scroll: $('#jcarousel1 li:first')});
+        .jcarouselControl({scroll: $('#jcarousel1 li').first()});
 
     $('.jcarousel-last-object')
         .bind('jcarouselcontrolenabled', function() {
@@ -77,7 +77,7 @@ $(function() {
         .bind('jcarouselcontroldisabled', function() {
             console.log('Last (object) disabled');
         })
-        .jcarouselControl({scroll: $('#jcarousel1 li:last')});
+        .jcarouselControl({scroll: $('#jcarousel1 li').last()});
 });
 
 </script>
@@ -109,6 +109,23 @@ $(function() {
         |
         <a href="#" class="jcarousel-first-object">First (Object)</a>
         <a href="#" class="jcarousel-last-object">Last (Object)</a>
+
+        <hr/>
+
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '-=1'); return false;">Prev (1)</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '+=1'); return false;">Next (1)</a>
+        |
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '-=2'); return false;">Prev (2)</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '+=2'); return false;">Next (2)</a>
+        |
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '-=5'); return false;">Prev (5)</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '+=5'); return false;">Next (5)</a>
+        |
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '-=10'); return false;">Prev (10)</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '+=10'); return false;">Next (10)</a>
+        |
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '-=20'); return false;">Prev (20)</a>
+        <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '+=20'); return false;">Next (20)</a>
     </div>
 
     <p>

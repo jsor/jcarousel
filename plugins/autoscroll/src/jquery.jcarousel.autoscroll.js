@@ -8,7 +8,7 @@
  *
  * Date: @DATE
  */
-(function($, window) {
+(function($) {
 
     $.jcarousel.create('autoscroll', {
         options: {
@@ -39,7 +39,7 @@
                 return this;
             }
 
-            this.timer = window.setInterval(function() {
+            this.timer = setInterval(function() {
                 if (!self.paused) {
                     carousel.jcarousel('scroll', scroll);
                 }
@@ -63,7 +63,7 @@
         },
         stop: function() {
             if (this.timer) {
-                this.timer = window.clearInterval(this.timer);
+                this.timer = clearInterval(this.timer);
             }
 
             return this;
@@ -75,4 +75,4 @@
         }
     });
 
-})(jQuery, window);
+})(jQuery);
