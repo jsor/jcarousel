@@ -41,8 +41,29 @@
         base: {
             version: '@VERSION',
             options: {},
+            pluginName: 'jcarousel',
+            pluginFn: 'jcarousel',
             _options: $.noop,
             _init: $.noop,
+            _destroy: $.noop,
+            destroy: function() {
+                if (false === this._trigger('destroy')) {
+                    return this;
+                }
+
+                this._destroy();
+
+                this.carousel()
+                    .unbind('.' + this.pluginName);
+
+                this.element
+                    .unbind('.' + this.pluginName)
+                    .removeData(this.pluginName);
+
+                this._trigger('destroyend');
+
+                return this;
+            },
             option: function(key, value) {
                 if (arguments.length === 0) {
                     // Don't return a reference to the internal hash
@@ -98,7 +119,7 @@
                 element = element || this.element;
 
                 event = $.Event(event);
-                event.type = (this._event + type).toLowerCase();
+                event.type = (this.pluginName + type).toLowerCase();
                 data = [this].concat(data || []);
 
                 if (event.originalEvent) {
@@ -114,17 +135,18 @@
             }
         },
         create: function(name, prototype) {
-            var selector,
-                event;
+            var pluginName,
+                pluginFn,
+                bindDestroy = true;
 
             if (name !== 'jcarousel') {
-                selector = 'jcarousel-' + name.toLowerCase();
-                event    = 'jcarousel' + name.toLowerCase();
-                name     = 'jcarousel' +
-                           name.charAt(0).toUpperCase() +
-                           name.slice(1);
+                pluginName = 'jcarousel' + name.toLowerCase();
+                pluginFn   = 'jcarousel' +
+                                 name.charAt(0).toUpperCase() +
+                                 name.slice(1);
             } else {
-                selector = event = name;
+                pluginName = pluginFn = name;
+                bindDestroy = false;
             }
 
             $j[name] = function(element, options) {
@@ -133,39 +155,44 @@
                     return new $j[name](element, options);
                 }
 
-                this.element = $(element).data(selector, this);
+                this.element = $(element).data(pluginName, this);
 
                 this.options = $.extend({},
                     this.options,
                     this._options(),
                     options);
 
+                if (bindDestroy) {
+                    this.carousel()
+                        .bind('jcarouseldestroy.' + this.pluginName, $.proxy(this.destroy, this));
+                }
+
                 this._init();
             };
 
             $j[name].prototype = $.extend({}, $j.base, {
-                _selector: selector,
-                _event: event
+                pluginName: pluginName,
+                pluginFn:   pluginFn
             }, prototype);
 
-            $.fn[name] = function(options) {
+            $.fn[pluginFn] = function(options) {
                 var args        = Array.prototype.slice.call(arguments, 1),
                     returnValue = this;
 
                 if (typeof options === 'string') {
                     this.each(function() {
-                        var instance = $.data(this, selector);
+                        var instance = $.data(this, pluginName);
 
                         if (!instance) {
                             return $.error(
-                                'Cannot call methods on ' + name + ' prior to initialization; ' +
+                                'Cannot call methods on ' + pluginFn + ' prior to initialization; ' +
                                 'attempted to call method "' + options + '"'
                             );
                         }
 
                         if (!$.isFunction(instance[options]) || options.charAt(0) === '_') {
                             return $.error(
-                                'No such method "' + options + '" for ' + name + ' instance'
+                                'No such method "' + options + '" for ' + pluginFn + ' instance'
                             );
                         }
 
@@ -178,7 +205,7 @@
                     });
                 } else {
                     this.each(function() {
-                        var instance = $.data(this, selector);
+                        var instance = $.data(this, pluginName);
 
                         if (instance) {
                             if (options) {
@@ -266,24 +293,9 @@
 
             return this;
         },
-        destroy: function() {
-            if (false === this._trigger('destroy')) {
-                return this;
-            }
-
-            var items = this.items().unbind('.jcarousel');
-
-            $.each(['first', 'last', 'visible', 'fullyvisible'], function(i, name) {
-                items.removeData('jcarousel-item-' + name);
-            });
-
+        _destroy: function() {
+            this.items().unbind('.jcarousel');
             $(window).unbind('resize.jcarousel', this.onWindowResize);
-
-            this.element
-                .unbind('.jcarousel')
-                .removeData('jcarousel');
-
-            this._trigger('destroyEnd');
 
             return this;
         },

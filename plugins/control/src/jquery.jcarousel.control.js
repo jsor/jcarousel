@@ -17,28 +17,24 @@
         },
         enabled: null,
         _init: function() {
-            var self = this,
-                carousel = this.carousel(),
-                scroll   = this.option('scroll');
-
-            carousel
-                .bind('jcarouseldestroy.' + this._event, function() {
-                    self.destroy();
-                })
-                .bind('jcarouselreloadend.' + this._event + ' jcarouselanimate.' + this._event, function() {
-                    self.reload();
-                });
+            this.carousel()
+                .bind('jcarouselreloadend.' + this.pluginName, $.proxy(this.reload, this))
+                .bind('jcarouselanimate.' + this.pluginName, $.proxy(this.reload, this));
 
             this.element
-                .unbind('.' + this._event)
-                .bind(this.option('event') + '.' + this._event, function() {
-                    if (self.enabled) {
-                        carousel.jcarousel('scroll', scroll);
+                .bind(this.option('event') + '.' + this.pluginName, $.proxy(function() {
+                    if (this.enabled) {
+                        this.carousel().jcarousel('scroll', this.option('scroll'));
                     }
                     return false;
-                });
+                }, this));
 
             this.reload();
+        },
+        _destroy: function() {
+            this.element
+                .removeClass('jcarousel-control-enabled')
+                .removeClass('jcarousel-control-disabled');
         },
         reload: function() {
             var parsed  = $.jcarousel.parseTarget(this.option('scroll')),
@@ -79,15 +75,6 @@
             this.enabled = enabled;
 
             return this;
-        },
-        destroy: function() {
-            this.carousel().unbind('.' + this._event);
-
-            this.element
-                .removeData(this._selector)
-                .removeClass('jcarousel-control-enabled')
-                .removeClass('jcarousel-control-disabled')
-                .unbind('.' + this._event);
         }
     });
 

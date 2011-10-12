@@ -26,22 +26,16 @@
         pages: {},
         items: {},
         _init: function() {
-            var self = this,
-                carousel = this.carousel();
-
-            carousel
-                .bind('jcarouseldestroy.' + this._event, function() {
-                    self.destroy();
-                })
-                .bind('jcarouselreloadend.' + this._event, function() {
-                    self.reload();
-                })
-                .bind('jcarouselreloadend.' + this._event + ' jcarouselscrollend.' + this._event, function() {
-                    self.update();
-                });
+            this.carousel()
+                .bind('jcarouselreloadend.' + this.pluginName, $.proxy(this.reload, this))
+                .bind('jcarouselreloadend.' + this.pluginName, $.proxy(this.update, this))
+                .bind('jcarouselscrollend.' + this.pluginName, $.proxy(this.update, this));
 
             this.reload();
             this.update();
+        },
+        _destroy: function() {
+            this.element.empty();
         },
         reload: function() {
             var self = this,
@@ -138,14 +132,6 @@
                     self.options.inactive.call(self, el);
                 }
             });
-        },
-        destroy: function() {
-            this.carousel().unbind('.' + this._event);
-
-            this.element
-                .removeData(this._selector)
-                .unbind('.' + this._event)
-                .empty();
         }
     });
 

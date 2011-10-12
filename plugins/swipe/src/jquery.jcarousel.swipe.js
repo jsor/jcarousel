@@ -13,37 +13,23 @@
     var $j = $.jcarousel;
 
     $j.create('swipe', {
-        options:  {},
         instance: null,
         startX:   null,
         startY:   null,
         startPos: null,
         width:    0,
         _init: function() {
-            this._eventNames = {
-                mousedown: ($.vmouse ? 'v' : '') + 'mousedown.' + this._event,
-                mousemove: ($.vmouse ? 'v' : '') + 'mousemove.' + this._event,
-                mouseup:   ($.vmouse ? 'v' : '') + 'mouseup.'   + this._event
+            this.pluginNameNames = {
+                mousedown: ($.vmouse ? 'v' : '') + 'mousedown.' + this.pluginName,
+                mousemove: ($.vmouse ? 'v' : '') + 'mousemove.' + this.pluginName,
+                mouseup:   ($.vmouse ? 'v' : '') + 'mouseup.'   + this.pluginName
             };
 
-            var self = this;
-
             this.carousel()
-                .bind('jcarouseldestroy.' + this._event, function() {
-                    self.destroy();
-                })
-                .bind(this._eventNames.mousedown, function(e) {
-                    self._start(e);
-                })
-                .bind(this._eventNames.mouseup, function(e) {
-                    self._stop(e);
-                })
-                .bind(this._eventNames.mousemove, function(e) {
-                    self._move(e);
-                })
-                .bind('mouseleave.' + this._event, function(e) {
-                    self._stop(e);
-                });
+                .bind(this.pluginNameNames.mousedown, $.proxy(this._start, this))
+                .bind(this.pluginNameNames.mouseup, $.proxy(this._stop, this))
+                .bind(this.pluginNameNames.mousemove, $.proxy(this._move, this))
+                .bind('mouseleave.' + this.pluginName, $.proxy(this._stop, this));
         },
         _start: function(e) {
             var instance = this.instance = $.data(e.currentTarget, 'jcarousel');
@@ -155,10 +141,6 @@
                 .css(this.instance.lt, Math.ceil(this.startPos - distance) + 'px');
 
             return this;
-        },
-        destroy: function() {
-            this.carousel().unbind('.' + this._event);
-            this.element.removeData(this._selector);
         }
     });
 

@@ -19,31 +19,25 @@
         timer: null,
         paused: false,
         _init: function() {
-            var self = this;
-            this.carousel().bind('jcarouseldestroy.' + this._event, function() {
-                self.destroy();
-            });
-
             if (this.option('autostart')) {
                 this._start();
             }
         },
+        _destroy: function() {
+            this.stop();
+        },
         _start: function() {
             this.stop();
 
-            var self = this,
-                carousel = this.carousel(),
-                scroll = this.option('scroll');
-
-            if (carousel.size() === 0) {
+            if (this.carousel().size() === 0) {
                 return this;
             }
 
-            this.timer = setInterval(function() {
-                if (!self.paused) {
-                    carousel.jcarousel('scroll', scroll);
+            this.timer = setInterval($.proxy(function() {
+                if (!this.paused) {
+                    this.carousel().jcarousel('scroll', this.option('scroll'));
                 }
-            }, this.option('interval'));
+            }, this), this.option('interval'));
 
             return this;
         },
@@ -67,11 +61,6 @@
             }
 
             return this;
-        },
-        destroy: function() {
-            this.stop();
-            this.carousel().unbind('.' + this._event);
-            this.element.removeData(this._selector);
         }
     });
 
