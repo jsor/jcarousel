@@ -10,14 +10,11 @@
  */
 (function($) {
 
-    var $j = $.jcarousel;
-
-    $.extend($j.options, {
-        pagination: {
+    $.jcarousel.create('pagination', {
+        options: {
             perpage: null,
-            root:    '.jcarousel-pagination',
             item: function(page) {
-                return $('<a class="jcarousel-pagination-item" href="#' + page + '">' + page + '</a>');
+                return '<a class="jcarousel-pagination-item" href="#' + page + '">' + page + '</a>';
             },
             active: function(item) {
                 item.addClass('jcarousel-pagination-item-active');
@@ -25,140 +22,128 @@
             inactive: function(item) {
                 item.removeClass('jcarousel-pagination-item-active');
             }
-        }
-    });
+        },
+        pages: {},
+        items: {},
+        _init: function() {
+            var self = this,
+                carousel = this.carousel();
 
-    $j.fn.extend({
-        paginationRoot:  null,
-        paginationPages: {},
-        paginationItems: {},
-        scrollToPage: function(page) {
-            if (this.paginationPages[page]) {
-                this.scrollTo(this.paginationPages[page]);
+            carousel
+                .bind('jcarouseldestroy.' + this._event, function() {
+                    self.destroy();
+                })
+                .bind('jcarouselreloadend.' + this._event, function() {
+                    self.reload();
+                })
+                .bind('jcarouselreloadend.' + this._event + ' jcarouselanimate.' + this._event, function() {
+                    self.update();
+                });
+
+            this.reload();
+            this.update();
+        },
+        reload: function() {
+            var self = this,
+                // We can only control 1 carousel
+                carousel = this.carousel().data('jcarousel'),
+                o = this.options;
+
+            this.pages = {};
+            this.items = {};
+
+            // Calculate pages
+            if (o.perpage == null) {
+                o.perpage = function() {
+                    var items = carousel.items(),
+                        clip  = carousel._clipping(),
+                        wh    = 0,
+                        idx   = 0,
+                        page  = 1,
+                        pages = {},
+                        curr;
+
+                    while (true) {
+                        curr = items.eq(idx++);
+
+                        if (curr.size() === 0) {
+                            break;
+                        }
+
+                        if (!pages[page]) {
+                            pages[page] = curr;
+                        }
+
+                        wh += carousel._dimension(curr);
+
+                        if (wh >= clip) {
+                            page++;
+                            wh = 0;
+                        }
+                    }
+
+                    return pages;
+                };
             }
 
-            return this;
-        }
-    });
-
-    $j.hook('reloadend', function(e) {
-        if (e.isDefaultPrevented()) {
-            return;
-        }
-
-        var o = this.options.pagination;
-
-        if (this.paginationRoot) {
-            this.paginationRoot.empty();
-        }
-
-        this.paginationRoot  = null;
-        this.paginationPages = {};
-        this.paginationItems = {};
-
-        // Calculate pages
-        if (o.perpage == null) {
-            o.perpage = function() {
-                var items = this.items(),
-                    clip  = this.clipping(),
-                    wh    = 0,
-                    idx   = 0,
+            if ($.isFunction(o.perpage)) {
+                this.pages = o.perpage.call(this);
+            } else {
+                var pp    = $.jcarousel.intval(o.perpage),
+                    items = carousel.items(),
                     page  = 1,
-                    pages = {},
+                    i     = 0,
                     curr;
 
                 while (true) {
-                    curr = items.eq(idx++);
+                    curr = items.eq(i);
 
                     if (curr.size() === 0) {
                         break;
                     }
 
-                    if (!pages[page]) {
-                        pages[page] = curr;
-                    }
-
-                    wh += this.dimension(curr);
-
-                    if (wh >= clip) {
-                        page++;
-                        wh = 0;
-                    }
+                    this.pages[page++] = curr;
+                    i += pp;
                 }
-
-                return pages;
-            };
-        }
-
-        if ($.isFunction(o.perpage)) {
-            this.paginationPages = o.perpage.call(this);
-        } else {
-            var pp    = $j.intval(o.perpage),
-                items = this.items(),
-                page  = 1,
-                i     = 0,
-                curr;
-
-            while (true) {
-                curr = items.eq(idx++);
-
-                if (curr.size() === 0) {
-                    break;
-                }
-
-                this.paginationPages[page++] = curr;
-                i += pp;
             }
-        }
 
-        // Build pagination
-        if ($.isFunction(o.root)) {
-            o.root = o.root.call(this);
-        }
+            this.element.empty();
 
-        if (o.root) {
-            this.paginationRoot = (o.root.jquery ? o.root : this.root.parent().find(o.root));
+            $.each(this.pages, function(page, carouselItem) {
+                var el = $(o.item.call(self, page, carouselItem));
 
-            if (this.paginationRoot.size() > 0) {
-                this.paginationRoot.empty();
-
-                var self = this;
-                $.each(this.paginationPages, function(page, item) {
-                    var el = $(o.item.call(self, page, item)).click(function(e) {
+                el
+                    .click(function(e) {
                         e.preventDefault();
-                        self.scrollTo(item);
-                    }).appendTo(self.paginationRoot);
+                        carousel.scroll(carouselItem);
+                    })
+                    .data('jcarousel-pagination-item', $.jcarousel.intval(page))
+                    .appendTo(self.element);
 
-                    o[item.is(':jcarouselitemvisible') ? 'active' : 'inactive'].call(self, el);
-                    self.paginationItems[page] = el;
-                });
-            }
+                self.items[page] = el;
+            });
+        },
+        update: function() {
+            var self = this;
+            $.each(this.pages, function(page, carouselItem) {
+                var el = self.items[page];
+                if (carouselItem.is(':jcarousel-item-first')) {
+                    el.data('jcarousel-pagination-item-active', true);
+                    self.options.active.call(self, el);
+                } else {
+                    el .data('jcarousel-pagination-item-active', false)
+                    self.options.inactive.call(self, el);
+                }
+            });
+        },
+        destroy: function() {
+            this.carousel().unbind('.' + this._event);
+
+            this.element
+                .removeData(this._selector)
+                .unbind('.' + this._event)
+                .empty();
         }
-    });
-
-    $j.hook('setupend animate', function(e) {
-        if (e.isDefaultPrevented()) {
-            return;
-        }
-
-        var self = this;
-        $.each(this.paginationPages, function(page, item) {
-            self.options.pagination[item.is(':jcarouselitemvisible') ? 'active' : 'inactive'].call(self, self.paginationItems[page]);
-        });
-    });
-
-    $j.hook('destroy', function(e) {
-        if (e.isDefaultPrevented()) {
-            return;
-        }
-
-        if (this.paginationRoot) {
-            this.paginationRoot.empty();
-        }
-    });
-
-    $j.api({
-        scrollToPage: true
     });
 
 })(jQuery);
