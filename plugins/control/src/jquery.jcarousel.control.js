@@ -8,9 +8,8 @@
  *
  * Date: @DATE
  */
-(function($) {
-
-    $.jcarousel.create('control', {
+jCarousel.register(function(jCarousel, $) {
+    jCarousel.plugin('control', {
         options: {
             scroll: '+=1',
             event: 'click'
@@ -37,7 +36,7 @@
                 .removeClass('jcarousel-control-disabled');
         },
         reload: function() {
-            var parsed  = $.jcarousel.parseTarget(this.option('scroll')),
+            var parsed  = jCarousel.parseTarget(this.option('scroll')),
                 enabled = false;
 
             this.carousel().each(function() {
@@ -77,5 +76,4 @@
             return this;
         }
     });
-
-})(jQuery);
+});

@@ -8,11 +8,8 @@
  *
  * Date: @DATE
  */
-(function($) {
-
-    var $j = $.jcarousel;
-
-    $j.create('swipe', {
+jCarousel.register(function(jCarousel, $) {
+    jCarousel.plugin('swipe', {
         instance: null,
         startX:   null,
         startY:   null,
@@ -38,9 +35,9 @@
                 return this;
             }
 
-            this.startPos = $j.intval(instance.list.css(instance.lt));
-            this.startX   = $j.intval(e.pageX);
-            this.startY   = $j.intval(e.pageY);
+            this.startPos = jCarousel.intval(instance.list.css(instance.lt));
+            this.startX   = jCarousel.intval(e.pageX);
+            this.startY   = jCarousel.intval(e.pageY);
 
             var width  = 0,
                 margin = 0,
@@ -55,7 +52,7 @@
                 margin = el.css('margin-' + lrb);
             });
 
-            this.width = width - $j.intval(margin);
+            this.width = width - jCarousel.intval(margin);
 
             e.stopPropagation();
             e.preventDefault();
@@ -102,7 +99,7 @@
             }
 
             if (this.instance.rtl && !this.instance.vertical) {
-                var right = $j.intval(this.instance.list.css('right'));
+                var right = jCarousel.intval(this.instance.list.css('right'));
 
                 if (right > 0) {
                     this.instance.scroll(0);
@@ -112,7 +109,7 @@
                     scrollNearest.apply(this.instance);
                 }
             } else {
-                var left = $j.intval(this.instance.list.css(this.instance.lt));
+                var left = jCarousel.intval(this.instance.list.css(this.instance.lt));
 
                 if (left > 0) {
                     this.instance.scroll(0);
@@ -133,8 +130,8 @@
             }
 
             var distance = this.instance.vertical ?
-                               this.startY - $j.intval(e.pageY) :
-                               this.startX - $j.intval(e.pageX);
+                               this.startY - jCarousel.intval(e.pageY) :
+                               this.startX - jCarousel.intval(e.pageX);
 
             this.instance.list
                 .stop(true, false)
@@ -144,4 +141,4 @@
         }
     });
 
-})(jQuery);
+});

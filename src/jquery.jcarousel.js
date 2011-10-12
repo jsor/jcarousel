@@ -8,221 +8,246 @@
  *
  * Date: @DATE
  */
-(function($, window, undefined) {
+(function($, $fn) {
+
+    // jQuery plugins can be registered to $.sub()'d instances
+    $fn = $fn || $.fn;
+
+    var root = this,
+        _jCarousel = root.jCarousel,
+        jCarousel = {};
+
+    jCarousel.noConflict = function() {
+        root.jCarousel = _jCarousel;
+        return this;
+    };
+
+    jCarousel.intval = function(value) {
+        value = parseInt(value, 10);
+        return isNaN(value) ? 0 : value;
+    };
 
     var relativeTarget = /^([+\-]=)?(.+)$/;
 
-    var $j = $.jcarousel = {
-        intval: function(value) {
-            value = parseInt(value, 10);
-            return isNaN(value) ? 0 : value;
-        },
-        parseTarget: function(target) {
-            var relative = false,
-                parts    = typeof target !== 'object' ?
-                               relativeTarget.exec(target) :
-                               null;
+    jCarousel.parseTarget = function(target) {
+        var relative = false,
+            parts    = typeof target !== 'object' ?
+                           relativeTarget.exec(target) :
+                           null;
 
-            if (parts) {
-                target = $j.intval(parts[2]);
+        if (parts) {
+            target = jCarousel.intval(parts[2]);
 
-                if (parts[1]) {
-                    relative = true;
-                    if (parts[1] === '-=') {
-                        target *= -1;
-                    }
+            if (parts[1]) {
+                relative = true;
+                if (parts[1] === '-=') {
+                    target *= -1;
                 }
-            } else if (typeof target !== 'object') {
-                target = $j.intval(target);
+            }
+        } else if (typeof target !== 'object') {
+            target = jCarousel.intval(target);
+        }
+
+        return {target: target, relative: relative};
+    };
+
+    jCarousel.Plugin = {
+        version: '@VERSION',
+        options: {},
+        pluginName: 'jcarousel',
+        pluginFn: 'jcarousel',
+        _options: $.noop,
+        _init: $.noop,
+        _destroy: $.noop,
+        destroy: function() {
+            if (false === this._trigger('destroy')) {
+                return this;
             }
 
-            return {target: target, relative: relative};
+            this._destroy();
+
+            this.carousel()
+                .unbind('.' + this.pluginName);
+
+            this.element
+                .unbind('.' + this.pluginName)
+                .removeData(this.pluginName);
+
+            this._trigger('destroyend');
+
+            return this;
         },
-        base: {
-            version: '@VERSION',
-            options: {},
-            pluginName: 'jcarousel',
-            pluginFn: 'jcarousel',
-            _options: $.noop,
-            _init: $.noop,
-            _destroy: $.noop,
-            destroy: function() {
-                if (false === this._trigger('destroy')) {
-                    return this;
+        option: function(key, value) {
+            if (arguments.length === 0) {
+                // Don't return a reference to the internal hash
+                return $.extend({}, this.options);
+            }
+
+            if (typeof key === 'string') {
+                if (typeof value === 'undefined') {
+                    return typeof this.options[key] === 'undefined' ?
+                        null :
+                        this.options[key];
                 }
 
-                this._destroy();
-
-                this.carousel()
-                    .unbind('.' + this.pluginName);
-
-                this.element
-                    .unbind('.' + this.pluginName)
-                    .removeData(this.pluginName);
-
-                this._trigger('destroyend');
-
-                return this;
-            },
-            option: function(key, value) {
-                if (arguments.length === 0) {
-                    // Don't return a reference to the internal hash
-                    return $.extend({}, this.options);
+                this.options[key] = value;
+            } else {
+                if ($.isFunction(key)) {
+                    key = key.call(this);
                 }
 
-                if (typeof key === 'string') {
-                    if (value === undefined) {
-                        return this.options[key] === undefined ?
-                            null :
-                            this.options[key];
-                    }
+                this.options = $.extend({}, this.options, key);
+            }
 
-                    this.options[key] = value;
-                } else {
-                    if ($.isFunction(key)) {
-                        key = key.call(this);
-                    }
+            return this;
+        },
+        carousel: function(element) {
+            if (!!this.options.carousel) {
+                return this.options.carousel;
+            }
 
-                    this.options = $.extend({}, this.options, key);
-                }
+            var el = element || this.element,
+                filter = function() {
+                    return !!$.data(this, 'jcarousel');
+                },
+                carousel = el.filter(filter);
 
-                return this;
-            },
-            carousel: function(element) {
-                if (!!this.options.carousel) {
-                    return this.options.carousel;
-                }
+            if (carousel.length) {
+                return carousel;
+            }
 
-                var el = element || this.element,
-                    filter = function() {
-                        return !!$.data(this, 'jcarousel');
-                    },
-                    carousel = el.filter(filter);
+            while (el.size() > 0) {
+                carousel = el.find('*').filter(filter);
 
                 if (carousel.length) {
                     return carousel;
                 }
 
-                while (el.size() > 0) {
-                    carousel = el.find('*').filter(filter);
-
-                    if (carousel.length) {
-                        return carousel;
-                    }
-
-                    el = el.parent();
-                }
-
-                return $();
-            },
-            _trigger: function(type, element, data, event) {
-                element = element || this.element;
-
-                event = $.Event(event);
-                event.type = (this.pluginName + type).toLowerCase();
-                data = [this].concat(data || []);
-
-                if (event.originalEvent) {
-                    for (var i = $.event.props.length, prop; i;) {
-                        prop = $.event.props[--i];
-                        event[prop] = event.originalEvent[prop];
-                    }
-                }
-
-                element.trigger(event, data);
-
-                return !event.isDefaultPrevented();
+                el = el.parent();
             }
+
+            return $();
         },
-        create: function(name, prototype) {
-            var pluginName,
-                pluginFn,
-                bindDestroy = true;
+        _trigger: function(type, element, data, event) {
+            element = element || this.element;
 
-            if (name !== 'jcarousel') {
-                pluginName = 'jcarousel' + name.toLowerCase();
-                pluginFn   = 'jcarousel' +
-                                 name.charAt(0).toUpperCase() +
-                                 name.slice(1);
-            } else {
-                pluginName = pluginFn = name;
-                bindDestroy = false;
+            event = $.Event(event);
+            event.type = (this.pluginName + type).toLowerCase();
+            data = [this].concat(data || []);
+
+            if (event.originalEvent) {
+                for (var i = $.event.props.length, prop; i;) {
+                    prop = $.event.props[--i];
+                    event[prop] = event.originalEvent[prop];
+                }
             }
 
-            $j[name] = function(element, options) {
-                // allow instantiation without "new" keyword
-                if (!this._init) {
-                    return new $j[name](element, options);
-                }
+            element.trigger(event, data);
 
-                this.element = $(element).data(pluginName, this);
-
-                this.options = $.extend({},
-                    this.options,
-                    this._options(),
-                    options);
-
-                if (bindDestroy) {
-                    this.carousel()
-                        .bind('jcarouseldestroy.' + this.pluginName, $.proxy(this.destroy, this));
-                }
-
-                this._init();
-            };
-
-            $j[name].prototype = $.extend({}, $j.base, {
-                pluginName: pluginName,
-                pluginFn:   pluginFn
-            }, prototype);
-
-            $.fn[pluginFn] = function(options) {
-                var args        = Array.prototype.slice.call(arguments, 1),
-                    returnValue = this;
-
-                if (typeof options === 'string') {
-                    this.each(function() {
-                        var instance = $.data(this, pluginName);
-
-                        if (!instance) {
-                            return $.error(
-                                'Cannot call methods on ' + pluginFn + ' prior to initialization; ' +
-                                'attempted to call method "' + options + '"'
-                            );
-                        }
-
-                        if (!$.isFunction(instance[options]) || options.charAt(0) === '_') {
-                            return $.error(
-                                'No such method "' + options + '" for ' + pluginFn + ' instance'
-                            );
-                        }
-
-                        var methodValue = instance[options].apply(instance, args);
-
-                        if (methodValue !== instance && methodValue !== undefined) {
-                            returnValue = methodValue;
-                            return false;
-                        }
-                    });
-                } else {
-                    this.each(function() {
-                        var instance = $.data(this, pluginName);
-
-                        if (instance) {
-                            if (options) {
-                                instance.option(options);
-                            }
-                        } else {
-                            $j[name](this, options);
-                        }
-                    });
-                }
-
-                return returnValue;
-            };
+            return !event.isDefaultPrevented();
         }
     };
 
-    $j.create('jcarousel', {
+    jCarousel.plugins = {};
+
+    jCarousel.plugin = function(name, prototype) {
+        var pluginName,
+            pluginFn,
+            bindDestroy = true;
+
+        if (name !== 'jcarousel') {
+            pluginName = 'jcarousel' + name.toLowerCase();
+            pluginFn   = 'jcarousel' +
+                             name.charAt(0).toUpperCase() +
+                             name.slice(1);
+        } else {
+            pluginName = pluginFn = name;
+            bindDestroy = false;
+        }
+
+        jCarousel.plugins[name] = function(element, options) {
+            // allow instantiation without "new" keyword
+            if (!this._init) {
+                return new jCarousel.plugins[name](element, options);
+            }
+
+            this.element = $(element).data(pluginName, this);
+
+            this.options = $.extend({},
+                this.options,
+                this._options(),
+                options);
+
+            if (bindDestroy) {
+                this.carousel()
+                    .bind('jcarouseldestroy.' + this.pluginName, $.proxy(this.destroy, this));
+            }
+
+            this._init();
+        };
+
+        jCarousel.plugins[name].prototype = $.extend({}, jCarousel.Plugin, {
+            pluginName: pluginName,
+            pluginFn:   pluginFn
+        }, prototype);
+
+        $fn[pluginFn] = function(options) {
+            var args        = Array.prototype.slice.call(arguments, 1),
+                returnValue = this;
+
+            if (typeof options === 'string') {
+                this.each(function() {
+                    var instance = $.data(this, pluginName);
+
+                    if (!instance) {
+                        return $.error(
+                            'Cannot call methods on ' + pluginFn + ' prior to initialization; ' +
+                            'attempted to call method "' + options + '"'
+                        );
+                    }
+
+                    if (!$.isFunction(instance[options]) || options.charAt(0) === '_') {
+                        return $.error(
+                            'No such method "' + options + '" for ' + pluginFn + ' instance'
+                        );
+                    }
+
+                    var methodValue = instance[options].apply(instance, args);
+
+                    if (methodValue !== instance && typeof methodValue !== 'undefined') {
+                        returnValue = methodValue;
+                        return false;
+                    }
+                });
+            } else {
+                this.each(function() {
+                    var instance = $.data(this, pluginName);
+
+                    if (instance) {
+                        if (options) {
+                            instance.option(options);
+                        }
+                    } else {
+                        jCarousel.plugins[name](this, options);
+                    }
+                });
+            }
+
+            return returnValue;
+        };
+    };
+
+    jCarousel.register = function(func) {
+        func.call(root, this, $);
+    };
+
+    root.jCarousel = jCarousel;
+
+}).call(this, jQuery);
+
+// jCarousel core plugin
+jCarousel.register(function(jCarousel, $) {
+    jCarousel.plugin('jcarousel', {
         options: {
             list:      '>ul:eq(0)',
             items:     '>li',
@@ -363,7 +388,7 @@
                 animate = true;
             }
 
-            var parsed = $j.parseTarget(target);
+            var parsed = jCarousel.parseTarget(target);
 
             if (parsed.relative) {
                 var items  = this.items(),
@@ -436,7 +461,7 @@
                                     // Force items reload
                                     this._items = null;
 
-                                    var lt  = $j.intval(this.list.css(this.lt)),
+                                    var lt  = jCarousel.intval(this.list.css(this.lt)),
                                         dim = this._dimension(curr);
 
                                     this.rtl ? lt += dim : lt -= dim;
@@ -519,7 +544,7 @@
             this._prepare(item);
             var pos = this._position(item);
 
-            if (pos == $j.intval(this.list.css(this.lt))) {
+            if (pos == jCarousel.intval(this.list.css(this.lt))) {
                 if ($.isFunction(callback)) {
                     callback.call(this, false);
                 }
@@ -630,7 +655,7 @@
                     update.visible = update.visible.add(curr);
 
                     // Remove right/bottom margin from total width
-                    var margin= $j.intval(curr.css('margin-' + lrb));
+                    var margin= jCarousel.intval(curr.css('margin-' + lrb));
 
                     if ((wh - margin) <= clip) {
                         update.fullyvisible = update.fullyvisible.add(curr);
@@ -662,7 +687,7 @@
                     update.visible = update.visible.add(curr);
 
                     // Remove right/bottom margin from total width
-                    var margin= $j.intval(curr.css('margin-' + lrb));
+                    var margin= jCarousel.intval(curr.css('margin-' + lrb));
 
                     if ((wh - margin) <= clip) {
                         update.fullyvisible = update.fullyvisible.add(curr);
@@ -685,7 +710,7 @@
                 // Remove right/bottom margin from total width
                 var lrb = this.vertical ? 'bottom' : (this.rtl ? 'left'  : 'right');
 
-                wh -= $j.intval(update.last.css('margin-' + lrb));
+                wh -= jCarousel.intval(update.last.css('margin-' + lrb));
 
                 if (wh > clip) {
                     this.tail = wh - clip;
@@ -758,16 +783,15 @@
             // outerWidth()/outerHeight() doesn't seem to work on hidden elements
             return this.vertical ?
                 element.innerHeight()  +
-                    $j.intval(element.css('margin-top')) +
-                    $j.intval(element.css('margin-bottom')) +
-                    $j.intval(element.css('border-top-width')) +
-                    $j.intval(element.css('border-bottom-width')) :
+                    jCarousel.intval(element.css('margin-top')) +
+                    jCarousel.intval(element.css('margin-bottom')) +
+                    jCarousel.intval(element.css('border-top-width')) +
+                    jCarousel.intval(element.css('border-bottom-width')) :
                 element.innerWidth() +
-                    $j.intval(element.css('margin-left')) +
-                    $j.intval(element.css('margin-right')) +
-                    $j.intval(element.css('border-left-width')) +
-                    $j.intval(element.css('border-right-width'));
+                    jCarousel.intval(element.css('margin-left')) +
+                    jCarousel.intval(element.css('margin-right')) +
+                    jCarousel.intval(element.css('border-left-width')) +
+                    jCarousel.intval(element.css('border-right-width'));
         }
     });
-
-})(jQuery, window);
+});

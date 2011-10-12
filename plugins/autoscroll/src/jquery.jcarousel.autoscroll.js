@@ -8,9 +8,8 @@
  *
  * Date: @DATE
  */
-(function($) {
-
-    $.jcarousel.create('autoscroll', {
+jCarousel.register(function(jCarousel, $) {
+    jCarousel.plugin('autoscroll', {
         options: {
             scroll:   '+=1',
             interval: 3000,
@@ -63,5 +62,4 @@
             return this;
         }
     });
-
-})(jQuery);
+});

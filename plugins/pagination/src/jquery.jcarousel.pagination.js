@@ -8,9 +8,8 @@
  *
  * Date: @DATE
  */
-(function($) {
-
-    $.jcarousel.create('pagination', {
+jCarousel.register(function(jCarousel, $) {
+    jCarousel.plugin('pagination', {
         options: {
             perpage: null,
             item: function(page) {
@@ -83,7 +82,7 @@
             if ($.isFunction(o.perpage)) {
                 this.pages = o.perpage.call(this);
             } else {
-                var pp    = $.jcarousel.intval(o.perpage),
+                var pp    = jCarousel.intval(o.perpage),
                     items = carousel.items(),
                     page  = 1,
                     i     = 0,
@@ -111,7 +110,7 @@
                         e.preventDefault();
                         carousel.scroll(carouselItem);
                     })
-                    .data('jcarousel-pagination-item', $.jcarousel.intval(page))
+                    .data('jcarousel-pagination-item', jCarousel.intval(page))
                     .appendTo(self.element);
 
                 self.items[page] = el;
@@ -135,4 +134,4 @@
         }
     });
 
-})(jQuery);
+});
