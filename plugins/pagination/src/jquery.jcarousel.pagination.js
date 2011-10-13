@@ -8,8 +8,10 @@
  *
  * Date: @DATE
  */
-jCarousel(function(jCarousel, $) {
-    jCarousel.plugin('pagination', {
+jCarousel.plugin('pagination', function($) {
+    var jCarousel = this;
+
+    return {
         options: {
             perpage: null,
             item: function(page) {
@@ -125,10 +127,10 @@ jCarousel(function(jCarousel, $) {
                     el.data(this.pluginName + '-active', true);
                     self.options.active.call(self, el);
                 } else {
-                    el .data(this.pluginName + '-active', false)
+                    el.data(this.pluginName + '-active', false);
                     self.options.inactive.call(self, el);
                 }
             });
         }
-    });
+    };
 });

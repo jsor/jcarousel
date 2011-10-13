@@ -8,8 +8,10 @@
  *
  * Date: @DATE
  */
-jCarousel(function(jCarousel, $) {
-    jCarousel.plugin('swipe', {
+jCarousel.plugin('swipe', function($) {
+    var jCarousel = this;
+
+    return {
         started:  false,
         startX:   null,
         startY:   null,
@@ -137,6 +139,5 @@ jCarousel(function(jCarousel, $) {
 
             return this;
         }
-    });
-
+    };
 });

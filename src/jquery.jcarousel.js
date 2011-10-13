@@ -8,21 +8,17 @@
  *
  * Date: @DATE
  */
-(function($, $fn, root) {
+(function($, window) {
+    var jCarouselAutoInstall = true;
 
-    $fn  = $fn  || $.fn;
-    root = root || window;
-
-    var jCarousel = root.jCarousel = function(func) {
-        func(jCarousel, $, $fn, root);
-    };
+    var jCarousel = window.jCarousel = {};
 
     jCarousel.version = '@VERSION';
 
-    var _jCarousel = root.jCarousel;
+    var _jCarousel = window.jCarousel;
 
     jCarousel.noConflict = function() {
-        root.jCarousel = _jCarousel;
+        window.jCarousel = _jCarousel;
         return this;
     };
 
@@ -56,16 +52,21 @@
     };
 
     jCarousel.detectCarousel = function(element) {
-        var carousel = element.data('jcarousel');
-
-        if (!carousel) {
-            while (element.size() > 0) {
+        var carousel = element.data('jcarousel'),
+            find = function(element) {
+                var carousel;
                 element.find('*').each(function() {
                     carousel = $.data(this, 'jcarousel');
                     if (carousel) {
                         return false;
                     }
                 });
+                return carousel;
+            };
+
+        if (!carousel) {
+            while (element.size() > 0) {
+                carousel = find(element);
 
                 if (carousel) {
                     break;
@@ -94,10 +95,6 @@
                     ._bind('destroy.' + this.pluginName, $.proxy(this.destroy, this));
         },
         destroy: function() {
-            if (false === this._trigger('destroy')) {
-                return this;
-            }
-
             this._destroy();
 
             this.carousel()
@@ -108,8 +105,6 @@
             this.element()
                 .unbind('.' + this.pluginName)
                 .removeData(this.pluginName);
-
-            this._trigger('destroyend');
 
             return this;
         },
@@ -185,13 +180,13 @@
         }
     };
 
-    jCarousel.plugin = function(name, prototype) {
+    var install = function($, $fn, name, callback) {
         var pluginName,
             pluginPrefix,
             pluginFn;
 
         if (name !== 'jcarousel') {
-            pluginName = 'jcarousel' + name.toLowerCase();
+            pluginName   = 'jcarousel' + name.toLowerCase();
             pluginPrefix = 'jcarousel-' + name.toLowerCase();
             pluginFn     = 'jcarousel' +
                                name.charAt(0).toUpperCase() +
@@ -221,7 +216,7 @@
             pluginName:   pluginName,
             pluginPrefix: pluginPrefix,
             pluginFn:     pluginFn
-        }, prototype);
+        }, callback.call(jCarousel, $, $fn));
 
         $fn[pluginFn] = function(options) {
             var args        = Array.prototype.slice.call(arguments, 1),
@@ -269,9 +264,49 @@
         };
     };
 
+    var uninstall = function($fn, name) {
+        var pluginFn;
+
+        if (name !== 'jcarousel') {
+            pluginFn = 'jcarousel' +
+                           name.charAt(0).toUpperCase() +
+                           name.slice(1);
+        } else {
+            pluginFn = name;
+        }
+
+        delete $fn[pluginFn];
+    };
+
+    jCarousel.plugins = {};
+
+    jCarousel.plugin = function(name, callback) {
+        jCarousel.plugins[name] = callback;
+
+        if (jCarouselAutoInstall) {
+            install($, $.fn, name, callback);
+        }
+    };
+
+    jCarousel.install = function($, $fn) {
+        $fn = $fn || $.fn;
+        $.each(jCarousel.plugins, function(name, callback) {
+            install($, $.fn, name, callback);
+        });
+    };
+
+    jCarousel.uninstall = function($fn) {
+        $fn = $fn.fn ? $fn.fn : $fn;
+        $.each(jCarousel.plugins, function(name) {
+            uninstall($fn, name);
+        });
+    };
+
     // jCarousel core plugin
-    jCarousel(function(jCarousel, $) {
-        jCarousel.plugin('jcarousel', {
+    jCarousel.plugin('jcarousel', function($) {
+        var jc = this;
+
+        return {
             options: {
                 list:      '>ul:eq(0)',
                 items:     '>li',
@@ -343,9 +378,19 @@
 
                 return this;
             },
-            _destroy: function() {
+            destroy: function() {
+                if (false === this._trigger('destroy')) {
+                    return this;
+                }
+
+                this.element()
+                    .unbind('.' + this.pluginName)
+                    .removeData(this.pluginName);
+
                 this.items().unbind('.jcarousel');
                 $(window).unbind('resize.jcarousel', this.onWindowResize);
+
+                this._trigger('destroyend');
 
                 return this;
             },
@@ -493,7 +538,7 @@
                                         // Force items reload
                                         this._items = null;
 
-                                        var lt  = jCarousel.intval(this.list().css(this.lt)),
+                                        var lt  = jc.intval(this.list().css(this.lt)),
                                             dim = this._dimension(curr);
 
                                         this.rtl ? lt += dim : lt -= dim;
@@ -512,7 +557,7 @@
                     this._scroll(parsed.target, animate, callback);
                 }
 
-                this._trigger('scrollend')
+                this._trigger('scrollend');
 
                 return this;
             },
@@ -660,7 +705,8 @@
                         fullyvisible: wh <= clip ? item : $()
                     },
                     lrb = this.vertical ? 'bottom' : (this.rtl ? 'left'  : 'right'),
-                    curr;
+                    curr,
+                    margin;
 
                 if (this.options.center) {
                     wh /= 2;
@@ -689,7 +735,7 @@
                         update.visible = update.visible.add(curr);
 
                         // Remove right/bottom margin from total width
-                        var margin= jCarousel.intval(curr.css('margin-' + lrb));
+                        margin= jc.intval(curr.css('margin-' + lrb));
 
                         if ((wh - margin) <= clip) {
                             update.fullyvisible = update.fullyvisible.add(curr);
@@ -721,7 +767,7 @@
                         update.visible = update.visible.add(curr);
 
                         // Remove right/bottom margin from total width
-                        var margin= jCarousel.intval(curr.css('margin-' + lrb));
+                        margin = jCarousel.intval(curr.css('margin-' + lrb));
 
                         if ((wh - margin) <= clip) {
                             update.fullyvisible = update.fullyvisible.add(curr);
@@ -742,9 +788,7 @@
                     update.last.index() === (this.items().size() - 1)) {
 
                     // Remove right/bottom margin from total width
-                    var lrb = this.vertical ? 'bottom' : (this.rtl ? 'left'  : 'right');
-
-                    wh -= jCarousel.intval(update.last.css('margin-' + lrb));
+                    wh -= jc.intval(update.last.css('margin-' + lrb));
 
                     if (wh > clip) {
                         this.tail = wh - clip;
@@ -817,17 +861,17 @@
                 // outerWidth()/outerHeight() doesn't seem to work on hidden elements
                 return this.vertical ?
                     element.innerHeight()  +
-                        jCarousel.intval(element.css('margin-top')) +
-                        jCarousel.intval(element.css('margin-bottom')) +
-                        jCarousel.intval(element.css('border-top-width')) +
-                        jCarousel.intval(element.css('border-bottom-width')) :
+                        jc.intval(element.css('margin-top')) +
+                        jc.intval(element.css('margin-bottom')) +
+                        jc.intval(element.css('border-top-width')) +
+                        jc.intval(element.css('border-bottom-width')) :
                     element.innerWidth() +
-                        jCarousel.intval(element.css('margin-left')) +
-                        jCarousel.intval(element.css('margin-right')) +
-                        jCarousel.intval(element.css('border-left-width')) +
-                        jCarousel.intval(element.css('border-right-width'));
+                        jc.intval(element.css('margin-left')) +
+                        jc.intval(element.css('margin-right')) +
+                        jc.intval(element.css('border-left-width')) +
+                        jc.intval(element.css('border-right-width'));
             }
-        });
+        };
     });
 
-})(jQuery);
+})(jQuery, window);

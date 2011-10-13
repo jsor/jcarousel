@@ -8,8 +8,10 @@
  *
  * Date: @DATE
  */
-jCarousel(function(jCarousel, $) {
-    jCarousel.plugin('control', {
+jCarousel.plugin('control', function($) {
+    var jCarousel = this;
+
+    return {
         options: {
             scroll: '+=1',
             event: 'click'
@@ -70,5 +72,5 @@ jCarousel(function(jCarousel, $) {
 
             return this;
         }
-    });
+    };
 });

@@ -8,8 +8,8 @@
  *
  * Date: @DATE
  */
-jCarousel(function(jCarousel, $) {
-    jCarousel.plugin('autoscroll', {
+jCarousel.plugin('autoscroll', function($) {
+    return {
         options: {
             scroll:   '+=1',
             interval: 3000,
@@ -57,5 +57,5 @@ jCarousel(function(jCarousel, $) {
 
             return this;
         }
-    });
+    };
 });
