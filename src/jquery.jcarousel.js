@@ -13,9 +13,13 @@
     // jQuery plugins can be registered to $.sub()'d instances
     $fn = $fn || $.fn;
 
-    var root = this,
-        _jCarousel = root.jCarousel,
-        jCarousel = {};
+    var root = this;
+
+    var jCarousel = root.jCarousel = function(func) {
+        func.call(root, jCarousel, $);
+    };
+
+    var _jCarousel = root.jCarousel;
 
     jCarousel.noConflict = function() {
         root.jCarousel = _jCarousel;
@@ -148,8 +152,6 @@
         }
     };
 
-    jCarousel.plugins = {};
-
     jCarousel.plugin = function(name, prototype) {
         var pluginName,
             pluginFn,
@@ -165,10 +167,10 @@
             bindDestroy = false;
         }
 
-        jCarousel.plugins[name] = function(element, options) {
+        var plugin = function(element, options) {
             // allow instantiation without "new" keyword
             if (!this._init) {
-                return new jCarousel.plugins[name](element, options);
+                return new plugin(element, options);
             }
 
             this.element = $(element).data(pluginName, this);
@@ -186,7 +188,7 @@
             this._init();
         };
 
-        jCarousel.plugins[name].prototype = $.extend({}, jCarousel.Plugin, {
+        plugin.prototype = $.extend({}, jCarousel.Plugin, {
             pluginName: pluginName,
             pluginFn:   pluginFn
         }, prototype);
@@ -228,7 +230,7 @@
                             instance.option(options);
                         }
                     } else {
-                        jCarousel.plugins[name](this, options);
+                        plugin(this, options);
                     }
                 });
             }
@@ -237,16 +239,10 @@
         };
     };
 
-    jCarousel.register = function(func) {
-        func.call(root, this, $);
-    };
-
-    root.jCarousel = jCarousel;
-
 }).call(this, jQuery);
 
 // jCarousel core plugin
-jCarousel.register(function(jCarousel, $) {
+jCarousel(function(jCarousel, $) {
     jCarousel.plugin('jcarousel', {
         options: {
             list:      '>ul:eq(0)',

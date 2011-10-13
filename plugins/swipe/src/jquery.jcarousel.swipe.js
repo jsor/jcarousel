@@ -8,7 +8,7 @@
  *
  * Date: @DATE
  */
-jCarousel.register(function(jCarousel, $) {
+jCarousel(function(jCarousel, $) {
     jCarousel.plugin('swipe', {
         instance: null,
         startX:   null,
