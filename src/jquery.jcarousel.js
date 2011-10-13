@@ -304,7 +304,7 @@
 
     // jCarousel core plugin
     jCarousel.plugin('jcarousel', function($) {
-        var jc = this;
+        var jCarousel = this;
 
         return {
             options: {
@@ -538,7 +538,7 @@
                                         // Force items reload
                                         this._items = null;
 
-                                        var lt  = jc.intval(this.list().css(this.lt)),
+                                        var lt  = jCarousel.intval(this.list().css(this.lt)),
                                             dim = this._dimension(curr);
 
                                         this.rtl ? lt += dim : lt -= dim;
@@ -735,7 +735,7 @@
                         update.visible = update.visible.add(curr);
 
                         // Remove right/bottom margin from total width
-                        margin= jc.intval(curr.css('margin-' + lrb));
+                        margin= jCarousel.intval(curr.css('margin-' + lrb));
 
                         if ((wh - margin) <= clip) {
                             update.fullyvisible = update.fullyvisible.add(curr);
@@ -788,7 +788,7 @@
                     update.last.index() === (this.items().size() - 1)) {
 
                     // Remove right/bottom margin from total width
-                    wh -= jc.intval(update.last.css('margin-' + lrb));
+                    wh -= jCarousel.intval(update.last.css('margin-' + lrb));
 
                     if (wh > clip) {
                         this.tail = wh - clip;
@@ -861,15 +861,15 @@
                 // outerWidth()/outerHeight() doesn't seem to work on hidden elements
                 return this.vertical ?
                     element.innerHeight()  +
-                        jc.intval(element.css('margin-top')) +
-                        jc.intval(element.css('margin-bottom')) +
-                        jc.intval(element.css('border-top-width')) +
-                        jc.intval(element.css('border-bottom-width')) :
+                        jCarousel.intval(element.css('margin-top')) +
+                        jCarousel.intval(element.css('margin-bottom')) +
+                        jCarousel.intval(element.css('border-top-width')) +
+                        jCarousel.intval(element.css('border-bottom-width')) :
                     element.innerWidth() +
-                        jc.intval(element.css('margin-left')) +
-                        jc.intval(element.css('margin-right')) +
-                        jc.intval(element.css('border-left-width')) +
-                        jc.intval(element.css('border-right-width'));
+                        jCarousel.intval(element.css('margin-left')) +
+                        jCarousel.intval(element.css('margin-right')) +
+                        jCarousel.intval(element.css('border-left-width')) +
+                        jCarousel.intval(element.css('border-right-width'));
             }
         };
     });
