@@ -613,53 +613,43 @@ $('#mycarousel li').bind('jcarouselitemfullyvisibleout', function(carousel) {
     </tr>
 </table>
 
-jCarousel specific selectors
-----------------------------
+jCarousel specific classes
+--------------------------
 
-After initialization, you can use jCarousel specific selectors on the root element and on the items of the carousel.
+jCarousel adds specific classes to the carousel items indicating their current status.
 
-### Available root element selectors are:
+This is useful for selecting items on runtime or a add specific styling to them.
 
 <table>
     <tr>
-        <th>Selector</th>
+        <th>Class</th>
         <th>Description</th>
         <th>Example</th>
     </tr>
     <tr>
-        <td>:jcarousel</td>
-        <td>Selects elements which have a initialized jcarousel instance applied.</td>
-        <td><pre>$(':jcarousel');</pre></td>
-    </tr>
-</table>
-
-### Available item selectors are:
-
-<table>
-    <tr>
-        <th>Selector</th>
-        <th>Description</th>
-        <th>Example</th>
+        <td>.jcarousel-item-target</td>
+        <td>Indicates the targetted item.</td>
+        <td><pre>$('#mycarousel .jcarousel-item-target');</pre></td>
     </tr>
     <tr>
-        <td>:jcarousel-item-first</td>
-        <td>Selects the first visible element.</td>
-        <td><pre>$('#mycarousel :jcarousel-item-first');</pre></td>
+        <td>.jcarousel-item-first</td>
+        <td>Indicates the first visible item.</td>
+        <td><pre>$('#mycarousel .jcarousel-item-first');</pre></td>
     </tr>
     <tr>
-        <td>:jcarousel-item-last</td>
-        <td>Selects the last visible element.</td>
-        <td><pre>$('#mycarousel :jcarousel-item-last');</pre></td>
+        <td>.jcarousel-item-last</td>
+        <td>Indicates the last visible item.</td>
+        <td><pre>$('#mycarousel .jcarousel-item-last');</pre></td>
     </tr>
     <tr>
-        <td>:jcarousel-item-visible</td>
-        <td>Selects all visible elements.</td>
-        <td><pre>$('#mycarousel :jcarousel-item-visible');</pre></td>
+        <td>.jcarousel-item-visible</td>
+        <td>Indicates all visible items.</td>
+        <td><pre>$('#mycarousel .jcarousel-item-visible');</pre></td>
     </tr>
     <tr>
-        <td>:jcarousel-item-fullyvisible</td>
-        <td>Selects all fully visible elements.</td>
-        <td><pre>$('#mycarousel :jcarousel-item-fullyvisible');</pre></td>
+        <td>.jcarousel-item-fullyvisible</td>
+        <td>Indicates all fully visible items.</td>
+        <td><pre>$('#mycarousel .jcarousel-item-fullyvisible');</pre></td>
     </tr>
 </table>
 
