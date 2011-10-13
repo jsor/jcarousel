@@ -14,7 +14,7 @@
     root = root || window;
 
     var jCarousel = root.jCarousel = function(func) {
-        func.call(root, jCarousel, $);
+        func(jCarousel, $, $fn, root);
     };
 
     jCarousel.version = '@VERSION';
