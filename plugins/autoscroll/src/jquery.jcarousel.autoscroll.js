@@ -28,13 +28,9 @@ jCarousel(function(jCarousel, $) {
         _start: function() {
             this.stop();
 
-            if (this.carousel().size() === 0) {
-                return this;
-            }
-
             this.timer = setInterval($.proxy(function() {
                 if (!this.paused) {
-                    this.carousel().jcarousel('scroll', this.option('scroll'));
+                    this.carousel().scroll(this.option('scroll'));
                 }
             }, this), this.option('interval'));
 
@@ -42,7 +38,7 @@ jCarousel(function(jCarousel, $) {
         },
         play: function() {
             this._start();
-            this.carousel().jcarousel('scroll', this.option('scroll'));
+            this.carousel().scroll(this.option('scroll'));
 
             return this;
         },

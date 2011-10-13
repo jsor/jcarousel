@@ -17,13 +17,13 @@ jCarousel(function(jCarousel, $) {
         enabled: null,
         _init: function() {
             this.carousel()
-                .bind('jcarouselreloadend.' + this.pluginName, $.proxy(this.reload, this))
-                .bind('jcarouselanimate.' + this.pluginName, $.proxy(this.reload, this));
+                ._bind('reloadend.' + this.pluginName, $.proxy(this.reload, this))
+                ._bind('animate.' + this.pluginName, $.proxy(this.reload, this));
 
-            this.element
+            this.element()
                 .bind(this.option('event') + '.' + this.pluginName, $.proxy(function() {
                     if (this.enabled) {
-                        this.carousel().jcarousel('scroll', this.option('scroll'));
+                        this.carousel().scroll(this.option('scroll'));
                     }
                     return false;
                 }, this));
@@ -31,44 +31,39 @@ jCarousel(function(jCarousel, $) {
             this.reload();
         },
         _destroy: function() {
-            this.element
-                .removeClass('jcarousel-control-enabled')
-                .removeClass('jcarousel-control-disabled');
+            this.element()
+                .removeClass(this.pluginPrefix + '-enabled')
+                .removeClass(this.pluginPrefix + '-disabled');
         },
         reload: function() {
             var parsed  = jCarousel.parseTarget(this.option('scroll')),
-                enabled = false;
+                carousel = this.carousel(),
+                enabled;
 
-            this.carousel().each(function() {
-                var instance = $.data(this, 'jcarousel');
+            if (parsed.relative) {
+                enabled = carousel[parsed.target > 0 ? 'hasNext' : 'hasPrev']();
+            } else {
+                var target = typeof parsed.target !== 'object' ?
+                                 carousel.items().eq(parsed.target) :
+                                 parsed.target;
 
-                if (parsed.relative) {
-                    enabled = instance[parsed.target > 0 ? 'hasNext' : 'hasPrev']();
-                } else {
-                    var target = typeof parsed.target !== 'object' ?
-                                     instance.items().eq(parsed.target) :
-                                     parsed.target;
-
-                    enabled = instance.fullyvisible().index(target) < 0;
-                }
-
-                if (enabled) {
-                    return false;
-                }
-            });
+                enabled = carousel.fullyvisible().index(target) < 0;
+            }
 
             if (this.enabled !== enabled) {
+                var element = this.element();
+
                 if (enabled) {
-                    this.element
-                        .addClass('jcarousel-control-enabled')
-                        .removeClass('jcarousel-control-disabled');
+                    element
+                        .addClass(this.pluginPrefix + '-enabled')
+                        .removeClass(this.pluginPrefix + '-disabled');
                 } else {
-                    this.element
-                        .removeClass('jcarousel-control-enabled')
-                        .addClass('jcarousel-control-disabled');
+                    element
+                        .removeClass(this.pluginPrefix + '-enabled')
+                        .addClass(this.pluginPrefix + '-disabled');
                 }
 
-                this.element.trigger('jcarouselcontrol' + (enabled ? 'enabled' : 'disabled'));
+                element.trigger(this.pluginName + (enabled ? 'enabled' : 'disabled'));
             }
 
             this.enabled = enabled;

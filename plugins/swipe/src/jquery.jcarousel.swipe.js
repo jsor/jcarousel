@@ -10,45 +10,42 @@
  */
 jCarousel(function(jCarousel, $) {
     jCarousel.plugin('swipe', {
-        instance: null,
+        started:  false,
         startX:   null,
         startY:   null,
         startPos: null,
         width:    0,
         _init: function() {
-            this.pluginNameNames = {
+            this.eventNames = {
                 mousedown: ($.vmouse ? 'v' : '') + 'mousedown.' + this.pluginName,
                 mousemove: ($.vmouse ? 'v' : '') + 'mousemove.' + this.pluginName,
                 mouseup:   ($.vmouse ? 'v' : '') + 'mouseup.'   + this.pluginName
             };
 
-            this.carousel()
-                .bind(this.pluginNameNames.mousedown, $.proxy(this._start, this))
-                .bind(this.pluginNameNames.mouseup, $.proxy(this._stop, this))
-                .bind(this.pluginNameNames.mousemove, $.proxy(this._move, this))
+            this.carousel().element()
+                .bind(this.eventNames.mousedown, $.proxy(this._start, this))
+                .bind(this.eventNames.mouseup, $.proxy(this._stop, this))
+                .bind(this.eventNames.mousemove, $.proxy(this._move, this))
                 .bind('mouseleave.' + this.pluginName, $.proxy(this._stop, this));
         },
         _start: function(e) {
-            var instance = this.instance = $.data(e.currentTarget, 'jcarousel');
+            var carousel = this.carousel();
 
-            if (!instance) {
-                return this;
-            }
-
-            this.startPos = jCarousel.intval(instance.list.css(instance.lt));
+            this.started  = true;
+            this.startPos = jCarousel.intval(carousel.list().css(carousel.lt));
             this.startX   = jCarousel.intval(e.pageX);
             this.startY   = jCarousel.intval(e.pageY);
 
             var width  = 0,
                 margin = 0,
                 // Remove right/bottom margin from total width
-                lrb    = instance.vertical ?
+                lrb    = carousel.vertical ?
                              'bottom' :
-                             (instance.rtl ? 'left'  : 'right');
+                             (carousel.rtl ? 'left'  : 'right');
 
-            instance.items().each(function() {
+            carousel.items().each(function() {
                 var el = $(this);
-                width += instance._dimension(el);
+                width += carousel._dimension(el);
                 margin = el.css('margin-' + lrb);
             });
 
@@ -60,19 +57,15 @@ jCarousel(function(jCarousel, $) {
             return this;
         },
         _stop: function() {
-            if (!this.instance) {
-                return this;
-            }
-
-            function scrollNearest() {
+            var scrollNearest = function() {
                 var self    = this,
                     items   = this.items(),
-                    pos     = this.list.position()[this.lt],
+                    pos     = this.list().position()[this.lt],
                     current = items.eq(0),
                     stop    = false;
 
                 if (this.rtl && !this.vertical) {
-                    pos = (pos + this.list.width() - this._clipping()) * -1;
+                    pos = (pos + this.list().width() - this._clipping()) * -1;
                 }
 
                 items.each(function() {
@@ -96,46 +89,51 @@ jCarousel(function(jCarousel, $) {
                 });
 
                 this.scroll(current);
-            }
+            };
 
-            if (this.instance.rtl && !this.instance.vertical) {
-                var right = jCarousel.intval(this.instance.list.css('right'));
+            var carousel = this.carousel();
+
+            if (carousel.rtl && !carousel.vertical) {
+                var right = jCarousel.intval(carousel.list().css('right'));
 
                 if (right > 0) {
-                    this.instance.scroll(0);
-                } else if (right < -(this.width - this.instance._clipping())) {
-                    this.instance.scroll(-1);
+                    carousel.scroll(0);
+                } else if (right < -(this.width - carousel._clipping())) {
+                    carousel.scroll(-1);
                 } else {
-                    scrollNearest.apply(this.instance);
+                    scrollNearest.apply(carousel);
                 }
             } else {
-                var left = jCarousel.intval(this.instance.list.css(this.instance.lt));
+                var left = jCarousel.intval(carousel.list().css(carousel.lt));
 
                 if (left > 0) {
-                    this.instance.scroll(0);
-                } else if (left < -(this.width - this.instance._clipping())) {
-                    this.instance.scroll(-1);
+                    carousel.scroll(0);
+                } else if (left < -(this.width - carousel._clipping())) {
+                    carousel.scroll(-1);
                 } else {
-                    scrollNearest.apply(this.instance);
+                    scrollNearest.apply(carousel);
                 }
             }
 
-            this.instance = this.startPos = this.startX = this.startY = null;
+            this.started = false;
+            this.startPos = this.startX = this.startY = null;
 
             return this;
         },
         _move: function(e) {
-            if (!this.instance) {
+            if (!this.started) {
                 return this;
             }
 
-            var distance = this.instance.vertical ?
+            var carousel = this.carousel();
+
+            var distance = carousel.vertical ?
                                this.startY - jCarousel.intval(e.pageY) :
                                this.startX - jCarousel.intval(e.pageX);
 
-            this.instance.list
+            carousel.list()
                 .stop(true, false)
-                .css(this.instance.lt, Math.ceil(this.startPos - distance) + 'px');
+                .css(carousel.lt, Math.ceil(this.startPos - distance) + 'px');
 
             return this;
         }

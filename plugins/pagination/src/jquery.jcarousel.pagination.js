@@ -13,33 +13,32 @@ jCarousel(function(jCarousel, $) {
         options: {
             perpage: null,
             item: function(page) {
-                return '<a class="jcarousel-pagination-item" href="#' + page + '">' + page + '</a>';
+                return '<a class="' + this.pluginPrefix + '-item" href="#' + page + '">' + page + '</a>';
             },
             active: function(item) {
-                item.addClass('jcarousel-pagination-item-active');
+                item.addClass(this.pluginPrefix + '-item-active');
             },
             inactive: function(item) {
-                item.removeClass('jcarousel-pagination-item-active');
+                item.removeClass(this.pluginPrefix + '-item-active');
             }
         },
         pages: {},
         items: {},
         _init: function() {
             this.carousel()
-                .bind('jcarouselreloadend.' + this.pluginName, $.proxy(this.reload, this))
-                .bind('jcarouselreloadend.' + this.pluginName, $.proxy(this.update, this))
-                .bind('jcarouselscrollend.' + this.pluginName, $.proxy(this.update, this));
+                ._bind('reloadend.' + this.pluginName, $.proxy(this.reload, this))
+                ._bind('reloadend.' + this.pluginName, $.proxy(this.update, this))
+                ._bind('scrollend.' + this.pluginName, $.proxy(this.update, this));
 
             this.reload();
             this.update();
         },
         _destroy: function() {
-            this.element.empty();
+            this.element().empty();
         },
         reload: function() {
             var self = this,
-                // We can only control 1 carousel
-                carousel = this.carousel().data('jcarousel'),
+                carousel = this.carousel(),
                 o = this.options;
 
             this.pages = {};
@@ -100,7 +99,7 @@ jCarousel(function(jCarousel, $) {
                 }
             }
 
-            this.element.empty();
+            this.element().empty();
 
             $.each(this.pages, function(page, carouselItem) {
                 var el = $(o.item.call(self, page, carouselItem));
@@ -110,28 +109,26 @@ jCarousel(function(jCarousel, $) {
                         e.preventDefault();
                         carousel.scroll(carouselItem);
                     })
-                    .data('jcarousel-pagination-item', jCarousel.intval(page))
-                    .appendTo(self.element);
+                    .data(this.pluginName + '-item', jCarousel.intval(page))
+                    .appendTo(self.element());
 
                 self.items[page] = el;
             });
         },
         update: function() {
             var self = this,
-                // We can only control 1 carousel
-                carousel = this.carousel().data('jcarousel');
+                carousel = this.carousel();
 
             $.each(this.pages, function(page, carouselItem) {
                 var el = self.items[page];
                 if (carousel.target().index(carouselItem) >= 0) {
-                    el.data('jcarousel-pagination-item-active', true);
+                    el.data(this.pluginName + '-active', true);
                     self.options.active.call(self, el);
                 } else {
-                    el .data('jcarousel-pagination-item-active', false)
+                    el .data(this.pluginName + '-active', false)
                     self.options.inactive.call(self, el);
                 }
             });
         }
     });
-
 });
