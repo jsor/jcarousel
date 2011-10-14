@@ -29,11 +29,9 @@ jCarousel.plugin('pagination', function($) {
         _init: function() {
             this.carousel()
                 ._bind('reloadend.' + this.pluginName, $.proxy(this.reload, this))
-                ._bind('reloadend.' + this.pluginName, $.proxy(this.update, this))
                 ._bind('scrollend.' + this.pluginName, $.proxy(this.update, this));
 
             this.reload();
-            this.update();
         },
         _destroy: function() {
             this.element().empty();
@@ -101,35 +99,27 @@ jCarousel.plugin('pagination', function($) {
                 }
             }
 
-            this.element().empty();
+            var element = this.element().empty();
 
             $.each(this.pages, function(page, carouselItem) {
-                var el = $(o.item.call(self, page, carouselItem));
-
-                el
+                self.items[page] = $(o.item.call(self, page, carouselItem))
                     .click(function(e) {
                         e.preventDefault();
                         carousel.scroll(carouselItem);
                     })
                     .data(this.pluginName + '-item', jCarousel.intval(page))
-                    .appendTo(self.element());
-
-                self.items[page] = el;
+                    .appendTo(element);
             });
+
+            this.update();
         },
         update: function() {
             var self = this,
-                carousel = this.carousel();
+                target = this.carousel().target();
 
             $.each(this.pages, function(page, carouselItem) {
-                var el = self.items[page];
-                if (carousel.target().index(carouselItem) >= 0) {
-                    el.data(this.pluginName + '-active', true);
-                    self.options.active.call(self, el);
-                } else {
-                    el.data(this.pluginName + '-active', false);
-                    self.options.inactive.call(self, el);
-                }
+                var fn = target.index(carouselItem) >= 0 ? 'active' : 'inactive';
+                self.options[fn].call(self, self.items[page]);
             });
         }
     };
