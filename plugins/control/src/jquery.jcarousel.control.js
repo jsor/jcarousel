@@ -20,7 +20,7 @@ jCarousel.plugin('control', function($) {
         _init: function() {
             this.carousel()
                 ._bind('reloadend.' + this.pluginName, $.proxy(this.reload, this))
-                ._bind('animate.' + this.pluginName, $.proxy(this.reload, this));
+                ._bind('scrollend.' + this.pluginName, $.proxy(this.reload, this));
 
             this.element()
                 .bind(this.option('event') + '.' + this.pluginName, $.proxy(function() {
