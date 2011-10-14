@@ -489,7 +489,7 @@
                                     this.options.wrap == 'last') {
                                     this._scroll(0, animate, callback);
                                 } else {
-                                    this._scroll(end, animate, callback);
+                                    this._scroll(Math.min(this._first.index() + scroll, end), animate, callback);
                                 }
                             }
                         } else {
