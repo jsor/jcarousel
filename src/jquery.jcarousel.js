@@ -654,6 +654,7 @@
                 properties[this.lt] = pos + 'px';
 
                 this._update({
+                    target:       this._target.next(),
                     fullyvisible: this._fullyvisible.slice(1).add(this._visible.last())
                 });
 
