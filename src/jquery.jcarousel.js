@@ -9,7 +9,9 @@
  * Date: @DATE
  */
 (function($, window) {
-    var jCarouselAutoInstall = true;
+    var jCarouselAutoInstall = typeof window.jCarouselAutoInstall !== 'undefined' ?
+            window.jCarouselAutoInstall :
+            true;
 
     var jCarousel = window.jCarousel = {};
 
@@ -283,7 +285,7 @@
     jCarousel.plugin = function(name, callback) {
         jCarousel.plugins[name] = callback;
 
-        if (jCarouselAutoInstall) {
+        if (jCarouselAutoInstall !== false) {
             install($, $.fn, name, callback);
         }
     };
