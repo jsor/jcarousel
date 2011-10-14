@@ -580,7 +580,7 @@
                 // Force items reload
                 this._items = null;
 
-                var item = this._first || this.items().eq(0);
+                var item = this._target || this.items().eq(0);
 
                 // _prepare() needs this here
                 this.circular = false;
