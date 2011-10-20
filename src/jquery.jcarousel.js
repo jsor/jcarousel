@@ -293,7 +293,7 @@
     jCarousel.install = function($, $fn) {
         $fn = $fn || $.fn;
         $.each(jCarousel.plugins, function(name, callback) {
-            install($, $.fn, name, callback);
+            install($, $fn, name, callback);
         });
     };
 
