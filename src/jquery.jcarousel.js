@@ -266,20 +266,6 @@
         };
     };
 
-    var uninstall = function($fn, name) {
-        var pluginFn;
-
-        if (name !== 'jcarousel') {
-            pluginFn = 'jcarousel' +
-                           name.charAt(0).toUpperCase() +
-                           name.slice(1);
-        } else {
-            pluginFn = name;
-        }
-
-        delete $fn[pluginFn];
-    };
-
     jCarousel.plugins = {};
 
     jCarousel.plugin = function(name, callback) {
@@ -294,13 +280,6 @@
         $fn = $fn || $.fn;
         $.each(jCarousel.plugins, function(name, callback) {
             install($, $fn, name, callback);
-        });
-    };
-
-    jCarousel.uninstall = function($fn) {
-        $fn = $fn.fn ? $fn.fn : $fn;
-        $.each(jCarousel.plugins, function(name) {
-            uninstall($fn, name);
         });
     };
 
