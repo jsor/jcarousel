@@ -111,7 +111,7 @@
     background-image: url(next-horizontal.png);
 }
 
-.jcarousel-skin-tango .jcarousel-prev-horizontal:hover, 
+.jcarousel-skin-tango .jcarousel-prev-horizontal:hover,
 .jcarousel-skin-tango .jcarousel-prev-horizontal:focus {
     background-position: -32px 0;
 }
