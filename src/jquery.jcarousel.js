@@ -345,7 +345,7 @@
 
                     if (c.size() > 0) {
                         c.remove();
-                        self.reload();
+                        self._reload();
                     }
 
                     self._trigger('animateEnd');
