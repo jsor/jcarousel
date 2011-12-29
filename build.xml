@@ -1,0 +1,18 @@
+<project name="jCarousel" default="lint">
+
+    <property name="file" value="src/jquery.jcarousel.js
+                                 plugins/autoscroll/src/jquery.jcarousel.autoscroll.js
+                                 plugins/control/src/jquery.jcarousel.control.js
+                                 plugins/pagination/src/jquery.jcarousel.pagination.js
+                                 plugins/swipe/src/jquery.jcarousel.swipe.js"/>
+
+    <!--  lint (http://www.jslint.com/lint.html) -->
+    <target name="lint">
+        <!-- ant lint -Dfile=src/jquery.jcarousel.js -->
+        <java jar="build/js.jar" fork="true">
+            <arg value="build/jslint-check.js" />
+            <arg value="${file}" />
+        </java>
+    </target>
+
+</project>
