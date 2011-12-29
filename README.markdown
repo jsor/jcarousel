@@ -151,13 +151,13 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
         <td>vertical</td>
         <td>boolean</td>
         <td>null</td>
-        <td>Specifies whether the carousel appears in vertical orientation. Changes the carousel from a left/right style to a up/down style carousel. If not set, jCarousel looks for a class `jcarousel-vertical` on the root element and if found, automatically sets `vertical` to `true`.</td>
+        <td>Specifies whether the carousel appears in vertical orientation. Changes the carousel from a left/right style to a up/down style carousel. If not set, jCarousel looks for a class <code>jcarousel-vertical</code> on the root element and if found, automatically sets <code>vertical</code> to <code>true</code>.</td>
     </tr>
     <tr>
         <td>rtl</td>
         <td>boolean</td>
         <td>null</td>
-        <td>Specifies wether the carousel appears in RTL (Right-To-Left) mode. If not set, jCarousel looks for `dir` attribute with a value of `rtl` on the root element (or to any of its parent elements) and if found, automatically sets `rtl` to `true`.</td>
+        <td>Specifies wether the carousel appears in RTL (Right-To-Left) mode. If not set, jCarousel looks for <code>dir</code> attribute with a value of <code>rtl</code> on the root element (or to any of its parent elements) and if found, automatically sets <code>rtl</code> to <code>true</code>.</td>
     </tr>
     <tr>
         <td>center</td>
@@ -453,7 +453,8 @@ $('#mycarousel').bind('jcarouselscroll', function(carousel, target, animate) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
     // "target" is the target argument passed to the `scroll` method
-    // "animate" is the animate argument passed to the `scroll` method indicating whether jCarousel was requested to do an animation
+    // "animate" is the animate argument passed to the `scroll` method 
+    //      indicating whether jCarousel was requested to do an animation
 });</pre>
         </td>
     </tr>
@@ -618,7 +619,7 @@ jCarousel specific classes
 
 jCarousel adds specific classes to the carousel items indicating their current status.
 
-This is useful for selecting items on runtime or a add specific styling to them.
+This is useful for selecting items on runtime or add specific styling to them.
 
 <table>
     <tr>
@@ -656,4 +657,4 @@ This is useful for selecting items on runtime or a add specific styling to them.
 Credits
 -------
 
-jCarousel is written on top of [jQuery](http://jquery.com) and is inspired by the [Carousel Component](http://billwscott.com/carousel/) by [Bill Scott](http://looksgoodworkswell.com).
+jCarousel is written on top of [jQuery](http://jquery.com) and was originally inspired by the [Carousel Component](http://billwscott.com/carousel/) by [Bill Scott](http://looksgoodworkswell.com).
