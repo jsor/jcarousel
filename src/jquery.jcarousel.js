@@ -55,7 +55,7 @@
 
     jCarousel.detectCarousel = function(element) {
         var carousel = element.data('jcarousel'),
-            find = function(element) {
+            find     = function(element) {
                 var carousel;
                 element.find('*').each(function() {
                     carousel = $.data(this, 'jcarousel');
@@ -94,7 +94,7 @@
         _destroy:     $.noop,
         _create: function() {
             this.carousel()
-                    ._bind('destroy.' + this.pluginName, $.proxy(this.destroy, this));
+                ._bind('destroy.' + this.pluginName, $.proxy(this.destroy, this));
         },
         destroy: function() {
             this._destroy();
@@ -148,7 +148,7 @@
                 this._carousel = jCarousel.detectCarousel(this.element());
 
                 if (!this._carousel) {
-                    $.error('Could not detect carousel for plugin ' + this.pluginName);
+                    $.error('Could not detect carousel for plugin "' + this.pluginName + '"');
                 }
             }
 
@@ -163,8 +163,6 @@
             return this;
         },
         _trigger: function(type, element, data, event) {
-            element = element || this.element();
-
             event = $.Event(event);
             event.type = (this.pluginName + type).toLowerCase();
             data = [this].concat(data || []);
@@ -176,7 +174,7 @@
                 }
             }
 
-            element.trigger(event, data);
+            (element || this.element()).trigger(event, data);
 
             return !event.isDefaultPrevented();
         }
@@ -443,7 +441,7 @@
 
                 if ($.isFunction(animate)) {
                     callback = animate;
-                    animate = true;
+                    animate  = true;
                 }
 
                 var parsed = jCarousel.parseTarget(target);
@@ -655,16 +653,16 @@
                     this.list().css(properties);
                     this.onAnimationComplete(callback);
                 } else {
-                    var self        = this,
-                        opts        = typeof this.options.animation === 'object' ?
+                    var self = this,
+                        opts = typeof this.options.animation === 'object' ?
                                           this.options.animation :
                                           {duration: this.options.animation},
-                        oldcomplete = opts.complete;
+                        oldc = opts.complete;
 
                     opts.complete = function() {
                         self.onAnimationComplete(callback);
-                        if ($.isFunction(oldcomplete)) {
-                            oldcomplete.call(this);
+                        if ($.isFunction(oldc)) {
+                            oldc.call(this);
                         }
                     };
 
