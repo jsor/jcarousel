@@ -449,8 +449,7 @@
                 var parsed = jCarousel.parseTarget(target);
 
                 if (parsed.relative) {
-                    var items  = this.items(),
-                        end    = items.size() - 1,
+                    var end    = this.items().size() - 1,
                         scroll = Math.abs(parsed.target),
                         first,
                         index,
@@ -468,7 +467,7 @@
                                     this.options.wrap == 'last') {
                                     this._scroll(0, animate, callback);
                                 } else {
-                                    this._scroll(Math.min(this._first.index() + scroll, end), animate, callback);
+                                    this._scroll(Math.min(this._target.index() + scroll, end), animate, callback);
                                 }
                             }
                         } else {
@@ -476,7 +475,7 @@
                                 (this.options.wrap == 'both' || this.options.wrap == 'last')) {
                                 return this._scroll(0, animate, callback);
                             } else {
-                                first = this._first.index();
+                                first = this._target.index();
                                 index = first + scroll;
 
                                 if (this.circular && index > end) {
@@ -498,12 +497,12 @@
                             }
                         }
                     } else {
-                        first = this._first.index();
-                        index = first - scroll;
-
                         if (this.inTail) {
-                            this._scroll(Math.max(index + 1, 0), animate, callback);
+                            this._scroll(Math.max((this._first.index() - scroll) + 1, 0), animate, callback);
                         } else {
+                            first = this._target.index();
+                            index = first - scroll;
+
                             if (first === 0 &&
                                 (this.options.wrap == 'both' || this.options.wrap == 'first')) {
                                 this._scroll(end, animate, callback);
