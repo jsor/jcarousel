@@ -15,45 +15,32 @@ jCarousel.plugin('autoscroll', function($) {
             interval: 3000,
             autostart: true
         },
-        timer: null,
-        paused: false,
+        timer:   null,
         _init: function() {
             if (this.option('autostart')) {
-                this._start();
+                this.start();
             }
         },
         _destroy: function() {
             this.stop();
         },
-        _start: function() {
+        start: function() {
             this.stop();
 
-            this.timer = setInterval($.proxy(function() {
-                if (!this.paused) {
-                    this.carousel().scroll(this.option('scroll'));
-                }
+            this.carousel()._bind('animateend.' + this.pluginName, $.proxy(this.start, this));
+
+            this.timer = setTimeout($.proxy(function() {
+                this.carousel().scroll(this.option('scroll'));
             }, this), this.option('interval'));
 
             return this;
         },
-        play: function() {
-            this._start();
-            this.carousel().scroll(this.option('scroll'));
-
-            return this;
-        },
-        pause: function() {
-            this.paused = true;
-            return this;
-        },
-        resume: function() {
-            this.paused = false;
-            return this;
-        },
         stop: function() {
             if (this.timer) {
-                this.timer = clearInterval(this.timer);
+                this.timer = clearTimeout(this.timer);
             }
+
+            this.carousel()._unbind('animateend.' + this.pluginName);
 
             return this;
         }
