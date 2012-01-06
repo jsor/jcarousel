@@ -24,6 +24,7 @@ jCarousel.plugin('pagination', function($) {
                 item.removeClass(this.pluginPrefix + '-item-active');
             }
         },
+        current: null,
         pages: {},
         items: {},
         _init: function() {
@@ -64,6 +65,8 @@ jCarousel.plugin('pagination', function($) {
 
                         if (!pages[page]) {
                             pages[page] = curr;
+                        } else {
+                            pages[page] = pages[page].add(curr);
                         }
 
                         wh += carousel._dimension(curr);
@@ -88,39 +91,56 @@ jCarousel.plugin('pagination', function($) {
                     curr;
 
                 while (true) {
-                    curr = items.eq(i);
+                    curr = items.eq(i++);
 
                     if (curr.size() === 0) {
                         break;
                     }
 
-                    this.pages[page++] = curr;
-                    i += pp;
+                    if (!this.pages[page]) {
+                        this.pages[page] = curr;
+                    } else {
+                        this.pages[page] = this.pages[page].add(curr);
+                    }
+
+                    if (i % pp === 0) {
+                        page++;
+                    }
                 }
             }
 
             var element = this.element().empty();
 
-            $.each(this.pages, function(page, carouselItem) {
-                self.items[page] = $(o.item.call(self, page, carouselItem))
+            $.each(this.pages, function(page, carouselItems) {
+                self.items[page] = $(o.item.call(self, page, carouselItems))
                     .click(function(e) {
                         e.preventDefault();
-                        carousel.scroll(carouselItem);
+                        carousel.scroll(carouselItems.eq(0));
                     })
-                    .data(this.pluginName + '-item', jCarousel.intval(page))
                     .appendTo(element);
             });
 
             this.update();
         },
         update: function() {
-            var self = this,
-                target = this.carousel().target();
+            var target  = this.carousel().target(),
+                current = null;
 
-            $.each(this.pages, function(page, carouselItem) {
-                var fn = target.index(carouselItem) >= 0 ? 'active' : 'inactive';
-                self.options[fn].call(self, self.items[page]);
+            $.each(this.pages, function(page, carouselItems) {
+                if (carouselItems.index(target) >= 0) {
+                    current = page;
+                    return false;
+                }
             });
+
+            if (current !== this.current) {
+                if (this.current) {
+                    this.options.inactive.call(this, this.items[this.current]);
+                }
+
+                this.options.active.call(this, this.items[current]);
+                this.current = current;
+            }
         }
     };
 });
