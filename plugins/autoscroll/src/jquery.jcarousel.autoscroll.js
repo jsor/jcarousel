@@ -15,7 +15,7 @@ jCarousel.plugin('autoscroll', function($) {
             interval: 3000,
             autostart: true
         },
-        timer:   null,
+        timer: null,
         _init: function() {
             if (this.option('autostart')) {
                 this.start();

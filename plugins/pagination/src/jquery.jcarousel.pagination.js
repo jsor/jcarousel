@@ -38,9 +38,9 @@ jCarousel.plugin('pagination', function($) {
             this.element().empty();
         },
         reload: function() {
-            var self = this,
+            var self     = this,
                 carousel = this.carousel(),
-                o = this.options;
+                o        = this.options;
 
             this.pages = {};
             this.items = {};

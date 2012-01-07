@@ -23,11 +23,11 @@ jCarousel.plugin('control', function($) {
                 ._bind('scrollend.' + this.pluginName, $.proxy(this.reload, this));
 
             this.element()
-                .bind(this.option('event') + '.' + this.pluginName, $.proxy(function() {
+                .bind(this.option('event') + '.' + this.pluginName, $.proxy(function(e) {
+                    e.preventDefault();
                     if (this.enabled) {
                         this.carousel().scroll(this.option('scroll'));
                     }
-                    return false;
                 }, this));
 
             this.reload();
@@ -38,7 +38,7 @@ jCarousel.plugin('control', function($) {
                 .removeClass(this.pluginPrefix + '-disabled');
         },
         reload: function() {
-            var parsed  = jCarousel.parseTarget(this.option('scroll')),
+            var parsed   = jCarousel.parseTarget(this.option('scroll')),
                 carousel = this.carousel(),
                 enabled;
 
@@ -52,21 +52,23 @@ jCarousel.plugin('control', function($) {
                 enabled = carousel.fullyvisible().index(target) < 0;
             }
 
-            if (this.enabled !== enabled) {
-                var element = this.element();
-
-                if (enabled) {
-                    element
-                        .addClass(this.pluginPrefix + '-enabled')
-                        .removeClass(this.pluginPrefix + '-disabled');
-                } else {
-                    element
-                        .removeClass(this.pluginPrefix + '-enabled')
-                        .addClass(this.pluginPrefix + '-disabled');
-                }
-
-                element.trigger(this.pluginName + (enabled ? 'enabled' : 'disabled'));
+            if (this.enabled === enabled) {
+                return this;
             }
+
+            var element = this.element();
+
+            if (enabled) {
+                element
+                    .addClass(this.pluginPrefix + '-enabled')
+                    .removeClass(this.pluginPrefix + '-disabled');
+            } else {
+                element
+                    .removeClass(this.pluginPrefix + '-enabled')
+                    .addClass(this.pluginPrefix + '-disabled');
+            }
+
+            element.trigger(this.pluginName + (enabled ? 'enabled' : 'disabled'));
 
             this.enabled = enabled;
 
