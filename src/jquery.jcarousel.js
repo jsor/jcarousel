@@ -574,6 +574,11 @@
                     this.circular = this.options.wrap == 'circular' &&
                                     this._fullyvisible.size() < this.items().size();
 
+                    if (this.circular) {
+                        // Fixes #288
+                        this._prepare(item);
+                    }
+
                     this.list().css(this.lt, this._position(item) + 'px');
                 }
 
