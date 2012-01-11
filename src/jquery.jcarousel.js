@@ -561,7 +561,7 @@
                 var item = this._target || this.items().eq(0);
 
                 // _prepare() needs this here
-                this.circular = false;
+                this.circular = this.options.wrap == 'circular';
                 this.list().css({'left': 0, 'top': 0});
 
                 if (item.size() > 0) {
@@ -573,11 +573,6 @@
 
                     this.circular = this.options.wrap == 'circular' &&
                                     this._fullyvisible.size() < this.items().size();
-
-                    if (this.circular) {
-                        // Fixes #288
-                        this._prepare(item);
-                    }
 
                     this.list().css(this.lt, this._position(item) + 'px');
                 }
@@ -704,6 +699,9 @@
                         if (curr.size() === 0) {
                             if (this.circular) {
                                 curr = this.items().eq(0);
+                                if (item.get(0) === curr.get(0)) {
+                                    break;
+                                }
                                 curr.after(curr.clone(true).addClass('jcarousel-clone'));
                                 this.list().append(curr);
                                 // Force items reload
@@ -731,7 +729,7 @@
                     }
                 }
 
-                if (wh < clip) {
+                if (!this.circular && wh < clip) {
                     idx = index;
 
                     while (true) {
