@@ -32,11 +32,13 @@ jCarousel.plugin('swipe', function($) {
         },
         _start: function(e) {
             var carousel = this.carousel();
+            
+            var ev = e.originalEvent ? e.originalEvent : e;
 
             this.started  = true;
             this.startPos = jCarousel.intval(carousel.list().css(carousel.lt));
-            this.startX   = jCarousel.intval(e.pageX);
-            this.startY   = jCarousel.intval(e.pageY);
+            this.startX   = jCarousel.intval(ev.pageX);
+            this.startY   = jCarousel.intval(ev.pageY);
 
             var width  = 0,
                 margin = 0,
@@ -129,9 +131,11 @@ jCarousel.plugin('swipe', function($) {
 
             var carousel = this.carousel();
 
+            var ev = e.originalEvent ? e.originalEvent : e;
+
             var distance = carousel.vertical ?
-                               this.startY - jCarousel.intval(e.pageY) :
-                               this.startX - jCarousel.intval(e.pageX);
+                               this.startY - jCarousel.intval(ev.pageY) :
+                               this.startX - jCarousel.intval(ev.pageX);
 
             carousel.list()
                 .stop(true, false)
