@@ -34,6 +34,9 @@ jCarousel.plugin('swipe', function($) {
         _start: function(e) {
             var carousel = this.carousel();
 
+            carousel.list().stop(true, false);
+            carousel.animating = false;
+
             this.started  = true;
             this.moved    = false;
             this.startPos = jCarousel.intval(carousel.list().css(carousel.lt));
