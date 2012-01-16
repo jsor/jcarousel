@@ -13,6 +13,7 @@ jCarousel.plugin('swipe', function($) {
 
     return {
         started:  false,
+        moved:    false,
         startX:   null,
         startY:   null,
         startPos: null,
@@ -32,13 +33,12 @@ jCarousel.plugin('swipe', function($) {
         },
         _start: function(e) {
             var carousel = this.carousel();
-            
-            var ev = e.originalEvent ? e.originalEvent : e;
 
             this.started  = true;
+            this.moved    = false;
             this.startPos = jCarousel.intval(carousel.list().css(carousel.lt));
-            this.startX   = jCarousel.intval(ev.pageX);
-            this.startY   = jCarousel.intval(ev.pageY);
+            this.startX   = jCarousel.intval(typeof e.pageX !== 'undefined' ? e.pageX : e.originalEvent.pageX);
+            this.startY   = jCarousel.intval(typeof e.pageY !== 'undefined' ? e.pageY : e.originalEvent.pageY);
 
             var width  = 0,
                 margin = 0,
@@ -61,6 +61,10 @@ jCarousel.plugin('swipe', function($) {
             return this;
         },
         _stop: function() {
+            if (!this.moved) {
+                return this;
+            }
+
             var scrollNearest = function() {
                 var self    = this,
                     items   = this.items(),
@@ -119,7 +123,7 @@ jCarousel.plugin('swipe', function($) {
                 }
             }
 
-            this.started = false;
+            this.started = this.moved = false;
             this.startPos = this.startX = this.startY = null;
 
             return this;
@@ -129,13 +133,13 @@ jCarousel.plugin('swipe', function($) {
                 return this;
             }
 
+            this.moved = true;
+
             var carousel = this.carousel();
 
-            var ev = e.originalEvent ? e.originalEvent : e;
-
             var distance = carousel.vertical ?
-                               this.startY - jCarousel.intval(ev.pageY) :
-                               this.startX - jCarousel.intval(ev.pageX);
+                               this.startY - jCarousel.intval(typeof e.pageY !== 'undefined' ? e.pageY : e.originalEvent.pageY) :
+                               this.startX - jCarousel.intval(typeof e.pageX !== 'undefined' ? e.pageX : e.originalEvent.pageX);
 
             carousel.list()
                 .stop(true, false)
