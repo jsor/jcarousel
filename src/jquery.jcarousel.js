@@ -586,6 +586,8 @@
 
                 if (typeof item !== 'object') {
                     item = this.items().eq(item);
+                } else if (typeof item.jquery === 'undefined') {
+                    item = $(item);
                 }
 
                 if (item.size() === 0) {
