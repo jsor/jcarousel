@@ -629,7 +629,7 @@ This is useful for selecting items on runtime or add specific styling to them.
     </tr>
     <tr>
         <td>.jcarousel-item-target</td>
-        <td>Indicates the targetted item.</td>
+        <td>Indicates the targeted item.</td>
         <td><pre>$('#mycarousel .jcarousel-item-target');</pre></td>
     </tr>
     <tr>
