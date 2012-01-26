@@ -64,7 +64,12 @@ jCarousel.plugin('swipe', function($) {
             return this;
         },
         _stop: function() {
-            if (!this.moved) {
+            var moved = this.moved;
+
+            this.started = this.moved = false;
+            this.startPos = this.startX = this.startY = null;
+
+            if (!moved) {
                 return this;
             }
 
@@ -128,9 +133,6 @@ jCarousel.plugin('swipe', function($) {
                     scrollNearest.apply(carousel);
                 }
             }
-
-            this.started = this.moved = false;
-            this.startPos = this.startX = this.startY = null;
 
             return this;
         },
