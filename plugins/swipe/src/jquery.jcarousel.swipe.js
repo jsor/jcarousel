@@ -73,7 +73,8 @@ jCarousel.plugin('swipe', function($) {
                     items   = this.items(),
                     pos     = this.list().position()[this.lt],
                     current = items.eq(0),
-                    stop    = false;
+                    stop    = false,
+                    lrb     = this.vertical ? 'bottom' : (this.rtl ? 'left'  : 'right');
 
                 if (this.rtl && !this.vertical) {
                     pos = (pos + this.list().width() - this._clipping()) * -1;
@@ -91,7 +92,9 @@ jCarousel.plugin('swipe', function($) {
                     }
 
                     if (pos >= 0) {
-                        if (Math.abs(pos) < (dim / 2)) {
+                        var limit = (dim / 2) + jCarousel.intval(el.css('margin-' + lrb));
+
+                        if (Math.abs(pos) < limit) {
                             stop = true;
                         } else {
                             return false;
@@ -105,7 +108,7 @@ jCarousel.plugin('swipe', function($) {
             var carousel = this.carousel();
 
             if (carousel.rtl && !carousel.vertical) {
-                var right = jCarousel.intval(carousel.list().css('right'));
+                var right = !carousel.circular ? jCarousel.intval(carousel.list().css('right')) : 0;
 
                 if (right > 0) {
                     carousel.scroll(0);
@@ -115,7 +118,7 @@ jCarousel.plugin('swipe', function($) {
                     scrollNearest.apply(carousel);
                 }
             } else {
-                var left = jCarousel.intval(carousel.list().css(carousel.lt));
+                var left = !carousel.circular ? jCarousel.intval(carousel.list().css(carousel.lt)) : 0;
 
                 if (left > 0) {
                     carousel.scroll(0);
