@@ -106,21 +106,21 @@ jCarousel.plugin('swipe', function($) {
             var carousel = this.carousel();
 
             if (carousel.rtl && !carousel.vertical) {
-                var right = !carousel.circular ? jCarousel.intval(carousel.list().css('right')) : 0;
+                var right = jCarousel.intval(carousel.list().css('right'));
 
                 if (right > 0) {
                     carousel.scroll(0);
-                } else if (right < -(this.width - carousel._clipping())) {
+                } else if (!carousel.circular && right < -(this.width - carousel._clipping())) {
                     carousel.scroll(-1);
                 } else {
                     scrollNearest.apply(carousel);
                 }
             } else {
-                var left = !carousel.circular ? jCarousel.intval(carousel.list().css(carousel.lt)) : 0;
+                var left = jCarousel.intval(carousel.list().css(carousel.lt));
 
                 if (left > 0) {
                     carousel.scroll(0);
-                } else if (left < -(this.width - carousel._clipping())) {
+                } else if (!carousel.circular && left < -(this.width - carousel._clipping())) {
                     carousel.scroll(-1);
                 } else {
                     scrollNearest.apply(carousel);
