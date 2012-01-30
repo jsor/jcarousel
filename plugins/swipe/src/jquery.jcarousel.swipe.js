@@ -78,8 +78,7 @@ jCarousel.plugin('swipe', function($) {
                     items   = this.items(),
                     pos     = this.list().position()[this.lt],
                     current = items.eq(0),
-                    stop    = false,
-                    lrb     = this.vertical ? 'bottom' : (this.rtl ? 'left'  : 'right');
+                    stop    = false;
 
                 if (this.rtl && !this.vertical) {
                     pos = (pos + this.list().width() - this._clipping()) * -1;
@@ -97,13 +96,7 @@ jCarousel.plugin('swipe', function($) {
                     }
 
                     if (pos >= 0) {
-                        var limit = (dim / 2) + jCarousel.intval(el.css('margin-' + lrb));
-
-                        if (Math.abs(pos) < limit) {
-                            stop = true;
-                        } else {
-                            return false;
-                        }
+                        stop = true;
                     }
                 });
 
