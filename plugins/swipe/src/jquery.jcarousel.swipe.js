@@ -40,8 +40,8 @@ jCarousel.plugin('swipe', function($) {
             this.started  = true;
             this.moved    = false;
             this.startPos = jCarousel.intval(carousel.list().css(carousel.lt));
-            this.startX   = jCarousel.intval(typeof e.pageX !== 'undefined' ? e.pageX : e.originalEvent.pageX);
-            this.startY   = jCarousel.intval(typeof e.pageY !== 'undefined' ? e.pageY : e.originalEvent.pageY);
+            this.startX   = this._getX(e);
+            this.startY   = this._getY(e);
 
             var width  = 0,
                 margin = 0,
@@ -139,14 +139,20 @@ jCarousel.plugin('swipe', function($) {
             var carousel = this.carousel();
 
             var distance = carousel.vertical ?
-                               this.startY - jCarousel.intval(typeof e.pageY !== 'undefined' ? e.pageY : e.originalEvent.pageY) :
-                               this.startX - jCarousel.intval(typeof e.pageX !== 'undefined' ? e.pageX : e.originalEvent.pageX);
+                               this.startY - this._getY(e) :
+                               this.startX - this._getX(e);
 
             carousel.list()
                 .stop(true, false)
                 .css(carousel.lt, Math.ceil(this.startPos - distance) + 'px');
 
             return this;
+        },
+        _getX: function(e) {
+            return jCarousel.intval(typeof e.pageX !== 'undefined' ? e.pageX : e.originalEvent.pageX);
+        },
+        _getY: function(e) {
+            return jCarousel.intval(typeof e.pageY !== 'undefined' ? e.pageY : e.originalEvent.pageY);
         }
     };
 });
