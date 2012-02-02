@@ -13,16 +13,9 @@
             window.jCarouselAutoInstall :
             true;
 
-    var jCarousel = window.jCarousel = {};
+    var jCarousel =  {};
 
     jCarousel.version = '@VERSION';
-
-    var _jCarousel = window.jCarousel;
-
-    jCarousel.noConflict = function() {
-        window.jCarousel = _jCarousel;
-        return this;
-    };
 
     jCarousel.intval = function(value) {
         value = parseInt(value, 10);
@@ -280,6 +273,15 @@
             install($, $fn, name, callback);
         });
     };
+
+    jCarousel.noConflict = (function(jCarouselOld) {
+        return function() {
+            window.jCarousel = jCarouselOld;
+            return jCarousel;
+        };
+    })(window.jCarousel);
+
+    window.jCarousel = jCarousel;
 
     // jCarousel core plugin
     jCarousel.plugin('jcarousel', function($) {
