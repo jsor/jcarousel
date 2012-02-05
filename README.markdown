@@ -6,12 +6,12 @@ jCarousel is a jQuery plugin for controlling a list of items in horizontal or ve
 Getting started
 ---------------
 
-To use the jCarousel component, include the [jQuery](http://jquery.com) library, the jCarousel source file and a jCarousel skin stylesheet file inside the `<head>` tag of your HTML document:
+To use the jCarousel component, include the [jQuery](http://jquery.com) library and the jCarousel source file inside the `<head>` tag of your HTML document:
 
 ```html
+<link rel="stylesheet" type="text/css" href="/path/to/jcarousel.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-<script type="text/javascript" src="/path/to/jquery.jcarousel.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/path/to/skin.css" />
+<script type="text/javascript" src="/path/to/jquery.jcarousel.js"></script>
 ```
 
 jCarousel expects a very basic HTML markup structure inside your HTML document:
@@ -67,49 +67,7 @@ These are the minimal CSS settings for a horizontal carousel:
 .jcarousel li {
     float: left;
 }
-
-.jcarousel[dir=rtl] li {
-    float: right;
-}
 ```
-
-Skinning jCarousel
-------------------
-
-**Note:** These are only conventions and nothing of it is _required_. You can adjust the class names or the whole handling of the skinning.
-
-If you want to provide different skins for your carousel, setup with the following markup:
-
-```html
-<div class="jcarousel-skin-name">
-    <div id="mycarousel" class="jcarousel">
-        <ul>
-            <li>...</li>
-            <li>...</li>
-        </ul>
-    </div>
-</div>
-```
-
-We simply surround the root element with a additional `<div class="jcarousel-skin-name">` to have a skin _namespace_. We can now style within this _namespace_:
-
-```css
-.jcarousel-skin-default .jcarousel {
-    /* ... */
-}
-
-.jcarousel-skin-default .jcarousel ul {
-    /* ... */
-}
-
-.jcarousel-skin-default .jcarousel li {
-    /* ... */
-}
-```
-
-The download package contains some example skin packages. Feel free to build your own skins based on it.
-
-**Note: Skins will follow!**
 
 Configuration
 -------------
@@ -170,7 +128,7 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
 Navigating the carousel
 -----------------------
 
-By default, jCarousel offers no built in controls to navigate through the carousel. But you can simply implement navgiation controls using the `scroll` method.
+By default, jCarousel offers no built in controls to navigate through the carousel. But you can simply implement navigation controls using the `scroll` method.
 
 ```javascript
 $('#mycarousel').jcarousel('scroll', target);
@@ -223,10 +181,10 @@ $('#mycarousel_next_button').click(function() {
 });
 ```
 
-A more comfortable way is to use one of the navigation plugins:
+A more comfortable way is to use a navigation plugins:
 
-  * jquery.jcarousel.button.js
-  * jquery.jcarousel.pagination.js
+  * [jquery.jcarousel.control.js](https://github.com/jsor/jcarousel/tree/master/plugins/control)
+  * [jquery.jcarousel.pagination.js](https://github.com/jsor/jcarousel/tree/master/plugins/pagination)
 
 Defining the number of visible items
 ------------------------------------
@@ -277,6 +235,14 @@ Alternatively, you can simply add the `dir` attribute with a value of `rtl` to t
         </ul>
     </div>
 </div>
+```
+
+You should also add the following to your CSS stylesheet:
+
+```css
+.jcarousel[dir=rtl] li {
+    float: right;
+}
 ```
 
 Accessing the jCarousel instance
@@ -644,12 +610,12 @@ This is useful for selecting items on runtime or add specific styling to them.
     </tr>
     <tr>
         <td>.jcarousel-item-visible</td>
-        <td>Indicates all visible items.</td>
+        <td>Indicates a visible items.</td>
         <td><pre>$('#mycarousel .jcarousel-item-visible');</pre></td>
     </tr>
     <tr>
         <td>.jcarousel-item-fullyvisible</td>
-        <td>Indicates all fully visible items.</td>
+        <td>Indicates a fully visible items.</td>
         <td><pre>$('#mycarousel .jcarousel-item-fullyvisible');</pre></td>
     </tr>
 </table>
