@@ -113,11 +113,11 @@ After initialization, the plugin triggers specific events on the control element
         <th>Example</th>
     </tr>
     <tr>
-        <td>jcarousecontrolenabled</td>
+        <td>jcarouselcontrolenabled</td>
         <td>Triggered when the control becomes enabled.</td>
         <td>
             <pre>
-$('#mycarousel_prev').bind('jcarousecontrolenabled', function(plugin) {
+$('#mycarousel_prev').bind('jcarouselcontrolenabled', function(plugin) {
     // "this" refers to the control element
     // "plugin" is the plugin instance
     //     (You can get the carousel instance with plugin.carousel())
@@ -125,11 +125,11 @@ $('#mycarousel_prev').bind('jcarousecontrolenabled', function(plugin) {
         </td>
     </tr>
     <tr>
-        <td>jcarousecontroldisabled</td>
+        <td>jcarouselcontroldisabled</td>
         <td>Triggered when the control becomes disabled.</td>
         <td>
             <pre>
-$('#mycarousel_prev').bind('jcarousecontroldisabled', function(plugin) {
+$('#mycarousel_prev').bind('jcarouselcontroldisabled', function(plugin) {
     // "this" refers to the control element
     // "plugin" is the plugin instance
     //     (You can get the carousel instance with plugin.carousel())
