@@ -15,9 +15,6 @@ To use the jCarousel AutoScroll Plugin, include the source file right after the 
 <script type="text/javascript" src="/path/to/jquery.jcarousel.autoscroll.js"></script>
 ```
 
-Getting started
----------------
-
 To setup the plugin, add the following code inside the `<head>` tag of your HTML document:
 
 ```html
