@@ -56,19 +56,17 @@ jCarousel.plugin('control', function($) {
                 return this;
             }
 
-            var element = this.element();
-
             if (enabled) {
-                element
+                this.element()
                     .addClass(this.pluginPrefix + '-enabled')
                     .removeClass(this.pluginPrefix + '-disabled');
             } else {
-                element
+                this.element()
                     .removeClass(this.pluginPrefix + '-enabled')
                     .addClass(this.pluginPrefix + '-disabled');
             }
 
-            element.trigger(this.pluginName + (enabled ? 'enabled' : 'disabled'));
+            this._trigger(enabled ? 'enabled' : 'disabled');
 
             this.enabled = enabled;
 
