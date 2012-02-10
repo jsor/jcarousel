@@ -15,7 +15,7 @@ To use the jCarousel Control Plugin, include the source file right after the jCa
 <script type="text/javascript" src="/path/to/jquery.jcarousel.control.js"></script>
 ```
 
-A control is basically a HTML element (<a>, <button>, etc.) which scrolls the
+A control is basically a HTML element (`<a>`, `<button>` etc.) which scrolls the
 carousel when clicking on it.
 
 ```html
@@ -62,23 +62,10 @@ This works best if you enclose the carousel and its controls inside a mutual wra
 If that fails or isn't possible, you can pass the related carousel instance as an option.
 
 ```javascript
-<script type="text/javascript">
-$(function() {
-    var carousel = $('#mycarousel').jcarousel({
-        // Core configuration goes here
-    });
-
-    $('#mycarousel_prev').jcarouselControl({
-        scroll: '-=1',
-        carousel: carousel
-    });
-
-    $('#mycarousel_next').jcarouselControl({
-        scroll: '+=1',
-        carousel: carousel
-    });
+$('#mycarousel_prev').jcarouselControl({
+    scroll: '-=1',
+    carousel: carousel
 });
-</script>
 ```
 
 Configuration
