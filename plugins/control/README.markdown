@@ -18,6 +18,8 @@ To use the jCarousel Control Plugin, include the source file right after the jCa
 A control is basically a HTML element (`<a>`, `<button>` etc.) which scrolls the
 carousel when clicking on it.
 
+A simple basic HTML markup structure would be:
+
 ```html
 <!-- Wrapper -->
 <div>
@@ -59,9 +61,12 @@ As you can see, you setup the controls independently from the carousel and the p
 
 This works best if you enclose the carousel and its controls inside a mutual wrapper element.
 
-If that fails or isn't possible, you can pass the related carousel instance as an option.
+If that fails or isn't possible, you can pass the related carousel instance as an option:
 
 ```javascript
+var carousel = $('#mycarousel').jcarousel({
+    // Core configuration goes here
+});
 $('#mycarousel_prev').jcarouselControl({
     scroll: '-=1',
     carousel: carousel
@@ -114,7 +119,8 @@ After initialization, the plugin triggers specific events on the control element
             <pre>
 $('#mycarousel_prev').bind('jcarousecontrolenabled', function(plugin) {
     // "this" refers to the control element
-    // "plugin" is the plugin instance (You can get the carousel instance with plugin.carousel())
+    // "plugin" is the plugin instance
+    //     (You can get the carousel instance with plugin.carousel())
 });</pre>
         </td>
     </tr>
@@ -125,7 +131,8 @@ $('#mycarousel_prev').bind('jcarousecontrolenabled', function(plugin) {
             <pre>
 $('#mycarousel_prev').bind('jcarousecontroldisabled', function(plugin) {
     // "this" refers to the control element
-    // "plugin" is the plugin instance (You can get the carousel instance with plugin.carousel())
+    // "plugin" is the plugin instance
+    //     (You can get the carousel instance with plugin.carousel())
 });</pre>
         </td>
     </tr>
