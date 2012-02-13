@@ -222,7 +222,7 @@
 
             if (typeof options === 'string') {
                 this.each(function() {
-                    var instance = $.data(this, pluginName);
+                    var instance = $(this).data(pluginName);
 
                     if (!instance) {
                         return jCarousel.error(
@@ -246,7 +246,7 @@
                 });
             } else {
                 this.each(function() {
-                    var instance = $.data(this, pluginName);
+                    var instance = $(this).data(pluginName);
 
                     if (instance) {
                         if (options) {
@@ -274,9 +274,9 @@
 
     jCarousel.install = function($, $fn) {
         $fn = $fn || $.fn;
-        $.each(jCarousel.plugins, function(name, callback) {
-            install($, $fn, name, callback);
-        });
+        for (var name in jCarousel.plugins) {
+            install($, $fn, name, jCarousel.plugins[name]);
+        }
     };
 
     jCarousel.noConflict = (function(jCarouselOld) {
@@ -818,30 +818,31 @@
                         visible:      this._visible || $(),
                         fullyvisible: this._fullyvisible || $()
                     },
-                    back = (update.first || current.first).index() < current.first.index();
+                    back = (update.first || current.first).index() < current.first.index(),
+                    key;
 
-                $.each(update, function(key, elements) {
-                    var vin = elements.filter(function() {
-                            return $.inArray(this, current[key]) < 0;
+                for (key in update) {
+                    var vin = update[key].filter(function() {
+                            return current[key].index(this) < 0;
                         }),
                         vout = current[key].filter(function() {
-                            return $.inArray(this, elements) < 0;
+                            return update[key].index(this) < 0;
                         });
 
                     if (back) {
-                        vin = $().pushStack(vin.get().reverse());
+                        vin = $(vin.get().reverse());
                     } else {
-                        vout = $().pushStack(vout.get().reverse());
+                        vout = $(vout.get().reverse());
                     }
 
                     self._trigger('item' + key + 'in', vin);
                     self._trigger('item' + key + 'out', vout);
 
                     current[key].removeClass('jcarousel-item-' + key);
-                    elements.addClass('jcarousel-item-' + key);
+                    update[key].addClass('jcarousel-item-' + key);
 
-                    self['_' + key] = elements;
-                });
+                    self['_' + key] = update[key];
+                }
 
                 return this;
             },
