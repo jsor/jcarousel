@@ -84,6 +84,34 @@
                (parseFloat(element.css('border-bottom-width')) || 0);
     };
 
+    var rroot = /^(?:body|html)$/i;
+
+    jCarousel.position = function(element) {
+        var offsetParent = element.get(0).offsetParent || window.document.body;
+
+        while (offsetParent && (!rroot.test(offsetParent.nodeName) && $(offsetParent).css("position") === "static") ) {
+                offsetParent = offsetParent.offsetParent;
+        }
+
+        offsetParent = $(offsetParent);
+
+        var offset       = element.offset(),
+            parentOffset = rroot.test(offsetParent[0].nodeName)
+                               ? { top: 0, left: 0 }
+                               : offsetParent.offset();
+
+        offset.top  -= parseFloat(element.css("margin-top")) || 0;
+        offset.left -= parseFloat(element.css("margin-left")) || 0;
+
+        parentOffset.top  += parseFloat(offsetParent.css("border-top-width")) || 0;
+        parentOffset.left += parseFloat(offsetParent.css("border-left-width")) || 0;
+
+        return {
+            top:  offset.top  - parentOffset.top,
+            left: offset.left - parentOffset.left
+        };
+    };
+
     var relativeTarget = /^([+\-]=)?(.+)$/;
 
     jCarousel.parseTarget = function(target) {
@@ -681,7 +709,7 @@
                     return this;
                 }
 
-                var pos = this.list().offset()[this.lt] - this.element().offset()[this.lt];
+                var pos = jCarousel.position(this.list())[this.lt];
 
                 this.rtl ? pos += this.tail : pos -= this.tail;
                 this.inTail = true;
@@ -841,7 +869,7 @@
             },
             _position: function(item) {
                 var first = this._first,
-                    pos   = first.offset()[this.lt] - this.list().offset()[this.lt];
+                    pos   = jCarousel.position(first)[this.lt];
 
                 if (this.rtl && !this.vertical) {
                     pos -= this._clipping() - this._dimension(first);
