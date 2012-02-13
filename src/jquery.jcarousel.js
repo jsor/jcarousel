@@ -9,9 +9,6 @@
  * Date: @DATE
  */
 (function($, window) {
-    var jCarouselAutoInstall = typeof window.jCarouselAutoInstall !== 'undefined' ?
-            window.jCarouselAutoInstall :
-            true;
 
     var jCarousel = {};
 
@@ -259,7 +256,7 @@
         }
     };
 
-    var install = function($, $fn, name, callback) {
+    jCarousel.plugin = function(name, callback) {
         var pluginName,
             pluginPrefix,
             pluginFn;
@@ -275,11 +272,6 @@
         }
 
         var plugin = function(element, options) {
-            // allow instantiation without "new" keyword
-            if (!this._init) {
-                return new plugin(element, options);
-            }
-
             this._element = $(element).data(pluginName, this);
 
             this.options = $.extend(
@@ -297,9 +289,9 @@
             pluginName:   pluginName,
             pluginPrefix: pluginPrefix,
             pluginFn:     pluginFn
-        }, callback.call(jCarousel, $, $fn));
+        }, callback.call(jCarousel, $));
 
-        $fn[pluginFn] = function(options) {
+        $.fn[pluginFn] = function(options) {
             var args = Array.prototype.slice.call(arguments, 1),
                 returnValue = this;
 
@@ -336,30 +328,13 @@
                             instance.option(options);
                         }
                     } else {
-                        plugin(this, options);
+                        new plugin(this, options);
                     }
                 });
             }
 
             return returnValue;
         };
-    };
-
-    jCarousel.plugins = {};
-
-    jCarousel.plugin = function(name, callback) {
-        jCarousel.plugins[name] = callback;
-
-        if (jCarouselAutoInstall !== false) {
-            install($, $.fn, name, callback);
-        }
-    };
-
-    jCarousel.install = function($, $fn) {
-        $fn = $fn || $.fn;
-        for (var name in jCarousel.plugins) {
-            install($, $fn, name, jCarousel.plugins[name]);
-        }
     };
 
     jCarousel.noConflict = (function(jCarouselOld) {
