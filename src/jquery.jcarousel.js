@@ -25,6 +25,8 @@
     jCarousel.error = function(msg) {
 		throw new Error(msg);
 	};
+    
+    jCarousel.noop = function() {};
 
     var relativeTarget = /^([+\-]=)?(.+)$/;
 
@@ -86,9 +88,9 @@
         pluginFn:     'jcarousel',
         _element:     null,
         _carousel:    null,
-        _options:     $.noop,
-        _init:        $.noop,
-        _destroy:     $.noop,
+        _options:     jCarousel.noop,
+        _init:        jCarousel.noop,
+        _destroy:     jCarousel.noop,
         _create: function() {
             this.carousel()
                 ._bind('destroy.' + this.pluginName, $.proxy(this.destroy, this));
