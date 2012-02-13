@@ -13,7 +13,7 @@
             window.jCarouselAutoInstall :
             true;
 
-    var jCarousel =  {};
+    var jCarousel = {};
 
     jCarousel.version = '@VERSION';
 
@@ -23,8 +23,8 @@
     };
 
     jCarousel.error = function(msg) {
-		throw new Error(msg);
-	};
+        throw new Error(msg);
+    };
 
     jCarousel.noop = function() {};
 
@@ -96,9 +96,9 @@
         offsetParent = $(offsetParent);
 
         var offset       = element.offset(),
-            parentOffset = rroot.test(offsetParent[0].nodeName)
-                               ? { top: 0, left: 0 }
-                               : offsetParent.offset();
+            parentOffset = rroot.test(offsetParent[0].nodeName) ?
+                               { top: 0, left: 0 } :
+                               offsetParent.offset();
 
         offset.top  -= parseFloat(element.css("margin-top")) || 0;
         offset.left -= parseFloat(element.css("margin-left")) || 0;
@@ -107,7 +107,7 @@
         parentOffset.left += parseFloat(offsetParent.css("border-left-width")) || 0;
 
         return {
-            top:  offset.top  - parentOffset.top,
+            top: offset.top - parentOffset.top,
             left: offset.left - parentOffset.left
         };
     };
@@ -116,7 +116,7 @@
 
     jCarousel.parseTarget = function(target) {
         var relative = false,
-            parts    = typeof target !== 'object' ?
+            parts = typeof target !== 'object' ?
                            relativeTarget.exec(target) :
                            null;
 
@@ -133,12 +133,15 @@
             target = jCarousel.intval(target);
         }
 
-        return {target: target, relative: relative};
+        return {
+            target: target,
+            relative: relative
+        };
     };
 
     jCarousel.detectCarousel = function(element) {
         var carousel = element.data('jcarousel'),
-            find     = function(element) {
+            find = function(element) {
                 var carousel;
                 element.find('*').each(function() {
                     carousel = $(this).data('jcarousel');
@@ -198,7 +201,6 @@
         },
         option: function(key, value) {
             if (arguments.length === 0) {
-                // Don't return a reference to the internal hash
                 return $.extend({}, this.options);
             }
 
@@ -251,9 +253,9 @@
 
             (element || this.element()).trigger(event, data);
 
-            return !($.isFunction(event.isDefaultPrevented)
-                       ? event.isDefaultPrevented()
-                       : event.defaultPrevented);
+            return !($.isFunction(event.isDefaultPrevented) ?
+                       event.isDefaultPrevented() :
+                       event.defaultPrevented);
         }
     };
 
@@ -280,10 +282,12 @@
 
             this._element = $(element).data(pluginName, this);
 
-            this.options = $.extend({},
+            this.options = $.extend(
+                {},
                 this.options,
                 this._options(),
-                options);
+                options
+            );
 
             this._create();
             this._init();
@@ -296,7 +300,7 @@
         }, callback.call(jCarousel, $, $fn));
 
         $fn[pluginFn] = function(options) {
-            var args        = Array.prototype.slice.call(arguments, 1),
+            var args = Array.prototype.slice.call(arguments, 1),
                 returnValue = this;
 
             if (typeof options === 'string') {
@@ -501,20 +505,20 @@
             },
             hasNext: function() {
                 var wrap = this.option('wrap'),
-                    end  = this.items().size() - 1;
+                    end = this.items().size() - 1;
 
                 return end >= 0 &&
-                        ((wrap && wrap !== 'first') ||
-                         (this._last.index() < end) ||
-                         (this.tail && !this.inTail)) ? true : false;
+                       ((wrap && wrap !== 'first') ||
+                        (this._last.index() < end) ||
+                        (this.tail && !this.inTail)) ? true : false;
             },
             hasPrev: function() {
                 var wrap = this.option('wrap');
 
                 return this.items().size() > 0 &&
-                        ((wrap && wrap !== 'last') ||
-                         (this._first.index() > 0) ||
-                         (this.tail && this.inTail)) ? true : false;
+                       ((wrap && wrap !== 'last') ||
+                        (this._first.index() > 0) ||
+                        (this.tail && this.inTail)) ? true : false;
             },
             scroll: function(target, animate, callback) {
                 if (this.animating) {
@@ -533,7 +537,7 @@
                 var parsed = jCarousel.parseTarget(target);
 
                 if (parsed.relative) {
-                    var end    = this.items().size() - 1,
+                    var end = this.items().size() - 1,
                         scroll = Math.abs(parsed.target),
                         first,
                         index,
@@ -743,14 +747,14 @@
                 } else {
                     var self = this,
                         opts = typeof this.options.animation === 'object' ?
-                                          this.options.animation :
-                                          {duration: this.options.animation},
-                        oldc = opts.complete;
+                                   this.options.animation :
+                                   {duration: this.options.animation},
+                        oldComplete = opts.complete;
 
                     opts.complete = function() {
                         self.onAnimationComplete(callback);
-                        if ($.isFunction(oldc)) {
-                            oldc.call(this);
+                        if ($.isFunction(oldComplete)) {
+                            oldComplete.call(this);
                         }
                     };
 
@@ -760,10 +764,10 @@
                 return this;
             },
             _prepare: function(item) {
-                var index  = item.index(),
-                    idx    = index,
-                    wh     = this._dimension(item),
-                    clip   = this._clipping(),
+                var index = item.index(),
+                    idx = index,
+                    wh = this._dimension(item),
+                    clip = this._clipping(),
                     update = {
                         target:       item,
                         first:        item,

@@ -38,7 +38,7 @@ jCarousel.plugin('control', function($) {
                 .removeClass(this.pluginPrefix + '-disabled');
         },
         reload: function() {
-            var parsed   = jCarousel.parseTarget(this.option('scroll')),
+            var parsed = jCarousel.parseTarget(this.option('scroll')),
                 carousel = this.carousel(),
                 enabled;
 

@@ -38,16 +38,16 @@ jCarousel.plugin('pagination', function($) {
             this.element().empty();
         },
         reload: function() {
-            var self     = this,
+            var self = this,
                 carousel = this.carousel(),
-                o        = this.options;
+                options = this.options;
 
             this.pages = {};
             this.items = {};
 
             // Calculate pages
-            if (o.perpage == null) {
-                o.perpage = function() {
+            if (options.perpage == null) {
+                options.perpage = function() {
                     var items = carousel.items(),
                         clip  = carousel._clipping(),
                         wh    = 0,
@@ -81,13 +81,13 @@ jCarousel.plugin('pagination', function($) {
                 };
             }
 
-            if ($.isFunction(o.perpage)) {
-                this.pages = o.perpage.call(this);
+            if ($.isFunction(options.perpage)) {
+                this.pages = options.perpage.call(this);
             } else {
-                var pp    = jCarousel.intval(o.perpage),
+                var pp = jCarousel.intval(options.perpage),
                     items = carousel.items(),
-                    page  = 1,
-                    i     = 0,
+                    page = 1,
+                    i = 0,
                     curr;
 
                 while (true) {
@@ -112,7 +112,7 @@ jCarousel.plugin('pagination', function($) {
             var element = this.element().empty();
 
             $.each(this.pages, function(page, carouselItems) {
-                self.items[page] = $(o.item.call(self, page, carouselItems))
+                self.items[page] = $(options.item.call(self, page, carouselItems))
                     .click(function(e) {
                         e.preventDefault();
                         carousel.scroll(carouselItems.eq(0));
@@ -123,7 +123,7 @@ jCarousel.plugin('pagination', function($) {
             this.update();
         },
         update: function() {
-            var target  = this.carousel().target(),
+            var target = this.carousel().target(),
                 current = null;
 
             $.each(this.pages, function(page, carouselItems) {

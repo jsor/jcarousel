@@ -43,12 +43,12 @@ jCarousel.plugin('swipe', function($) {
             this.startX   = this._getX(e);
             this.startY   = this._getY(e);
 
-            var width  = 0,
+            var width = 0,
                 margin = 0,
                 // Remove right/bottom margin from total width
-                lrb    = carousel.vertical ?
-                             'bottom' :
-                             (carousel.rtl ? 'left'  : 'right');
+                lrb = carousel.vertical ?
+                          'bottom' :
+                          (carousel.rtl ? 'left'  : 'right');
 
             carousel.items().each(function() {
                 var el = $(this);
@@ -74,18 +74,18 @@ jCarousel.plugin('swipe', function($) {
             }
 
             var scrollNearest = function() {
-                var self    = this,
-                    items   = this.items(),
-                    pos     = this.list().position()[this.lt],
+                var self = this,
+                    items = this.items(),
+                    pos = this.list().position()[this.lt],
                     current = items.eq(0),
-                    stop    = false;
+                    stop = false;
 
                 if (this.rtl && !this.vertical) {
                     pos = (pos + this.list().width() - this._clipping()) * -1;
                 }
 
                 items.each(function() {
-                    var el  = $(this),
+                    var el = $(this),
                         dim = self._dimension(el);
 
                     pos += dim;
