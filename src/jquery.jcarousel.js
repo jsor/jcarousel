@@ -28,12 +28,61 @@
 
     jCarousel.noop = function() {};
 
-    jCarousel.proxy = function(fn, context) {
-		var args = Array.prototype.slice.call(arguments, 2);
-		return function() {
+    jCarousel.proxy = $.proxy || function(fn, context) {
+        if (typeof context === 'string') {
+            var tmp = fn[context];
+            context = fn;
+            fn = tmp;
+        }
+
+        var args = Array.prototype.slice.call(arguments, 2);
+
+        return function() {
             return fn.apply(context, args.concat(Array.prototype.slice.call(arguments)));
         };
-	};
+    };
+
+    jCarousel.clone = function(elem) {
+        if ($.isFunction(elem.clone)) {
+            return elem.clone(true);
+        }
+
+        var cloned = $();
+
+        elem.each(function() {
+            cloned = cloned.add(this.cloneNode(true));
+        });
+
+        return cloned;
+    };
+
+    jCarousel.innerWidth = function(element) {
+        return (parseFloat(element.css('width')) || 0) +
+               (parseFloat(element.css('padding-left')) || 0) +
+               (parseFloat(element.css('padding-right')) || 0);
+    };
+
+    jCarousel.innerHeight = function(element) {
+        return (parseFloat(element.css('height')) || 0) +
+               (parseFloat(element.css('padding-top')) || 0) +
+               (parseFloat(element.css('padding-bottom')) || 0);
+    };
+
+    jCarousel.outerWidth = function(element) {
+        return jCarousel.innerWidth(element) +
+               (parseFloat(element.css('margin-left')) || 0) +
+               (parseFloat(element.css('margin-right')) || 0) +
+               (parseFloat(element.css('border-left-width')) || 0) +
+               (parseFloat(element.css('border-right-width')) || 0);
+    };
+
+    jCarousel.outerHeight = function(element) {
+        return jCarousel.innerHeight(element) +
+               (parseFloat(element.css('margin-top')) || 0) +
+               (parseFloat(element.css('margin-bottom')) || 0) +
+               (parseFloat(element.css('border-top-width')) || 0) +
+               (parseFloat(element.css('border-bottom-width')) || 0);
+    };
 
     var relativeTarget = /^([+\-]=)?(.+)$/;
 
@@ -174,7 +223,9 @@
 
             (element || this.element()).trigger(event, data);
 
-            return !event.isDefaultPrevented();
+            return !($.isFunction(event.isDefaultPrevented)
+                       ? event.isDefaultPrevented()
+                       : event.defaultPrevented);
         }
     };
 
@@ -294,9 +345,9 @@
 
         return {
             options: {
-                list:      '>ul:eq(0)',
-                items:     '>li',
-                animation: 'normal',
+                list:      'ul',
+                items:     'li',
+                animation: 400,
                 wrap:      null,
                 vertical:  null,
                 rtl:       null,
@@ -489,7 +540,7 @@
 
                                     while (i++ < index) {
                                         curr = this.items().eq(0);
-                                        curr.after(curr.clone(true).addClass('jcarousel-clone'));
+                                        curr.after(jCarousel.clone(curr).addClass('jcarousel-clone'));
                                         this.list().append(curr);
                                         // Force items reload
                                         this._items = null;
@@ -518,7 +569,7 @@
 
                                     while (i++ < 0) {
                                         curr = this.items().eq(-1);
-                                        curr.after(curr.clone(true).addClass('jcarousel-clone'));
+                                        curr.after(jCarousel.clone(curr).addClass('jcarousel-clone'));
                                         this.list().prepend(curr);
                                         // Force items reload
                                         this._items = null;
@@ -630,7 +681,7 @@
                     return this;
                 }
 
-                var pos = this.list().position()[this.lt];
+                var pos = this.list().offset()[this.lt] - this.element().offset()[this.lt];
 
                 this.rtl ? pos += this.tail : pos -= this.tail;
                 this.inTail = true;
@@ -711,7 +762,7 @@
                                 if (item.get(0) === curr.get(0)) {
                                     break;
                                 }
-                                curr.after(curr.clone(true).addClass('jcarousel-clone'));
+                                curr.after(jCarousel.clone(curr).addClass('jcarousel-clone'));
                                 this.list().append(curr);
                                 // Force items reload
                                 this._items = null;
@@ -790,7 +841,7 @@
             },
             _position: function(item) {
                 var first = this._first,
-                    pos   = first.position()[this.lt];
+                    pos   = first.offset()[this.lt] - this.list().offset()[this.lt];
 
                 if (this.rtl && !this.vertical) {
                     pos -= this._clipping() - this._dimension(first);
@@ -822,21 +873,29 @@
                     key;
 
                 for (key in update) {
-                    var vin = update[key].filter(function() {
-                            return current[key].index(this) < 0;
-                        }),
-                        vout = current[key].filter(function() {
-                            return update[key].index(this) < 0;
-                        });
+                    var vin = [],
+                        vout = [];
+
+                    update[key].each(function() {
+                        if (current[key].index(this) < 0) {
+                            vin.push(this);
+                        }
+                    });
+
+                    current[key].each(function() {
+                        if (update[key].index(this) < 0) {
+                            vout.push(this);
+                        }
+                    });
 
                     if (back) {
-                        vin = $(vin.get().reverse());
+                        vin = vin.reverse();
                     } else {
-                        vout = $(vout.get().reverse());
+                        vout = vout.reverse();
                     }
 
-                    self._trigger('item' + key + 'in', vin);
-                    self._trigger('item' + key + 'out', vout);
+                    self._trigger('item' + key + 'in', $(vin));
+                    self._trigger('item' + key + 'out', $(vout));
 
                     current[key].removeClass('jcarousel-item-' + key);
                     update[key].addClass('jcarousel-item-' + key);
@@ -847,23 +906,12 @@
                 return this;
             },
             _clipping: function() {
-                return this.element()['inner' + (this.vertical ? 'Height' : 'Width')]();
+                return jCarousel['inner' + (this.vertical ? 'Height' : 'Width')](this.element());
             },
             _dimension: function(element) {
-                // outerWidth()/outerHeight() doesn't seem to work on hidden elements
-                return this.vertical ?
-                    element.innerHeight()  +
-                        jCarousel.intval(element.css('margin-top')) +
-                        jCarousel.intval(element.css('margin-bottom')) +
-                        jCarousel.intval(element.css('border-top-width')) +
-                        jCarousel.intval(element.css('border-bottom-width')) :
-                    element.innerWidth() +
-                        jCarousel.intval(element.css('margin-left')) +
-                        jCarousel.intval(element.css('margin-right')) +
-                        jCarousel.intval(element.css('border-left-width')) +
-                        jCarousel.intval(element.css('border-right-width'));
+                return jCarousel['outer' + (this.vertical ? 'Height' : 'Width')](element);
             }
         };
     });
 
-})(jQuery, window);
+})(window.jQuery || window.Zepto, window);
