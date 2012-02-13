@@ -22,11 +22,12 @@
 $(function() {
     $('#jcarousel1')
         .jcarousel()
-        .find('a')
-        .focus(function() {
-            var item = $(this).parent(), carousel = item.parents('.jcarousel').data('jcarousel');
-            carousel.scrollTo(item);
-            return false;
+        .find('[tabindex]')
+        .focus(function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            $(this).closest('.jcarousel').jcarousel('scroll', this);
         });
 });
 
@@ -38,16 +39,16 @@ $(function() {
     <div class="jcarousel-skin-default">
         <div class="jcarousel" id="jcarousel1">
             <ul>
-                <li><a href=""><img src="http://static.flickr.com/66/199481236_dc98b5abb3_s.jpg" width="75" height="75" alt=""></a></li>
-                <li><a href=""><img src="http://static.flickr.com/75/199481072_b4a0d09597_s.jpg" width="75" height="75" alt=""></a></li>
-                <li><a href=""><img src="http://static.flickr.com/57/199481087_33ae73a8de_s.jpg" width="75" height="75" alt=""></a></li>
-                <li><a href=""><img src="http://static.flickr.com/77/199481108_4359e6b971_s.jpg" width="75" height="75" alt=""></a></li>
-                <li><a href=""><img src="http://static.flickr.com/58/199481143_3c148d9dd3_s.jpg" width="75" height="75" alt=""></a></li>
-                <li><a href=""><img src="http://static.flickr.com/72/199481203_ad4cdcf109_s.jpg" width="75" height="75" alt=""></a></li>
-                <li><a href=""><img src="http://static.flickr.com/58/199481218_264ce20da0_s.jpg" width="75" height="75" alt=""></a></li>
-                <li><a href=""><img src="http://static.flickr.com/69/199481255_fdfe885f87_s.jpg" width="75" height="75" alt=""></a></li>
-                <li><a href=""><img src="http://static.flickr.com/60/199480111_87d4cb3e38_s.jpg" width="75" height="75" alt=""></a></li>
-                <li><a href=""><img src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" width="75" height="75" alt=""></a></li>
+                <li tabindex="1"><img src="http://static.flickr.com/66/199481236_dc98b5abb3_s.jpg" width="75" height="75" alt=""></li>
+                <li tabindex="2"><img src="http://static.flickr.com/75/199481072_b4a0d09597_s.jpg" width="75" height="75" alt=""></li>
+                <li tabindex="3"><img src="http://static.flickr.com/57/199481087_33ae73a8de_s.jpg" width="75" height="75" alt=""></li>
+                <li tabindex="4"><img src="http://static.flickr.com/77/199481108_4359e6b971_s.jpg" width="75" height="75" alt=""></li>
+                <li tabindex="5"><img src="http://static.flickr.com/58/199481143_3c148d9dd3_s.jpg" width="75" height="75" alt=""></li>
+                <li tabindex="6"><img src="http://static.flickr.com/72/199481203_ad4cdcf109_s.jpg" width="75" height="75" alt=""></li>
+                <li tabindex="7"><img src="http://static.flickr.com/58/199481218_264ce20da0_s.jpg" width="75" height="75" alt=""></li>
+                <li tabindex="8"><img src="http://static.flickr.com/69/199481255_fdfe885f87_s.jpg" width="75" height="75" alt=""></li>
+                <li tabindex="9"><img src="http://static.flickr.com/60/199480111_87d4cb3e38_s.jpg" width="75" height="75" alt=""></li>
+                <li tabindex="10"><img src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" width="75" height="75" alt=""></li>
             </ul>
         </div>
         <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '-=1'); return false;">Prev (1)</a>
