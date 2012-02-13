@@ -584,7 +584,7 @@
                         if (this.inTail) {
                             this._scroll(Math.max((this._first.index() - scroll) + 1, 0), animate, callback);
                         } else {
-                            first = this._target.index();
+                            first = this._first.index();
                             index = first - scroll;
 
                             if (first === 0 &&
