@@ -22,6 +22,10 @@
         return isNaN(value) ? 0 : value;
     };
 
+    jCarousel.error = function(msg) {
+		throw new Error(msg);
+	};
+
     var relativeTarget = /^([+\-]=)?(.+)$/;
 
     jCarousel.parseTarget = function(target) {
@@ -141,7 +145,7 @@
                 this._carousel = jCarousel.detectCarousel(this.element());
 
                 if (!this._carousel) {
-                    $.error('Could not detect carousel for plugin "' + this.pluginName + '"');
+                    jCarousel.error('Could not detect carousel for plugin "' + this.pluginName + '"');
                 }
             }
 
@@ -220,14 +224,14 @@
                     var instance = $.data(this, pluginName);
 
                     if (!instance) {
-                        return $.error(
+                        return jCarousel.error(
                             'Cannot call methods on ' + pluginFn + ' prior to initialization; ' +
                             'attempted to call method "' + options + '"'
                         );
                     }
 
                     if (!$.isFunction(instance[options]) || options.charAt(0) === '_') {
-                        return $.error(
+                        return jCarousel.error(
                             'No such method "' + options + '" for ' + pluginFn + ' instance'
                         );
                     }
