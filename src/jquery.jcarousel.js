@@ -25,8 +25,15 @@
     jCarousel.error = function(msg) {
 		throw new Error(msg);
 	};
-    
+
     jCarousel.noop = function() {};
+
+    jCarousel.proxy = function(fn, context) {
+		var args = Array.prototype.slice.call(arguments, 2);
+		return function() {
+            return fn.apply(context, args.concat(Array.prototype.slice.call(arguments)));
+        };
+	};
 
     var relativeTarget = /^([+\-]=)?(.+)$/;
 
@@ -57,7 +64,7 @@
             find     = function(element) {
                 var carousel;
                 element.find('*').each(function() {
-                    carousel = $.data(this, 'jcarousel');
+                    carousel = $(this).data('jcarousel');
                     if (carousel) {
                         return false;
                     }
@@ -93,7 +100,7 @@
         _destroy:     jCarousel.noop,
         _create: function() {
             this.carousel()
-                ._bind('destroy.' + this.pluginName, $.proxy(this.destroy, this));
+                ._bind('destroy.' + this.pluginName, jCarousel.proxy(this.destroy, this));
         },
         destroy: function() {
             this._destroy();
