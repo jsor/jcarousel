@@ -168,17 +168,9 @@
             (element || this.element()).unbind(this.pluginName + event, handler);
             return this;
         },
-        _trigger: function(type, element, data, event) {
-            event = $.Event(event);
-            event.type = (this.pluginName + type).toLowerCase();
+        _trigger: function(type, element, data) {
+            var event = $.Event((this.pluginName + type).toLowerCase());
             data = [this].concat(data || []);
-
-            if (event.originalEvent) {
-                for (var i = $.event.props.length, prop; i;) {
-                    prop = $.event.props[--i];
-                    event[prop] = event.originalEvent[prop];
-                }
-            }
 
             (element || this.element()).trigger(event, data);
 
