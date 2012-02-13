@@ -120,6 +120,7 @@ jCarousel.plugin('pagination', function($) {
                     .appendTo(element);
             });
 
+            this.current = null;
             this.update();
         },
         update: function() {
