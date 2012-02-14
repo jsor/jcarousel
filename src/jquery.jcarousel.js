@@ -129,7 +129,7 @@
         var carousel = element.data('jcarousel'),
             find = function(element) {
                 var carousel;
-                element.find('*').each(function() {
+                element.find('.jcarousel').each(function() {
                     carousel = $(this).data('jcarousel');
                     if (carousel) {
                         return false;
@@ -266,7 +266,7 @@
                 return new plugin(element, options);
             }
 
-            this._element = $(element).data(pluginName, this);
+            this._element = $(element).data(pluginName, this).addClass(pluginPrefix);
 
             this.options = $.extend(
                 {},
