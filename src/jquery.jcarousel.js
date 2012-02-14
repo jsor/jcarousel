@@ -34,14 +34,14 @@
         };
     };
 
-    jCarousel.clone = function(elem) {
-        if ($.isFunction(elem.clone)) {
-            return elem.clone(true);
+    jCarousel.clone = function(element) {
+        if ($.isFunction(element.clone)) {
+            return element.clone(true);
         }
 
         var cloned = $();
 
-        elem.each(function() {
+        element.each(function() {
             cloned = cloned.add(this.cloneNode(true));
         });
 
