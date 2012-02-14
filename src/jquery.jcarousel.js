@@ -272,6 +272,11 @@
         }
 
         var plugin = function(element, options) {
+            // allow instantiation without "new" keyword
+            if (!this._init) {
+                return new plugin(element, options);
+            }
+
             this._element = $(element).data(pluginName, this);
 
             this.options = $.extend(
@@ -328,7 +333,7 @@
                             instance.option(options);
                         }
                     } else {
-                        new plugin(this, options);
+                        plugin(this, options);
                     }
                 });
             }
@@ -879,37 +884,40 @@
                         fullyvisible: this._fullyvisible || $()
                     },
                     back = (update.first || current.first).index() < current.first.index(),
-                    key;
+                    key,
+                    doUpdate = function(key) {
+                        var elIn = [],
+                            elOut = [];
+
+                        update[key].each(function() {
+                            if (current[key].index(this) < 0) {
+                                elIn.push(this);
+                            }
+                        });
+
+                        current[key].each(function() {
+                            if (update[key].index(this) < 0) {
+                                elOut.push(this);
+                            }
+                        });
+
+                        if (back) {
+                            elIn = elIn.reverse();
+                        } else {
+                            elOut = elOut.reverse();
+                        }
+
+                        self._trigger('item' + key + 'in', $(elIn));
+                        self._trigger('item' + key + 'out', $(elOut));
+
+                        current[key].removeClass('jcarousel-item-' + key);
+                        update[key].addClass('jcarousel-item-' + key);
+
+                        self['_' + key] = update[key];
+                    };
 
                 for (key in update) {
-                    var vin = [],
-                        vout = [];
-
-                    update[key].each(function() {
-                        if (current[key].index(this) < 0) {
-                            vin.push(this);
-                        }
-                    });
-
-                    current[key].each(function() {
-                        if (update[key].index(this) < 0) {
-                            vout.push(this);
-                        }
-                    });
-
-                    if (back) {
-                        vin = vin.reverse();
-                    } else {
-                        vout = vout.reverse();
-                    }
-
-                    self._trigger('item' + key + 'in', $(vin));
-                    self._trigger('item' + key + 'out', $(vout));
-
-                    current[key].removeClass('jcarousel-item-' + key);
-                    update[key].addClass('jcarousel-item-' + key);
-
-                    self['_' + key] = update[key];
+                    doUpdate(key);
                 }
 
                 return this;
