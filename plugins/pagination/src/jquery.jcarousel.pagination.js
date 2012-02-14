@@ -84,7 +84,7 @@ jCarousel.plugin('pagination', function($) {
             if ($.isFunction(options.perpage)) {
                 this.pages = options.perpage.call(this);
             } else {
-                var pp = jCarousel.intval(options.perpage),
+                var pp = parseInt(options.perpage, 10) || 0,
                     items = carousel.items(),
                     page = 1,
                     i = 0,

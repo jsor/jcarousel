@@ -39,7 +39,7 @@ jCarousel.plugin('swipe', function($) {
 
             this.started  = true;
             this.moved    = false;
-            this.startPos = jCarousel.intval(carousel.list().css(carousel.lt));
+            this.startPos = parseFloat(carousel.list().css(carousel.lt)) || 0;
             this.startX   = this._getX(e);
             this.startY   = this._getY(e);
 
@@ -56,7 +56,7 @@ jCarousel.plugin('swipe', function($) {
                 margin = el.css('margin-' + lrb);
             });
 
-            this.width = width - jCarousel.intval(margin);
+            this.width = width - (parseFloat(margin) || 0);
 
             e.stopPropagation();
             e.preventDefault();
@@ -106,7 +106,7 @@ jCarousel.plugin('swipe', function($) {
             var carousel = this.carousel();
 
             if (carousel.rtl && !carousel.vertical) {
-                var right = jCarousel.intval(carousel.list().css('right'));
+                var right = parseFloat(carousel.list().css('right')) || 0;
 
                 if (right > 0) {
                     carousel.scroll(0);
@@ -116,7 +116,7 @@ jCarousel.plugin('swipe', function($) {
                     scrollNearest.apply(carousel);
                 }
             } else {
-                var left = jCarousel.intval(carousel.list().css(carousel.lt));
+                var left = parseFloat(carousel.list().css(carousel.lt)) || 0;
 
                 if (left > 0) {
                     carousel.scroll(0);
@@ -149,10 +149,10 @@ jCarousel.plugin('swipe', function($) {
             return this;
         },
         _getX: function(e) {
-            return jCarousel.intval(typeof e.pageX !== 'undefined' ? e.pageX : e.originalEvent.pageX);
+            return parseFloat(typeof e.pageX !== 'undefined' ? e.pageX : e.originalEvent.pageX) || 0;
         },
         _getY: function(e) {
-            return jCarousel.intval(typeof e.pageY !== 'undefined' ? e.pageY : e.originalEvent.pageY);
+            return parseFloat(typeof e.pageY !== 'undefined' ? e.pageY : e.originalEvent.pageY) || 0;
         }
     };
 });

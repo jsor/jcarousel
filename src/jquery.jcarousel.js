@@ -14,11 +14,6 @@
 
     jCarousel.version = '@VERSION';
 
-    jCarousel.intval = function(value) {
-        value = parseInt(value, 10);
-        return isNaN(value) ? 0 : value;
-    };
-
     jCarousel.error = function(msg) {
         throw new Error(msg);
     };
@@ -118,7 +113,7 @@
                            null;
 
         if (parts) {
-            target = jCarousel.intval(parts[2]);
+            target = parseInt(parts[2], 10) || 0;
 
             if (parts[1]) {
                 relative = true;
@@ -127,7 +122,7 @@
                 }
             }
         } else if (typeof target !== 'object') {
-            target = jCarousel.intval(target);
+            target = parseInt(target, 10) || 0;
         }
 
         return {
@@ -588,7 +583,7 @@
                                         // Force items reload
                                         this._items = null;
 
-                                        var lt  = jCarousel.intval(this.list().css(this.lt)),
+                                        var lt  = parseFloat(this.list().css(this.lt)) || 0,
                                             dim = this._dimension(curr);
 
                                         this.rtl ? lt += dim : lt -= dim;
@@ -673,9 +668,10 @@
                 this.inTail = false;
 
                 this._prepare(item);
-                var pos = this._position(item);
+                var pos = this._position(item),
+                    currPos = parseFloat(this.list().css(this.lt)) || 0;
 
-                if (pos == jCarousel.intval(this.list().css(this.lt))) {
+                if (pos === currPos) {
                     if ($.isFunction(callback)) {
                         callback.call(this, false);
                     }
@@ -791,7 +787,7 @@
                         update.visible = update.visible.add(curr);
 
                         // Remove right/bottom margin from total width
-                        margin= jCarousel.intval(curr.css('margin-' + lrb));
+                        margin = parseFloat(curr.css('margin-' + lrb)) || 0;
 
                         if ((wh - margin) <= clip) {
                             update.fullyvisible = update.fullyvisible.add(curr);
@@ -823,7 +819,7 @@
                         update.visible = update.visible.add(curr);
 
                         // Remove right/bottom margin from total width
-                        margin = jCarousel.intval(curr.css('margin-' + lrb));
+                        margin = parseFloat(curr.css('margin-' + lrb)) || 0;
 
                         if ((wh - margin) <= clip) {
                             update.fullyvisible = update.fullyvisible.add(curr);
@@ -844,7 +840,7 @@
                     update.last.index() === (this.items().size() - 1)) {
 
                     // Remove right/bottom margin from total width
-                    wh -= jCarousel.intval(update.last.css('margin-' + lrb));
+                    wh -= parseFloat(update.last.css('margin-' + lrb)) || 0;
 
                     if (wh > clip) {
                         this.tail = wh - clip;
