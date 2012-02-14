@@ -34,8 +34,8 @@ jCarousel.plugin('control', function($) {
         },
         _destroy: function() {
             this.element()
-                .removeClass(this.pluginPrefix + '-enabled')
-                .removeClass(this.pluginPrefix + '-disabled');
+                .removeClass(this.pluginClass + '-enabled')
+                .removeClass(this.pluginClass + '-disabled');
         },
         reload: function() {
             var parsed = jCarousel.parseTarget(this.option('scroll')),
@@ -58,12 +58,12 @@ jCarousel.plugin('control', function($) {
 
             if (enabled) {
                 this.element()
-                    .addClass(this.pluginPrefix + '-enabled')
-                    .removeClass(this.pluginPrefix + '-disabled');
+                    .addClass(this.pluginClass + '-enabled')
+                    .removeClass(this.pluginClass + '-disabled');
             } else {
                 this.element()
-                    .removeClass(this.pluginPrefix + '-enabled')
-                    .addClass(this.pluginPrefix + '-disabled');
+                    .removeClass(this.pluginClass + '-enabled')
+                    .addClass(this.pluginClass + '-disabled');
             }
 
             this._trigger(enabled ? 'enabled' : 'disabled');

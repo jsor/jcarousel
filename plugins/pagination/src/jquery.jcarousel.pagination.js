@@ -15,13 +15,13 @@ jCarousel.plugin('pagination', function($) {
         options: {
             perpage: null,
             item: function(page) {
-                return '<a class="' + this.pluginPrefix + '-item" href="#' + page + '">' + page + '</a>';
+                return '<a class="' + this.pluginClass + '-item" href="#' + page + '">' + page + '</a>';
             },
             active: function(item) {
-                item.addClass(this.pluginPrefix + '-item-active');
+                item.addClass(this.pluginClass + '-item-active');
             },
             inactive: function(item) {
-                item.removeClass(this.pluginPrefix + '-item-active');
+                item.removeClass(this.pluginClass + '-item-active');
             }
         },
         current: null,

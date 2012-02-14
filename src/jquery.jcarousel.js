@@ -154,16 +154,16 @@
     };
 
     jCarousel.Plugin = {
-        version:      jCarousel.version,
-        options:      {},
-        pluginName:   'jcarousel',
-        pluginPrefix: 'jcarousel',
-        pluginFn:     'jcarousel',
-        _element:     null,
-        _carousel:    null,
-        _options:     jCarousel.noop,
-        _init:        jCarousel.noop,
-        _destroy:     jCarousel.noop,
+        version:     jCarousel.version,
+        options:     {},
+        pluginName:  null,
+        pluginClass: null,
+        pluginFn:    null,
+        _element:    null,
+        _carousel:   null,
+        _options:    jCarousel.noop,
+        _init:       jCarousel.noop,
+        _destroy:    jCarousel.noop,
         _create: function() {
             this.carousel()
                 ._bind('destroy.' + this.pluginName, jCarousel.proxy(this.destroy, this));
@@ -247,17 +247,17 @@
 
     jCarousel.plugin = function(name, callback) {
         var pluginName,
-            pluginPrefix,
+            pluginClass,
             pluginFn;
 
         if (name !== 'jcarousel') {
-            pluginName   = 'jcarousel' + name.toLowerCase();
-            pluginPrefix = 'jcarousel-' + name.toLowerCase();
-            pluginFn     = 'jcarousel' +
+            pluginName  = 'jcarousel' + name.toLowerCase();
+            pluginClass = 'jcarousel-' + name.toLowerCase();
+            pluginFn    = 'jcarousel' +
                                name.charAt(0).toUpperCase() +
                                name.slice(1);
         } else {
-            pluginName = pluginPrefix = pluginFn = name;
+            pluginName = pluginClass = pluginFn = name;
         }
 
         var plugin = function(element, options) {
@@ -266,7 +266,7 @@
                 return new plugin(element, options);
             }
 
-            this._element = $(element).data(pluginName, this).addClass(pluginPrefix);
+            this._element = $(element).data(pluginName, this).addClass(pluginClass);
 
             this.options = $.extend(
                 {},
@@ -280,9 +280,9 @@
         };
 
         plugin.prototype = $.extend({}, jCarousel.Plugin, {
-            pluginName:   pluginName,
-            pluginPrefix: pluginPrefix,
-            pluginFn:     pluginFn
+            pluginName:  pluginName,
+            pluginClass: pluginClass,
+            pluginFn:    pluginFn
         }, callback.call(jCarousel, $));
 
         $.fn[pluginFn] = function(options) {
