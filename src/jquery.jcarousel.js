@@ -342,12 +342,12 @@
         };
     };
 
-    jCarousel.noConflict = (function(jCarouselOld) {
-        return function() {
-            window.jCarousel = jCarouselOld;
-            return jCarousel;
-        };
-    })(window.jCarousel);
+    var _jCarousel = window.jCarousel;
+
+    jCarousel.noConflict = function() {
+        window.jCarousel = _jCarousel;
+        return jCarousel;
+    };
 
     window.jCarousel = jCarousel;
 
