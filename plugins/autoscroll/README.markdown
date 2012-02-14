@@ -44,7 +44,7 @@ The plugin accepts the following options:
         <th>Description</th>
     </tr>
     <tr>
-        <td>scroll</td>
+        <td>target</td>
         <td>string|number|object</td>
         <td>+=1</td>
         <td>The target for the autoscrolling. Accepts the same argument as the scroll() method.</td>

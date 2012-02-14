@@ -11,8 +11,8 @@
 jCarousel.plugin('autoscroll', function($) {
     return {
         options: {
-            scroll:   '+=1',
-            interval: 3000,
+            target:    '+=1',
+            interval:  3000,
             autostart: true
         },
         timer: null,
@@ -30,7 +30,7 @@ jCarousel.plugin('autoscroll', function($) {
             this.carousel()._bind('animateend.' + this.pluginName, jCarousel.proxy(this.start, this));
 
             this.timer = setTimeout(jCarousel.proxy(function() {
-                this.carousel().scroll(this.option('scroll'));
+                this.carousel().scroll(this.option('target'));
             }, this), this.option('interval'));
 
             return this;

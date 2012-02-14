@@ -33,7 +33,7 @@ $(function() {
         .bind('jcarouselcontroldisabled', function() {
             console.log('Prev disabled');
         })
-        .jcarouselControl({scroll: '-=1'});
+        .jcarouselControl({target: '-=1'});
 
     $('.jcarousel-next')
         .bind('jcarouselcontrolenabled', function() {
@@ -42,7 +42,7 @@ $(function() {
         .bind('jcarouselcontroldisabled', function() {
             console.log('Next disabled');
         })
-        .jcarouselControl({scroll: '+=1'});
+        .jcarouselControl({target: '+=1'});
 
     $('.jcarousel-first')
         .bind('jcarouselcontrolenabled', function() {
@@ -51,7 +51,7 @@ $(function() {
         .bind('jcarouselcontroldisabled', function() {
             console.log('First disabled');
         })
-        .jcarouselControl({scroll: 0});
+        .jcarouselControl({target: 0});
 
     $('.jcarousel-last')
         .bind('jcarouselcontrolenabled', function() {
@@ -60,7 +60,7 @@ $(function() {
         .bind('jcarouselcontroldisabled', function() {
             console.log('Last disabled');
         })
-        .jcarouselControl({scroll: -1});
+        .jcarouselControl({target: -1});
 
     $('.jcarousel-first-object')
         .bind('jcarouselcontrolenabled', function() {
@@ -69,7 +69,7 @@ $(function() {
         .bind('jcarouselcontroldisabled', function() {
             console.log('First (object) disabled');
         })
-        .jcarouselControl({scroll: $('#jcarousel1 li').first()});
+        .jcarouselControl({target: $('#jcarousel1 li').first()});
 
     $('.jcarousel-last-object')
         .bind('jcarouselcontrolenabled', function() {
@@ -78,7 +78,7 @@ $(function() {
         .bind('jcarouselcontroldisabled', function() {
             console.log('Last (object) disabled');
         })
-        .jcarouselControl({scroll: $('#jcarousel1 li').last()});
+        .jcarouselControl({target: $('#jcarousel1 li').last()});
 });
 
 </script>

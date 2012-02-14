@@ -47,11 +47,11 @@ $(function() {
     });
 
     $('#mycarousel_prev').jcarouselControl({
-        scroll: '-=1'
+        target: '-=1'
     });
 
     $('#mycarousel_next').jcarouselControl({
-        scroll: '+=1'
+        target: '+=1'
     });
 });
 </script>
@@ -68,7 +68,7 @@ var carousel = $('#mycarousel').jcarousel({
     // Core configuration goes here
 });
 $('#mycarousel_prev').jcarouselControl({
-    scroll: '-=1',
+    target: '-=1',
     carousel: carousel
 });
 ```
@@ -86,7 +86,7 @@ The plugin accepts the following options:
         <th>Description</th>
     </tr>
     <tr>
-        <td>scroll</td>
+        <td>target</td>
         <td>string|number|object</td>
         <td>+=1</td>
         <td>The target for the control. Accepts the same argument as the scroll() method.</td>

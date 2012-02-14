@@ -13,8 +13,8 @@ jCarousel.plugin('control', function($) {
 
     return {
         options: {
-            scroll: '+=1',
-            event: 'click'
+            target: '+=1',
+            event:  'click'
         },
         enabled: null,
         _init: function() {
@@ -26,7 +26,7 @@ jCarousel.plugin('control', function($) {
                 .bind(this.option('event') + '.' + this.pluginName, jCarousel.proxy(function(e) {
                     e.preventDefault();
                     if (this.enabled) {
-                        this.carousel().scroll(this.option('scroll'));
+                        this.carousel().scroll(this.option('target'));
                     }
                 }, this));
 
@@ -38,7 +38,7 @@ jCarousel.plugin('control', function($) {
                 .removeClass(this.pluginClass + '-disabled');
         },
         reload: function() {
-            var parsed = jCarousel.parseTarget(this.option('scroll')),
+            var parsed = jCarousel.parseTarget(this.option('target')),
                 carousel = this.carousel(),
                 enabled;
 
