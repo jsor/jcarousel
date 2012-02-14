@@ -451,14 +451,16 @@
             },
             list: function() {
                 if (this._list === null) {
-                    this._list = this.element().find(this.option('list'));
+                    var option = this.option('list');
+                    this._list = $.isFunction(option) ? option.call(this) : this.element().find(option);
                 }
 
                 return this._list;
             },
             items: function() {
                 if (this._items === null) {
-                    this._items = this.list().find(this.option('items')).not('.jcarousel-clone');
+                    var option = this.option('items');
+                    this._items = ($.isFunction(option) ? option.call(this) : this.list().find(option));
                 }
 
                 return this._items;
