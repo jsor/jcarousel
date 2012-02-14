@@ -20,13 +20,7 @@
 
     jCarousel.noop = function() {};
 
-    jCarousel.proxy = $.proxy || function(fn, context) {
-        if (typeof context === 'string') {
-            var tmp = fn[context];
-            context = fn;
-            fn = tmp;
-        }
-
+    jCarousel.proxy = function(fn, context) {
         var args = Array.prototype.slice.call(arguments, 2);
 
         return function() {
