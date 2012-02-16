@@ -10,6 +10,10 @@
  */
 (function($, window) {
 
+    var toFloat = function(val) {
+        return parseFloat(val) || 0;
+    };
+
     var jCarousel = {};
 
     jCarousel.version = '@VERSION';
@@ -43,31 +47,31 @@
     };
 
     jCarousel.innerWidth = function(element) {
-        return (parseFloat(element.css('width')) || 0) +
-               (parseFloat(element.css('padding-left')) || 0) +
-               (parseFloat(element.css('padding-right')) || 0);
+        return toFloat(element.css('width')) +
+               toFloat(element.css('padding-left')) +
+               toFloat(element.css('padding-right'));
     };
 
     jCarousel.innerHeight = function(element) {
-        return (parseFloat(element.css('height')) || 0) +
-               (parseFloat(element.css('padding-top')) || 0) +
-               (parseFloat(element.css('padding-bottom')) || 0);
+        return toFloat(element.css('height')) +
+               toFloat(element.css('padding-top')) +
+               toFloat(element.css('padding-bottom'));
     };
 
     jCarousel.outerWidth = function(element) {
         return jCarousel.innerWidth(element) +
-               (parseFloat(element.css('margin-left')) || 0) +
-               (parseFloat(element.css('margin-right')) || 0) +
-               (parseFloat(element.css('border-left-width')) || 0) +
-               (parseFloat(element.css('border-right-width')) || 0);
+               toFloat(element.css('margin-left')) +
+               toFloat(element.css('margin-right')) +
+               toFloat(element.css('border-left-width')) +
+               toFloat(element.css('border-right-width'));
     };
 
     jCarousel.outerHeight = function(element) {
         return jCarousel.innerHeight(element) +
-               (parseFloat(element.css('margin-top')) || 0) +
-               (parseFloat(element.css('margin-bottom')) || 0) +
-               (parseFloat(element.css('border-top-width')) || 0) +
-               (parseFloat(element.css('border-bottom-width')) || 0);
+               toFloat(element.css('margin-top')) +
+               toFloat(element.css('margin-bottom')) +
+               toFloat(element.css('border-top-width')) +
+               toFloat(element.css('border-bottom-width'));
     };
 
     var rroot = /^(?:body|html)$/i;
@@ -86,11 +90,11 @@
                                {top: 0, left: 0} :
                                offsetParent.offset();
 
-        offset.top  -= parseFloat(element.css('margin-top')) || 0;
-        offset.left -= parseFloat(element.css('margin-left')) || 0;
+        offset.top  -= toFloat(element.css('margin-top'));
+        offset.left -= toFloat(element.css('margin-left'));
 
-        parentOffset.top  += parseFloat(offsetParent.css('border-top-width')) || 0;
-        parentOffset.left += parseFloat(offsetParent.css('border-left-width')) || 0;
+        parentOffset.top  += toFloat(offsetParent.css('border-top-width'));
+        parentOffset.left += toFloat(offsetParent.css('border-left-width'));
 
         return {
             top: offset.top - parentOffset.top,
@@ -575,7 +579,7 @@
                                         // Force items reload
                                         this._items = null;
 
-                                        var lt  = parseFloat(this.list().css(this.lt)) || 0,
+                                        var lt  = toFloat(this.list().css(this.lt)),
                                             dim = this._dimension(curr);
 
                                         this.rtl ? lt += dim : lt -= dim;
@@ -672,7 +676,7 @@
 
                 this._prepare(item);
                 var pos = this._position(item),
-                    currPos = parseFloat(this.list().css(this.lt)) || 0;
+                    currPos = toFloat(this.list().css(this.lt));
 
                 if (pos === currPos) {
                     if ($.isFunction(callback)) {
@@ -790,7 +794,7 @@
                         update.visible = update.visible.add(curr);
 
                         // Remove right/bottom margin from total width
-                        margin = parseFloat(curr.css('margin-' + lrb)) || 0;
+                        margin = toFloat(curr.css('margin-' + lrb));
 
                         if ((wh - margin) <= clip) {
                             update.fullyvisible = update.fullyvisible.add(curr);
@@ -822,7 +826,7 @@
                         update.visible = update.visible.add(curr);
 
                         // Remove right/bottom margin from total width
-                        margin = parseFloat(curr.css('margin-' + lrb)) || 0;
+                        margin = toFloat(curr.css('margin-' + lrb));
 
                         if ((wh - margin) <= clip) {
                             update.fullyvisible = update.fullyvisible.add(curr);
@@ -843,7 +847,7 @@
                     update.last.index() === (this.items().size() - 1)) {
 
                     // Remove right/bottom margin from total width
-                    wh -= parseFloat(update.last.css('margin-' + lrb)) || 0;
+                    wh -= toFloat(update.last.css('margin-' + lrb));
 
                     if (wh > clip) {
                         this.tail = wh - clip;
