@@ -456,7 +456,7 @@
             items: function() {
                 if (this._items === null) {
                     var option = this.option('items');
-                    this._items = ($.isFunction(option) ? option.call(this) : this.list().find(option));
+                    this._items = ($.isFunction(option) ? option.call(this) : this.list().find(option)).not('.jcarousel-clone');
                 }
 
                 return this._items;
