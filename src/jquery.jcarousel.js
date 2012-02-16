@@ -14,6 +14,8 @@
         return parseFloat(val) || 0;
     };
 
+    var arraySlice = Array.prototype.slice;
+
     var jCarousel = {};
 
     jCarousel.version = '@VERSION';
@@ -25,10 +27,10 @@
     jCarousel.noop = function() {};
 
     jCarousel.proxy = function(fn, context) {
-        var args = Array.prototype.slice.call(arguments, 2);
+        var args = arraySlice.call(arguments, 2);
 
         return function() {
-            return fn.apply(context, args.concat(Array.prototype.slice.call(arguments)));
+            return fn.apply(context, args.concat(arraySlice.call(arguments)));
         };
     };
 
@@ -288,7 +290,7 @@
         }, callback.call(jCarousel, $));
 
         $.fn[pluginFn] = function(options) {
-            var args = Array.prototype.slice.call(arguments, 1),
+            var args = arraySlice.call(arguments, 1),
                 returnValue = this;
 
             if (typeof options === 'string') {
