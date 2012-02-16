@@ -75,22 +75,22 @@
     jCarousel.position = function(element) {
         var offsetParent = element.get(0).offsetParent || window.document.body;
 
-        while (offsetParent && (!rroot.test(offsetParent.nodeName) && $(offsetParent).css("position") === "static") ) {
-                offsetParent = offsetParent.offsetParent;
+        while (offsetParent && (!rroot.test(offsetParent.nodeName) && $(offsetParent).css('position') === 'static') ) {
+            offsetParent = offsetParent.offsetParent;
         }
 
         offsetParent = $(offsetParent);
 
-        var offset       = element.offset(),
+        var offset = element.offset(),
             parentOffset = rroot.test(offsetParent[0].nodeName) ?
-                               { top: 0, left: 0 } :
+                               {top: 0, left: 0} :
                                offsetParent.offset();
 
-        offset.top  -= parseFloat(element.css("margin-top")) || 0;
-        offset.left -= parseFloat(element.css("margin-left")) || 0;
+        offset.top  -= parseFloat(element.css('margin-top')) || 0;
+        offset.left -= parseFloat(element.css('margin-left')) || 0;
 
-        parentOffset.top  += parseFloat(offsetParent.css("border-top-width")) || 0;
-        parentOffset.left += parseFloat(offsetParent.css("border-left-width")) || 0;
+        parentOffset.top  += parseFloat(offsetParent.css('border-top-width')) || 0;
+        parentOffset.left += parseFloat(offsetParent.css('border-left-width')) || 0;
 
         return {
             top: offset.top - parentOffset.top,
@@ -103,8 +103,8 @@
     jCarousel.parseTarget = function(target) {
         var relative = false,
             parts = typeof target !== 'object' ?
-                           relativeTarget.exec(target) :
-                           null;
+                        relativeTarget.exec(target) :
+                        null;
 
         if (parts) {
             target = parseInt(parts[2], 10) || 0;
@@ -193,8 +193,8 @@
             if (typeof key === 'string') {
                 if (typeof value === 'undefined') {
                     return typeof this.options[key] === 'undefined' ?
-                        null :
-                        this.options[key];
+                               null :
+                               this.options[key];
                 }
 
                 this.options[key] = value;
@@ -211,8 +211,8 @@
         carousel: function() {
             if (!!this.options.carousel) {
                 return this.options.carousel.jquery ?
-                    this.options.carousel.data('jcarousel') :
-                    this.options.carousel;
+                           this.options.carousel.data('jcarousel') :
+                           this.options.carousel;
             }
 
             if (!this._carousel) {
@@ -253,9 +253,7 @@
         if (name !== 'jcarousel') {
             pluginName  = 'jcarousel' + name.toLowerCase();
             pluginClass = 'jcarousel-' + name.toLowerCase();
-            pluginFn    = 'jcarousel' +
-                               name.charAt(0).toUpperCase() +
-                               name.slice(1);
+            pluginFn    = 'jcarousel' + name.charAt(0).toUpperCase() + name.slice(1);
         } else {
             pluginName = pluginClass = pluginFn = name;
         }
