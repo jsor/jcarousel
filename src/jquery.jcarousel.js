@@ -599,19 +599,30 @@
                 return this;
             },
             _reload: function() {
-                var element = this.element();
+                var element = this.element(),
+                    checkRTL = function() {
+                        if (('' + element.attr('dir')).toLowerCase() === 'rtl') {
+                            return true;
+                        }
+
+                        var found = false;
+
+                        element.parents('[dir]').each(function() {
+                            if ((/rtl/i).test($(this).attr('dir'))) {
+                                found = true;
+                                return false;
+                            }
+                        });
+
+                        return found;
+                    };
 
                 this.vertical = this.options.vertical == null ?
-                    ('' + element.attr('class')).toLowerCase().indexOf('jcarousel-vertical') > -1 :
-                    this.options.vertical;
-
-                this.rtl = this.options.rtl == null ?
-                    ('' + element.attr('dir')).toLowerCase() === 'rtl' ||
-                    element.parents('[dir]').filter(function() {
-                        return (/rtl/i).test($(this).attr('dir'));
-                    }).size() > 0 :
-                    this.options.rtl;
-
+                                    ('' + element.attr('class'))
+                                        .toLowerCase()
+                                        .indexOf('jcarousel-vertical') > -1 :
+                                    this.options.vertical;
+                this.rtl = this.options.rtl == null ? checkRTL() : this.options.rtl;
                 this.lt = this.vertical ? 'top' : 'left';
 
                 // Force items reload
