@@ -251,7 +251,19 @@
         }
     };
 
+    var plugins = {};
+
     jCarousel.plugin = function(name, callback) {
+        if (typeof callback === 'undefined') {
+            if (typeof plugins[name] === 'undefined') {
+                return jCarousel.error('No such plugin "' + name + '" registered');
+            }
+
+            return plugins[name].call(jCarousel, $);
+        }
+
+        plugins[name] = callback;
+
         var pluginName,
             pluginClass,
             pluginFn;
@@ -333,6 +345,8 @@
 
             return returnValue;
         };
+
+        return plugin;
     };
 
     var _jCarousel = window.jCarousel;
