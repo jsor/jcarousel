@@ -746,20 +746,27 @@
                     this.list().css(properties);
                     this.onAnimationComplete(callback);
                 } else {
-                    var self = this,
-                        opts = typeof this.options.animation === 'object' ?
-                                   this.options.animation :
-                                   {duration: this.options.animation},
-                        oldComplete = opts.complete;
+                    var self = this;
 
-                    opts.complete = function() {
-                        self.onAnimationComplete(callback);
-                        if ($.isFunction(oldComplete)) {
-                            oldComplete.call(this);
-                        }
-                    };
+                    if ($.isFunction(this.options.animation)) {
+                        this.options.animation.call(this, properties, function() {
+                            self.onAnimationComplete(callback);
+                        });
+                    } else {
+                        var opts = typeof this.options.animation === 'object' ?
+                                    this.options.animation :
+                                    {duration: this.options.animation},
+                            oldComplete = opts.complete;
 
-                    this.list().animate(properties, opts);
+                        opts.complete = function() {
+                            self.onAnimationComplete(callback);
+                            if ($.isFunction(oldComplete)) {
+                                oldComplete.call(this);
+                            }
+                        };
+
+                        this.list().animate(properties, opts);
+                    }
                 }
 
                 return this;
