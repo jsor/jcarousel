@@ -16,7 +16,7 @@ jCarousel.plugin('control', function($) {
             target: '+=1',
             event:  'click'
         },
-        enabled: null,
+        active: null,
         _init: function() {
             this.carousel()
                 ._bind('reloadend.' + this.pluginName, jCarousel.proxy(this.reload, this))
@@ -25,50 +25,48 @@ jCarousel.plugin('control', function($) {
             this.element()
                 .bind(this.option('event') + '.' + this.pluginName, jCarousel.proxy(function(e) {
                     e.preventDefault();
-                    if (this.enabled) {
-                        this.carousel().scroll(this.option('target'));
-                    }
+                    this.carousel().scroll(this.option('target'));
                 }, this));
 
             this.reload();
         },
         _destroy: function() {
             this.element()
-                .removeClass(this.pluginClass + '-enabled')
-                .removeClass(this.pluginClass + '-disabled');
+                .removeClass(this.pluginClass + '-active')
+                .removeClass(this.pluginClass + '-inactive');
         },
         reload: function() {
             var parsed = jCarousel.parseTarget(this.option('target')),
                 carousel = this.carousel(),
-                enabled;
+                active;
 
             if (parsed.relative) {
-                enabled = carousel[parsed.target > 0 ? 'hasNext' : 'hasPrev']();
+                active = carousel[parsed.target > 0 ? 'hasNext' : 'hasPrev']();
             } else {
                 var target = typeof parsed.target !== 'object' ?
                                  carousel.items().eq(parsed.target) :
                                  parsed.target;
 
-                enabled = carousel.fullyvisible().index(target) < 0;
+                active = carousel.target().index(target) >= 0;
             }
 
-            if (this.enabled === enabled) {
+            if (this.active === active) {
                 return this;
             }
 
-            if (enabled) {
+            if (active) {
                 this.element()
-                    .addClass(this.pluginClass + '-enabled')
-                    .removeClass(this.pluginClass + '-disabled');
+                    .addClass(this.pluginClass + '-active')
+                    .removeClass(this.pluginClass + '-inactive');
             } else {
                 this.element()
-                    .removeClass(this.pluginClass + '-enabled')
-                    .addClass(this.pluginClass + '-disabled');
+                    .removeClass(this.pluginClass + '-active')
+                    .addClass(this.pluginClass + '-inactive');
             }
 
-            this._trigger(enabled ? 'enabled' : 'disabled');
+            this._trigger(active ? 'active' : 'inactive');
 
-            this.enabled = enabled;
+            this.active = active;
 
             return this;
         }

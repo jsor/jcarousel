@@ -113,11 +113,11 @@ After initialization, the plugin triggers specific events on the control element
         <th>Example</th>
     </tr>
     <tr>
-        <td>jcarouselcontrolenabled</td>
-        <td>Triggered when the control becomes enabled.</td>
+        <td>jcarouselcontrolactive</td>
+        <td>Triggered when the control becomes active.</td>
         <td>
             <pre>
-$('#mycarousel_prev').bind('jcarouselcontrolenabled', function(plugin) {
+$('#mycarousel_prev').bind('jcarouselcontrolactive', function(plugin) {
     // "this" refers to the control element
     // "plugin" is the plugin instance
     //     (You can get the carousel instance with plugin.carousel())
@@ -125,11 +125,11 @@ $('#mycarousel_prev').bind('jcarouselcontrolenabled', function(plugin) {
         </td>
     </tr>
     <tr>
-        <td>jcarouselcontroldisabled</td>
-        <td>Triggered when the control becomes disabled.</td>
+        <td>jcarouselcontrolinactive</td>
+        <td>Triggered when the control becomes inactive.</td>
         <td>
             <pre>
-$('#mycarousel_prev').bind('jcarouselcontroldisabled', function(plugin) {
+$('#mycarousel_prev').bind('jcarouselcontrolinactive', function(plugin) {
     // "this" refers to the control element
     // "plugin" is the plugin instance
     //     (You can get the carousel instance with plugin.carousel())
@@ -137,3 +137,37 @@ $('#mycarousel_prev').bind('jcarouselcontroldisabled', function(plugin) {
         </td>
     </tr>
 </table>
+
+Plugin specific classes
+-----------------------
+
+The plugin adds specific classes to the control elements indicating their current status.
+
+This is useful for selecting items on runtime or add specific styling to them.
+
+<table>
+    <tr>
+        <th>Class</th>
+        <th>Description</th>
+        <th>Example</th>
+    </tr>
+    <tr>
+        <td>.jcarousel-control-active</td>
+        <td>Indicates an active control element.</td>
+        <td><pre>$('#mycarousel_prev.jcarousel-control-active');</pre></td>
+    </tr>
+    <tr>
+        <td>.jcarousel-item-inactive</td>
+        <td>Indicates an inactive control element.</td>
+        <td><pre>$('#mycarousel_prev.jcarousel-control-active');</pre></td>
+    </tr>
+</table>
+
+Active and inactive states
+--------------------------
+
+This is how the plugin understands active and inactive states (for events and classes):
+
+If the `target` option is relative, `+=1` for example, the control is active if there is at least on more item to scroll, inactive otherwise (if you're at the last item in this case).
+
+If the `target` option is absolute, `0` for example (always scrolls to the first item), the control is active the targeted item is at position 0, inactive otherwise.
