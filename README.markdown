@@ -97,7 +97,7 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
         <td>animation</td>
         <td>integer|string|object</td>
         <td>&quot;normal&quot;</td>
-        <td>The speed of the scroll animation as string in jQuery terms (<code>"slow"</code> or <code>"fast"</code>) or milliseconds as integer (See the <a href="http://api.jquery.com/animate">jQuery Documentation</a>). If set to 0, animation is turned off. Alternatively, this can be a map of options like the one <a href="http://api.jquery.com/animate/#animate-properties-options">jQuery.animate</a> accepts as second argument.</td>
+        <td>The speed of the scroll animation as string in jQuery terms (<code>"slow"</code> or <code>"fast"</code>) or milliseconds as integer (See the <a href="http://api.jquery.com/animate">jQuery Documentation</a>). If set to 0, animation is turned off. Alternatively, this can be a map of options like the one <a href="http://api.jquery.com/animate/#animate-properties-options">jQuery.animate</a> accepts as second argument or a function. A function will be called in the context of the carousel instance and with 2 arguments: The first is a hash of css properties (ie. {left: -400}) and the second is a function which must be called as a callback.</td>
     </tr>
     <tr>
         <td>wrap</td>
