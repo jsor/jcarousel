@@ -191,7 +191,7 @@ Defining the number of visible items
 
 Sometimes people are confused how to define the number of visible items because there is no option for this as they expect.
 
-You simply define the number of visible items by defining the width (or height for a vertical carousel) of the element which surrounds the list (if you use the default from this document, you do that with the class `.jcarousel` in your skin stylesheet).
+You simply define the number of visible items by defining the width (or height for a vertical carousel) of the element which surrounds the list (if you use the default from this document, you do that with the class `.jcarousel` in your stylesheet).
 
 This offers a lot of flexibility, because you can define the width in pixel for a fixed carousel or in percent for a flexible carousel.
 
@@ -207,12 +207,10 @@ $('#mycarousel').jcarousel({vertical: true});
 Alternatively, you can simply use a class for your root element which contains the string `jcarousel-vertical`:
 
 ```html
-<div class="jcarousel-skin-name">
-    <div id="mycarousel" class="jcarousel-vertical">
-        <ul>
-            <!-- The content goes in here -->
-        </ul>
-    </div>
+<div id="mycarousel" class="jcarousel-vertical">
+    <ul>
+        <!-- The content goes in here -->
+    </ul>
 </div>
 ```
 
@@ -228,12 +226,10 @@ $('#mycarousel').jcarousel({rtl: true});
 Alternatively, you can simply add the `dir` attribute with a value of `rtl` to the root element (or to any of its parent elements):
 
 ```html
-<div class="jcarousel-skin-name">
-    <div id="mycarousel" class="jcarousel" dir="rtl">
-        <ul>
-            <!-- The content goes in here -->
-        </ul>
-    </div>
+<div id="mycarousel" class="jcarousel" dir="rtl">
+    <ul>
+        <!-- The content goes in here -->
+    </ul>
 </div>
 ```
 
