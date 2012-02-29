@@ -550,7 +550,7 @@
                         } else {
                             if (last === end &&
                                 (this.options.wrap == 'both' || this.options.wrap == 'last')) {
-                                return this._scroll(0, animate, callback);
+                                this._scroll(0, animate, callback);
                             } else {
                                 first = this._target.index();
                                 index = first + scroll;
