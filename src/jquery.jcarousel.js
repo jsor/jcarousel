@@ -497,7 +497,7 @@
                     end = this.items().size() - 1;
 
                 return end >= 0 &&
-                       ((wrap && wrap !== 'first') ||
+                       ((wrap && wrap !== 'first' && wrap !== 'custom') ||
                         (this._last.index() < end) ||
                         (this.tail && !this.inTail)) ? true : false;
             },
@@ -505,7 +505,7 @@
                 var wrap = this.option('wrap');
 
                 return this.items().size() > 0 &&
-                       ((wrap && wrap !== 'last') ||
+                       ((wrap && wrap !== 'last' && wrap != 'custom') ||
                         (this._first.index() > 0) ||
                         (this.tail && this.inTail)) ? true : false;
             },
