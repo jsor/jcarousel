@@ -105,7 +105,7 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
         <td>wrap</td>
         <td>string</td>
         <td>null</td>
-        <td>Specifies whether to wrap at the first/last item (or both) and jump back to the start/end. Options are <code>"first"</code>, <code>"last"</code>, <code>"both"</code> or <code>"circular"</code> as string. If set to null, wrapping is turned off (default).</td>
+        <td>Specifies whether to wrap at the first/last item (or both) and jump back to the start/end. Options are <code>"first"</code>, <code>"last"</code>, <code>"both"</code>, <code>"circular"</code>, or <code>"custom"</code> as string. If set to null, wrapping is turned off (default).</td>
     </tr>
     <tr>
         <td>vertical</td>
