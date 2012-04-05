@@ -8,8 +8,8 @@ Getting started
 
 To use the jCarousel Pagination Plugin, include the source file right after the jCarousel core file:
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-    <script type="text/javascript" src="/path/to/jquery.jcarousel.min.js"></script>
-    <script type="text/javascript" src="/path/to/jquery.jcarousel.pagination.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/path/to/jquery.jcarousel.js"></script>
+    <script type="text/javascript" src="/path/to/jquery.jcarousel.pagination.js"></script>
     <link rel="stylesheet" type="text/css" href="/path/to/skin.css" />
 

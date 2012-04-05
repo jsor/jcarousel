@@ -10,7 +10,7 @@ To use the jCarousel AutoScroll Plugin, include the source file right after the 
 
 ```html
 <link rel="stylesheet" type="text/css" href="/path/to/jcarousel.css" />
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript" src="/path/to/jquery.jcarousel.js"></script>
 <script type="text/javascript" src="/path/to/jquery.jcarousel.autoscroll.js"></script>
 ```
