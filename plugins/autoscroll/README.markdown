@@ -20,7 +20,7 @@ To setup the plugin, add the following code inside the `<head>` tag of your HTML
 ```html
 <script type="text/javascript">
 $(function() {
-    $('#mycarousel')
+    $('.jcarousel')
         .jcarousel({
             // Core configuration goes here
         })

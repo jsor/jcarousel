@@ -24,7 +24,7 @@ A simple basic HTML markup structure would be:
 <!-- Wrapper -->
 <div>
     <!-- Carousel -->
-    <div id="mycarousel" class="jcarousel">
+    <div class="jcarousel">
         <ul>
             <li>...</li>
             <li>...</li>
@@ -32,8 +32,8 @@ A simple basic HTML markup structure would be:
     </div>
 
     <!-- Controls -->
-    <a id="mycarousel_prev" href="#">Prev</a>
-    <a id="mycarousel_next" href="#">Next</a>
+    <a class="jcarousel-prev" href="#">Prev</a>
+    <a class="jcarousel-next" href="#">Next</a>
 </div>
 ```
 
@@ -42,15 +42,15 @@ To setup the plugin, add the following code inside the `<head>` tag of your HTML
 ```html
 <script type="text/javascript">
 $(function() {
-    $('#mycarousel').jcarousel({
+    $(.jcarousel').jcarousel({
         // Core configuration goes here
     });
 
-    $('#mycarousel_prev').jcarouselControl({
+    $(.jcarousel-prev').jcarouselControl({
         target: '-=1'
     });
 
-    $('#mycarousel_next').jcarouselControl({
+    $('.jcarousel-next').jcarouselControl({
         target: '+=1'
     });
 });
@@ -64,10 +64,11 @@ This works best if you enclose the carousel and its controls inside a mutual wra
 If that fails or isn't possible, you can pass the related carousel instance as an option:
 
 ```javascript
-var carousel = $('#mycarousel').jcarousel({
+var carousel = $('.jcarousel').jcarousel({
     // Core configuration goes here
 });
-$('#mycarousel_prev').jcarouselControl({
+
+$('.jcarousel-prev').jcarouselControl({
     target: '-=1',
     carousel: carousel
 });
@@ -117,7 +118,7 @@ After initialization, the plugin triggers specific events on the control element
         <td>Triggered when the control becomes active.</td>
         <td>
             <pre>
-$('#mycarousel_prev').bind('jcarouselcontrolactive', function(plugin) {
+$('.jcarousel-prev').bind('jcarouselcontrolactive', function(plugin) {
     // "this" refers to the control element
     // "plugin" is the plugin instance
     //     (You can get the carousel instance with plugin.carousel())
@@ -129,7 +130,7 @@ $('#mycarousel_prev').bind('jcarouselcontrolactive', function(plugin) {
         <td>Triggered when the control becomes inactive.</td>
         <td>
             <pre>
-$('#mycarousel_prev').bind('jcarouselcontrolinactive', function(plugin) {
+$('.jcarousel-prev').bind('jcarouselcontrolinactive', function(plugin) {
     // "this" refers to the control element
     // "plugin" is the plugin instance
     //     (You can get the carousel instance with plugin.carousel())
@@ -154,12 +155,12 @@ This is useful for selecting items on runtime or add specific styling to them.
     <tr>
         <td>.jcarousel-control-active</td>
         <td>Indicates an active control element.</td>
-        <td><pre>$('#mycarousel_prev.jcarousel-control-active');</pre></td>
+        <td><pre>$('.jcarousel-prev.jcarousel-control-active');</pre></td>
     </tr>
     <tr>
         <td>.jcarousel-item-inactive</td>
         <td>Indicates an inactive control element.</td>
-        <td><pre>$('#mycarousel_prev.jcarousel-control-active');</pre></td>
+        <td><pre>$('.jcarousel-prev.jcarousel-control-active');</pre></td>
     </tr>
 </table>
 
