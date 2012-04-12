@@ -170,4 +170,4 @@ This is how the plugin understands active and inactive states (for events and cl
 
 If the `target` option is relative, `+=1` for example, the control is active if there is at least on more item to scroll, inactive otherwise (if you're at the last item in this case).
 
-If the `target` option is absolute, `0` for example (always scrolls to the first item), the control is active the targeted item is at position 0, inactive otherwise.
+If the `target` option is absolute, `0` for example (always scrolls to the first item), the control is active if the targeted item is at position 0, inactive otherwise.
