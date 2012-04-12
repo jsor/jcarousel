@@ -46,7 +46,7 @@ $(function() {
         // Core configuration goes here
     });
 
-    $(.jcarousel-prev').jcarouselControl({
+    $('.jcarousel-prev').jcarouselControl({
         target: '-=1'
     });
 
