@@ -160,7 +160,7 @@ This is useful for selecting items on runtime or add specific styling to them.
     <tr>
         <td>.jcarousel-item-inactive</td>
         <td>Indicates an inactive control element.</td>
-        <td><pre>$('.jcarousel-prev.jcarousel-control-active');</pre></td>
+        <td><pre>$('.jcarousel-prev.jcarousel-control-inactive');</pre></td>
     </tr>
 </table>
 
