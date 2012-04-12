@@ -328,6 +328,36 @@ $(function() {
     $('.jcarousel').jcarousel('reload');
 });
 ```
+Existing items should only be manipulated not completely replaced.
+
+```javascript
+$(function() {
+    // Don't do that
+    $('.jcarousel li:eq(0)')
+        .replaceWith('<li class="myclass">Item 1</li>');
+
+    // Do this
+    $('.jcarousel li:eq(0)')
+        .addClass('myclass')
+        .text('Item 1');
+});
+```
+
+If you are removing items, make sure they are currently not visible.
+
+```javascript
+$(function() {
+    // Don't do that
+    var carousel = $('.jcarousel'),
+        item = carousel.find('li:eq(0)');
+
+    // Do this
+    if (carousel.jcarousel('visible').index(items) < 0) {
+        item.remove();
+        carousel.jcarousel('reload');
+    }
+});
+```
 
 jCarousel specific events
 -------------------------
