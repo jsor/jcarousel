@@ -104,12 +104,12 @@
         };
     };
 
-    var relativeTarget = /^([+\-]=)?(.+)$/;
+    var rRelativeTarget = /^([+\-]=)?(.+)$/;
 
     jCarousel.parseTarget = function(target) {
         var relative = false,
             parts = typeof target !== 'object' ?
-                        relativeTarget.exec(target) :
+                        rRelativeTarget.exec(target) :
                         null;
 
         if (parts) {
