@@ -493,6 +493,10 @@
                 return this._fullyvisible;
             },
             hasNext: function() {
+                if (false === this._trigger('hasnext')) {
+                    return true;
+                }
+
                 var wrap = this.option('wrap'),
                     end = this.items().size() - 1;
 
@@ -502,6 +506,10 @@
                         (this.tail && !this.inTail)) ? true : false;
             },
             hasPrev: function() {
+                if (false === this._trigger('hasprev')) {
+                    return true;
+                }
+
                 var wrap = this.option('wrap');
 
                 return this.items().size() > 0 &&
