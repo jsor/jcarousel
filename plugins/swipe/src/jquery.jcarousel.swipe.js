@@ -26,10 +26,10 @@ jCarousel.plugin('swipe', function($) {
             };
 
             this.carousel().element()
-                .bind(this.eventNames.mousedown, jCarousel.proxy(this._start, this))
-                .bind(this.eventNames.mouseup, jCarousel.proxy(this._stop, this))
-                .bind(this.eventNames.mousemove, jCarousel.proxy(this._move, this))
-                .bind('mouseleave.' + this.pluginName, jCarousel.proxy(this._stop, this));
+                .bind(this.eventNames.mousedown, $.proxy(this._start, this))
+                .bind(this.eventNames.mouseup, $.proxy(this._stop, this))
+                .bind(this.eventNames.mousemove, $.proxy(this._move, this))
+                .bind('mouseleave.' + this.pluginName, $.proxy(this._stop, this));
         },
         _start: function(e) {
             var carousel = this.carousel();

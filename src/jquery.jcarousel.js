@@ -20,90 +20,6 @@
 
     jCarousel.version = '@VERSION';
 
-    jCarousel.error = function(msg) {
-        throw new Error(msg);
-    };
-
-    jCarousel.noop = function() {};
-
-    jCarousel.proxy = function(fn, context) {
-        var args = arraySlice.call(arguments, 2);
-
-        return function() {
-            return fn.apply(context, args.concat(arraySlice.call(arguments)));
-        };
-    };
-
-    jCarousel.clone = function(element) {
-        if ($.isFunction(element.clone)) {
-            return element.clone(true);
-        }
-
-        var cloned = $();
-
-        element.each(function() {
-            cloned = cloned.add(this.cloneNode(true));
-        });
-
-        return cloned;
-    };
-
-    jCarousel.innerWidth = function(element) {
-        return toFloat(element.css('width')) +
-               toFloat(element.css('padding-left')) +
-               toFloat(element.css('padding-right'));
-    };
-
-    jCarousel.innerHeight = function(element) {
-        return toFloat(element.css('height')) +
-               toFloat(element.css('padding-top')) +
-               toFloat(element.css('padding-bottom'));
-    };
-
-    jCarousel.outerWidth = function(element) {
-        return jCarousel.innerWidth(element) +
-               toFloat(element.css('margin-left')) +
-               toFloat(element.css('margin-right')) +
-               toFloat(element.css('border-left-width')) +
-               toFloat(element.css('border-right-width'));
-    };
-
-    jCarousel.outerHeight = function(element) {
-        return jCarousel.innerHeight(element) +
-               toFloat(element.css('margin-top')) +
-               toFloat(element.css('margin-bottom')) +
-               toFloat(element.css('border-top-width')) +
-               toFloat(element.css('border-bottom-width'));
-    };
-
-    var rroot = /^(?:body|html)$/i;
-
-    jCarousel.position = function(element) {
-        var offsetParent = element.get(0).offsetParent || window.document.body;
-
-        while (offsetParent && (!rroot.test(offsetParent.nodeName) && $(offsetParent).css('position') === 'static') ) {
-            offsetParent = offsetParent.offsetParent;
-        }
-
-        offsetParent = $(offsetParent);
-
-        var offset = element.offset(),
-            parentOffset = rroot.test(offsetParent[0].nodeName) ?
-                               {top: 0, left: 0} :
-                               offsetParent.offset();
-
-        offset.top  -= toFloat(element.css('margin-top'));
-        offset.left -= toFloat(element.css('margin-left'));
-
-        parentOffset.top  += toFloat(offsetParent.css('border-top-width'));
-        parentOffset.left += toFloat(offsetParent.css('border-left-width'));
-
-        return {
-            top: offset.top - parentOffset.top,
-            left: offset.left - parentOffset.left
-        };
-    };
-
     var rRelativeTarget = /^([+\-]=)?(.+)$/;
 
     jCarousel.parseTarget = function(target) {
@@ -167,12 +83,12 @@
         pluginFn:    null,
         _element:    null,
         _carousel:   null,
-        _options:    jCarousel.noop,
-        _init:       jCarousel.noop,
-        _destroy:    jCarousel.noop,
+        _options:    $.noop,
+        _init:       $.noop,
+        _destroy:    $.noop,
         _create: function() {
             this.carousel()
-                ._bind('destroy.' + this.pluginName, jCarousel.proxy(this.destroy, this));
+                ._bind('destroy.' + this.pluginName, $.proxy(this.destroy, this));
         },
         destroy: function() {
             this._destroy();
@@ -225,7 +141,7 @@
                 this._carousel = jCarousel.detectCarousel(this.element());
 
                 if (!this._carousel) {
-                    jCarousel.error('Could not detect carousel for plugin "' + this.pluginName + '"');
+                    $.error('Could not detect carousel for plugin "' + this.pluginName + '"');
                 }
             }
 
@@ -256,7 +172,7 @@
     jCarousel.plugin = function(name, callback) {
         if (typeof callback === 'undefined') {
             if (typeof plugins[name] === 'undefined') {
-                return jCarousel.error('No such plugin "' + name + '" registered');
+                return $.error('No such plugin "' + name + '" registered');
             }
 
             return plugins[name].call(jCarousel, $);
@@ -310,14 +226,14 @@
                     var instance = $(this).data(pluginName);
 
                     if (!instance) {
-                        return jCarousel.error(
+                        return $.error(
                             'Cannot call methods on ' + pluginFn + ' prior to initialization; ' +
                             'attempted to call method "' + options + '"'
                         );
                     }
 
                     if (!$.isFunction(instance[options]) || options.charAt(0) === '_') {
-                        return jCarousel.error(
+                        return $.error(
                             'No such method "' + options + '" for ' + pluginFn + ' instance'
                         );
                     }
@@ -569,7 +485,7 @@
 
                                     while (i++ < index) {
                                         curr = this.items().eq(0);
-                                        curr.after(jCarousel.clone(curr).addClass('jcarousel-clone'));
+                                        curr.after(curr.clone(true).addClass('jcarousel-clone'));
                                         this.list().append(curr);
                                         // Force items reload
                                         this._items = null;
@@ -598,7 +514,7 @@
 
                                     while (i++ < 0) {
                                         curr = this.items().eq(-1);
-                                        curr.after(jCarousel.clone(curr).addClass('jcarousel-clone'));
+                                        curr.after(curr.clone(true).addClass('jcarousel-clone'));
                                         this.list().prepend(curr);
                                         // Force items reload
                                         this._items = null;
@@ -722,7 +638,7 @@
                     return this;
                 }
 
-                var pos = jCarousel.position(this.list())[this.lt];
+                var pos = this.list().position()[this.lt];
 
                 this.rtl ? pos += this.tail : pos -= this.tail;
                 this.inTail = true;
@@ -810,7 +726,7 @@
                                 if (item.get(0) === curr.get(0)) {
                                     break;
                                 }
-                                curr.after(jCarousel.clone(curr).addClass('jcarousel-clone'));
+                                curr.after(curr.clone(true).addClass('jcarousel-clone'));
                                 this.list().append(curr);
                                 // Force items reload
                                 this._items = null;
@@ -889,7 +805,7 @@
             },
             _position: function(item) {
                 var first = this._first,
-                    pos   = jCarousel.position(first)[this.lt];
+                    pos   = first.position()[this.lt];
 
                 if (this.rtl && !this.vertical) {
                     pos -= this._clipping() - this._dimension(first);
@@ -957,10 +873,10 @@
                 return this;
             },
             _clipping: function() {
-                return jCarousel['inner' + (this.vertical ? 'Height' : 'Width')](this.element());
+                return this.element()['inner' + (this.vertical ? 'Height' : 'Width')]();
             },
             _dimension: function(element) {
-                return jCarousel['outer' + (this.vertical ? 'Height' : 'Width')](element);
+                return element['outer' + (this.vertical ? 'Height' : 'Width')](true);
             }
         };
     });

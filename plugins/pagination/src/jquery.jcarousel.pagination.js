@@ -29,8 +29,8 @@ jCarousel.plugin('pagination', function($) {
         items: {},
         _init: function() {
             this.carousel()
-                ._bind('reloadend.' + this.pluginName, jCarousel.proxy(this.reload, this))
-                ._bind('scrollend.' + this.pluginName, jCarousel.proxy(this.update, this));
+                ._bind('reloadend.' + this.pluginName, $.proxy(this.reload, this))
+                ._bind('scrollend.' + this.pluginName, $.proxy(this.update, this));
 
             this.reload();
         },

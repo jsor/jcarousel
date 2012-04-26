@@ -19,11 +19,11 @@ jCarousel.plugin('control', function($) {
         active: null,
         _init: function() {
             this.carousel()
-                ._bind('reloadend.' + this.pluginName, jCarousel.proxy(this.reload, this))
-                ._bind('scrollend.' + this.pluginName, jCarousel.proxy(this.reload, this));
+                ._bind('reloadend.' + this.pluginName, $.proxy(this.reload, this))
+                ._bind('scrollend.' + this.pluginName, $.proxy(this.reload, this));
 
             this.element()
-                .bind(this.option('event') + '.' + this.pluginName, jCarousel.proxy(function(e) {
+                .bind(this.option('event') + '.' + this.pluginName, $.proxy(function(e) {
                     e.preventDefault();
                     this.carousel().scroll(this.option('target'));
                 }, this));

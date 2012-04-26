@@ -27,9 +27,9 @@ jCarousel.plugin('autoscroll', function($) {
         start: function() {
             this.stop();
 
-            this.carousel()._bind('animateend.' + this.pluginName, jCarousel.proxy(this.start, this));
+            this.carousel()._bind('animateend.' + this.pluginName, $.proxy(this.start, this));
 
-            this.timer = setTimeout(jCarousel.proxy(function() {
+            this.timer = setTimeout($.proxy(function() {
                 this.carousel().scroll(this.option('target'));
             }, this), this.option('interval'));
 
