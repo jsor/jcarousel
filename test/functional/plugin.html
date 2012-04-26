@@ -38,15 +38,12 @@ $(function() {
         wrap: 'circular'
     })
     .jcarouselAutoscroll({
-        scroll: '+=1'
+        target: '+=1'
     })
-    .jcarouselSwipe({
-        scroll: 1
-    });
-    ;
+    .jcarouselSwipe();
     
-    $('.jcarousel-prev').jcarouselControl({scroll: '-=1'});
-    $('.jcarousel-next').jcarouselControl({scroll: '+=1'});
+    $('.jcarousel-prev').jcarouselControl({target: '-=1'});
+    $('.jcarousel-next').jcarouselControl({target: '+=1'});
     
     $('#jcarousel-pagination1').jcarouselPagination();
     $('#jcarousel-pagination2').jcarouselPagination({
