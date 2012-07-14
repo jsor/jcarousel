@@ -9,6 +9,7 @@
  * Date: @DATE
  */
 (function($, window) {
+    'use strict';
 
     var toFloat = function(val) {
         return parseFloat(val) || 0;
@@ -193,8 +194,8 @@
         }
 
         var plugin = function(element, options) {
-            // allow instantiation without "new" keyword
-            if (!this._init) {
+            // Allow instantiation without "new" keyword
+            if (typeof this === 'undefined' || !this._init) {
                 return new plugin(element, options);
             }
 

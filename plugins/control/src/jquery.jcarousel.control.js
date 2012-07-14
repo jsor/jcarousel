@@ -8,6 +8,7 @@
  *
  * Date: @DATE
  */
+'use strict';
 jCarousel.plugin('control', function($) {
     var jCarousel = this;
 

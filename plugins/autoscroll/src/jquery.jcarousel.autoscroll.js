@@ -8,6 +8,7 @@
  *
  * Date: @DATE
  */
+'use strict';
 jCarousel.plugin('autoscroll', function($) {
     return {
         options: {

@@ -8,6 +8,7 @@
  *
  * Date: @DATE
  */
+'use strict';
 jCarousel.plugin('pagination', function($) {
     var jCarousel = this;
 
