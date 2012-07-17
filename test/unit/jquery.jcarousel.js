@@ -1,4 +1,4 @@
-$(function($){
+jQuery(function($){
 
     module("jquery.jcarousel");
 

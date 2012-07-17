@@ -209,12 +209,7 @@
                 pluginName = pluginClass = pluginFn = name;
             }
 
-            var plugin = function(element, options) {
-                // Allow instantiation without "new" keyword
-                if (typeof this === 'undefined' || !this._init) {
-                    return new plugin(element, options);
-                }
-
+            var Plugin = function(element, options) {
                 this._element = $(element).data(pluginName, this).addClass(pluginClass);
 
                 this.options = $.extend(
@@ -228,7 +223,7 @@
                 this._init();
             };
 
-            plugin.prototype = $.extend({}, jCarousel.Plugin, {
+            Plugin.prototype = $.extend({}, jCarousel.Plugin, {
                 pluginName:  pluginName,
                 pluginClass: pluginClass,
                 pluginFn:    pluginFn
@@ -271,7 +266,7 @@
                                 instance.option(options);
                             }
                         } else {
-                            plugin(this, options);
+                            new Plugin(this, options);
                         }
                     });
                 }
@@ -279,7 +274,7 @@
                 return returnValue;
             };
 
-            return plugin;
+            return Plugin;
         };
 
         // jCarousel core plugin
@@ -472,8 +467,8 @@
                                 if (!this.inTail) {
                                     this._scrollTail(animate, callback);
                                 } else {
-                                    if (this.options.wrap == 'both' ||
-                                        this.options.wrap == 'last') {
+                                    if (this.options.wrap === 'both' ||
+                                        this.options.wrap === 'last') {
                                         this._scroll(0, animate, callback);
                                     } else {
                                         this._scroll(Math.min(this._target.index() + scroll, end), animate, callback);
@@ -481,7 +476,7 @@
                                 }
                             } else {
                                 if (last === end &&
-                                    (this.options.wrap == 'both' || this.options.wrap == 'last')) {
+                                    (this.options.wrap === 'both' || this.options.wrap === 'last')) {
                                     this._scroll(0, animate, callback);
                                 } else {
                                     first = this._target.index();
@@ -513,7 +508,7 @@
                                 index = first - scroll;
 
                                 if (first === 0 &&
-                                    (this.options.wrap == 'both' || this.options.wrap == 'first')) {
+                                    (this.options.wrap === 'both' || this.options.wrap === 'first')) {
                                     this._scroll(end, animate, callback);
                                 } else {
                                     if (this.circular && index < 0) {
@@ -530,7 +525,11 @@
                                             var lt  = toFloat(this.list().css(this.lt)),
                                                 dim = this._dimension(curr);
 
-                                            this.rtl ? lt += dim : lt -= dim;
+                                            if (this.rtl) {
+                                                lt += dim;
+                                            } else {
+                                                lt -= dim;
+                                            }
 
                                             this.list().css(this.lt, lt + 'px');
                                         }
@@ -583,7 +582,7 @@
                     var item = this._target || this.items().eq(0);
 
                     // _prepare() needs this here
-                    this.circular = this.options.wrap == 'circular';
+                    this.circular = this.options.wrap === 'circular';
                     this.list().css({'left': 0, 'top': 0});
 
                     if (item.size() > 0) {
@@ -593,7 +592,7 @@
                         // Force items reload
                         this._items = null;
 
-                        this.circular = this.options.wrap == 'circular' &&
+                        this.circular = this.options.wrap === 'circular' &&
                                         this._fullyvisible.size() < this.items().size();
 
                         this.list().css(this.lt, this._position(item) + 'px');
@@ -648,7 +647,12 @@
 
                     var pos = this.list().position()[this.lt];
 
-                    this.rtl ? pos += this.tail : pos -= this.tail;
+                    if (this.rtl) {
+                        pos += this.tail;
+                    } else {
+                        pos -= this.tail;
+                    }
+
                     this.inTail = true;
 
                     var properties = {};
