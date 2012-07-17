@@ -17,7 +17,6 @@
 <script type="text/javascript" src="../../plugins/autoscroll/src/jquery.jcarousel.autoscroll.js"></script>
 <script type="text/javascript" src="../../plugins/control/src/jquery.jcarousel.control.js"></script>
 <script type="text/javascript" src="../../plugins/pagination/src/jquery.jcarousel.pagination.js"></script>
-<script type="text/javascript" src="../../plugins/swipe/src/jquery.jcarousel.swipe.js"></script>
 <!--
   jCarousel skin stylesheet
 -->
@@ -39,8 +38,7 @@ $(function() {
     })
     .jcarouselAutoscroll({
         target: '+=1'
-    })
-    .jcarouselSwipe();
+    });
     
     $('.jcarousel-prev').jcarouselControl({target: '-=1'});
     $('.jcarousel-next').jcarouselControl({target: '+=1'});

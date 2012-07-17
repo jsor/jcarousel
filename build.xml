@@ -3,8 +3,7 @@
     <property name="file" value="src/jquery.jcarousel.js
                                  plugins/autoscroll/src/jquery.jcarousel.autoscroll.js
                                  plugins/control/src/jquery.jcarousel.control.js
-                                 plugins/pagination/src/jquery.jcarousel.pagination.js
-                                 plugins/swipe/src/jquery.jcarousel.swipe.js"/>
+                                 plugins/pagination/src/jquery.jcarousel.pagination.js/>
 
     <!--  lint (http://www.jslint.com/lint.html) -->
     <target name="lint">
