@@ -891,4 +891,4 @@
 
         return jCarousel;
     }));
-}(this));
+}(window));
