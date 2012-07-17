@@ -654,5 +654,5 @@ jCarousel is written on top of [jQuery](http://jquery.com) and was originally in
 License
 -------
 
-Copyright (c) 2012 Jan Sorgalla
+Copyright (c) 2012 Jan Sorgalla.
 Licensed under the MIT, GPL licenses.
