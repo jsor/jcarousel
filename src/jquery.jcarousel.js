@@ -96,28 +96,53 @@
             version:     jCarousel.version,
             options:     {},
             pluginName:  null,
-            pluginClass: null,
-            pluginFn:    null,
             _element:    null,
             _carousel:   null,
             _options:    $.noop,
             _init:       $.noop,
+            _create:     $.noop,
             _destroy:    $.noop,
-            _create: function() {
-                this.carousel()
-                    ._bind('destroy.' + this.pluginName, $.proxy(this.destroy, this));
+            create: function() {
+                if (false === this._trigger('create')) {
+                    return this;
+                }
+
+                this.element()
+                    .data(this.pluginName, this)
+                    .addClass(this.pluginName.toLowerCase());
+
+                var carousel = this.carousel();
+                if (carousel) {
+                    carousel._bind('destroy.' + this.pluginName, $.proxy(this.destroy, this));
+                }
+
+                this._create();
+
+                this._trigger('createend');
+
+                return this;
             },
             destroy: function() {
+                if (false === this._trigger('destroy')) {
+                    return this;
+                }
+
                 this._destroy();
 
-                this.carousel()
-                    ._unbind('.' + this.pluginName)
-                    .element()
-                    .unbind('.' + this.pluginName);
+                var carousel = this.carousel();
+                if (carousel) {
+                    carousel
+                        ._unbind('.' + this.pluginName)
+                        .element()
+                        .unbind('.' + this.pluginName);
+                }
 
                 this.element()
                     .unbind('.' + this.pluginName)
-                    .removeData(this.pluginName);
+                    .removeData(this.pluginName)
+                    .removeClass(this.pluginName.toLowerCase());
+
+                this._trigger('destroyend');
 
                 return this;
             },
@@ -184,52 +209,28 @@
             }
         };
 
-        var plugins = {};
+        jCarousel.plugins = {};
 
-        jCarousel.plugin = function(name, callback) {
-            if (typeof callback === 'undefined') {
-                if (typeof plugins[name] === 'undefined') {
-                    return $.error('No such plugin "' + name + '" registered');
-                }
-
-                return plugins[name].call(jCarousel, $);
-            }
-
-            plugins[name] = callback;
-
-            var pluginName,
-                pluginClass,
-                pluginFn;
-
-            if (name !== 'jcarousel') {
-                pluginName  = 'jcarousel' + name.toLowerCase();
-                pluginClass = 'jcarousel-' + name.toLowerCase();
-                pluginFn    = 'jcarousel' + name.charAt(0).toUpperCase() + name.slice(1);
-            } else {
-                pluginName = pluginClass = pluginFn = name;
-            }
-
+        jCarousel.plugin = function(pluginName, pluginPrototype) {
             var Plugin = function(element, options) {
-                this._element = $(element).data(pluginName, this).addClass(pluginClass);
+                this._element = $(element);
 
                 this.options = $.extend(
                     {},
                     this.options,
-                    this._options(),
+                    this._options() || {},
                     options
                 );
 
-                this._create();
                 this._init();
+                this.create();
             };
 
             Plugin.prototype = $.extend({}, jCarousel.Plugin, {
-                pluginName:  pluginName,
-                pluginClass: pluginClass,
-                pluginFn:    pluginFn
-            }, callback.call(jCarousel, $));
+                pluginName: pluginName
+            }, pluginPrototype);
 
-            $.fn[pluginFn] = function(options) {
+            $.fn[pluginName] = function(options) {
                 var args = arraySlice.call(arguments, 1),
                     returnValue = this;
 
@@ -239,14 +240,14 @@
 
                         if (!instance) {
                             return $.error(
-                                'Cannot call methods on ' + pluginFn + ' prior to initialization; ' +
+                                'Cannot call methods on ' + pluginName + ' prior to initialization; ' +
                                 'attempted to call method "' + options + '"'
                             );
                         }
 
                         if (!$.isFunction(instance[options]) || options.charAt(0) === '_') {
                             return $.error(
-                                'No such method "' + options + '" for ' + pluginFn + ' instance'
+                                'No such method "' + options + '" for ' + pluginName + ' instance'
                             );
                         }
 
@@ -274,623 +275,605 @@
                 return returnValue;
             };
 
+            jCarousel.plugins[pluginName] = pluginPrototype;
+
             return Plugin;
         };
 
         // jCarousel core plugin
-        jCarousel.plugin('jcarousel', function($) {
-            var jCarousel = this;
+        jCarousel.plugin('jcarousel', {
+            options: {
+                list:      'ul',
+                items:     'li',
+                animation: 400,
+                wrap:      null,
+                vertical:  null,
+                rtl:       null,
+                center:    false
+            },
+            animating:     false,
+            tail:          0,
+            inTail:        false,
+            resizeTimer:   null,
+            lt:            null,
+            vertical:      false,
+            rtl:           false,
+            circular:      false,
 
-            return {
-                options: {
-                    list:      'ul',
-                    items:     'li',
-                    animation: 400,
-                    wrap:      null,
-                    vertical:  null,
-                    rtl:       null,
-                    center:    false
-                },
-                animating:     false,
-                tail:          0,
-                inTail:        false,
-                resizeTimer:   null,
-                lt:            null,
-                vertical:      false,
-                rtl:           false,
-                circular:      false,
+            // Protected, don't access directly
+            _list:         null,
+            _items:        null,
+            _target:       null,
+            _first:        null,
+            _last:         null,
+            _visible:      null,
+            _fullyvisible: null,
+            _init: function() {
+                var self = this;
 
-                // Protected, don't access directly
-                _list:         null,
-                _items:        null,
-                _target:       null,
-                _first:        null,
-                _last:         null,
-                _visible:      null,
-                _fullyvisible: null,
-                _create: function() {
-                    // Don't bind on jcarouseldestroy
-                },
-                _init: function() {
-                    if (false === this._trigger('init')) {
-                        return this;
+                this.onWindowResize = function() {
+                    if (self.resizeTimer) {
+                        clearTimeout(self.resizeTimer);
                     }
 
-                    this._reload();
+                    self.resizeTimer = setTimeout(function() {
+                        self.reload();
+                    }, 100);
+                };
 
-                    var self = this;
+                this.onAnimationComplete = function(callback) {
+                    self.animating = false;
 
-                    this.onWindowResize = function() {
-                        if (self.resizeTimer) {
-                            clearTimeout(self.resizeTimer);
-                        }
+                    var c = self.list().find('.jcarousel-clone');
 
-                        self.resizeTimer = setTimeout(function() {
-                            self.reload();
-                        }, 100);
-                    };
+                    if (c.size() > 0) {
+                        c.remove();
+                        self._reload();
+                    }
 
-                    $(window).bind('resize.jcarousel', this.onWindowResize);
+                    self._trigger('animateend');
 
-                    this.onAnimationComplete = function(callback) {
-                        self.animating = false;
+                    if ($.isFunction(callback)) {
+                        callback.call(self, true);
+                    }
+                };
 
-                        var c = self.list().find('.jcarousel-clone');
+                return this;
+            },
+            carousel: function() {
+                return null;
+            },
+            _create: function() {
+                this._reload();
+                $(window).bind('resize.jcarousel', this.onWindowResize);
+            },
+            _destroy: function() {
+                this.items()
+                    .removeClass('jcarousel-item-target jcarousel-item-first jcarousel-item-last jcarousel-item-visible jcarousel-item-fullyvisible');
 
-                        if (c.size() > 0) {
-                            c.remove();
-                            self._reload();
-                        }
-
-                        self._trigger('animateEnd');
-
-                        if ($.isFunction(callback)) {
-                            callback.call(self, true);
-                        }
-                    };
-
-                    this._trigger('initEnd');
-
+                $(window).unbind('resize.jcarousel', this.onWindowResize);
+            },
+            reload: function() {
+                if (false === this._trigger('reload')) {
                     return this;
-                },
-                destroy: function() {
-                    if (false === this._trigger('destroy')) {
-                        return this;
-                    }
+                }
 
-                    this.element()
-                        .unbind('.' + this.pluginName)
-                        .removeData(this.pluginName);
+                this._reload();
 
-                    this.items().unbind('.jcarousel');
-                    $(window).unbind('resize.jcarousel', this.onWindowResize);
+                this._trigger('reloadend');
 
-                    this._trigger('destroyend');
+                return this;
+            },
+            list: function() {
+                if (this._list === null) {
+                    var option = this.option('list');
+                    this._list = $.isFunction(option) ? option.call(this) : this.element().find(option);
+                }
 
+                return this._list;
+            },
+            items: function() {
+                if (this._items === null) {
+                    var option = this.option('items');
+                    this._items = ($.isFunction(option) ? option.call(this) : this.list().find(option)).not('.jcarousel-clone');
+                }
+
+                return this._items;
+            },
+            target: function() {
+                return this._target;
+            },
+            first: function() {
+                return this._first;
+            },
+            last: function() {
+                return this._last;
+            },
+            visible: function() {
+                return this._visible;
+            },
+            fullyvisible: function() {
+                return this._fullyvisible;
+            },
+            hasNext: function() {
+                if (false === this._trigger('hasnext')) {
+                    return true;
+                }
+
+                var wrap = this.option('wrap'),
+                    end = this.items().size() - 1;
+
+                return end >= 0 &&
+                    ((wrap && wrap !== 'first') ||
+                        (this._last.index() < end) ||
+                        (this.tail && !this.inTail)) ? true : false;
+            },
+            hasPrev: function() {
+                if (false === this._trigger('hasprev')) {
+                    return true;
+                }
+
+                var wrap = this.option('wrap');
+
+                return this.items().size() > 0 &&
+                    ((wrap && wrap !== 'last') ||
+                        (this._first.index() > 0) ||
+                        (this.tail && this.inTail)) ? true : false;
+            },
+            scroll: function(target, animate, callback) {
+                if (this.animating) {
                     return this;
-                },
-                reload: function() {
-                    if (false === this._trigger('reload')) {
-                        return this;
-                    }
+                }
 
-                    this._reload();
-
-                    this._trigger('reloadEnd');
-
+                if (false === this._trigger('scroll', null, [target, animate])) {
                     return this;
-                },
-                list: function() {
-                    if (this._list === null) {
-                        var option = this.option('list');
-                        this._list = $.isFunction(option) ? option.call(this) : this.element().find(option);
-                    }
+                }
 
-                    return this._list;
-                },
-                items: function() {
-                    if (this._items === null) {
-                        var option = this.option('items');
-                        this._items = ($.isFunction(option) ? option.call(this) : this.list().find(option)).not('.jcarousel-clone');
-                    }
+                if ($.isFunction(animate)) {
+                    callback = animate;
+                    animate  = true;
+                }
 
-                    return this._items;
-                },
-                target: function() {
-                    return this._target;
-                },
-                first: function() {
-                    return this._first;
-                },
-                last: function() {
-                    return this._last;
-                },
-                visible: function() {
-                    return this._visible;
-                },
-                fullyvisible: function() {
-                    return this._fullyvisible;
-                },
-                hasNext: function() {
-                    if (false === this._trigger('hasnext')) {
-                        return true;
-                    }
+                var parsed = jCarousel.parseTarget(target);
 
-                    var wrap = this.option('wrap'),
-                        end = this.items().size() - 1;
+                if (parsed.relative) {
+                    var end = this.items().size() - 1,
+                        scroll = Math.abs(parsed.target),
+                        first,
+                        index,
+                        curr,
+                        i;
 
-                    return end >= 0 &&
-                        ((wrap && wrap !== 'first') ||
-                            (this._last.index() < end) ||
-                            (this.tail && !this.inTail)) ? true : false;
-                },
-                hasPrev: function() {
-                    if (false === this._trigger('hasprev')) {
-                        return true;
-                    }
+                    if (parsed.target > 0) {
+                        var last = this._last.index();
 
-                    var wrap = this.option('wrap');
-
-                    return this.items().size() > 0 &&
-                        ((wrap && wrap !== 'last') ||
-                            (this._first.index() > 0) ||
-                            (this.tail && this.inTail)) ? true : false;
-                },
-                scroll: function(target, animate, callback) {
-                    if (this.animating) {
-                        return this;
-                    }
-
-                    if (false === this._trigger('scroll', null, [target, animate])) {
-                        return this;
-                    }
-
-                    if ($.isFunction(animate)) {
-                        callback = animate;
-                        animate  = true;
-                    }
-
-                    var parsed = jCarousel.parseTarget(target);
-
-                    if (parsed.relative) {
-                        var end = this.items().size() - 1,
-                            scroll = Math.abs(parsed.target),
-                            first,
-                            index,
-                            curr,
-                            i;
-
-                        if (parsed.target > 0) {
-                            var last = this._last.index();
-
-                            if (last >= end && this.tail) {
-                                if (!this.inTail) {
-                                    this._scrollTail(animate, callback);
-                                } else {
-                                    if (this.options.wrap === 'both' ||
-                                        this.options.wrap === 'last') {
-                                        this._scroll(0, animate, callback);
-                                    } else {
-                                        this._scroll(Math.min(this._target.index() + scroll, end), animate, callback);
-                                    }
-                                }
+                        if (last >= end && this.tail) {
+                            if (!this.inTail) {
+                                this._scrollTail(animate, callback);
                             } else {
-                                if (last === end &&
-                                    (this.options.wrap === 'both' || this.options.wrap === 'last')) {
+                                if (this.options.wrap === 'both' ||
+                                    this.options.wrap === 'last') {
                                     this._scroll(0, animate, callback);
                                 } else {
-                                    first = this._target.index();
-                                    index = first + scroll;
-
-                                    if (this.circular && index > end) {
-                                        i = end;
-                                        curr = this.items().get(-1);
-
-                                        while (i++ < index) {
-                                            curr = this.items().eq(0);
-                                            curr.after(curr.clone(true).addClass('jcarousel-clone'));
-                                            this.list().append(curr);
-                                            // Force items reload
-                                            this._items = null;
-                                        }
-
-                                        this._scroll(curr, animate, callback);
-                                    } else {
-                                        this._scroll(Math.min(index, end), animate, callback);
-                                    }
+                                    this._scroll(Math.min(this._target.index() + scroll, end), animate, callback);
                                 }
                             }
                         } else {
-                            if (this.inTail) {
-                                this._scroll(Math.max((this._first.index() - scroll) + 1, 0), animate, callback);
+                            if (last === end &&
+                                (this.options.wrap === 'both' || this.options.wrap === 'last')) {
+                                this._scroll(0, animate, callback);
                             } else {
-                                first = this._first.index();
-                                index = first - scroll;
+                                first = this._target.index();
+                                index = first + scroll;
 
-                                if (first === 0 &&
-                                    (this.options.wrap === 'both' || this.options.wrap === 'first')) {
-                                    this._scroll(end, animate, callback);
-                                } else {
-                                    if (this.circular && index < 0) {
-                                        i = index;
-                                        curr = this.items().get(0);
+                                if (this.circular && index > end) {
+                                    i = end;
+                                    curr = this.items().get(-1);
 
-                                        while (i++ < 0) {
-                                            curr = this.items().eq(-1);
-                                            curr.after(curr.clone(true).addClass('jcarousel-clone'));
-                                            this.list().prepend(curr);
-                                            // Force items reload
-                                            this._items = null;
-
-                                            var lt  = toFloat(this.list().css(this.lt)),
-                                                dim = this._dimension(curr);
-
-                                            if (this.rtl) {
-                                                lt += dim;
-                                            } else {
-                                                lt -= dim;
-                                            }
-
-                                            this.list().css(this.lt, lt + 'px');
-                                        }
-
-                                        this._scroll(curr, animate, callback);
-                                    } else {
-                                        this._scroll(Math.max(first - scroll, 0), animate, callback);
+                                    while (i++ < index) {
+                                        curr = this.items().eq(0);
+                                        curr.after(curr.clone(true).addClass('jcarousel-clone'));
+                                        this.list().append(curr);
+                                        // Force items reload
+                                        this._items = null;
                                     }
+
+                                    this._scroll(curr, animate, callback);
+                                } else {
+                                    this._scroll(Math.min(index, end), animate, callback);
                                 }
                             }
                         }
                     } else {
-                        this._scroll(parsed.target, animate, callback);
-                    }
+                        if (this.inTail) {
+                            this._scroll(Math.max((this._first.index() - scroll) + 1, 0), animate, callback);
+                        } else {
+                            first = this._first.index();
+                            index = first - scroll;
 
-                    this._trigger('scrollend');
+                            if (first === 0 &&
+                                (this.options.wrap === 'both' || this.options.wrap === 'first')) {
+                                this._scroll(end, animate, callback);
+                            } else {
+                                if (this.circular && index < 0) {
+                                    i = index;
+                                    curr = this.items().get(0);
 
-                    return this;
-                },
-                _reload: function() {
-                    var element = this.element(),
-                        checkRTL = function() {
-                            if (('' + element.attr('dir')).toLowerCase() === 'rtl') {
-                                return true;
-                            }
+                                    while (i++ < 0) {
+                                        curr = this.items().eq(-1);
+                                        curr.after(curr.clone(true).addClass('jcarousel-clone'));
+                                        this.list().prepend(curr);
+                                        // Force items reload
+                                        this._items = null;
 
-                            var found = false;
+                                        var lt  = toFloat(this.list().css(this.lt)),
+                                            dim = this._dimension(curr);
 
-                            element.parents('[dir]').each(function() {
-                                if ((/rtl/i).test($(this).attr('dir'))) {
-                                    found = true;
-                                    return false;
+                                        if (this.rtl && !this.vertical) {
+                                            lt += dim;
+                                        } else {
+                                            lt -= dim;
+                                        }
+
+                                        this.list().css(this.lt, lt + 'px');
+                                    }
+
+                                    this._scroll(curr, animate, callback);
+                                } else {
+                                    this._scroll(Math.max(first - scroll, 0), animate, callback);
                                 }
-                            });
+                            }
+                        }
+                    }
+                } else {
+                    this._scroll(parsed.target, animate, callback);
+                }
 
-                            return found;
-                        };
+                this._trigger('scrollend');
 
-                    this.vertical = this.options.vertical == null ?
-                                        ('' + element.attr('class'))
-                                            .toLowerCase()
-                                            .indexOf('jcarousel-vertical') > -1 :
-                                        this.options.vertical;
-                    this.rtl = this.options.rtl == null ? checkRTL() : this.options.rtl;
-                    this.lt = this.vertical ? 'top' : 'left';
+                return this;
+            },
+            _reload: function() {
+                var element = this.element(),
+                    checkRTL = function() {
+                        if (('' + element.attr('dir')).toLowerCase() === 'rtl') {
+                            return true;
+                        }
+
+                        var found = false;
+
+                        element.parents('[dir]').each(function() {
+                            if ((/rtl/i).test($(this).attr('dir'))) {
+                                found = true;
+                                return false;
+                            }
+                        });
+
+                        return found;
+                    };
+
+                this.vertical = this.options.vertical == null ?
+                                    ('' + element.attr('class'))
+                                        .toLowerCase()
+                                        .indexOf('jcarousel-vertical') > -1 :
+                                    this.options.vertical;
+                this.rtl = this.options.rtl == null ? checkRTL() : this.options.rtl;
+                this.lt = this.vertical ? 'top' : 'left';
+
+                // Force items reload
+                this._items = null;
+
+                var item = this._target || this.items().eq(0);
+
+                // _prepare() needs this here
+                this.circular = this.options.wrap === 'circular';
+                this.list().css({'left': 0, 'top': 0});
+
+                if (item.size() > 0) {
+                    this._prepare(item);
+                    this.list().find('.jcarousel-clone').remove();
 
                     // Force items reload
                     this._items = null;
 
-                    var item = this._target || this.items().eq(0);
+                    this.circular = this.options.wrap === 'circular' &&
+                                    this._fullyvisible.size() < this.items().size();
 
-                    // _prepare() needs this here
-                    this.circular = this.options.wrap === 'circular';
-                    this.list().css({'left': 0, 'top': 0});
+                    this.list().css(this.lt, this._position(item) + 'px');
+                }
 
-                    if (item.size() > 0) {
-                        this._prepare(item);
-                        this.list().find('.jcarousel-clone').remove();
+                return this;
+            },
+            _scroll: function(item, animate, callback) {
+                if (this.animating) {
+                    return this;
+                }
 
-                        // Force items reload
-                        this._items = null;
+                if (typeof item !== 'object') {
+                    item = this.items().eq(item);
+                } else if (typeof item.jquery === 'undefined') {
+                    item = $(item);
+                }
 
-                        this.circular = this.options.wrap === 'circular' &&
-                                        this._fullyvisible.size() < this.items().size();
-
-                        this.list().css(this.lt, this._position(item) + 'px');
+                if (item.size() === 0) {
+                    if ($.isFunction(callback)) {
+                        callback.call(this, false);
                     }
 
                     return this;
-                },
-                _scroll: function(item, animate, callback) {
-                    if (this.animating) {
-                        return this;
+                }
+
+                this.inTail = false;
+
+                this._prepare(item);
+                var pos = this._position(item),
+                    currPos = toFloat(this.list().css(this.lt));
+
+                if (pos === currPos) {
+                    if ($.isFunction(callback)) {
+                        callback.call(this, false);
                     }
-
-                    if (typeof item !== 'object') {
-                        item = this.items().eq(item);
-                    } else if (typeof item.jquery === 'undefined') {
-                        item = $(item);
-                    }
-
-                    if (item.size() === 0) {
-                        if ($.isFunction(callback)) {
-                            callback.call(this, false);
-                        }
-
-                        return this;
-                    }
-
-                    this.inTail = false;
-
-                    this._prepare(item);
-                    var pos = this._position(item),
-                        currPos = toFloat(this.list().css(this.lt));
-
-                    if (pos === currPos) {
-                        if ($.isFunction(callback)) {
-                            callback.call(this, false);
-                        }
-
-                        return this;
-                    }
-
-                    var properties = {};
-                    properties[this.lt] = pos + 'px';
-
-                    this._animate(properties, animate, callback);
 
                     return this;
-                },
-                _scrollTail: function(animate, callback) {
-                    if (this.animating || !this.tail) {
-                        return this;
-                    }
+                }
 
-                    var pos = this.list().position()[this.lt];
+                var properties = {};
+                properties[this.lt] = pos + 'px';
 
-                    if (this.rtl) {
-                        pos += this.tail;
+                this._animate(properties, animate, callback);
+
+                return this;
+            },
+            _scrollTail: function(animate, callback) {
+                if (this.animating || !this.tail) {
+                    return this;
+                }
+
+                var pos = this.list().position()[this.lt];
+
+                if (this.rtl) {
+                    pos += this.tail;
+                } else {
+                    pos -= this.tail;
+                }
+
+                this.inTail = true;
+
+                var properties = {};
+                properties[this.lt] = pos + 'px';
+
+                this._update({
+                    target:       this._target.next(),
+                    fullyvisible: this._fullyvisible.slice(1).add(this._visible.last())
+                });
+
+                this._animate(properties, animate, callback);
+
+                return this;
+            },
+            _animate: function(properties, animate, callback) {
+                if (this.animating) {
+                    return this;
+                }
+
+                if (false === this._trigger('animate')) {
+                    return this;
+                }
+
+                this.animating = true;
+
+                if (!this.options.animation || animate === false) {
+                    this.list().css(properties);
+                    this.onAnimationComplete(callback);
+                } else {
+                    var self = this;
+
+                    if ($.isFunction(this.options.animation)) {
+                        this.options.animation.call(this, properties, function() {
+                            self.onAnimationComplete(callback);
+                        });
                     } else {
-                        pos -= this.tail;
-                    }
+                        var opts = typeof this.options.animation === 'object' ?
+                                    this.options.animation :
+                                    {duration: this.options.animation},
+                            oldComplete = opts.complete;
 
-                    this.inTail = true;
-
-                    var properties = {};
-                    properties[this.lt] = pos + 'px';
-
-                    this._update({
-                        target:       this._target.next(),
-                        fullyvisible: this._fullyvisible.slice(1).add(this._visible.last())
-                    });
-
-                    this._animate(properties, animate, callback);
-
-                    return this;
-                },
-                _animate: function(properties, animate, callback) {
-                    if (this.animating) {
-                        return this;
-                    }
-
-                    if (false === this._trigger('animate')) {
-                        return this;
-                    }
-
-                    this.animating = true;
-
-                    if (!this.options.animation || animate === false) {
-                        this.list().css(properties);
-                        this.onAnimationComplete(callback);
-                    } else {
-                        var self = this;
-
-                        if ($.isFunction(this.options.animation)) {
-                            this.options.animation.call(this, properties, function() {
-                                self.onAnimationComplete(callback);
-                            });
-                        } else {
-                            var opts = typeof this.options.animation === 'object' ?
-                                        this.options.animation :
-                                        {duration: this.options.animation},
-                                oldComplete = opts.complete;
-
-                            opts.complete = function() {
-                                self.onAnimationComplete(callback);
-                                if ($.isFunction(oldComplete)) {
-                                    oldComplete.call(this);
-                                }
-                            };
-
-                            this.list().animate(properties, opts);
-                        }
-                    }
-
-                    return this;
-                },
-                _prepare: function(item) {
-                    var index = item.index(),
-                        idx = index,
-                        wh = this._dimension(item),
-                        clip = this._clipping(),
-                        update = {
-                            target:       item,
-                            first:        item,
-                            last:         item,
-                            visible:      item,
-                            fullyvisible: wh <= clip ? item : $()
-                        },
-                        lrb = this.vertical ? 'bottom' : (this.rtl ? 'left'  : 'right'),
-                        curr,
-                        margin;
-
-                    if (this.options.center) {
-                        wh /= 2;
-                        clip /= 2;
-                    }
-
-                    if (wh < clip) {
-                        while (true) {
-                            curr = this.items().eq(++idx);
-
-                            if (curr.size() === 0) {
-                                if (this.circular) {
-                                    curr = this.items().eq(0);
-                                    if (item.get(0) === curr.get(0)) {
-                                        break;
-                                    }
-                                    curr.after(curr.clone(true).addClass('jcarousel-clone'));
-                                    this.list().append(curr);
-                                    // Force items reload
-                                    this._items = null;
-                                } else {
-                                    break;
-                                }
+                        opts.complete = function() {
+                            self.onAnimationComplete(callback);
+                            if ($.isFunction(oldComplete)) {
+                                oldComplete.call(this);
                             }
-
-                            wh += this._dimension(curr);
-
-                            update.last = curr;
-                            update.visible = update.visible.add(curr);
-
-                            // Remove right/bottom margin from total width
-                            margin = toFloat(curr.css('margin-' + lrb));
-
-                            if ((wh - margin) <= clip) {
-                                update.fullyvisible = update.fullyvisible.add(curr);
-                            }
-
-                            if (wh >= clip) {
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!this.circular && wh < clip) {
-                        idx = index;
-
-                        while (true) {
-                            if (--idx < 0) {
-                                break;
-                            }
-
-                            curr = this.items().eq(idx);
-
-                            if (curr.size() === 0) {
-                                break;
-                            }
-
-                            wh += this._dimension(curr);
-
-                            update.first = curr;
-                            update.visible = update.visible.add(curr);
-
-                            // Remove right/bottom margin from total width
-                            margin = toFloat(curr.css('margin-' + lrb));
-
-                            if ((wh - margin) <= clip) {
-                                update.fullyvisible = update.fullyvisible.add(curr);
-                            }
-
-                            if (wh >= clip) {
-                                break;
-                            }
-                        }
-                    }
-
-                    this._update(update);
-
-                    this.tail = 0;
-
-                    if (this.options.wrap !== 'circular' &&
-                        this.options.wrap !== 'custom' &&
-                        update.last.index() === (this.items().size() - 1)) {
-
-                        // Remove right/bottom margin from total width
-                        wh -= toFloat(update.last.css('margin-' + lrb));
-
-                        if (wh > clip) {
-                            this.tail = wh - clip;
-                        }
-                    }
-
-                    return this;
-                },
-                _position: function(item) {
-                    var first = this._first,
-                        pos   = first.position()[this.lt];
-
-                    if (this.rtl && !this.vertical) {
-                        pos -= this._clipping() - this._dimension(first);
-                    }
-
-                    if (this.options.center) {
-                        pos -= (this._clipping() / 2) - (this._dimension(first) / 2);
-                    }
-
-                    if ((item.index() > first.index() || this.inTail) && this.tail) {
-                        pos = this.rtl ? pos - this.tail : pos + this.tail;
-                        this.inTail = true;
-                    } else {
-                        this.inTail = false;
-                    }
-
-                    return -pos;
-                },
-                _update: function(update) {
-                    var self = this,
-                        current = {
-                            target:       this._target || $(),
-                            first:        this._first || $(),
-                            last:         this._last || $(),
-                            visible:      this._visible || $(),
-                            fullyvisible: this._fullyvisible || $()
-                        },
-                        back = (update.first || current.first).index() < current.first.index(),
-                        key,
-                        doUpdate = function(key) {
-                            var elIn = [],
-                                elOut = [];
-
-                            update[key].each(function() {
-                                if (current[key].index(this) < 0) {
-                                    elIn.push(this);
-                                }
-                            });
-
-                            current[key].each(function() {
-                                if (update[key].index(this) < 0) {
-                                    elOut.push(this);
-                                }
-                            });
-
-                            if (back) {
-                                elIn = elIn.reverse();
-                            } else {
-                                elOut = elOut.reverse();
-                            }
-
-                            self._trigger('item' + key + 'in', $(elIn));
-                            self._trigger('item' + key + 'out', $(elOut));
-
-                            current[key].removeClass('jcarousel-item-' + key);
-                            update[key].addClass('jcarousel-item-' + key);
-
-                            self['_' + key] = update[key];
                         };
 
-                    for (key in update) {
-                        doUpdate(key);
+                        this.list().animate(properties, opts);
                     }
-
-                    return this;
-                },
-                _clipping: function() {
-                    return this.element()['inner' + (this.vertical ? 'Height' : 'Width')]();
-                },
-                _dimension: function(element) {
-                    return element['outer' + (this.vertical ? 'Height' : 'Width')](true);
                 }
-            };
+
+                return this;
+            },
+            _prepare: function(item) {
+                var index = item.index(),
+                    idx = index,
+                    wh = this._dimension(item),
+                    clip = this._clipping(),
+                    update = {
+                        target:       item,
+                        first:        item,
+                        last:         item,
+                        visible:      item,
+                        fullyvisible: wh <= clip ? item : $()
+                    },
+                    lrb = this.vertical ? 'bottom' : (this.rtl ? 'left'  : 'right'),
+                    curr,
+                    margin;
+
+                if (this.options.center) {
+                    wh /= 2;
+                    clip /= 2;
+                }
+
+                if (wh < clip) {
+                    while (true) {
+                        curr = this.items().eq(++idx);
+
+                        if (curr.size() === 0) {
+                            if (this.circular) {
+                                curr = this.items().eq(0);
+                                if (item.get(0) === curr.get(0)) {
+                                    break;
+                                }
+                                curr.after(curr.clone(true).addClass('jcarousel-clone'));
+                                this.list().append(curr);
+                                // Force items reload
+                                this._items = null;
+                            } else {
+                                break;
+                            }
+                        }
+
+                        wh += this._dimension(curr);
+
+                        update.last = curr;
+                        update.visible = update.visible.add(curr);
+
+                        // Remove right/bottom margin from total width
+                        margin = toFloat(curr.css('margin-' + lrb));
+
+                        if ((wh - margin) <= clip) {
+                            update.fullyvisible = update.fullyvisible.add(curr);
+                        }
+
+                        if (wh >= clip) {
+                            break;
+                        }
+                    }
+                }
+
+                if (!this.circular && wh < clip) {
+                    idx = index;
+
+                    while (true) {
+                        if (--idx < 0) {
+                            break;
+                        }
+
+                        curr = this.items().eq(idx);
+
+                        if (curr.size() === 0) {
+                            break;
+                        }
+
+                        wh += this._dimension(curr);
+
+                        update.first = curr;
+                        update.visible = update.visible.add(curr);
+
+                        // Remove right/bottom margin from total width
+                        margin = toFloat(curr.css('margin-' + lrb));
+
+                        if ((wh - margin) <= clip) {
+                            update.fullyvisible = update.fullyvisible.add(curr);
+                        }
+
+                        if (wh >= clip) {
+                            break;
+                        }
+                    }
+                }
+
+                this._update(update);
+
+                this.tail = 0;
+
+                if (this.options.wrap !== 'circular' &&
+                    this.options.wrap !== 'custom' &&
+                    update.last.index() === (this.items().size() - 1)) {
+
+                    // Remove right/bottom margin from total width
+                    wh -= toFloat(update.last.css('margin-' + lrb));
+
+                    if (wh > clip) {
+                        this.tail = wh - clip;
+                    }
+                }
+
+                return this;
+            },
+            _position: function(item) {
+                var first = this._first,
+                    pos   = first.position()[this.lt];
+
+                if (this.rtl && !this.vertical) {
+                    pos -= this._clipping() - this._dimension(first);
+                }
+
+                if (this.options.center) {
+                    pos -= (this._clipping() / 2) - (this._dimension(first) / 2);
+                }
+
+                if ((item.index() > first.index() || this.inTail) && this.tail) {
+                    pos = this.rtl ? pos - this.tail : pos + this.tail;
+                    this.inTail = true;
+                } else {
+                    this.inTail = false;
+                }
+
+                return -pos;
+            },
+            _update: function(update) {
+                var self = this,
+                    current = {
+                        target:       this._target || $(),
+                        first:        this._first || $(),
+                        last:         this._last || $(),
+                        visible:      this._visible || $(),
+                        fullyvisible: this._fullyvisible || $()
+                    },
+                    back = (update.first || current.first).index() < current.first.index(),
+                    key,
+                    doUpdate = function(key) {
+                        var elIn = [],
+                            elOut = [];
+
+                        update[key].each(function() {
+                            if (current[key].index(this) < 0) {
+                                elIn.push(this);
+                            }
+                        });
+
+                        current[key].each(function() {
+                            if (update[key].index(this) < 0) {
+                                elOut.push(this);
+                            }
+                        });
+
+                        if (back) {
+                            elIn = elIn.reverse();
+                        } else {
+                            elOut = elOut.reverse();
+                        }
+
+                        self._trigger('item' + key + 'in', $(elIn));
+                        self._trigger('item' + key + 'out', $(elOut));
+
+                        current[key].removeClass('jcarousel-item-' + key);
+                        update[key].addClass('jcarousel-item-' + key);
+
+                        self['_' + key] = update[key];
+                    };
+
+                for (key in update) {
+                    doUpdate(key);
+                }
+
+                return this;
+            },
+            _clipping: function() {
+                return this.element()['inner' + (this.vertical ? 'Height' : 'Width')]();
+            },
+            _dimension: function(element) {
+                return element['outer' + (this.vertical ? 'Height' : 'Width')](true);
+            }
         });
 
         return jCarousel;

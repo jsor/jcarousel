@@ -26,7 +26,7 @@ $(function() {
 
     var jcarousel = $('#jcarousel1');
 
-    $.each(['init', 'destroy', 'reload', 'scroll', 'animate'], function(i, name) {
+    $.each(['create', 'destroy', 'reload', 'scroll', 'animate'], function(i, name) {
         jcarousel.bind('jcarousel' + name.toLowerCase(), function() {
             log(name.toLowerCase(), this, arguments);
         });

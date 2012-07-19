@@ -18,140 +18,138 @@
             factory(window.jQuery, window.jCarousel);
         }
     }(function ($, jCarousel) {
-        jCarousel.plugin('pagination', function($) {
-            return {
-                options: {
-                    perpage: null,
-                    item: function(page) {
-                        return '<a class="' + this.pluginClass + '-item" href="#' + page + '">' + page + '</a>';
-                    },
-                    active: function(item) {
-                        item.addClass(this.pluginClass + '-item-active');
-                    },
-                    inactive: function(item) {
-                        item.removeClass(this.pluginClass + '-item-active');
-                    }
+        jCarousel.plugin('jcarouselPagination', {
+            options: {
+                perpage: null,
+                item: function(page) {
+                    return '<a class="' + this.pluginName.toLowerCase() + '-item" href="#' + page + '">' + page + '</a>';
                 },
-                current: null,
-                pages: {},
-                items: {},
-                _init: function() {
-                    this.carousel()
-                        ._bind('reloadend.' + this.pluginName, $.proxy(this.reload, this))
-                        ._bind('scrollend.' + this.pluginName, $.proxy(this.update, this));
-
-                    this.reload();
+                active: function(item) {
+                    item.addClass(this.pluginName.toLowerCase() + '-item-active');
                 },
-                _destroy: function() {
-                    this.element().empty();
-                },
-                reload: function() {
-                    var self = this,
-                        carousel = this.carousel(),
-                        options = this.options;
+                inactive: function(item) {
+                    item.removeClass(this.pluginName.toLowerCase() + '-item-active');
+                }
+            },
+            current: null,
+            pages: {},
+            items: {},
+            _init: function() {
+                this.carousel()
+                    ._bind('reloadend.' + this.pluginName, $.proxy(this.reload, this))
+                    ._bind('scrollend.' + this.pluginName, $.proxy(this.update, this));
 
-                    this.pages = {};
-                    this.items = {};
+                this.reload();
+            },
+            _destroy: function() {
+                this.element().empty();
+            },
+            reload: function() {
+                var self = this,
+                    carousel = this.carousel(),
+                    options = this.options;
 
-                    // Calculate pages
-                    if (options.perpage == null) {
-                        options.perpage = function() {
-                            var items = carousel.items(),
-                                clip  = carousel._clipping(),
-                                wh    = 0,
-                                idx   = 0,
-                                page  = 1,
-                                pages = {},
-                                curr;
+                this.pages = {};
+                this.items = {};
 
-                            while (true) {
-                                curr = items.eq(idx++);
-
-                                if (curr.size() === 0) {
-                                    break;
-                                }
-
-                                if (!pages[page]) {
-                                    pages[page] = curr;
-                                } else {
-                                    pages[page] = pages[page].add(curr);
-                                }
-
-                                wh += carousel._dimension(curr);
-
-                                if (wh >= clip) {
-                                    page++;
-                                    wh = 0;
-                                }
-                            }
-
-                            return pages;
-                        };
-                    }
-
-                    if ($.isFunction(options.perpage)) {
-                        this.pages = options.perpage.call(this);
-                    } else {
-                        var pp = parseInt(options.perpage, 10) || 0,
-                            items = carousel.items(),
-                            page = 1,
-                            i = 0,
+                // Calculate pages
+                if (options.perpage == null) {
+                    options.perpage = function() {
+                        var items = carousel.items(),
+                            clip  = carousel._clipping(),
+                            wh    = 0,
+                            idx   = 0,
+                            page  = 1,
+                            pages = {},
                             curr;
 
                         while (true) {
-                            curr = items.eq(i++);
+                            curr = items.eq(idx++);
 
                             if (curr.size() === 0) {
                                 break;
                             }
 
-                            if (!this.pages[page]) {
-                                this.pages[page] = curr;
+                            if (!pages[page]) {
+                                pages[page] = curr;
                             } else {
-                                this.pages[page] = this.pages[page].add(curr);
+                                pages[page] = pages[page].add(curr);
                             }
 
-                            if (i % pp === 0) {
+                            wh += carousel._dimension(curr);
+
+                            if (wh >= clip) {
                                 page++;
+                                wh = 0;
                             }
                         }
-                    }
 
-                    var element = this.element().empty();
+                        return pages;
+                    };
+                }
 
-                    $.each(this.pages, function(page, carouselItems) {
-                        self.items[page] = $(options.item.call(self, page, carouselItems))
-                            .click(function(e) {
-                                e.preventDefault();
-                                carousel.scroll(carouselItems.eq(0));
-                            })
-                            .appendTo(element);
-                    });
+                if ($.isFunction(options.perpage)) {
+                    this.pages = options.perpage.call(this);
+                } else {
+                    var pp = parseInt(options.perpage, 10) || 0,
+                        items = carousel.items(),
+                        page = 1,
+                        i = 0,
+                        curr;
 
-                    this.current = null;
-                    this.update();
-                },
-                update: function() {
-                    var target = this.carousel().target(),
-                        current = null;
+                    while (true) {
+                        curr = items.eq(i++);
 
-                    $.each(this.pages, function(page, carouselItems) {
-                        if (carouselItems.index(target) >= 0) {
-                            current = page;
-                            return false;
-                        }
-                    });
-
-                    if (current !== this.current) {
-                        if (this.current) {
-                            this.options.inactive.call(this, this.items[this.current]);
+                        if (curr.size() === 0) {
+                            break;
                         }
 
-                        this.options.active.call(this, this.items[current]);
-                        this.current = current;
+                        if (!this.pages[page]) {
+                            this.pages[page] = curr;
+                        } else {
+                            this.pages[page] = this.pages[page].add(curr);
+                        }
+
+                        if (i % pp === 0) {
+                            page++;
+                        }
                     }
                 }
-            };
+
+                var element = this.element().empty();
+
+                $.each(this.pages, function(page, carouselItems) {
+                    self.items[page] = $(options.item.call(self, page, carouselItems))
+                        .click(function(e) {
+                            e.preventDefault();
+                            carousel.scroll(carouselItems.eq(0));
+                        })
+                        .appendTo(element);
+                });
+
+                this.current = null;
+                this.update();
+            },
+            update: function() {
+                var target = this.carousel().target(),
+                    current = null;
+
+                $.each(this.pages, function(page, carouselItems) {
+                    if (carouselItems.index(target) >= 0) {
+                        current = page;
+                        return false;
+                    }
+                });
+
+                if (current !== this.current) {
+                    if (this.current) {
+                        this.options.inactive.call(this, this.items[this.current]);
+                    }
+
+                    this.options.active.call(this, this.items[current]);
+                    this.current = current;
+                }
+            }
         });
     }));
 }(window));

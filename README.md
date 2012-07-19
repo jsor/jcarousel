@@ -280,7 +280,7 @@ The first argument is the method name. The following arguments are the arguments
     </tr>
     <tr>
         <td><pre>.jcarousel('destroy');</pre></td>
-        <td>Removes the jCarousel functionality completely. This will return the element back to its pre-init state.</td>
+        <td>Removes the jCarousel functionality completely. This will return the element back to its initial state.</td>
     </tr>
     <tr>
         <td><pre>.jcarousel('reload');</pre></td>
@@ -371,8 +371,8 @@ After initialization, jCarousel triggers specific events on the root element and
         <th>Example</th>
     </tr>
     <tr>
-        <td>jcarouselinit</td>
-        <td>Triggered on initialization of the carousel.</td>
+        <td>jcarouselcreate</td>
+        <td>Triggered on creation of the carousel.</td>
         <td>
             <pre>
 $('.jcarousel').bind('jcarouselinit', function(event, carousel) {
@@ -382,8 +382,8 @@ $('.jcarousel').bind('jcarouselinit', function(event, carousel) {
         </td>
     </tr>
         <tr>
-        <td>jcarouselinitend</td>
-        <td>Triggered after initialization of the carousel.</td>
+        <td>jcarouselcreateend</td>
+        <td>Triggered after creation of the carousel.</td>
         <td>
             <pre>
 $('.jcarousel').bind('jcarouselinitend', function(event, carousel) {

@@ -43,10 +43,10 @@ jQuery(function($){
     test("_init() triggers events", function() {
         expect(2);
 
-        $('#jcarousel1').bind('jcarouselinit', function() {
-            ok(true, "#jcarousel1 (init)");
-        }).bind('jcarouselinitend', function() {
-            ok(true, "#jcarousel1 (initend)");
+        $('#jcarousel1').bind('jcarouselcreate', function() {
+            ok(true, "#jcarousel1 (create)");
+        }).bind('jcarouselcreateend', function() {
+            ok(true, "#jcarousel1 (createend)");
         }).jcarousel();
     });
 

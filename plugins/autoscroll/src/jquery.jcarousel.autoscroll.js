@@ -18,43 +18,41 @@
             factory(window.jQuery, window.jCarousel);
         }
     }(function ($, jCarousel) {
-        jCarousel.plugin('autoscroll', function($) {
-            return {
-                options: {
-                    target:    '+=1',
-                    interval:  3000,
-                    autostart: true
-                },
-                timer: null,
-                _init: function() {
-                    if (this.option('autostart')) {
-                        this.start();
-                    }
-                },
-                _destroy: function() {
-                    this.stop();
-                },
-                start: function() {
-                    this.stop();
-
-                    this.carousel()._bind('animateend.' + this.pluginName, $.proxy(this.start, this));
-
-                    this.timer = setTimeout($.proxy(function() {
-                        this.carousel().scroll(this.option('target'));
-                    }, this), this.option('interval'));
-
-                    return this;
-                },
-                stop: function() {
-                    if (this.timer) {
-                        this.timer = clearTimeout(this.timer);
-                    }
-
-                    this.carousel()._unbind('animateend.' + this.pluginName);
-
-                    return this;
+        jCarousel.plugin('jcarouselAutoscroll', {
+            options: {
+                target:    '+=1',
+                interval:  3000,
+                autostart: true
+            },
+            timer: null,
+            _init: function() {
+                if (this.option('autostart')) {
+                    this.start();
                 }
-            };
+            },
+            _destroy: function() {
+                this.stop();
+            },
+            start: function() {
+                this.stop();
+
+                this.carousel()._bind('animateend.' + this.pluginName, $.proxy(this.start, this));
+
+                this.timer = setTimeout($.proxy(function() {
+                    this.carousel().scroll(this.option('target'));
+                }, this), this.option('interval'));
+
+                return this;
+            },
+            stop: function() {
+                if (this.timer) {
+                    this.timer = clearTimeout(this.timer);
+                }
+
+                this.carousel()._unbind('animateend.' + this.pluginName);
+
+                return this;
+            }
         });
     }));
 }(window));
