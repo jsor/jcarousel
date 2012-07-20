@@ -154,7 +154,7 @@
                     return this;
                 },
                 _trigger: function(type, element, data) {
-                    var event = $.Event((pluginName + type).toLowerCase());
+                    var event = $.Event((type + '.' + pluginName).toLowerCase());
 
                     (element || this._element).trigger(event, [this].concat(data || []));
 

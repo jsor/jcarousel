@@ -295,16 +295,12 @@ The first argument is the method name. The following arguments are the arguments
         <td>Scrolls to a specific item or relative by a given offset (See section &quot;Navigating the carousel&quot; for more information about the target argument). If the argument <code>animate</code> is given and <code>false</code>, it just jumps to the position without animation. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('option', name, [value]);</pre></td>
-        <td>Get or set any jCarousel option. If no value is specified, will act as a getter.</td>
+        <td><pre>.jcarousel('options'[, name, [value]]);</pre></td>
+        <td>Get or set any jCarousel option. If no value is specified, will act as a getter. If no name is specified, it will return all options as an object.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('option', options);</pre></td>
+        <td><pre>.jcarousel('options', options);</pre></td>
         <td>Set multiple jCarousel options at once by providing an options object.</td>
-    </tr>
-    <tr>
-        <td><pre>.jcarousel('option', callback);</pre></td>
-        <td>Set multiple jCarousel options by passing a function which returns an options object. The function is executed in the context of the carousel instance.</td>
     </tr>
 </table>
 
@@ -371,99 +367,99 @@ After initialization, jCarousel triggers specific events on the root element and
         <th>Example</th>
     </tr>
     <tr>
-        <td>jcarouselcreate</td>
+        <td>create.jcarousel</td>
         <td>Triggered on creation of the carousel.</td>
         <td>
             <pre>
-$('.jcarousel').bind('jcarouselcreate', function(event, carousel) {
+$('.jcarousel').bind('create.jcarousel', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
         <tr>
-        <td>jcarouselcreateend</td>
+        <td>createend.jcarousel</td>
         <td>Triggered after creation of the carousel.</td>
         <td>
             <pre>
-$('.jcarousel').bind('jcarouselcreateend', function(event, carousel) {
+$('.jcarousel').bind('createend.jcarousel', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
     <tr>
-        <td>jcarouseldestroy</td>
+        <td>destroy.jcarousel</td>
         <td>Triggered when the <code>destroy</code> method is called.</td>
         <td>
             <pre>
-$('.jcarousel').bind('jcarouseldestroy', function(event, carousel) {
+$('.jcarousel').bind('destroy.jcarousel', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
     <tr>
-        <td>jcarouseldestroyend</td>
+        <td>destroyend.jcarousel</td>
         <td>Triggered after the <code>destroy</code> method is called.</td>
         <td>
             <pre>
-$('.jcarousel').bind('jcarouseldestroyend', function(event, carousel) {
+$('.jcarousel').bind('destroyend.jcarousel', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
     <tr>
-        <td>jcarouselrefresh</td>
+        <td>refresh.jcarousel</td>
         <td>Triggered when the <code>refresh</code> method is called.</td>
         <td>
             <pre>
-$('.jcarousel').bind('jcarouselrefresh', function(event, carousel) {
+$('.jcarousel').bind('refresh.jcarousel', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
     <tr>
-        <td>jcarouselrefreshend</td>
+        <td>refreshend.jcarousel</td>
         <td>Triggered after the <code>refresh</code> method is called.</td>
         <td>
             <pre>
-$('.jcarousel').bind('jcarouselrefreshend', function(event, carousel) {
+$('.jcarousel').bind('refreshend.jcarousel', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
     <tr>
-        <td>jcarouselreload</td>
+        <td>reload.jcarousel</td>
         <td>Triggered when the <code>reload</code> method is called.</td>
         <td>
             <pre>
-$('.jcarousel').bind('jcarouselreload', function(event, carousel) {
+$('.jcarousel').bind('reload.jcarousel', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
     <tr>
-        <td>jcarouselreloadend</td>
+        <td>reloadend.jcarousel</td>
         <td>Triggered after the <code>reload</code> method is called.</td>
         <td>
             <pre>
-$('.jcarousel').bind('jcarouselreload', function(event, carousel) {
+$('.jcarousel').bind('reload.jcarousel', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
     <tr>
-        <td>jcarouselscroll</td>
+        <td>scroll.jcarousel</td>
         <td>Triggered when the <code>scroll</code> method is called.</td>
         <td>
             <pre>
-$('.jcarousel').bind('jcarouselscroll', function(event, carousel, target, animate) {
+$('.jcarousel').bind('scroll.jcarousel', function(event, carousel, target, animate) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
     // "target" is the target argument passed to the `scroll` method
@@ -473,11 +469,11 @@ $('.jcarousel').bind('jcarouselscroll', function(event, carousel, target, animat
         </td>
     </tr>
     <tr>
-        <td>jcarouselscrollend</td>
+        <td>scrollend.jcarousel</td>
         <td>Triggered after the <code>scroll</code> method is called. Note that this method is triggered at the end of the scroll method and not at the end of a animation.</td>
         <td>
             <pre>
-$('.jcarousel').bind('jcarouselscrollend', function(event, carousel) {
+$('.jcarousel').bind('scrollend.jcarousel', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
     // "animated" is a boolean indicating whether jCarousel actually moved
@@ -485,22 +481,22 @@ $('.jcarousel').bind('jcarouselscrollend', function(event, carousel) {
         </td>
     </tr>
     <tr>
-        <td>jcarouselanimate</td>
+        <td>animate.jcarousel</td>
         <td>Triggered when jCarousel starts a animation.</td>
         <td>
             <pre>
-$('.jcarousel').bind('jcarouselanimate', function(event, carousel) {
+$('.jcarousel').bind('animate.jcarousel', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });</pre>
         </td>
     </tr>
     <tr>
-        <td>jcarouselanimateend</td>
+        <td>animateend.jcarousel</td>
         <td>Triggered after jCarousel has finished a animation.</td>
         <td>
             <pre>
-$('.jcarousel').bind('jcarouselanimateend', function(event, carousel) {
+$('.jcarousel').bind('animateend.jcarousel', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });</pre>
@@ -514,7 +510,7 @@ $('.jcarousel').bind('jcarouselanimateend', function(event, carousel) {
 $('.jcarousel')
 
     // Bind first
-    .bind('jcarouselcreate', function(event, carousel) {
+    .bind('create.jcarousel', function(event, carousel) {
         // Do something
     })
 
@@ -531,11 +527,11 @@ $('.jcarousel')
         <th>Example</th>
     </tr>
     <tr>
-        <td>jcarouselitemfirstin</td>
+        <td>itemfirstin.jcarousel</td>
         <td>Triggered when the item becomes the first visible item.</td>
         <td>
             <pre>
-$('.jcarousel li').bind('jcarouselitemfirstin', function(event, carousel) {
+$('.jcarousel li').bind('itemfirstin.jcarousel', function(event, carousel) {
     // This is now the first visible item
     // "this" refers to the item element
     // "carousel" is the jCarousel instance
@@ -543,11 +539,11 @@ $('.jcarousel li').bind('jcarouselitemfirstin', function(event, carousel) {
         </td>
     </tr>
     <tr>
-        <td>jcarouselitemfirstout</td>
+        <td>itemfirstout.jcarousel</td>
         <td>Triggered when the item is no longer the first visible item.</td>
         <td>
             <pre>
-$('.jcarousel li').bind('jcarouselitemfirstout', function(event, carousel) {
+$('.jcarousel li').bind('itemfirstout.jcarousel', function(event, carousel) {
     // This is no longer the first visible item
     // "this" refers to the item element
     // "carousel" is the jCarousel instance
@@ -555,11 +551,11 @@ $('.jcarousel li').bind('jcarouselitemfirstout', function(event, carousel) {
         </td>
     </tr>
     <tr>
-        <td>jcarouselitemlastin</td>
+        <td>itemlastin.jcarousel</td>
         <td>Triggered when the item becomes the last visible item.</td>
         <td>
             <pre>
-$('.jcarousel li').bind('jcarouselitemlastin', function(event, carousel) {
+$('.jcarousel li').bind('itemlastin.jcarousel', function(event, carousel) {
     // This is now the last visible item
     // "this" refers to the item element
     // "carousel" is the jCarousel instance
@@ -567,11 +563,11 @@ $('.jcarousel li').bind('jcarouselitemlastin', function(event, carousel) {
         </td>
     </tr>
     <tr>
-        <td>jcarouselitemlastout</td>
+        <td>itemlastout.jcarousel</td>
         <td>Triggered when the item is no longer the last visible item.</td>
         <td>
             <pre>
-$('.jcarousel li').bind('jcarouselitemlastout', function(event, carousel) {
+$('.jcarousel li').bind('itemlastout.jcarousel', function(event, carousel) {
     // This is no longer the last visible item
     // "this" refers to the item element
     // "carousel" is the jCarousel instance
@@ -579,11 +575,11 @@ $('.jcarousel li').bind('jcarouselitemlastout', function(event, carousel) {
         </td>
     </tr>
     <tr>
-        <td>jcarouselitemvisiblein</td>
+        <td>itemvisiblein.jcarousel</td>
         <td>Triggered when the item becomes a visible item.</td>
         <td>
             <pre>
-$('.jcarousel li').bind('jcarouselitemvisiblein', function(event, carousel) {
+$('.jcarousel li').bind('itemvisiblein.jcarousel', function(event, carousel) {
     // This is now a visible item
     // "this" refers to the item element
     // "carousel" is the jCarousel instance
@@ -591,11 +587,11 @@ $('.jcarousel li').bind('jcarouselitemvisiblein', function(event, carousel) {
         </td>
     </tr>
     <tr>
-        <td>jcarouselitemvisibleout</td>
+        <td>itemvisibleout.jcarousel</td>
         <td>Triggered when the item is no longer a visible item.</td>
         <td>
             <pre>
-$('.jcarousel li').bind('jcarouselitemvisibleout', function(event, carousel) {
+$('.jcarousel li').bind('itemvisibleout.jcarousel', function(event, carousel) {
     // This is no longer a visible item
     // "this" refers to the item element
     // "carousel" is the jCarousel instance
@@ -603,11 +599,11 @@ $('.jcarousel li').bind('jcarouselitemvisibleout', function(event, carousel) {
         </td>
     </tr>
     <tr>
-        <td>jcarouselitemfullyvisiblein</td>
+        <td>itemfullyvisiblein.jcarousel</td>
         <td>Triggered when the item becomes a fully visible item.</td>
         <td>
             <pre>
-$('.jcarousel li').bind('jcarouselitemfullyvisiblein', function(event, carousel) {
+$('.jcarousel li').bind('itemfullyvisiblein.jcarousel', function(event, carousel) {
     // This is now a fully visible item
     // "this" refers to the item element
     // "carousel" is the jCarousel instance
@@ -615,11 +611,11 @@ $('.jcarousel li').bind('jcarouselitemfullyvisiblein', function(event, carousel)
         </td>
     </tr>
     <tr>
-        <td>jcarouselitemfullyvisibleout</td>
+        <td>itemfullyvisibleout.jcarousel</td>
         <td>Triggered when the item is no longer a fully visible item.</td>
         <td>
             <pre>
-$('.jcarousel li').bind('jcarouselitemfullyvisibleout', function(event, carousel) {
+$('.jcarousel li').bind('itemfullyvisibleout.jcarousel', function(event, carousel) {
     // This is no longer a fully visible item
     // "this" refers to the item element
     // "carousel" is the jCarousel instance

@@ -27,37 +27,37 @@ $(function() {
     var jcarousel = $('#jcarousel1');
 
     $.each(['create', 'destroy', 'reload', 'scroll', 'animate'], function(i, name) {
-        jcarousel.bind('jcarousel' + name.toLowerCase(), function() {
-            log(name.toLowerCase(), this, arguments);
+        jcarousel.bind(name + '.jcarousel', function() {
+            log(name, this, arguments);
         });
-        jcarousel.bind('jcarousel' + name.toLowerCase() + 'end', function() {
-            log(name.toLowerCase() + 'end', this, arguments);
+        jcarousel.bind(name + 'end.jcarousel', function() {
+            log(name + 'end', this, arguments);
         });
     });
 
     jcarousel.find('li')
-    .bind('jcarouselitemvisiblein', function() {
+    .bind('itemvisiblein.jcarousel', function() {
         log('itemvisiblein', this, arguments);
     })
-    .bind('jcarouselitemvisibleout', function() {
+    .bind('itemvisibleout.jcarousel', function() {
         log('itemvisibleout', this, arguments);
     })
-    .bind('jcarouselitemfullyvisiblein', function() {
+    .bind('itemfullyvisiblein.jcarousel', function() {
         log('itemfullyvisiblein', this, arguments);
     })
-    .bind('jcarouselitemfullyvisibleout', function() {
+    .bind('itemfullyvisibleout.jcarousel', function() {
         log('itemfullyvisibleout', this, arguments);
     })
-    .bind('jcarouselitemfirstin', function() {
+    .bind('itemfirstin.jcarousel', function() {
         log('itemfirstin', this, arguments);
     })
-    .bind('jcarouselitemfirstout', function() {
+    .bind('itemfirstout.jcarousel', function() {
         log('itemfirstout', this, arguments);
     })
-    .bind('jcarouselitemlastin', function() {
+    .bind('itemlastin.jcarousel', function() {
         log('itemlastin', this, arguments);
     })
-    .bind('jcarouselitemlastout', function() {
+    .bind('itemlastout.jcarousel', function() {
         log('itemlastout', this, arguments);
     });
 

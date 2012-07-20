@@ -34,11 +34,11 @@
             },
             _create: function() {
                 this.carousel()
-                    .one('jcarouseldestroy', $.proxy(function() {
+                    .one('destroy.jcarousel', $.proxy(function() {
                         this._destroy();
-                        this.carousel().one('jcarouselcreateend', $.proxy(this._create, this));
+                        this.carousel().one('createend.jcarousel', $.proxy(this._create, this));
                     }, this))
-                    .bind('jcarouselreloadend jcarouselscrollend', this.onReload);
+                    .bind('reloadend.jcarousel scrollend.jcarousel', this.onReload);
 
                 this._element
                     .bind(this.options('event') + '.jcarouselcontrol', this.onEvent);
@@ -50,7 +50,7 @@
                     .unbind('.jcarouselcontrol', this.onEvent);
 
                 this.carousel()
-                    .unbind('jcarouselreloadend jcarouselscrollend', this.onReload);
+                    .unbind('reloadend.jcarousel scrollend.jcarousel', this.onReload);
             },
             reload: function() {
                 var parsed = jCarousel.parseTarget(this.options('target')),

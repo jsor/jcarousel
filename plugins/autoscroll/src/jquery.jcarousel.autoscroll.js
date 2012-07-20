@@ -30,9 +30,9 @@
             },
             _create: function() {
                 this.carousel()
-                    .one('jcarouseldestroy', $.proxy(function() {
+                    .one('destroy.jcarousel', $.proxy(function() {
                         this._destroy();
-                        this.carousel().one('jcarouselcreateend', $.proxy(this._create, this));
+                        this.carousel().one('createend.jcarousel', $.proxy(this._create, this));
                     }, this));
 
                 if (this.options('autostart')) {
@@ -45,7 +45,7 @@
             start: function() {
                 this.stop();
 
-                this.carousel().one('jcarouselanimateend', this.onAnimateEnd);
+                this.carousel().one('animateend.jcarousel', this.onAnimateEnd);
 
                 this._timer = setTimeout($.proxy(function() {
                     this.carousel().jcarousel('scroll', this.options('target'));
@@ -58,7 +58,7 @@
                     this._timer = clearTimeout(this._timer);
                 }
 
-                this.carousel().unbind('jcarouselanimateend', this.onAnimateEnd);
+                this.carousel().unbind('animateend.jcarousel', this.onAnimateEnd);
 
                 return this;
             }

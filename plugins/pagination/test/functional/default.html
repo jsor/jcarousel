@@ -29,10 +29,10 @@ $(function() {
     create();
 
     $('#jcarousel-pagination')
-        .delegate('a', 'jcarouselpaginationitemactive', function() {
+        .delegate('a', 'itemactive.jcarouselpagination', function() {
             $(this).addClass('active');
         })
-        .delegate('a', 'jcarouselpaginationiteminactive', function() {
+        .delegate('a', 'iteminactive.jcarouselpagination', function() {
             $(this).removeClass('active');
         })
         .jcarouselPagination({
