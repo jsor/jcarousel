@@ -20,61 +20,57 @@
         }
     }(function ($, jCarousel) {
         jCarousel.plugin('jcarouselControl', {
-            options: {
+            _options: {
                 target: '+=1',
                 event:  'click'
             },
-            active: null,
+            _active: null,
             _init: function() {
+                this.onReload = $.proxy(this.reload, this);
+                this.onEvent = $.proxy(function(e) {
+                    e.preventDefault();
+                    this.carousel().jcarousel('scroll', this.options('target'));
+                }, this);
+            },
+            _create: function() {
                 this.carousel()
-                    ._bind('reloadend.' + this.pluginName, $.proxy(this.reload, this))
-                    ._bind('scrollend.' + this.pluginName, $.proxy(this.reload, this));
+                    .one('jcarouseldestroy', $.proxy(function() {
+                        this._destroy();
+                        this.carousel().one('jcarouselcreateend', $.proxy(this._create, this));
+                    }, this))
+                    .bind('jcarouselreloadend jcarouselscrollend', this.onReload);
 
-                this.element()
-                    .bind(this.option('event') + '.' + this.pluginName, $.proxy(function(e) {
-                        e.preventDefault();
-                        this.carousel().scroll(this.option('target'));
-                    }, this));
+                this._element
+                    .bind(this.options('event') + '.jcarouselcontrol', this.onEvent);
 
                 this.reload();
             },
             _destroy: function() {
-                this.element()
-                    .removeClass(this.pluginName.toLowerCase() + '-active')
-                    .removeClass(this.pluginName.toLowerCase() + '-inactive');
+                this._element
+                    .unbind('.jcarouselcontrol', this.onEvent);
+
+                this.carousel()
+                    .unbind('jcarouselreloadend jcarouselscrollend', this.onReload);
             },
             reload: function() {
-                var parsed = jCarousel.parseTarget(this.option('target')),
+                var parsed = jCarousel.parseTarget(this.options('target')),
                     carousel = this.carousel(),
                     active;
 
                 if (parsed.relative) {
-                    active = carousel[parsed.target > 0 ? 'hasNext' : 'hasPrev']();
+                    active = carousel.jcarousel(parsed.target > 0 ? 'hasNext' : 'hasPrev');
                 } else {
                     var target = typeof parsed.target !== 'object' ?
-                                    carousel.items().eq(parsed.target) :
+                                    carousel.jcarousel('items').eq(parsed.target) :
                                     parsed.target;
 
-                    active = carousel.target().index(target) >= 0;
+                    active = carousel.jcarousel('target').index(target) >= 0;
                 }
 
-                if (this.active === active) {
-                    return this;
+                if (this._active !== active) {
+                    this._trigger(active ? 'active' : 'inactive');
+                    this._active = active;
                 }
-
-                if (active) {
-                    this.element()
-                        .addClass(this.pluginName.toLowerCase() + '-active')
-                        .removeClass(this.pluginName.toLowerCase() + '-inactive');
-                } else {
-                    this.element()
-                        .removeClass(this.pluginName.toLowerCase() + '-active')
-                        .addClass(this.pluginName.toLowerCase() + '-inactive');
-                }
-
-                this._trigger(active ? 'active' : 'inactive');
-
-                this.active = active;
 
                 return this;
             }

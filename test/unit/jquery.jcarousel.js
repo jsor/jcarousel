@@ -77,7 +77,7 @@ jQuery(function($){
 
         equal($('#jcarousel1').data('jcarousel').vertical, false, '#jcarousel1');
         equal($('#jcarousel2').data('jcarousel').vertical, false, '#jcarousel2');
-        equal($('#jcarousel3').data('jcarousel').vertical, true, '#jcarousel3 (class: .jcarousel-vertical)');
+        equal($('#jcarousel3').data('jcarousel').vertical, true, '#jcarousel3 (attr: data-jcarousel-vertical)');
     });
 
     test("reload() sets rtl", function() {

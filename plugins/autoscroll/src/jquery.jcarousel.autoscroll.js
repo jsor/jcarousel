@@ -19,14 +19,23 @@
         }
     }(function ($, jCarousel) {
         jCarousel.plugin('jcarouselAutoscroll', {
-            options: {
+            _options: {
                 target:    '+=1',
                 interval:  3000,
                 autostart: true
             },
-            timer: null,
-            _init: function() {
-                if (this.option('autostart')) {
+            _timer: null,
+            _init: function () {
+                this.onAnimateEnd = $.proxy(this.start, this);
+            },
+            _create: function() {
+                this.carousel()
+                    .one('jcarouseldestroy', $.proxy(function() {
+                        this._destroy();
+                        this.carousel().one('jcarouselcreateend', $.proxy(this._create, this));
+                    }, this));
+
+                if (this.options('autostart')) {
                     this.start();
                 }
             },
@@ -36,20 +45,20 @@
             start: function() {
                 this.stop();
 
-                this.carousel()._bind('animateend.' + this.pluginName, $.proxy(this.start, this));
+                this.carousel().one('jcarouselanimateend', this.onAnimateEnd);
 
-                this.timer = setTimeout($.proxy(function() {
-                    this.carousel().scroll(this.option('target'));
-                }, this), this.option('interval'));
+                this._timer = setTimeout($.proxy(function() {
+                    this.carousel().jcarousel('scroll', this.options('target'));
+                }, this), this.options('interval'));
 
                 return this;
             },
             stop: function() {
-                if (this.timer) {
-                    this.timer = clearTimeout(this.timer);
+                if (this._timer) {
+                    this._timer = clearTimeout(this._timer);
                 }
 
-                this.carousel()._unbind('animateend.' + this.pluginName);
+                this.carousel().unbind('jcarouselanimateend', this.onAnimateEnd);
 
                 return this;
             }

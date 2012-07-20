@@ -22,15 +22,20 @@
 <link rel="stylesheet" type="text/css" href="../../../../test/vertical.css">
 
 <script type="text/javascript">
+function create() {
+    $('#jcarousel1').jcarousel()
+    $('#jcarousel2').jcarousel({
+        wrap: 'circular'
+    });
+}
 
 $(function() {
-    $('#jcarousel1').jcarousel().jcarouselAutoscroll({
+    create();
+    $('#jcarousel1').jcarouselAutoscroll({
         autostart: false
     });
 
-    $('#jcarousel2').jcarousel({
-        wrap: 'circular'
-    }).jcarouselAutoscroll({
+    $('#jcarousel2').jcarouselAutoscroll({
         target: '-=1'
     });
 });
@@ -118,10 +123,11 @@ $(function() {
         <a href="#" onclick="$('html').attr('dir', 'rtl'); $('.jcarousel').jcarousel('reload'); return false;">RTL</a>
         <a href="#" onclick="$('html').attr('dir', 'ltr'); $('.jcarousel').jcarousel('reload'); return false;">LTR</a>
         |
-        <a href="#" onclick="$('.jcarousel').addClass('jcarousel-vertical').jcarousel('reload'); return false;">Vertical</a>
-        <a href="#" onclick="$('.jcarousel').removeClass('jcarousel-vertical').jcarousel('reload'); return false;">Horizontal</a>
+        <a href="#" onclick="$('.jcarousel').attr('data-jcarousel-vertical', true).jcarousel('reload'); return false;">Vertical</a>
+        <a href="#" onclick="$('.jcarousel').removeAttr('data-jcarousel-vertical').jcarousel('reload'); return false;">Horizontal</a>
         |
         <a href="#" onclick="$('.jcarousel').jcarousel('destroy'); return false;">Destroy</a>
+        <a href="#" onclick="create(); return false;">Create</a>
     </p>
 
 </body>

@@ -1,4 +1,4 @@
-.jcarousel-skin-default .jcarousel-vertical,
+.jcarousel-skin-default [data-jcarousel-vertical],
 .jcarousel-skin-default .ver-ti-cal {
     position: relative;
     overflow: hidden;
@@ -8,7 +8,7 @@
     border: 1px solid #000;
 }
 
-.jcarousel-skin-default .jcarousel-vertical ul,
+.jcarousel-skin-default [data-jcarousel-vertical] ul,
 .jcarousel-skin-default .ver-ti-cal ul {
     height: 20000px;
     width: 75px;
@@ -18,7 +18,7 @@
     padding: 0;
 }
 
-.jcarousel-skin-default .jcarousel-vertical li,
+.jcarousel-skin-default [data-jcarousel-vertical] li,
 .jcarousel-skin-default .ver-ti-cal li {
     height: 75px;
     margin: 0 0 10px 0;

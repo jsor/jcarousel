@@ -19,80 +19,57 @@
         }
     }(function ($, jCarousel) {
         jCarousel.plugin('jcarouselPagination', {
-            options: {
-                perpage: null,
+            _options: {
+                perPage: null,
                 item: function(page) {
-                    return '<a class="' + this.pluginName.toLowerCase() + '-item" href="#' + page + '">' + page + '</a>';
-                },
-                active: function(item) {
-                    item.addClass(this.pluginName.toLowerCase() + '-item-active');
-                },
-                inactive: function(item) {
-                    item.removeClass(this.pluginName.toLowerCase() + '-item-active');
+                    return '<a href="#' + page + '">' + page + '</a>';
                 }
             },
-            current: null,
-            pages: {},
-            items: {},
+            _current: null,
+            _pages: {},
+            _items: {},
             _init: function() {
+                this.onReload = $.proxy(this.reload, this);
+                this.onScroll = $.proxy(this.update, this);
+            },
+            _create: function() {
                 this.carousel()
-                    ._bind('reloadend.' + this.pluginName, $.proxy(this.reload, this))
-                    ._bind('scrollend.' + this.pluginName, $.proxy(this.update, this));
+                    .one('jcarouseldestroy', $.proxy(function() {
+                        this._destroy();
+                        this.carousel().one('jcarouselcreateend', $.proxy(this._create, this));
+                    }, this))
+                    .bind('jcarouselreloadend', this.onReload)
+                    .bind('jcarouselscrollend', this.onScroll);
 
                 this.reload();
             },
             _destroy: function() {
-                this.element().empty();
+                this._element.empty();
+
+                this.carousel()
+                    .unbind('jcarouselreloadend', this.onReload)
+                    .unbind('jcarouselscrollend', this.onScroll);
+            },
+            current: function() {
+                return this._current;
+            },
+            items: function() {
+                return this._items;
             },
             reload: function() {
-                var self = this,
-                    carousel = this.carousel(),
-                    options = this.options;
+                var perPage = this.options('perPage');
 
-                this.pages = {};
-                this.items = {};
+                this._pages = {};
+                this._items = {};
 
                 // Calculate pages
-                if (options.perpage == null) {
-                    options.perpage = function() {
-                        var items = carousel.items(),
-                            clip  = carousel._clipping(),
-                            wh    = 0,
-                            idx   = 0,
-                            page  = 1,
-                            pages = {},
-                            curr;
-
-                        while (true) {
-                            curr = items.eq(idx++);
-
-                            if (curr.size() === 0) {
-                                break;
-                            }
-
-                            if (!pages[page]) {
-                                pages[page] = curr;
-                            } else {
-                                pages[page] = pages[page].add(curr);
-                            }
-
-                            wh += carousel._dimension(curr);
-
-                            if (wh >= clip) {
-                                page++;
-                                wh = 0;
-                            }
-                        }
-
-                        return pages;
-                    };
-                }
-
-                if ($.isFunction(options.perpage)) {
-                    this.pages = options.perpage.call(this);
+                if (perPage == null) {
+                    this._pages = this._calculatePages();
+                } else if ($.isFunction(perPage)) {
+                    this._pages = perPage.call(this);
                 } else {
-                    var pp = parseInt(options.perpage, 10) || 0,
-                        items = carousel.items(),
+                    var pp = parseInt(perPage, 10) || 0,
+                        items = this.carousel().jcarousel('items'),
                         page = 1,
                         i = 0,
                         curr;
@@ -104,10 +81,10 @@
                             break;
                         }
 
-                        if (!this.pages[page]) {
-                            this.pages[page] = curr;
+                        if (!this._pages[page]) {
+                            this._pages[page] = curr;
                         } else {
-                            this.pages[page] = this.pages[page].add(curr);
+                            this._pages[page] = this._pages[page].add(curr);
                         }
 
                         if (i % pp === 0) {
@@ -116,39 +93,74 @@
                     }
                 }
 
-                var element = this.element().empty();
+                var self = this,
+                    element = this._element.empty(),
+                    item = this.options('item');
 
-                $.each(this.pages, function(page, carouselItems) {
-                    self.items[page] = $(options.item.call(self, page, carouselItems))
+                $.each(this._pages, function(page, carouselItems) {
+                    self._items[page] = $(item.call(self, page, carouselItems))
                         .click(function(e) {
                             e.preventDefault();
-                            carousel.scroll(carouselItems.eq(0));
+                            self.carousel().jcarousel('scroll', carouselItems.eq(0));
                         })
                         .appendTo(element);
                 });
 
-                this.current = null;
+                this._current = null;
                 this.update();
             },
             update: function() {
-                var target = this.carousel().target(),
+                var target = this.carousel().jcarousel('target'),
                     current = null;
 
-                $.each(this.pages, function(page, carouselItems) {
+                $.each(this._pages, function(page, carouselItems) {
                     if (carouselItems.index(target) >= 0) {
                         current = page;
                         return false;
                     }
                 });
 
-                if (current !== this.current) {
-                    if (this.current) {
-                        this.options.inactive.call(this, this.items[this.current]);
+                if (current !== this._current) {
+                    if (this._current) {
+                        this._trigger('iteminactive', this._items[this._current]);
                     }
 
-                    this.options.active.call(this, this.items[current]);
-                    this.current = current;
+                    this._trigger('itemactive', this._items[current]);
+                    this._current = current;
                 }
+            },
+            _calculatePages: function() {
+                var carousel = this.carousel().data('jcarousel'),
+                    items    = carousel.items(),
+                    clip     = carousel.clipping(),
+                    wh       = 0,
+                    idx      = 0,
+                    page     = 1,
+                    pages    = {},
+                    curr;
+
+                while (true) {
+                    curr = items.eq(idx++);
+
+                    if (curr.size() === 0) {
+                        break;
+                    }
+
+                    if (!pages[page]) {
+                        pages[page] = curr;
+                    } else {
+                        pages[page] = pages[page].add(curr);
+                    }
+
+                    wh += carousel.dimension(curr);
+
+                    if (wh >= clip) {
+                        page++;
+                        wh = 0;
+                    }
+                }
+
+                return pages;
             }
         });
     }));

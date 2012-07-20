@@ -111,7 +111,7 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
         <td>vertical</td>
         <td>boolean</td>
         <td>null</td>
-        <td>Specifies whether the carousel appears in vertical orientation. Changes the carousel from a left/right style to a up/down style carousel. If not set, jCarousel looks for a class <code>jcarousel-vertical</code> on the root element and if found, automatically sets <code>vertical</code> to <code>true</code>.</td>
+        <td>Specifies whether the carousel appears in vertical orientation. Changes the carousel from a left/right style to a up/down style carousel. If not set, jCarousel looks for a data-* attribute <code>data-jcarousel-vertical</code> on the root element and if found, automatically sets <code>vertical</code> to <code>true</code>.</td>
     </tr>
     <tr>
         <td>rtl</td>
@@ -206,10 +206,10 @@ To create a vertical carousel, set the `vertical` option to `true`:
 $('.jcarousel').jcarousel({vertical: true});
 ```
 
-Alternatively, you can simply use a class for your root element which contains the string `jcarousel-vertical`:
+Alternatively, you can simply use a `data-jcarousel-vertical` attribute for your root element:
 
 ```html
-<div class="jcarousel jcarousel-vertical">
+<div class="jcarousel" data-jcarousel-vertical="true">
     <ul>
         <!-- The content goes in here -->
     </ul>
@@ -375,7 +375,7 @@ After initialization, jCarousel triggers specific events on the root element and
         <td>Triggered on creation of the carousel.</td>
         <td>
             <pre>
-$('.jcarousel').bind('jcarouselinit', function(event, carousel) {
+$('.jcarousel').bind('jcarouselcreate', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });</pre>
@@ -386,29 +386,7 @@ $('.jcarousel').bind('jcarouselinit', function(event, carousel) {
         <td>Triggered after creation of the carousel.</td>
         <td>
             <pre>
-$('.jcarousel').bind('jcarouselinitend', function(event, carousel) {
-    // "this" refers to the root element
-    // "carousel" is the jCarousel instance
-});</pre>
-        </td>
-    </tr>
-    <tr>
-        <td>jcarouselreload</td>
-        <td>Triggered when the <code>reload</code> method is called.</td>
-        <td>
-            <pre>
-$('.jcarousel').bind('jcarouselreload', function(event, carousel) {
-    // "this" refers to the root element
-    // "carousel" is the jCarousel instance
-});</pre>
-        </td>
-    </tr>
-    <tr>
-        <td>jcarouselreloadend</td>
-        <td>Triggered after the <code>reload</code> method is called.</td>
-        <td>
-            <pre>
-$('.jcarousel').bind('jcarouselreload', function(event, carousel) {
+$('.jcarousel').bind('jcarouselcreateend', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });</pre>
@@ -431,6 +409,50 @@ $('.jcarousel').bind('jcarouseldestroy', function(event, carousel) {
         <td>
             <pre>
 $('.jcarousel').bind('jcarouseldestroyend', function(event, carousel) {
+    // "this" refers to the root element
+    // "carousel" is the jCarousel instance
+});</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>jcarouselrefresh</td>
+        <td>Triggered when the <code>refresh</code> method is called.</td>
+        <td>
+            <pre>
+$('.jcarousel').bind('jcarouselrefresh', function(event, carousel) {
+    // "this" refers to the root element
+    // "carousel" is the jCarousel instance
+});</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>jcarouselrefreshend</td>
+        <td>Triggered after the <code>refresh</code> method is called.</td>
+        <td>
+            <pre>
+$('.jcarousel').bind('jcarouselrefreshend', function(event, carousel) {
+    // "this" refers to the root element
+    // "carousel" is the jCarousel instance
+});</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>jcarouselreload</td>
+        <td>Triggered when the <code>reload</code> method is called.</td>
+        <td>
+            <pre>
+$('.jcarousel').bind('jcarouselreload', function(event, carousel) {
+    // "this" refers to the root element
+    // "carousel" is the jCarousel instance
+});</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>jcarouselreloadend</td>
+        <td>Triggered after the <code>reload</code> method is called.</td>
+        <td>
+            <pre>
+$('.jcarousel').bind('jcarouselreload', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });</pre>
@@ -486,13 +508,13 @@ $('.jcarousel').bind('jcarouselanimateend', function(event, carousel) {
     </tr>
 </table>
 
-**Note:** Some events like `jcarouselinit` are triggered from the constructor, so you have to bind the events **before** you initialize the carousel:
+**Note:** Some events like `jcarouselcreate` are triggered from the constructor, so you have to bind the events **before** you initialize the carousel:
 
 ```javascript
 $('.jcarousel')
 
     // Bind first
-    .bind('jcarouselinit', function(event, carousel) {
+    .bind('jcarouselcreate', function(event, carousel) {
         // Do something
     })
 
@@ -606,43 +628,58 @@ $('.jcarousel li').bind('jcarouselitemfullyvisibleout', function(event, carousel
     </tr>
 </table>
 
-jCarousel specific classes
---------------------------
+jCarousel specific data-* attributes
+------------------------------------
 
-jCarousel adds specific classes to the carousel items indicating their current status.
+jCarousel adds specific data-* attributes to the root element and the items of the carousel.
 
-This is useful for selecting items on runtime or add specific styling to them.
+### Available root data-* attributes:
 
 <table>
     <tr>
-        <th>Class</th>
+        <th>Attribute</th>
         <th>Description</th>
         <th>Example</th>
     </tr>
     <tr>
-        <td>.jcarousel-item-target</td>
+        <td>data-jcarousel-root</td>
+        <td>Indicates the root item.</td>
+        <td><pre>$('.jcarousel [data-jcarousel-root]');</pre></td>
+    </tr>
+</table>
+
+### Available item data-* attributes:
+
+<table>
+    <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+        <th>Example</th>
+    </tr>
+    <tr>
+        <td>data-jcarousel-item-target</td>
         <td>Indicates the targeted item.</td>
-        <td><pre>$('.jcarousel .jcarousel-item-target');</pre></td>
+        <td><pre>$('.jcarousel [data-jcarousel-item-target]');</pre></td>
     </tr>
     <tr>
-        <td>.jcarousel-item-first</td>
+        <td>data-jcarousel-item-first</td>
         <td>Indicates the first visible item.</td>
-        <td><pre>$('.jcarousel .jcarousel-item-first');</pre></td>
+        <td><pre>$('.jcarousel [data-jcarousel-item-first]');</pre></td>
     </tr>
     <tr>
-        <td>.jcarousel-item-last</td>
+        <td>data-jcarousel-item-last</td>
         <td>Indicates the last visible item.</td>
-        <td><pre>$('.jcarousel .jcarousel-item-last');</pre></td>
+        <td><pre>$('.jcarousel [data-jcarousel-item-last]');</pre></td>
     </tr>
     <tr>
-        <td>.jcarousel-item-visible</td>
+        <td>data-jcarousel-item-visible</td>
         <td>Indicates a visible items.</td>
-        <td><pre>$('.jcarousel .jcarousel-item-visible');</pre></td>
+        <td><pre>$('.jcarousel [data-jcarousel-item-visible]');</pre></td>
     </tr>
     <tr>
-        <td>.jcarousel-item-fullyvisible</td>
+        <td>data-jcarousel-item-fullyvisible</td>
         <td>Indicates a fully visible items.</td>
-        <td><pre>$('.jcarousel .jcarousel-item-fullyvisible');</pre></td>
+        <td><pre>$('.jcarousel [data-jcarousel-item-fullyvisible]');</pre></td>
     </tr>
 </table>
 
