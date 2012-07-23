@@ -254,16 +254,7 @@ $(function() {
 });
 ```
 
-You can later access the jCarousel instance with:
-
-```javascript
-var jcarousel = $('.jcarousel').data('jcarousel');
-
-// Call a method
-jcarousel.scroll('+=2');
-```
-
-Methods can be also called directly like this:
+You can later call methods on the jCarousel instance with:
 
 ```javascript
 $('.jcarousel').jcarousel('scroll', '+=2');
@@ -283,8 +274,8 @@ The first argument is the method name. The following arguments are the arguments
         <td>Removes the jCarousel functionality completely. This will return the element back to its initial state.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('reload');</pre></td>
-        <td>Reloads the carousel. This method is useful to reinitialize the carousel if you have changed the content of the list from the outside.</td>
+        <td><pre>.jcarousel('reload'[, options]);</pre></td>
+        <td>Reloads the carousel. This method is useful to reinitialize the carousel if you have changed the content of the list from the outside or want to change options on runtime.</td>
     </tr>
     <tr>
         <td><pre>.jcarousel('items');</pre></td>
