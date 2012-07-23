@@ -230,9 +230,14 @@
                         }
                     });
                 } else {
-                    var instance;
                     this.each(function() {
-                        (instance = $(this).data(pluginName)) ? instance.reload(options) : new Plugin(this, options);
+                        var instance = $(this).data(pluginName);
+
+                        if (instance) {
+                            instance.reload(options);
+                        } else {
+                            new Plugin(this, options);
+                        }
                     });
                 }
 
