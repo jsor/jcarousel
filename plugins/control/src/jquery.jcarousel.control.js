@@ -26,7 +26,7 @@
             },
             _active: null,
             _init: function() {
-                this.onReload = $.proxy(this.reload, this);
+                this.onReload = $.proxy(this._reload, this);
                 this.onEvent = $.proxy(function(e) {
                     e.preventDefault();
                     this.carousel().jcarousel('scroll', this.options('target'));
@@ -43,7 +43,7 @@
                 this._element
                     .bind(this.options('event') + '.jcarouselcontrol', this.onEvent);
 
-                this.reload();
+                this._reload();
             },
             _destroy: function() {
                 this._element
@@ -52,7 +52,7 @@
                 this.carousel()
                     .unbind('reloadend.jcarousel scrollend.jcarousel', this.onReload);
             },
-            reload: function() {
+            _reload: function() {
                 var parsed = jCarousel.parseTarget(this.options('target')),
                     carousel = this.carousel(),
                     active;
@@ -70,10 +70,12 @@
                 if (this._active !== active) {
                     if (active) {
                         this._element
+                            .removeAttr('data-jcarouselcontrol-inactive')
                             .attr('data-jcarouselcontrol-active', true);
                     } else {
                         this._element
-                            .removeAttr('data-jcarouselcontrol-active');
+                            .removeAttr('data-jcarouselcontrol-active')
+                            .attr('data-jcarouselcontrol-inactive', true);
                     }
 
                     this._trigger(active ? 'active' : 'inactive');

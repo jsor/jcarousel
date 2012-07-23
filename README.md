@@ -629,7 +629,7 @@ jCarousel specific data-* attributes
 
 jCarousel adds specific data-* attributes to the root element and the items of the carousel.
 
-### Available root data-* attributes:
+### Available root element data-* attributes:
 
 <table>
     <tr>
@@ -638,13 +638,13 @@ jCarousel adds specific data-* attributes to the root element and the items of t
         <th>Example</th>
     </tr>
     <tr>
-        <td>data-jcarousel-root</td>
+        <td>data-jcarousel</td>
         <td>Indicates the root item.</td>
-        <td><pre>$('.jcarousel [data-jcarousel-root]');</pre></td>
+        <td><pre>$('[data-jcarousel]');</pre></td>
     </tr>
 </table>
 
-### Available item data-* attributes:
+### Available item element data-* attributes:
 
 <table>
     <tr>
@@ -655,27 +655,27 @@ jCarousel adds specific data-* attributes to the root element and the items of t
     <tr>
         <td>data-jcarousel-item-target</td>
         <td>Indicates the targeted item.</td>
-        <td><pre>$('.jcarousel [data-jcarousel-item-target]');</pre></td>
+        <td><pre>$('[data-jcarousel-item-target]');</pre></td>
     </tr>
     <tr>
         <td>data-jcarousel-item-first</td>
         <td>Indicates the first visible item.</td>
-        <td><pre>$('.jcarousel [data-jcarousel-item-first]');</pre></td>
+        <td><pre>$('[data-jcarousel-item-first]');</pre></td>
     </tr>
     <tr>
         <td>data-jcarousel-item-last</td>
         <td>Indicates the last visible item.</td>
-        <td><pre>$('.jcarousel [data-jcarousel-item-last]');</pre></td>
+        <td><pre>$('[data-jcarousel-item-last]');</pre></td>
     </tr>
     <tr>
         <td>data-jcarousel-item-visible</td>
         <td>Indicates a visible items.</td>
-        <td><pre>$('.jcarousel [data-jcarousel-item-visible]');</pre></td>
+        <td><pre>$('[data-jcarousel-item-visible]');</pre></td>
     </tr>
     <tr>
         <td>data-jcarousel-item-fullyvisible</td>
         <td>Indicates a fully visible items.</td>
-        <td><pre>$('.jcarousel [data-jcarousel-item-fullyvisible]');</pre></td>
+        <td><pre>$('[data-jcarousel-item-fullyvisible]');</pre></td>
     </tr>
 </table>
 

@@ -29,7 +29,7 @@
             _pages: {},
             _items: {},
             _init: function() {
-                this.onReload = $.proxy(this.reload, this);
+                this.onReload = $.proxy(this._reload, this);
                 this.onScroll = $.proxy(this.update, this);
             },
             _create: function() {
@@ -41,7 +41,7 @@
                     .bind('reloadend.jcarousel', this.onReload)
                     .bind('scrollend.jcarousel', this.onScroll);
 
-                this.reload();
+                this._reload();
             },
             _destroy: function() {
                 this._element.empty();
@@ -50,13 +50,7 @@
                     .unbind('reloadend.jcarousel', this.onReload)
                     .unbind('scrollend.jcarousel', this.onScroll);
             },
-            current: function() {
-                return this._current;
-            },
-            items: function() {
-                return this._items;
-            },
-            reload: function() {
+            _reload: function() {
                 var perPage = this.options('perPage');
 
                 this._pages = {};
@@ -108,6 +102,12 @@
 
                 this._current = null;
                 this.update();
+            },
+            current: function() {
+                return this._current;
+            },
+            items: function() {
+                return this._items;
             },
             update: function() {
                 var target = this.carousel().jcarousel('target'),

@@ -106,6 +106,9 @@ $(function() {
         |
         <a href="#" onclick="$('.jcarousel').attr('data-jcarousel-vertical', true).jcarousel('reload'); return false;">Vertical</a>
         <a href="#" onclick="$('.jcarousel').removeAttr('data-jcarousel-vertical').jcarousel('reload'); return false;">Horizontal</a>
+        |
+        <a href="#" onclick="$('.jcarousel').jcarousel('destroy'); return false;">Destroy</a>
+        <a href="#" onclick="$('.jcarousel').jcarousel(); return false;">Create</a>
     </p>
 
 </body>

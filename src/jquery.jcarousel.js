@@ -92,10 +92,11 @@
                 _init:       $.noop,
                 _create:     $.noop,
                 _destroy:    $.noop,
-                _refresh:    $.noop,
+                _reload:    $.noop,
                 create: function() {
-                    this._element.attr('data-' + pluginName.toLowerCase(), true);
-                    this._element.data(pluginName, this);
+                    this._element
+                        .attr('data-' + pluginName.toLowerCase(), true)
+                        .data(pluginName, this);
 
                     if (false === this._trigger('create')) {
                         return this;
@@ -116,13 +117,14 @@
 
                     this._trigger('destroyend');
 
-                    this._element.removeData(pluginName);
-                    this._element.removeAttr('data-' + pluginName.toLowerCase());
+                    this._element
+                        .removeData(pluginName)
+                        .removeAttr('data-' + pluginName.toLowerCase());
 
                     return this;
                 },
-                refresh: function(options) {
-                    if (false === this._trigger('refresh')) {
+                reload: function(options) {
+                    if (false === this._trigger('reload')) {
                         return this;
                     }
 
@@ -130,9 +132,9 @@
                         this.options(options);
                     }
 
-                    this._refresh();
+                    this._reload();
 
-                    this._trigger('refreshend');
+                    this._trigger('reloadend');
 
                     return this;
                 },
@@ -165,49 +167,45 @@
             };
         };
 
-        jCarousel.pluginBasePrototype = function(pluginName) {
-            return $.extend({}, jCarousel.basePrototype(pluginName), {
-                _carousel:   null,
-                carousel: function() {
-                    if (!this._carousel) {
-                        this._carousel = jCarousel.detectCarousel(this._element);
-
+        jCarousel.plugin = function(pluginName, pluginPrototype) {
+            return jCarousel.create(pluginName, $.extend({}, {
+                    _carousel:   null,
+                    carousel: function() {
                         if (!this._carousel) {
-                            $.error('Could not detect carousel for plugin "' + pluginName + '"');
-                        }
-                    }
+                            this._carousel = jCarousel.detectCarousel(this.options('carousel') || this._element);
 
-                    return this._carousel;
-                }
-            });
+                            if (!this._carousel) {
+                                $.error('Could not detect carousel for plugin "' + pluginName + '"');
+                            }
+                        }
+
+                        return this._carousel;
+                    }
+                },
+                pluginPrototype
+            ));
         };
 
-        jCarousel.plugin = function(pluginName, pluginPrototype) {
-            var Plugin = function(element, options, carousel) {
+        jCarousel.create = function(pluginName, pluginPrototype) {
+            var Plugin = function(element, options) {
                 this._element = $(element);
                 this.options(options);
-                this._carousel = carousel;
 
                 this._init();
                 this.create();
             };
 
-            Plugin.prototype = $.extend({}, jCarousel.pluginBasePrototype(pluginName), pluginPrototype);
+            Plugin.prototype = $.extend(
+                {},
+                jCarousel.basePrototype(pluginName),
+                pluginPrototype
+            );
 
-            jCarousel.create(pluginName, function(element, args) {
-                return new Plugin(element, args[0] || null, args[1] || null);
-            });
-
-            return Plugin;
-        };
-
-        jCarousel.create = function(pluginName, pluginFactory) {
-            $.fn[pluginName] = function(options/*, ... */) {
-                var args = arguments,
+            $.fn[pluginName] = function(options) {
+                var args = arraySlice.call(arguments, 1),
                     returnValue = this;
 
                 if (typeof options === 'string') {
-                    var methodArgs = arraySlice.call(args, 1);
                     this.each(function() {
                         var instance = $(this).data(pluginName);
 
@@ -224,7 +222,7 @@
                             );
                         }
 
-                        var methodValue = instance[options].apply(instance, methodArgs);
+                        var methodValue = instance[options].apply(instance, args);
 
                         if (methodValue !== instance && typeof methodValue !== 'undefined') {
                             returnValue = methodValue;
@@ -232,32 +230,19 @@
                         }
                     });
                 } else {
+                    var instance;
                     this.each(function() {
-                        var instance = $(this).data(pluginName);
-
-                        if (instance) {
-                            if (options) {
-                                instance.refresh.apply(instance, args);
-                            }
-                        } else {
-                            pluginFactory(this, args);
-                        }
+                        (instance = $(this).data(pluginName)) ? instance.reload(options) : new Plugin(this, options);
                     });
                 }
 
                 return returnValue;
             };
+
+            return Plugin;
         };
 
-        jCarousel.Core = function(element, options) {
-            this._element = $(element);
-            this.options(options);
-
-            this._init();
-            this.create();
-        };
-
-        jCarousel.Core.prototype = $.extend({}, jCarousel.basePrototype('jcarousel'), {
+        jCarousel.create('jcarousel', {
             animating:     false,
             tail:          0,
             inTail:        false,
@@ -329,14 +314,57 @@
                     items.removeAttr('data-jcarousel-item-' + val);
                 });
             },
-            reload: function() {
-                if (false === this._trigger('reload')) {
-                    return this;
+            _reload: function() {
+                this.vertical = this.options('vertical');
+
+                if (this.vertical == null) {
+                    this.vertical = this._element.data('jcarousel-vertical') === true;
                 }
 
-                this._reload();
+                this.rtl = this.options('rtl');
 
-                this._trigger('reloadend');
+                if (this.rtl == null) {
+                    this.rtl = (function(element) {
+                        if (('' + element.attr('dir')).toLowerCase() === 'rtl') {
+                            return true;
+                        }
+
+                        var found = false;
+
+                        element.parents('[dir]').each(function() {
+                            if ((/rtl/i).test($(this).attr('dir'))) {
+                                found = true;
+                                return false;
+                            }
+                        });
+
+                        return found;
+                    }(this._element));
+                }
+
+                this.lt = this.vertical ? 'top' : 'left';
+
+                // Force items reload
+                this._items = null;
+
+                var item = this._target || this.closest();
+
+                // _prepare() needs this here
+                this.circular = this.options('wrap') === 'circular';
+                this.list().css({'left': 0, 'top': 0});
+
+                if (item.size() > 0) {
+                    this._prepare(item);
+                    this.list().find('[data-jcarousel-clone]').remove();
+
+                    // Force items reload
+                    this._items = null;
+
+                    this.circular = this.options('wrap') === 'circular' &&
+                                    this._fullyvisible.size() < this.items().size();
+
+                    this.list().css(this.lt, this._position(item) + 'px');
+                }
 
                 return this;
             },
@@ -548,60 +576,6 @@
                 }
 
                 this._trigger('scrollend');
-
-                return this;
-            },
-            _reload: function() {
-                this.vertical = this.options('vertical');
-
-                if (this.vertical == null) {
-                    this.vertical = this._element.data('jcarousel-vertical') === true;
-                }
-
-                this.rtl = this.options('rtl');
-
-                if (this.rtl == null) {
-                    this.rtl = (function(element) {
-                        if (('' + element.attr('dir')).toLowerCase() === 'rtl') {
-                            return true;
-                        }
-
-                        var found = false;
-
-                        element.parents('[dir]').each(function() {
-                            if ((/rtl/i).test($(this).attr('dir'))) {
-                                found = true;
-                                return false;
-                            }
-                        });
-
-                        return found;
-                    }(this._element));
-                }
-
-                this.lt = this.vertical ? 'top' : 'left';
-
-                // Force items reload
-                this._items = null;
-
-                var item = this._target || this.closest();
-
-                // _prepare() needs this here
-                this.circular = this.options('wrap') === 'circular';
-                this.list().css({'left': 0, 'top': 0});
-
-                if (item.size() > 0) {
-                    this._prepare(item);
-                    this.list().find('[data-jcarousel-clone]').remove();
-
-                    // Force items reload
-                    this._items = null;
-
-                    this.circular = this.options('wrap') === 'circular' &&
-                                    this._fullyvisible.size() < this.items().size();
-
-                    this.list().css(this.lt, this._position(item) + 'px');
-                }
 
                 return this;
             },
@@ -891,10 +865,6 @@
 
                 return this;
             }
-        });
-
-        jCarousel.create('jcarousel', function(element, args) {
-            return new jCarousel.Core(element, args[0] || {});
         });
 
         return jCarousel;
