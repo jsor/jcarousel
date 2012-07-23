@@ -68,12 +68,12 @@
             var carousel;
 
             while (element.size() > 0) {
-                carousel = element.filter('[data-jcarousel-root]');
+                carousel = element.filter('[data-jcarousel]');
                 if (carousel.size() > 0) {
                     return carousel;
                 }
 
-                carousel = element.find('[data-jcarousel-root]');
+                carousel = element.find('[data-jcarousel]');
                 if (carousel.size() > 0) {
                     return carousel;
                 }
@@ -94,6 +94,7 @@
                 _destroy:    $.noop,
                 _refresh:    $.noop,
                 create: function() {
+                    this._element.attr('data-' + pluginName.toLowerCase(), true);
                     this._element.data(pluginName, this);
 
                     if (false === this._trigger('create')) {
@@ -116,6 +117,7 @@
                     this._trigger('destroyend');
 
                     this._element.removeData(pluginName);
+                    this._element.removeAttr('data-' + pluginName.toLowerCase());
 
                     return this;
                 },
@@ -316,14 +318,12 @@
                 return this;
             },
             _create: function() {
-                this._element.attr('data-jcarousel-root', 'true');
                 this._reload();
                 $(window).bind('resize.jcarousel', this.onWindowResize);
             },
             _destroy: function() {
                 $(window).unbind('resize.jcarousel', this.onWindowResize);
-                this._element.removeAttr('data-jcarousel-root');
-                
+
                 var items = this.items();
                 $.each(['target', 'first', 'last', 'visible', 'fullyvisible'], function(i, val) {
                     items.removeAttr('data-jcarousel-item-' + val);
