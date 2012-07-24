@@ -402,28 +402,6 @@ $('.jcarousel').bind('destroyend.jcarousel', function(event, carousel) {
         </td>
     </tr>
     <tr>
-        <td>refresh.jcarousel</td>
-        <td>Triggered when the <code>refresh</code> method is called.</td>
-        <td>
-            <pre>
-$('.jcarousel').bind('refresh.jcarousel', function(event, carousel) {
-    // "this" refers to the root element
-    // "carousel" is the jCarousel instance
-});</pre>
-        </td>
-    </tr>
-    <tr>
-        <td>refreshend.jcarousel</td>
-        <td>Triggered after the <code>refresh</code> method is called.</td>
-        <td>
-            <pre>
-$('.jcarousel').bind('refreshend.jcarousel', function(event, carousel) {
-    // "this" refers to the root element
-    // "carousel" is the jCarousel instance
-});</pre>
-        </td>
-    </tr>
-    <tr>
         <td>reload.jcarousel</td>
         <td>Triggered when the <code>reload</code> method is called.</td>
         <td>
@@ -495,7 +473,7 @@ $('.jcarousel').bind('animateend.jcarousel', function(event, carousel) {
     </tr>
 </table>
 
-**Note:** Some events like `jcarouselcreate` are triggered from the constructor, so you have to bind the events **before** you initialize the carousel:
+**Note:** Some events like `create.jcarousel` are triggered from the constructor, so you have to bind the events **before** you initialize the carousel:
 
 ```javascript
 $('.jcarousel')
