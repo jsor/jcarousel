@@ -51,6 +51,8 @@ Note that this structure is only an example and not required. You could also use
 
 The only requirement is, that it consists of a root element, list element and item elements.
 
+### Setup
+
 To setup jCarousel, add the following code inside the `<head>` tag of your HTML document:
 
 ```html
@@ -99,47 +101,47 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
     <tr>
         <td>list</td>
         <td>string|function</td>
-        <td><code>function() {
+        <td><pre>function() {
     return this.element().children().eq(0);
-}</code></td>
+}</pre></td>
         <td>A function or a jQuery selector to select the list inside the root element.</td>
     </tr>
     <tr>
         <td>items</td>
         <td>string|function</td>
-        <td><code>function() {
+        <td><pre>function() {
     return this.list().children();
-}</code></td>
+}</pre></td>
         <td>A function or a jQuery selector to select the items inside the list element.</td>
     </tr>
     <tr>
         <td>animation</td>
         <td>integer|string|object</td>
-        <td><code>&quot;normal&quot;</code></td>
+        <td><pre>&quot;normal&quot;</pre></td>
         <td>The speed of the scroll animation as string in jQuery terms (<code>"slow"</code> or <code>"fast"</code>) or milliseconds as integer (See the <a href="http://api.jquery.com/animate">jQuery Documentation</a>). If set to 0, animation is turned off. Alternatively, this can be a map of options like the one <a href="http://api.jquery.com/animate/#animate-properties-options">jQuery.animate</a> accepts as second argument or a function. A function will be called in the context of the carousel instance and with 2 arguments: The first is a hash of css properties (ie. {left: -400}) and the second is a function which must be called as a callback.</td>
     </tr>
     <tr>
         <td>wrap</td>
         <td>string</td>
-        <td><code>null</code></td>
+        <td><pre>null</pre></td>
         <td>Specifies whether to wrap at the first/last item (or both) and jump back to the start/end. Options are <code>"first"</code>, <code>"last"</code>, <code>"both"</code> or <code>"circular"</code> as string. If set to null, wrapping is turned off (default).</td>
     </tr>
     <tr>
         <td>vertical</td>
         <td>boolean</td>
-        <td><code>null</code></td>
+        <td><pre>null</pre></td>
         <td>Specifies whether the carousel appears in vertical orientation. Changes the carousel from a left/right style to a up/down style carousel. If not set, jCarousel looks for a data-* attribute <code>data-jcarousel-vertical</code> on the root element and if found, automatically sets <code>vertical</code> to <code>true</code>.</td>
     </tr>
     <tr>
         <td>rtl</td>
         <td>boolean</td>
-        <td><code>null</code></td>
+        <td><pre>null</pre></td>
         <td>Specifies wether the carousel appears in RTL (Right-To-Left) mode. If not set, jCarousel looks for <code>dir</code> attribute with a value of <code>rtl</code> on the root element (or to any of its parent elements) and if found, automatically sets <code>rtl</code> to <code>true</code>.</td>
     </tr>
     <tr>
         <td>center</td>
         <td>boolean</td>
-        <td><code>false</code></td>
+        <td><pre>false</pre></td>
         <td>Specifies wether the carousel should be centered inside the root element. <strong>Note:</strong> This feature is experimental and may not work with all carousel setups.</td>
     </tr>
 </table>
@@ -208,11 +210,39 @@ A more comfortable way is to use a navigation plugins:
 Defining the number of visible items
 ------------------------------------
 
-Sometimes people are confused how to define the number of visible items because there is no option for this as they expect.
-
-You simply define the number of visible items by defining the width (or height for a vertical carousel) of the element which surrounds the list (if you use the default from this document, you do that with the class `.jcarousel` in your stylesheet).
+You simply define the number of visible items by defining the width (or height for a vertical carousel) of the root element (if you use the default from this document, you do that with the class `.jcarousel` in your stylesheet).
 
 This offers a lot of flexibility, because you can define the width in pixel for a fixed carousel or in percent for a flexible carousel.
+
+Fixed carousel, always 3 visible items:
+
+```css
+.jcarousel {
+    position: relative;
+    overflow: hidden;
+    width: 300px;
+}
+
+.jcarousel li {
+    float: left;
+    width: 100px;
+}
+```
+
+Flexible carousel, the number of visible items depend on the width of the root's parent element:
+
+```css
+.jcarousel {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.jcarousel li {
+    float: left;
+    width: 100px;
+}
+```
 
 Vertical carousels
 ------------------
@@ -295,12 +325,32 @@ The first argument is the method name. The following arguments are the arguments
         <td>Reloads the carousel. This method is useful to reinitialize the carousel if you have changed the content of the list from the outside or want to change options on runtime.</td>
     </tr>
     <tr>
+        <td><pre>.jcarousel('scroll', target [, animate [, callback]]);</pre></td>
+        <td>Scrolls to a specific item or relative by a given offset (See section &quot;Navigating the carousel&quot; for more information about the target argument). If the argument <code>animate</code> is given and <code>false</code>, it just jumps to the position without animation. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
+    </tr>
+    <tr>
         <td><pre>.jcarousel('items');</pre></td>
         <td>Returns all items as jQuery object.</td>
     </tr>
     <tr>
-        <td><pre>.jcarousel('scroll', target [, animate [, callback]]);</pre></td>
-        <td>Scrolls to a specific item or relative by a given offset (See section &quot;Navigating the carousel&quot; for more information about the target argument). If the argument <code>animate</code> is given and <code>false</code>, it just jumps to the position without animation. If <code>callback</code> is given and a valid callback, it is triggered after the animation is finished.</td>
+        <td><pre>.jcarousel('target');</pre></td>
+        <td>Returns the <em>targeted</em> item as jQuery object.</td>
+    </tr>
+    <tr>
+        <td><pre>.jcarousel('first');</pre></td>
+        <td>Returns the <em>first visible</em> item as jQuery object.</td>
+    </tr>
+    <tr>
+        <td><pre>.jcarousel('last');</pre></td>
+        <td>Returns the <em>last visible</em> item as jQuery object.</td>
+    </tr>
+    <tr>
+        <td><pre>.jcarousel('visible');</pre></td>
+        <td>Returns all <em>visible</em> items as jQuery object.</td>
+    </tr>
+    <tr>
+        <td><pre>.jcarousel('fullyvisible');</pre></td>
+        <td>Returns all <em>fully visible</em> items as jQuery object.</td>
     </tr>
     <tr>
         <td><pre>.jcarousel('options'[, name, [value]]);</pre></td>
@@ -315,7 +365,7 @@ The first argument is the method name. The following arguments are the arguments
 Manipulating the carousel
 -------------------------
 
-If you manipulate the carousel from the outside (eg. adding or removing items from the list), ensure that you call `reload()` afterwards so that jCarousel becomes aware of the changes:
+If you manipulate the carousel from the outside (eg. adding or removing items from the list), ensure that you call `.jcarousel('reload')` afterwards so that jCarousel becomes aware of the changes:
 
 ```javascript
 $(function() {
