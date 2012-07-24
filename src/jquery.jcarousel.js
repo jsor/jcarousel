@@ -261,8 +261,12 @@
             circular:      false,
 
             _options: {
-                list:      'ul',
-                items:     'li',
+                list: function() {
+                    return this.element().children().eq(0);
+                },
+                items: function() {
+                    return this.list().children();
+                },
                 animation: 400,
                 wrap:      null,
                 vertical:  null,

@@ -16,7 +16,7 @@ To use the jCarousel component, include the [jQuery](http://jquery.com) library 
 <script type="text/javascript" src="/path/to/jquery.jcarousel.js"></script>
 ```
 
-jCarousel expects a very basic HTML markup structure inside your HTML document:
+jCarousel expects a very basic HTML markup structure inside your HTML document, for example:
 
 ```html
 <div class="jcarousel">
@@ -27,7 +27,7 @@ jCarousel expects a very basic HTML markup structure inside your HTML document:
 </div>
 ```
 
-This document refers to the elements as _root element_, _list element_ and _item element(s)_:
+This document refers to the elements as __root__ element, __list__ element and __item__ element(s):
 
 ```
 <div class="jcarousel"> <----------------------------------| Root element
@@ -37,6 +37,20 @@ This document refers to the elements as _root element_, _list element_ and _item
     </ul> <-------------------------------|                |
 </div> <---------------------------------------------------|
 ```
+
+Note that this structure is only an example and not required. You could also use a structure like:
+
+```
+<div class="mycarousel"> <---------------------------------| Root element
+    <div> <-------------------------------| List element   |
+        <p>...</p> <-----| Item element   |                |
+        <p>...</p> <-----| Item element   |                |
+    </div> <------------------------------|                |
+</div> <---------------------------------------------------|
+```
+```
+
+The only requirement is, that it consists of a root element, list element and item elements.
 
 To setup jCarousel, add the following code inside the `<head>` tag of your HTML document:
 
@@ -85,44 +99,48 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
     </tr>
     <tr>
         <td>list</td>
-        <td>string</td>
-        <td>&quot;&gt;ul:eq(0)&quot;</td>
-        <td>jQuery selector to select the list inside the root element.</td>
+        <td>string|function</td>
+        <td><code>function() {
+    return this.element().children().eq(0);
+}</code></td>
+        <td>A function or a jQuery selector to select the list inside the root element.</td>
     </tr>
     <tr>
         <td>items</td>
-        <td>string</td>
-        <td>&quot;&gt;li&quot;</td>
-        <td>jQuery selector to select the items inside the list element.</td>
+        <td>string|function</td>
+        <td><code>function() {
+    return this.list().children();
+}</code></td>
+        <td>A function or a jQuery selector to select the items inside the list element.</td>
     </tr>
     <tr>
         <td>animation</td>
         <td>integer|string|object</td>
-        <td>&quot;normal&quot;</td>
+        <td><code>&quot;normal&quot;</code></td>
         <td>The speed of the scroll animation as string in jQuery terms (<code>"slow"</code> or <code>"fast"</code>) or milliseconds as integer (See the <a href="http://api.jquery.com/animate">jQuery Documentation</a>). If set to 0, animation is turned off. Alternatively, this can be a map of options like the one <a href="http://api.jquery.com/animate/#animate-properties-options">jQuery.animate</a> accepts as second argument or a function. A function will be called in the context of the carousel instance and with 2 arguments: The first is a hash of css properties (ie. {left: -400}) and the second is a function which must be called as a callback.</td>
     </tr>
     <tr>
         <td>wrap</td>
         <td>string</td>
-        <td>null</td>
+        <td><code>null</code></td>
         <td>Specifies whether to wrap at the first/last item (or both) and jump back to the start/end. Options are <code>"first"</code>, <code>"last"</code>, <code>"both"</code> or <code>"circular"</code> as string. If set to null, wrapping is turned off (default).</td>
     </tr>
     <tr>
         <td>vertical</td>
         <td>boolean</td>
-        <td>null</td>
+        <td><code>null</code></td>
         <td>Specifies whether the carousel appears in vertical orientation. Changes the carousel from a left/right style to a up/down style carousel. If not set, jCarousel looks for a data-* attribute <code>data-jcarousel-vertical</code> on the root element and if found, automatically sets <code>vertical</code> to <code>true</code>.</td>
     </tr>
     <tr>
         <td>rtl</td>
         <td>boolean</td>
-        <td>null</td>
+        <td><code>null</code></td>
         <td>Specifies wether the carousel appears in RTL (Right-To-Left) mode. If not set, jCarousel looks for <code>dir</code> attribute with a value of <code>rtl</code> on the root element (or to any of its parent elements) and if found, automatically sets <code>rtl</code> to <code>true</code>.</td>
     </tr>
     <tr>
         <td>center</td>
         <td>boolean</td>
-        <td>false</td>
+        <td><code>false</code></td>
         <td>Specifies wether the carousel should be centered inside the root element. <strong>Note:</strong> This feature is experimental and may not work with all carousel setups.</td>
     </tr>
 </table>
