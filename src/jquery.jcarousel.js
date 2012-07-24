@@ -316,11 +316,6 @@
             },
             _destroy: function() {
                 $(window).unbind('resize.jcarousel', this.onWindowResize);
-
-                var items = this.items();
-                $.each(['target', 'first', 'last', 'visible', 'fullyvisible'], function(i, val) {
-                    items.removeAttr('data-jcarousel-item-' + val);
-                });
             },
             _reload: function() {
                 this.vertical = this.options('vertical');
@@ -860,9 +855,6 @@
 
                         self._trigger('item' + key + 'in', $(elIn));
                         self._trigger('item' + key + 'out', $(elOut));
-
-                        current[key].removeAttr('data-jcarousel-item-' + key);
-                        update[key].attr('data-jcarousel-item-' + key, true);
 
                         self['_' + key] = update[key];
                     };

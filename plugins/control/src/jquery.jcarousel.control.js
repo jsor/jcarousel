@@ -68,16 +68,6 @@
                 }
 
                 if (this._active !== active) {
-                    if (active) {
-                        this._element
-                            .removeAttr('data-jcarouselcontrol-inactive')
-                            .attr('data-jcarouselcontrol-active', true);
-                    } else {
-                        this._element
-                            .removeAttr('data-jcarouselcontrol-active')
-                            .attr('data-jcarouselcontrol-inactive', true);
-                    }
-
                     this._trigger(active ? 'active' : 'inactive');
                     this._active = active;
                 }

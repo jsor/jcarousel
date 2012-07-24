@@ -139,33 +139,7 @@ $('.jcarousel-prev').bind('inactive.jcarouselcontrol', function(plugin) {
     </tr>
 </table>
 
-Plugin specific data-* attributes
----------------------------------
-
-The plugin adds specific data-* attributes to the control element.
-
-### Available data-* attributes:
-
-<table>
-    <tr>
-        <th>Attribute</th>
-        <th>Description</th>
-        <th>Example</th>
-    </tr>
-    <tr>
-        <td>data-jcarouselcontrol-active</td>
-        <td>Indicates a active control.</td>
-        <td><pre>$('[data-jcarouselcontrol-active]');</pre></td>
-    </tr>
-    <tr>
-        <td>data-jcarouselcontrol-inactive</td>
-        <td>Indicates a inactive control.</td>
-        <td><pre>$('[data-jcarouselcontrol-inactive]');</pre></td>
-    </tr>
-</table>
-
-Active and inactive states
---------------------------
+### Active and inactive states
 
 This is how the plugin understands active and inactive states:
 
