@@ -48,7 +48,6 @@ Note that this structure is only an example and not required. You could also use
     </div> <------------------------------|                |
 </div> <---------------------------------------------------|
 ```
-```
 
 The only requirement is, that it consists of a root element, list element and item elements.
 
