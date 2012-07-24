@@ -139,7 +139,7 @@
                     return this;
                 },
                 element: function() {
-                    return this._element;  
+                    return this._element;
                 },
                 options: function(key, value) {
                     if (arguments.length === 0) {
