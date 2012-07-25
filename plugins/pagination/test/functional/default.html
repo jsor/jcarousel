@@ -29,19 +29,22 @@
 function create() {
     $('#jcarousel1').jcarousel();
 }
+function createPagination() {
+    $('#jcarousel-pagination').jcarouselPagination({
+        perPage: 1
+    });
+}
 $(function() {
-    create();
-
     $('#jcarousel-pagination')
         .delegate('a', 'active.jcarouselcontrol', function() {
             $(this).addClass('active');
         })
         .delegate('a', 'inactive.jcarouselcontrol', function() {
             $(this).removeClass('active');
-        })
-        .jcarouselPagination({
-            perPage: 1
         });
+
+    create();
+    createPagination();
 });
 
 </script>
@@ -89,6 +92,9 @@ $(function() {
         |
         <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '-=20'); return false;">Prev (20)</a>
         <a href="#" onclick="$('#jcarousel1').jcarousel('scroll', '+=20'); return false;">Next (20)</a>
+        |
+        <a href="#" onclick="$('#jcarousel-pagination').jcarouselPagination('destroy'); return false;">Destroy</a>
+        <a href="#" onclick="createPagination(); return false;">Create</a>
 
     </div>
 

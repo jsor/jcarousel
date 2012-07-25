@@ -26,6 +26,10 @@
             },
             _active: null,
             _init: function() {
+                this.onDestroy = $.proxy(function() {
+                    this._destroy();
+                    this.carousel().one('createend.jcarousel', $.proxy(this._create, this));
+                }, this);
                 this.onReload = $.proxy(this._reload, this);
                 this.onEvent = $.proxy(function(e) {
                     e.preventDefault();
@@ -34,10 +38,7 @@
             },
             _create: function() {
                 this.carousel()
-                    .one('destroy.jcarousel', $.proxy(function() {
-                        this._destroy();
-                        this.carousel().one('createend.jcarousel', $.proxy(this._create, this));
-                    }, this))
+                    .one('destroy.jcarousel', this.onDestroy)
                     .bind('reloadend.jcarousel scrollend.jcarousel', this.onReload);
 
                 this._element
@@ -50,6 +51,7 @@
                     .unbind('.jcarouselcontrol', this.onEvent);
 
                 this.carousel()
+                    .unbind('destroy.jcarousel', this.onDestroy)
                     .unbind('reloadend.jcarousel scrollend.jcarousel', this.onReload);
             },
             _reload: function() {

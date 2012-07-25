@@ -28,14 +28,15 @@
             _pages: {},
             _items: {},
             _init: function() {
+                this.onDestroy = $.proxy(function() {
+                    this._destroy();
+                    this.carousel().one('createend.jcarousel', $.proxy(this._create, this));
+                }, this);
                 this.onReload = $.proxy(this._reload, this);
             },
             _create: function() {
                 this.carousel()
-                    .one('destroy.jcarousel', $.proxy(function() {
-                        this._destroy();
-                        this.carousel().one('createend.jcarousel', $.proxy(this._create, this));
-                    }, this))
+                    .one('destroy.jcarousel', this.onDestroy)
                     .bind('reloadend.jcarousel', this.onReload);
 
                 this._reload();
@@ -48,6 +49,7 @@
                 this._element.empty();
 
                 this.carousel()
+                    .unbind('destroy.jcarousel', this.onDestroy)
                     .unbind('reloadend.jcarousel', this.onReload);
             },
             _reload: function() {
