@@ -14,6 +14,10 @@
 <!--
   jCarousel pagination plugin
 -->
+<script type="text/javascript" src="../../../control/src/jquery.jcarousel.control.js"></script>
+<!--
+  jCarousel pagination plugin
+-->
 <script type="text/javascript" src="../../src/jquery.jcarousel.pagination.js"></script>
 <!--
   jCarousel stylesheet
@@ -29,10 +33,10 @@ $(function() {
     create();
 
     $('#jcarousel-pagination')
-        .delegate('a', 'itemactive.jcarouselpagination', function() {
+        .delegate('a', 'active.jcarouselcontrol', function() {
             $(this).addClass('active');
         })
-        .delegate('a', 'iteminactive.jcarouselpagination', function() {
+        .delegate('a', 'inactive.jcarouselcontrol', function() {
             $(this).removeClass('active');
         })
         .jcarouselPagination({
