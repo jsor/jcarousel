@@ -130,7 +130,7 @@ jCarousel accepts a list of options to control the behaviour of the carousel. He
         <td>vertical</td>
         <td>boolean</td>
         <td><pre>null</pre></td>
-        <td>Specifies whether the carousel appears in vertical orientation. Changes the carousel from a left/right style to a up/down style carousel. If not set, jCarousel looks for a data-* attribute <code>data-jcarousel-vertical</code> on the root element and if found, automatically sets <code>vertical</code> to <code>true</code>.</td>
+        <td>Specifies whether the carousel appears in vertical orientation. Changes the carousel from a left/right style to a up/down style carousel. If not set, jCarousel tries to auto-detect the orientation by simply checking if the list’s height is greater than the list’s width.</td>
     </tr>
     <tr>
         <td>rtl</td>

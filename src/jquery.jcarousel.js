@@ -325,7 +325,7 @@
                 this.vertical = this.options('vertical');
 
                 if (this.vertical == null) {
-                    this.vertical = this._element.data('jcarousel-vertical') === true;
+                    this.vertical = this.list().height() > this.list().width();
                 }
 
                 this.rtl = this.options('rtl');
