@@ -30,15 +30,29 @@ Available methods
     If the argument ``animate`` is given and ``false``, it just jumps to the
     position without animation.
 
-    If the argument ``callback`` is given and a valid callback, it is triggered
+    If the argument ``callback`` is given and a valid function, it is called
     after the animation is finished.
+
+    The function receives as first argument a boolean indicating if a scrolling
+    actually happend.
+
+    It can be false for the following reasons:
+
+    * The carousel is already animating
+    * The target argument is invalid
+    * The carousel is already on the requested position
+    * An event has cancelled the scrolling
 
     **Example:**
 
     .. code-block:: javascript
 
-        $('.jcarousel').jcarousel('scroll', '+=1', true, function() {
-            console.log('Animation finished');
+        $('.jcarousel').jcarousel('scroll', '+=1', true, function(scrolled) {
+            if (scrolled) {
+                console.log('The carousel has been scrolled');
+            } else {
+                console.log('The carousel has not been scrolled');
+            }
         });
 
 ``.jcarousel('reload'[, options])``
