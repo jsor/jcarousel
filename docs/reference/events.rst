@@ -152,8 +152,8 @@ Available root element events
             // "carousel" is the jCarousel instance
         });
 
-Available item events
----------------------
+Available item element events
+-----------------------------
 
 ``itemfirstin.jcarousel``
     Triggered when the item becomes the first visible item.
