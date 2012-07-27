@@ -15,6 +15,7 @@ Contents
    reference/configuration
    reference/api
    reference/usage
+   reference/events
 
 Credits
 -------
