@@ -588,6 +588,10 @@
             },
             _scroll: function(item, animate, callback) {
                 if (this.animating) {
+                    if ($.isFunction(callback)) {
+                        callback.call(this, false);
+                    }
+
                     return this;
                 }
 
@@ -628,6 +632,10 @@
             },
             _scrollTail: function(animate, callback) {
                 if (this.animating || !this.tail) {
+                    if ($.isFunction(callback)) {
+                        callback.call(this, false);
+                    }
+
                     return this;
                 }
 
@@ -654,11 +662,11 @@
                 return this;
             },
             _animate: function(properties, animate, callback) {
-                if (this.animating) {
-                    return this;
-                }
-
                 if (false === this._trigger('animate')) {
+                    if ($.isFunction(callback)) {
+                        callback.call(this, false);
+                    }
+
                     return this;
                 }
 
