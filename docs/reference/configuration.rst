@@ -75,8 +75,8 @@ Available options
 
         $('.jcarousel').jcarousel({
             'animation': {
-                    'duration': 800,
-                    'easing':   'linear'
+                'duration': 800,
+                'easing':   'linear'
             }
         });
 
