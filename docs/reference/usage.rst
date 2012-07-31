@@ -216,7 +216,7 @@ If you are removing items, make sure they are currently not visible:
         var carousel = $('.jcarousel'),
             item = carousel.find('li:eq(0)');
 
-        if (carousel.jcarousel('visible').index(items) < 0) {
+        if (carousel.jcarousel('visible').index(item) < 0) {
             item.remove();
             carousel.jcarousel('reload');
         }
