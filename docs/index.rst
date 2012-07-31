@@ -5,8 +5,8 @@ jCarousel is a jQuery plugin for controlling a list of items in horizontal or
 vertical order. It provides you with a full-featured and flexible toolset for
 navigating any HTML based content in a carousel-like fashion.
 
-Contents
---------
+Reference
+---------
 
 .. toctree::
    :maxdepth: 2
