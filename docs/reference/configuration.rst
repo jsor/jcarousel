@@ -153,7 +153,7 @@ Available options
         ``null``
 
 ``center``
-    Specifies wether the carousel should be centered inside the root element.
+    Specifies wether the targeted item should be centered inside the root element.
 
     .. warning::
 
