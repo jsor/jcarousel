@@ -155,16 +155,3 @@ Available methods
         fullyvisible.on('click', function() {
             console.log('Fully visible item clicked', this);
         });
-
-``.jcarousel('fullyvisible')``
-    Returns all *fully visible* items as jQuery object.
-
-    **Example:**
-
-    .. code-block:: javascript
-
-        var fullyvisible = $('.jcarousel').jcarousel('fullyvisible')
-
-        fullyvisible.on('click', function() {
-            console.log('Fully visible item clicked', this);
-        });
