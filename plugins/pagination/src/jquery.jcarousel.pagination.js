@@ -35,9 +35,11 @@
             this._reload();
         },
         _destroy: function() {
-            $.each(this._items, function(page, item) {
-                item.jcarouselControl('destroy');
-            });
+            if ($.fn.jcarouselControl) {
+                $.each(this._items, function(page, item) {
+                    item.jcarouselControl('destroy');
+                });
+            }
 
             this._element.empty();
 
@@ -87,12 +89,16 @@
                 item = this.options('item');
 
             $.each(this._pages, function(page, carouselItems) {
-                self._items[page] = $(item.call(self, page, carouselItems))
-                    .appendTo(element)
-                    .jcarouselControl({
+                var currItem = self._items[page] = $(item.call(self, page, carouselItems));
+
+                element.append(currItem);
+
+                if ($.fn.jcarouselControl) {
+                    currItem.jcarouselControl({
                         carousel: self.carousel(),
                         target: carouselItems.eq(0)
                     });
+                }
             });
         },
         items: function() {
