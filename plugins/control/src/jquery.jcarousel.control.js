@@ -9,73 +9,65 @@
  * Date: @DATE
  */
 
-(function (window) {
+(function ($) {
     'use strict';
 
-    (function (factory) {
-        if (typeof define === 'function' && define.amd) {
-            define('jquery.jcarousel.control', ['jquery', 'jquery.jcarousel'], factory);
-        } else {
-            factory(window.jQuery, window.jCarousel);
-        }
-    }(function ($, jCarousel) {
-        jCarousel.plugin('jcarouselControl', {
-            _options: {
-                target: '+=1',
-                event:  'click'
-            },
-            _active: null,
-            _init: function() {
-                this.onDestroy = $.proxy(function() {
-                    this._destroy();
-                    this.carousel().one('createend.jcarousel', $.proxy(this._create, this));
-                }, this);
-                this.onReload = $.proxy(this._reload, this);
-                this.onEvent = $.proxy(function(e) {
-                    e.preventDefault();
-                    this.carousel().jcarousel('scroll', this.options('target'));
-                }, this);
-            },
-            _create: function() {
-                this.carousel()
-                    .one('destroy.jcarousel', this.onDestroy)
-                    .bind('reloadend.jcarousel scrollend.jcarousel', this.onReload);
+    jCarousel.plugin('jcarouselControl', {
+        _options: {
+            target: '+=1',
+            event:  'click'
+        },
+        _active: null,
+        _init: function() {
+            this.onDestroy = $.proxy(function() {
+                this._destroy();
+                this.carousel().one('createend.jcarousel', $.proxy(this._create, this));
+            }, this);
+            this.onReload = $.proxy(this._reload, this);
+            this.onEvent = $.proxy(function(e) {
+                e.preventDefault();
+                this.carousel().jcarousel('scroll', this.options('target'));
+            }, this);
+        },
+        _create: function() {
+            this.carousel()
+                .one('destroy.jcarousel', this.onDestroy)
+                .bind('reloadend.jcarousel scrollend.jcarousel', this.onReload);
 
-                this._element
-                    .bind(this.options('event') + '.jcarouselcontrol', this.onEvent);
+            this._element
+                .bind(this.options('event') + '.jcarouselcontrol', this.onEvent);
 
-                this._reload();
-            },
-            _destroy: function() {
-                this._element
-                    .unbind('.jcarouselcontrol', this.onEvent);
+            this._reload();
+        },
+        _destroy: function() {
+            this._element
+                .unbind('.jcarouselcontrol', this.onEvent);
 
-                this.carousel()
-                    .unbind('destroy.jcarousel', this.onDestroy)
-                    .unbind('reloadend.jcarousel scrollend.jcarousel', this.onReload);
-            },
-            _reload: function() {
-                var parsed = jCarousel.parseTarget(this.options('target')),
-                    carousel = this.carousel(),
-                    active;
+            this.carousel()
+                .unbind('destroy.jcarousel', this.onDestroy)
+                .unbind('reloadend.jcarousel scrollend.jcarousel', this.onReload);
+        },
+        _reload: function() {
+            var parsed = jCarousel.parseTarget(this.options('target')),
+                carousel = this.carousel(),
+                active;
 
-                if (parsed.relative) {
-                    active = carousel.jcarousel(parsed.target > 0 ? 'hasNext' : 'hasPrev');
-                } else {
-                    var target = typeof parsed.target !== 'object' ?
-                                    carousel.jcarousel('items').eq(parsed.target) :
-                                    parsed.target;
+            if (parsed.relative) {
+                active = carousel.jcarousel(parsed.target > 0 ? 'hasNext' : 'hasPrev');
+            } else {
+                var target = typeof parsed.target !== 'object' ?
+                                carousel.jcarousel('items').eq(parsed.target) :
+                                parsed.target;
 
-                    active = carousel.jcarousel('target').index(target) >= 0;
-                }
-
-                if (this._active !== active) {
-                    this._trigger(active ? 'active' : 'inactive');
-                    this._active = active;
-                }
-
-                return this;
+                active = carousel.jcarousel('target').index(target) >= 0;
             }
-        });
-    }));
-}(window));
+
+            if (this._active !== active) {
+                this._trigger(active ? 'active' : 'inactive');
+                this._active = active;
+            }
+
+            return this;
+        }
+    });
+}(jQuery));

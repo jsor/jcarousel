@@ -8,63 +8,55 @@
  *
  * Date: @DATE
  */
-(function (window) {
+(function ($) {
     'use strict';
 
-    (function (factory) {
-        if (typeof define === 'function' && define.amd) {
-            define('jquery.jcarousel.autoscroll', ['jquery', 'jquery.jcarousel'], factory);
-        } else {
-            factory(window.jQuery, window.jCarousel);
-        }
-    }(function ($, jCarousel) {
-        jCarousel.plugin('jcarouselAutoscroll', {
-            _options: {
-                target:    '+=1',
-                interval:  3000,
-                autostart: true
-            },
-            _timer: null,
-            _init: function () {
-                this.onDestroy = $.proxy(function() {
-                    this._destroy();
-                    this.carousel().one('createend.jcarousel', $.proxy(this._create, this));
-                }, this);
-                this.onAnimateEnd = $.proxy(this.start, this);
-            },
-            _create: function() {
-                this.carousel()
-                    .one('destroy.jcarousel', this.onDestroy);
+    jCarousel.plugin('jcarouselAutoscroll', {
+        _options: {
+            target:    '+=1',
+            interval:  3000,
+            autostart: true
+        },
+        _timer: null,
+        _init: function () {
+            this.onDestroy = $.proxy(function() {
+                this._destroy();
+                this.carousel().one('createend.jcarousel', $.proxy(this._create, this));
+            }, this);
+            this.onAnimateEnd = $.proxy(this.start, this);
+        },
+        _create: function() {
+            this.carousel()
+                .one('destroy.jcarousel', this.onDestroy);
 
-                if (this.options('autostart')) {
-                    this.start();
-                }
-            },
-            _destroy: function() {
-                this.stop();
-                this.carousel()
-                    .unbind('destroy.jcarousel', this.onDestroy);
-            },
-            start: function() {
-                this.stop();
-
-                this.carousel().one('animateend.jcarousel', this.onAnimateEnd);
-
-                this._timer = setTimeout($.proxy(function() {
-                    this.carousel().jcarousel('scroll', this.options('target'));
-                }, this), this.options('interval'));
-
-                return this;
-            },
-            stop: function() {
-                if (this._timer) {
-                    this._timer = clearTimeout(this._timer);
-                }
-
-                this.carousel().unbind('animateend.jcarousel', this.onAnimateEnd);
-
-                return this;
+            if (this.options('autostart')) {
+                this.start();
             }
-        });
-    }));
-}(window));
+        },
+        _destroy: function() {
+            this.stop();
+            this.carousel()
+                .unbind('destroy.jcarousel', this.onDestroy);
+        },
+        start: function() {
+            this.stop();
+
+            this.carousel().one('animateend.jcarousel', this.onAnimateEnd);
+
+            this._timer = setTimeout($.proxy(function() {
+                this.carousel().jcarousel('scroll', this.options('target'));
+            }, this), this.options('interval'));
+
+            return this;
+        },
+        stop: function() {
+            if (this._timer) {
+                this._timer = clearTimeout(this._timer);
+            }
+
+            this.carousel().unbind('animateend.jcarousel', this.onAnimateEnd);
+
+            return this;
+        }
+    });
+}(jQuery));
