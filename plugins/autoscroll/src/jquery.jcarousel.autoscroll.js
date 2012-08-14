@@ -1,12 +1,13 @@
 /*!
- * jCarousel AutoScroll Plugin v@VERSION
+ * jCarousel AutoScroll Plugin
  * http://sorgalla.com/jcarousel/
  *
- * Copyright 2011, Jan Sorgalla
- * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
- * or GPL Version 2 (http://www.opensource.org/licenses/gpl-2.0.php) licenses.
+ * Copyright 2012, Jan Sorgalla
+ * Dual licensed under the MIT (https://github.com/jsor/jcarousel/blob/master/LICENSE-MIT)
+ * or GPL Version 2 (https://github.com/jsor/jcarousel/blob/master/LICENSE-GPL) licenses.
  *
- * Date: @DATE
+ * Depends:
+ *     jquery.jcarousel.js
  */
 (function ($) {
     'use strict';
