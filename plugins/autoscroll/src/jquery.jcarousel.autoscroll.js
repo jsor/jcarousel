@@ -11,7 +11,7 @@
 (function ($) {
     'use strict';
 
-    jCarousel.plugin('jcarouselAutoscroll', {
+    $.jcarousel.plugin('jcarouselAutoscroll', {
         _options: {
             target:    '+=1',
             interval:  3000,

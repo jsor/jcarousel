@@ -11,7 +11,7 @@
 (function ($) {
     'use strict';
 
-    jCarousel.plugin('jcarouselPagination', {
+    $.jcarousel.plugin('jcarouselPagination', {
         _options: {
             perPage: null,
             item: function(page) {

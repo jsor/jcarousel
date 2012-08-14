@@ -12,7 +12,7 @@
 (function ($) {
     'use strict';
 
-    jCarousel.plugin('jcarouselControl', {
+    $.jcarousel.plugin('jcarouselControl', {
         _options: {
             target: '+=1',
             event:  'click'
@@ -48,7 +48,7 @@
                 .unbind('reloadend.jcarousel scrollend.jcarousel', this.onReload);
         },
         _reload: function() {
-            var parsed = jCarousel.parseTarget(this.options('target')),
+            var parsed = $.jcarousel.parseTarget(this.options('target')),
                 carousel = this.carousel(),
                 active;
 
