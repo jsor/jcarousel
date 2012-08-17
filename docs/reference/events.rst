@@ -1,8 +1,8 @@
 Events
 ======
 
-After initialization, jCarousel triggers specific events on the root element
-and the items of the carousel.
+After initialization, jCarousel triggers the following events on the root
+and the items elements of the carousel:
 
 .. note::
 
@@ -21,8 +21,10 @@ and the items of the carousel.
             // Initialize at last step
             .jcarousel();
 
-Available root element events
------------------------------
+Root element events
+-------------------
+
+.. _reference.events.create:
 
 ``create.jcarousel``
     Triggered on creation of the carousel.
@@ -36,6 +38,8 @@ Available root element events
             // "carousel" is the jCarousel instance
         });
 
+.. _reference.events.createend:
+
 ``createend.jcarousel``
     Triggered after creation of the carousel.
 
@@ -47,6 +51,8 @@ Available root element events
             // "this" refers to the root element
             // "carousel" is the jCarousel instance
         });
+
+.. _reference.events.reload:
 
 ``reload.jcarousel``
     Triggered when the ``reload`` method is called.
@@ -60,6 +66,8 @@ Available root element events
             // "carousel" is the jCarousel instance
         });
 
+.. _reference.events.reloadend:
+
 ``reloadend.jcarousel``
     Triggered after the ``reload`` method is called.
 
@@ -71,6 +79,8 @@ Available root element events
             // "this" refers to the root element
             // "carousel" is the jCarousel instance
         });
+
+.. _reference.events.destroy:
 
 ``destroy.jcarousel``
     Triggered when the ``destroy`` method is called.
@@ -84,6 +94,8 @@ Available root element events
             // "carousel" is the jCarousel instance
         });
 
+.. _reference.events.destroyend:
+
 ``destroyend.jcarousel``
     Triggered after the ``destroy`` method is called.
 
@@ -96,6 +108,8 @@ Available root element events
             // "carousel" is the jCarousel instance
         });
 
+.. _reference.events.scroll:
+
 ``scroll.jcarousel``
     Triggered when the ``scroll`` method is called.
 
@@ -107,9 +121,11 @@ Available root element events
             // "this" refers to the root element
             // "carousel" is the jCarousel instance
             // "target" is the target argument passed to the `scroll` method
-            // "animate" is the animate argument passed to the `scroll` method 
+            // "animate" is the animate argument passed to the `scroll` method
             //      indicating whether jCarousel was requested to do an animation
         });
+
+.. _reference.events.scrollend:
 
 ``scrollend.jcarousel``
     Triggered after the ``scroll`` method is called.
@@ -128,6 +144,8 @@ Available root element events
             // "carousel" is the jCarousel instance
         });
 
+.. _reference.events.animate:
+
 ``animate.jcarousel``
     Triggered when the carousel starts a animation.
 
@@ -139,6 +157,8 @@ Available root element events
             // "this" refers to the root element
             // "carousel" is the jCarousel instance
         });
+
+.. _reference.events.animateend:
 
 ``animateend.jcarousel``
     Triggered after the carousel has finished a animation.
@@ -152,8 +172,10 @@ Available root element events
             // "carousel" is the jCarousel instance
         });
 
-Available item element events
------------------------------
+Item element events
+-------------------
+
+.. _reference.events.itemfirstin:
 
 ``itemfirstin.jcarousel``
     Triggered when the item becomes the first visible item.
@@ -167,6 +189,8 @@ Available item element events
             // "carousel" is the jCarousel instance
         });
 
+.. _reference.events.itemfirstout:
+
 ``itemfirstout.jcarousel``
     Triggered when the item is no longer the first visible item.
 
@@ -178,6 +202,8 @@ Available item element events
             // "this" refers to the item element
             // "carousel" is the jCarousel instance
         });
+
+.. _reference.events.itemlastin:
 
 ``itemlastin.jcarousel``
     Triggered when the item becomes the last visible item.
@@ -191,6 +217,8 @@ Available item element events
             // "carousel" is the jCarousel instance
         });
 
+.. _reference.events.itemlastout:
+
 ``itemlastout.jcarousel``
     Triggered when the item is no longer the last visible item.
 
@@ -202,6 +230,8 @@ Available item element events
             // "this" refers to the item element
             // "carousel" is the jCarousel instance
         });
+
+.. _reference.events.itemvisiblein:
 
 ``itemvisiblein.jcarousel``
     Triggered when the item becomes a visible item.
@@ -215,6 +245,8 @@ Available item element events
             // "carousel" is the jCarousel instance
         });
 
+.. _reference.events.itemvisibleout:
+
 ``itemvisibleout.jcarousel``
     Triggered when the item is no longer a visible item.
 
@@ -227,6 +259,8 @@ Available item element events
             // "carousel" is the jCarousel instance
         });
 
+.. _reference.events.itemfullyvisiblein:
+
 ``itemfullyvisiblein.jcarousel``
     Triggered when the item becomes a fully visible item.
 
@@ -238,6 +272,8 @@ Available item element events
             // "this" refers to the item element
             // "carousel" is the jCarousel instance
         });
+
+.. _reference.events.itemfullyvisibleout:
 
 ``itemfullyvisibleout.jcarousel``
     Triggered when the item is no longer a fully visible item.

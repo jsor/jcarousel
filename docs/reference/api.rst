@@ -1,26 +1,14 @@
 API
 ===
 
-If you have created a carousel like:
+jCarousel exposes the following methods:
 
-.. code-block:: javascript
+.. seealso::
 
-    $(function() {
-        $('.jcarousel').jcarousel();
-    });
+   :ref:`reference.usage.methods`
+      Call methods on the jCarousel instance.
 
-You can later call methods on the jCarousel instance like:
-
-.. code-block:: javascript
-
-    $('.jcarousel').jcarousel('scroll', '+=2');
-
-
-The first argument is the method name. The following arguments are the arguments
-for the called method.
-
-Available methods
-^^^^^^^^^^^^^^^^^
+.. _reference.api.scroll:
 
 ``.jcarousel('scroll', target [, animate [, callback]])``
     Scrolls to a specific item or relative by a given offset (See section
@@ -55,6 +43,8 @@ Available methods
             }
         });
 
+.. _reference.api.reload:
+
 ``.jcarousel('reload' [, options])``
     Reloads the carousel. This method is useful to reinitialize the carousel if
     you have changed the content of the list from the outside or want to change
@@ -68,6 +58,8 @@ Available methods
             'animation': 'slow'
         });
 
+.. _reference.api.destroy:
+
 ``.jcarousel('destroy')``
     Removes the jCarousel functionality completely. This will return the element
     back to its initial state.
@@ -77,6 +69,8 @@ Available methods
     .. code-block:: javascript
 
         $('.jcarousel').jcarousel('destroy');
+
+.. _reference.api.items:
 
 ``.jcarousel('items')``
     Returns all items as jQuery object.
@@ -91,6 +85,8 @@ Available methods
             console.log('Item clicked', this);
         });
 
+.. _reference.api.target:
+
 ``.jcarousel('target')``
     Returns the *targeted* item as jQuery object.
 
@@ -103,6 +99,8 @@ Available methods
         target.on('click', function() {
             console.log('Target item clicked', this);
         });
+
+.. _reference.api.first:
 
 ``.jcarousel('first')``
     Returns the *first visible* item as jQuery object.
@@ -117,6 +115,8 @@ Available methods
             console.log('First item clicked', this);
         });
 
+.. _reference.api.last:
+
 ``.jcarousel('last')``
     Returns the *last visible* item as jQuery object.
 
@@ -130,6 +130,8 @@ Available methods
             console.log('Last item clicked', this);
         });
 
+.. _reference.api.visible:
+
 ``.jcarousel('visible')``
     Returns all *visible* items as jQuery object.
 
@@ -142,6 +144,8 @@ Available methods
         visible.on('click', function() {
             console.log('Visible item clicked', this);
         });
+
+.. _reference.api.fullyvisible:
 
 ``.jcarousel('fullyvisible')``
     Returns all *fully visible* items as jQuery object.

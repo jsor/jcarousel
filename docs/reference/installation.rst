@@ -6,10 +6,10 @@ library and the jCarousel source file into your HTML document:
 
 .. code-block:: html
 
-    <script type="text/javascript" 
+    <script type="text/javascript"
             src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
     </script>
-    <script type="text/javascript" 
+    <script type="text/javascript"
             src="/path/to/jquery.jcarousel.js">
     </script>
 
@@ -53,6 +53,8 @@ jCarousel expects a very basic HTML markup structure inside your HTML document:
     The only requirement is, that it consists of a root element, list element
     and item elements.
 
+.. _reference.installation.setup:
+
 Setup
 -----
 
@@ -67,6 +69,8 @@ To setup jCarousel, add the following code to your HTML document:
         });
     });
     </script>
+
+See :doc:`configuration` for all available configuration options.
 
 These are the minimal CSS settings for a horizontal carousel:
 

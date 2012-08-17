@@ -1,6 +1,31 @@
 Usage
 =====
 
+.. _reference.usage.methods:
+
+Calling methods on the jCarousel instance
+-----------------------------------------
+
+If you have created a carousel like:
+
+.. code-block:: javascript
+
+    $(function() {
+        $('.jcarousel').jcarousel();
+    });
+
+You can later call methods on the jCarousel instance like:
+
+.. code-block:: javascript
+
+    $('.jcarousel').jcarousel('scroll', '+=2');
+
+
+The first argument is the method name. The following arguments are the arguments
+for the called method.
+
+See :doc:`api` for available methods.
+
 .. _reference.usage.navigating-the-carousel:
 
 Navigating the carousel

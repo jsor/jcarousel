@@ -1,10 +1,17 @@
 Configuration
 =============
 
-jCarousel accepts a list of options to control the behaviour of the carousel.
+jCarousel accepts the following options:
 
-Available options
-------------------
+.. seealso::
+
+   :ref:`reference.installation.setup`
+      Set configuration options on initialization.
+
+   :ref:`reload method <reference.api.reload>`
+      Set configuration options at runtime.
+
+.. _reference.configuration.list:
 
 ``list``
     A function or a jQuery selector to select the list inside the root element.
@@ -27,6 +34,8 @@ Available options
             return this.element().children().eq(0);
         }
 
+.. _reference.configuration.items:
+
 ``items``
     A function or a jQuery selector to select the items inside the list element.
 
@@ -47,6 +56,8 @@ Available options
         function() {
             return this.list().children();
         }
+
+.. _reference.configuration.animation:
 
 ``animation``
     The speed of the scroll animation as string in jQuery terms (``"slow"`` or
@@ -83,6 +94,8 @@ Available options
     **Default:**
         ``400``
 
+.. _reference.configuration.wrap:
+
 ``wrap``
     Specifies whether to wrap at the first or last item (or both) and jump back
     to the start/end. Options are ``"first"``, ``"last"``, ``"both"`` or
@@ -102,6 +115,8 @@ Available options
     **Default:**
         ``null``
 
+.. _reference.configuration.vertical:
+
 ``vertical``
     Specifies whether the carousel appears in vertical orientation. Changes the
     carousel from a left/right style to a up/down style carousel.
@@ -119,6 +134,8 @@ Available options
 
     **Default:**
         ``null``
+
+.. _reference.configuration.rtl:
 
 ``rtl``
     Specifies wether the carousel appears in RTL (Right-To-Left) mode.
@@ -151,6 +168,8 @@ Available options
 
     **Default:**
         ``null``
+
+.. _reference.configuration.center:
 
 ``center``
     Specifies wether the targeted item should be centered inside the root element.
