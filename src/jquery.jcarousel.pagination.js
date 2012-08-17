@@ -88,22 +88,37 @@
                 }
             }
 
-            var self = this,
-                element = this._element.empty(),
-                item = this.options('item');
-
-            $.each(this._pages, function(page, carouselItems) {
-                var currItem = self._items[page] = $(item.call(self, page, carouselItems));
-
-                element.append(currItem);
-
-                if ($.fn.jcarouselControl) {
-                    currItem.jcarouselControl({
-                        carousel: self.carousel(),
-                        target: carouselItems.eq(0)
-                    });
+            var items = this.carousel().jcarousel('items'),
+                elements = this._element.find(' > *'), // all direct children
+                self = this,
+                element,
+                item = this.options('item'),
+                numberOfPages = 0;
+                
+                $.each(this._pages, function() { numberOfPages++; });
+                
+                // if the elements inside the list are the same length as the number of pages.
+                if(elements.size() != numberOfPages) {
+                    element = this._element.empty();
                 }
-            });
+                
+                $.each(this._pages, function(page, carouselItems) {
+                    var currItem;
+                                        
+                    if(element) {
+                        currItem = self._items[page] = $(item.call(self, page, carouselItems));
+                        element.append(currItem);
+                    } else {
+                        currItem = self._items[page] = elements.eq(page-1);
+                    }
+                    
+                    if ($.fn.jcarouselControl) {
+                        currItem.jcarouselControl({
+                            carousel: self.carousel(),
+                            target: carouselItems.eq(0)
+                        });
+                    }
+                });
         },
         items: function() {
             return this._items;
