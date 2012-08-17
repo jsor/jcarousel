@@ -55,10 +55,10 @@ Available methods
             }
         });
 
-``.jcarousel('reload'[, options])``
+``.jcarousel('reload' [, options])``
     Reloads the carousel. This method is useful to reinitialize the carousel if
     you have changed the content of the list from the outside or want to change
-    options that affect appearance of the carousel on runtime.
+    options that affect appearance of the carousel at runtime.
 
     **Example:**
 
