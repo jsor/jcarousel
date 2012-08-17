@@ -56,10 +56,12 @@
             this._items = {};
 
             // Calculate pages
+            if ($.isFunction(perPage)) {
+                perPage = perPage.call(this);
+            }
+
             if (perPage == null) {
                 this._pages = this._calculatePages();
-            } else if ($.isFunction(perPage)) {
-                this._pages = perPage.call(this);
             } else {
                 var pp = parseInt(perPage, 10) || 0,
                     items = this.carousel().jcarousel('items'),
