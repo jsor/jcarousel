@@ -31,6 +31,13 @@ See :doc:`api` for available methods.
 Navigating the carousel
 -----------------------
 
+.. note::
+
+   A more comfortable way is to use a navigation plugin:
+
+   * :doc:`../plugins/control/index`
+   * :doc:`../plugins/pagination/index`
+
 jCarousel offers no built in controls to navigate through the carousel. But you
 can simply implement navigation controls using the ``scroll`` method.
 
@@ -100,11 +107,6 @@ A simple example for previous and next controls:
     $('.jcarousel-next').click(function() {
         $('.jcarousel').jcarousel('scroll', '+=1');
     });
-
-A more comfortable way is to use a navigation plugins:
-
-* jquery.jcarousel.control.js
-* jquery.jcarousel.pagination.js
 
 Defining the number of visible items
 ------------------------------------
