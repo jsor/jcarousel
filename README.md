@@ -11,6 +11,8 @@ navigating any HTML based content in a carousel-like fashion.
 Documentation
 -------------
 
+### Reference
+
 You can read the documentation of the version 0.3.0 [here](http://sorgalla.com/jcarousel/docs/):
 
   * [Installation](http://sorgalla.com/jcarousel/docs/reference/installation.html)
@@ -19,8 +21,7 @@ You can read the documentation of the version 0.3.0 [here](http://sorgalla.com/j
   * [Usage](http://sorgalla.com/jcarousel/docs/reference/usage.html)
   * [Events](http://sorgalla.com/jcarousel/docs/reference/events.html)
 
-Plugins
--------------
+### Plugins
 
 By default, the jCarousel core only contains the minimum functionality needed
 to built carousel widgets. Specialized features are provided through plugins.
@@ -32,12 +33,22 @@ jCarousel comes with the following plugins:
   * [Pagination Plugin](http://sorgalla.com/jcarousel/docs/plugins/pagination/)
   * [Autoscroll Plugin](http://sorgalla.com/jcarousel/docs/plugins/autoscroll/)
 
+Download
+--------
+
+All ready-to-use files are located in the 
+[`dist/`](https://github.com/jsor/jcarousel/tree/master/dist) directory.
+
+The [`jquery.jcarousel-all.js`](https://raw.github.com/jsor/jcarousel/master/dist/jquery.jcarousel-all.js)
+and [`jquery.jcarousel-all.min.js`](https://raw.github.com/jsor/jcarousel/master/dist/jquery.jcarousel-all.min.js)
+files contain the core and all plugins concenated together.
+
 Examples
 --------
 
 There are no examples ready yet for the new version 0.3, but you can browse the
 [functional tests](https://github.com/jsor/jcarousel/tree/master/test/functional)
-to get an impression how to setup things. 
+to get an impression how to setup things.
 
 Credits
 -------
