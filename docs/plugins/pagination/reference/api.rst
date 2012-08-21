@@ -20,7 +20,7 @@ The plugin exposes the following methods:
 .. _pagination.reference.api.destroy:
 
 ``.jcarouselPagination('destroy')``
-    Removes the control functionality completely. This will return the
+    Removes the pagination functionality completely. This will return the
     element back to its initial state.
 
     **Example:**
