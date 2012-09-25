@@ -36,5 +36,5 @@ inspired by the `Carousel Component <http://billwscott.com/carousel/>`_ by
 License
 -------
 
-Copyright (c) 2012 Jan Sorgalla.
-Licensed under the MIT, GPL licenses.
+Copyright 2012 Jan Sorgalla.
+Released under the `MIT <https://github.com/jsor/jcarousel/blob/master/LICENSE>`_ license.

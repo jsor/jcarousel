@@ -3,8 +3,8 @@
  * http://sorgalla.com/jcarousel/
  *
  * Copyright 2012, Jan Sorgalla
- * Dual licensed under the MIT (https://github.com/jsor/jcarousel/blob/master/LICENSE-MIT)
- * or GPL Version 2 (https://github.com/jsor/jcarousel/blob/master/LICENSE-GPL) licenses.
+ * Released under the MIT license
+ * https://github.com/jsor/jcarousel/blob/master/LICENSE
  *
  * Depends:
  *     jquery.jcarousel.js

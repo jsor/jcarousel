@@ -2,9 +2,9 @@
  * jCarousel - Riding carousels with jQuery
  * http://sorgalla.com/jcarousel/
  *
- * Copyright 2012, Jan Sorgalla
- * Dual licensed under the MIT (https://github.com/jsor/jcarousel/blob/master/LICENSE-MIT)
- * or GPL Version 2 (https://github.com/jsor/jcarousel/blob/master/LICENSE-GPL) licenses.
+ * Copyright 2012 Jan Sorgalla
+ * Released under the MIT license
+ * https://github.com/jsor/jcarousel/blob/master/LICENSE
  */
 (function ($, window) {
     'use strict';
