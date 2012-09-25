@@ -69,9 +69,10 @@ jCarousel accepts the following options:
     <http://api.jquery.com/animate/#animate-properties-options>`_
     accepts as second argument or a function.
 
-    A function will be called in the context of the carousel instance and with
+    A function will be called in the context of the carousel instance with
     2 arguments: The first is a hash of css properties (ie. ``{left: -400}``)
-    and the second is a function which must be called as a callback.
+    and the second is a function which must be called after the animation is
+    completed.
 
     The function is then responsible for animating the list and executing the
     callback after the animation is finished.
@@ -88,6 +89,12 @@ jCarousel accepts the following options:
             'animation': {
                 'duration': 800,
                 'easing':   'linear'
+            }
+        });
+
+        $('.jcarousel').jcarousel({
+            'animation': function(properties, callback) {
+                this.list().transition(properties, 400, callback);
             }
         });
 
