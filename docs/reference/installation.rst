@@ -79,6 +79,8 @@ These are the minimal CSS settings for a horizontal carousel:
     .jcarousel {
         position: relative;
         overflow: hidden;
+        /* You need at least a height, adjust this to your needs */
+        height: 100px;
     }
 
     .jcarousel ul {
