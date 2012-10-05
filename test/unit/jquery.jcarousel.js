@@ -7,20 +7,17 @@ jQuery(function($){
 
         $('#jcarousel1').jcarousel();
 
-        ok($('#jcarousel1').data('jcarousel').element, '#jcarousel1 (element exists)');
-        ok($('#jcarousel1').data('jcarousel').element.jquery, '#jcarousel1 (element is jQuery object)');
+        ok($('#jcarousel1').jcarousel('element'), '#jcarousel1 (element exists)');
+        ok($('#jcarousel1').jcarousel('element').jquery, '#jcarousel1 (element is jQuery object)');
     });
 
     test("constructor sets options", function() {
-        expect(4);
+        expect(2);
 
         $('#jcarousel1').jcarousel({wrap: 'custom'});
 
-        ok($('#jcarousel1').data('jcarousel').options.wrap, '#jcarousel1 (wrap exists in property)');
-        equal($('#jcarousel1').data('jcarousel').options.wrap, 'custom', '#jcarousel1 (wrap equals in property)');
-
-        ok($('#jcarousel1').jcarousel('option', 'wrap'), '#jcarousel1 (wrap exists through option())');
-        equal($('#jcarousel1').jcarousel('option', 'wrap'), 'custom', '#jcarousel1 (wrap equals through option())');
+        ok($('#jcarousel1').jcarousel('options', 'wrap'), '#jcarousel1 (wrap exists)');
+        equal($('#jcarousel1').jcarousel('options', 'wrap'), 'custom', '#jcarousel1 (wrap equals)');
     });
 
     test("constructor sets data", function() {
@@ -30,32 +27,25 @@ jQuery(function($){
 
         ok($('#jcarousel1').data('jcarousel'), '#jcarousel1');
     });
-
-    test("_init() sets callbacks", function() {
-        expect(2);
-
-        $('#jcarousel1').jcarousel();
-
-        ok($('#jcarousel1').data('jcarousel').onWindowResize, '#jcarousel1 (onWindowResize)');
-        ok($('#jcarousel1').data('jcarousel').onAnimationComplete, '#jcarousel1 (onAnimationComplete)');
-    });
-
-    test("_init() triggers events", function() {
-        expect(2);
-
-        $('#jcarousel1').bind('jcarouselcreate', function() {
-            ok(true, "#jcarousel1 (create)");
-        }).bind('jcarouselcreateend', function() {
-            ok(true, "#jcarousel1 (createend)");
-        }).jcarousel();
-    });
-
+    
     test("_init() sets list", function() {
         expect(1);
 
         $('#jcarousel1').jcarousel();
 
-        equal($('#jcarousel1').data('jcarousel').list.get(0), $('#jcarousel1 ul').get(0), '#jcarousel1');
+        equal($('#jcarousel1').jcarousel('list').get(0), $('#jcarousel1 ul').get(0), '#jcarousel1');
+    });
+
+    test("_init() triggers events", function() {
+        expect(2);
+
+        $('#jcarousel1')
+            .on('create.jcarousel', function() {
+                ok(true, "#jcarousel1 (create)");
+            }).on('createend.jcarousel', function() {
+                ok(true, "#jcarousel1 (createend)");
+            })
+            .jcarousel();
     });
 
     test("destroy() removes data", function() {
@@ -69,6 +59,20 @@ jQuery(function($){
 
         equal($('#jcarousel1').data('jcarousel'), undefined, '#jcarousel1');
     });
+    
+    test("destroy() triggers events", function() {
+        expect(2);
+
+        $('#jcarousel1')
+            .on('destroy.jcarousel', function() {
+                ok(true, "#jcarousel1 (destroy)");
+            })
+            .on('destroyend.jcarousel', function() {
+                ok(true, "#jcarousel1 (destroyend)");
+            })
+            .jcarousel()
+            .jcarousel('destroy');
+    });
 
     test("reload() sets vertical", function() {
         expect(3);
@@ -77,7 +81,7 @@ jQuery(function($){
 
         equal($('#jcarousel1').data('jcarousel').vertical, false, '#jcarousel1');
         equal($('#jcarousel2').data('jcarousel').vertical, false, '#jcarousel2');
-        equal($('#jcarousel3').data('jcarousel').vertical, true, '#jcarousel3 (attr: data-jcarousel-vertical)');
+        equal($('#jcarousel3').data('jcarousel').vertical, true, '#jcarousel3 (css dimension)');
     });
 
     test("reload() sets rtl", function() {
@@ -98,6 +102,20 @@ jQuery(function($){
 
         equal($('#jcarousel1').data('jcarousel').circular, false, '#jcarousel1');
         equal($('#jcarousel2').data('jcarousel').circular, true, '#jcarousel2');
+    });
+    
+    test("reload() triggers events", function() {
+        expect(2);
+
+        $('#jcarousel1')
+            .on('reload.jcarousel', function() {
+                ok(true, "#jcarousel1 (reload)");
+            })
+            .on('reloadend.jcarousel', function() {
+                ok(true, "#jcarousel1 (reloadend)");
+            })
+            .jcarousel()
+            .jcarousel('reload');
     });
 
     test("items() returns all items", function() {
