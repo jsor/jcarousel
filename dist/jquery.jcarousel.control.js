@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0beta1 - 2012-09-25
+/*! jCarousel - v0.3.0beta1 - 2012-10-05
 * http://sorgalla.com/jcarousel/
 * Copyright 2012 Jan Sorgalla
 * Released under the MIT license */
@@ -6,7 +6,7 @@
 (function ($) {
     'use strict';
 
-    $.jcarousel.plugin('jcarouselControl', {
+    $.jCarousel.plugin('jcarouselControl', {
         _options: {
             target: '+=1',
             event:  'click'
@@ -42,7 +42,7 @@
                 .unbind('reloadend.jcarousel scrollend.jcarousel', this.onReload);
         },
         _reload: function() {
-            var parsed = $.jcarousel.parseTarget(this.options('target')),
+            var parsed = $.jCarousel.parseTarget(this.options('target')),
                 carousel = this.carousel(),
                 active;
 

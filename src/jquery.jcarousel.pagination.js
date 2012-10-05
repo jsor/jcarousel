@@ -13,7 +13,7 @@
 (function ($) {
     'use strict';
 
-    $.jcarousel.plugin('jcarouselPagination', {
+    $.jCarousel.plugin('jcarouselPagination', {
         _options: {
             perPage: null,
             item: function(page) {

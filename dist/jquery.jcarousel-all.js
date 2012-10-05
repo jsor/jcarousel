@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0beta1 - 2012-09-25
+/*! jCarousel - v0.3.0beta1 - 2012-10-05
 * http://sorgalla.com/jcarousel/
 * Copyright 2012 Jan Sorgalla
 * Released under the MIT license */
@@ -12,13 +12,13 @@
 
     var arraySlice = Array.prototype.slice;
 
-    var jcarousel = $.jcarousel = {};
+    var jCarousel = $.jCarousel = {};
 
-    jcarousel.version = '@VERSION';
+    jCarousel.version = '@VERSION';
 
     var rRelativeTarget = /^([+\-]=)?(.+)$/;
 
-    jcarousel.parseTarget = function(target) {
+    jCarousel.parseTarget = function(target) {
         var relative = false,
             parts = typeof target !== 'object' ?
                         rRelativeTarget.exec(target) :
@@ -43,7 +43,7 @@
         };
     };
 
-    jcarousel.detectCarousel = function(element) {
+    jCarousel.detectCarousel = function(element) {
         var carousel;
 
         while (element.size() > 0) {
@@ -63,15 +63,15 @@
         return null;
     };
 
-    jcarousel.basePrototype = function(pluginName) {
+    jCarousel.base = function(pluginName) {
         return {
-            version:     jcarousel.version,
-            _options:    {},
-            _element:    null,
-            _init:       $.noop,
-            _create:     $.noop,
-            _destroy:    $.noop,
-            _reload:    $.noop,
+            version:  jCarousel.version,
+            _options: {},
+            _element: null,
+            _init:    $.noop,
+            _create:  $.noop,
+            _destroy: $.noop,
+            _reload:  $.noop,
             create: function() {
                 this._element
                     .attr('data-' + pluginName.toLowerCase(), true)
@@ -149,12 +149,14 @@
         };
     };
 
-    jcarousel.plugin = function(pluginName, pluginPrototype) {
-        return jcarousel.create(pluginName, $.extend({}, {
-                _carousel:   null,
+    jCarousel.plugin = function(pluginName, pluginPrototype) {
+        var prototype = $.extend(
+            {},
+            {
+                _carousel: null,
                 carousel: function() {
                     if (!this._carousel) {
-                        this._carousel = jcarousel.detectCarousel(this.options('carousel') || this._element);
+                        this._carousel = jCarousel.detectCarousel(this.options('carousel') || this._element);
 
                         if (!this._carousel) {
                             $.error('Could not detect carousel for plugin "' + pluginName + '"');
@@ -165,11 +167,15 @@
                 }
             },
             pluginPrototype
-        ));
+        );
+
+        return jCarousel.create(pluginName, prototype);
     };
 
-    jcarousel.create = function(pluginName, pluginPrototype) {
-        var Plugin = function(element, options) {
+    var registry = {};
+
+    jCarousel.create = function(pluginName, pluginPrototype) {
+        var Plugin = registry[pluginName] = function(element, options) {
             this._element = $(element);
             this.options(options);
 
@@ -179,7 +185,7 @@
 
         Plugin.prototype = $.extend(
             {},
-            jcarousel.basePrototype(pluginName),
+            jCarousel.base(pluginName),
             pluginPrototype
         );
 
@@ -229,7 +235,15 @@
         return Plugin;
     };
 
-    jcarousel.create('jcarousel', {
+    jCarousel.extend = function(pluginName, pluginPrototype) {
+        return $.extend(registry[pluginName], pluginPrototype);
+    };
+
+    jCarousel.exists = function(pluginName) {
+        return typeof registry[pluginName] !== 'undefined';
+    };
+
+    jCarousel.create('jcarousel', {
         animating:     false,
         tail:          0,
         inTail:        false,
@@ -466,7 +480,7 @@
                 animate  = true;
             }
 
-            var parsed = jcarousel.parseTarget(target);
+            var parsed = jCarousel.parseTarget(target);
 
             if (parsed.relative) {
                 var end = this.items().size() - 1,
@@ -862,7 +876,7 @@
 (function ($) {
     'use strict';
 
-    $.jcarousel.plugin('jcarouselControl', {
+    $.jCarousel.plugin('jcarouselControl', {
         _options: {
             target: '+=1',
             event:  'click'
@@ -898,7 +912,7 @@
                 .unbind('reloadend.jcarousel scrollend.jcarousel', this.onReload);
         },
         _reload: function() {
-            var parsed = $.jcarousel.parseTarget(this.options('target')),
+            var parsed = $.jCarousel.parseTarget(this.options('target')),
                 carousel = this.carousel(),
                 active;
 
@@ -925,7 +939,7 @@
 (function ($) {
     'use strict';
 
-    $.jcarousel.plugin('jcarouselPagination', {
+    $.jCarousel.plugin('jcarouselPagination', {
         _options: {
             perPage: null,
             item: function(page) {
@@ -1059,7 +1073,7 @@
 (function ($) {
     'use strict';
 
-    $.jcarousel.plugin('jcarouselAutoscroll', {
+    $.jCarousel.plugin('jcarouselAutoscroll', {
         _options: {
             target:    '+=1',
             interval:  3000,

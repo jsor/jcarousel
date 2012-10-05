@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0beta1 - 2012-09-25
+/*! jCarousel - v0.3.0beta1 - 2012-10-05
 * http://sorgalla.com/jcarousel/
 * Copyright 2012 Jan Sorgalla
 * Released under the MIT license */
@@ -6,7 +6,7 @@
 (function ($) {
     'use strict';
 
-    $.jcarousel.plugin('jcarouselPagination', {
+    $.jCarousel.plugin('jcarouselPagination', {
         _options: {
             perPage: null,
             item: function(page) {
