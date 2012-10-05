@@ -73,6 +73,20 @@ module.exports = function(grunt) {
                 dest: 'dist/jquery.<%= pkg.name %>.autoscroll.min.js'
             }
         },
+        replace: {
+            dist: {
+                options: {
+                    variables: {
+                        'VERSION': '<%= pkg.version %>',
+                        'DATE': '<%= grunt.template.today() %>'
+                    },
+                    prefix: '@'
+                },
+                files: {
+                    'dist/': ['dist/*.js']
+                }
+            }
+        },
         qunit: {
             files: ['test/unit/**/*.html']
         },
@@ -109,8 +123,10 @@ module.exports = function(grunt) {
             }
         }
     });
+    
+    grunt.loadNpmTasks('grunt-replace');
 
-    // Default task.
     grunt.registerTask('default', 'lint qunit');
+    grunt.registerTask('dist', 'concat min replace');
 
 };

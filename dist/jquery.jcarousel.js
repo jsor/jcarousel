@@ -14,7 +14,7 @@
 
     var jCarousel = $.jCarousel = {};
 
-    jCarousel.version = '@VERSION';
+    jCarousel.version = '0.3.0beta1';
 
     var rRelativeTarget = /^([+\-]=)?(.+)$/;
 

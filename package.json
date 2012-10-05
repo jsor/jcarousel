@@ -23,7 +23,8 @@
   ],
   "dependencies": {},
   "devDependencies": {
-    "grunt": "~0.3.11"
+    "grunt": "*",
+    "grunt-replace": "*"
   },
   "keywords": []
 }
