@@ -1,9 +1,9 @@
-/*! jCarousel - v0.3.0beta1 - 2012-10-05
+/*! jCarousel - v0.3.0-beta - 2012-10-05
 * http://sorgalla.com/jcarousel/
 * Copyright 2012 Jan Sorgalla
 * Released under the MIT license */
 
-(function ($) {
+(function($) {
     'use strict';
 
     $.jCarousel.plugin('jcarouselControl', {
@@ -15,12 +15,14 @@
         _init: function() {
             this.onDestroy = $.proxy(function() {
                 this._destroy();
-                this.carousel().one('createend.jcarousel', $.proxy(this._create, this));
+                this.carousel()
+                    .one('createend.jcarousel', $.proxy(this._create, this));
             }, this);
             this.onReload = $.proxy(this._reload, this);
             this.onEvent = $.proxy(function(e) {
                 e.preventDefault();
-                this.carousel().jcarousel('scroll', this.options('target'));
+                this.carousel()
+                    .jcarousel('scroll', this.options('target'));
             }, this);
         },
         _create: function() {
@@ -42,12 +44,13 @@
                 .unbind('reloadend.jcarousel scrollend.jcarousel', this.onReload);
         },
         _reload: function() {
-            var parsed = $.jCarousel.parseTarget(this.options('target')),
+            var parsed   = $.jCarousel.parseTarget(this.options('target')),
                 carousel = this.carousel(),
                 active;
 
             if (parsed.relative) {
-                active = carousel.jcarousel(parsed.target > 0 ? 'hasNext' : 'hasPrev');
+                active = carousel
+                    .jcarousel(parsed.target > 0 ? 'hasNext' : 'hasPrev');
             } else {
                 var target = typeof parsed.target !== 'object' ?
                                 carousel.jcarousel('items').eq(parsed.target) :

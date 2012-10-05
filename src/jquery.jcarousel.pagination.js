@@ -10,7 +10,7 @@
  *     jquery.jcarousel.js
  *     jquery.jcarousel.control.js
  */
-(function ($) {
+(function($) {
     'use strict';
 
     $.jCarousel.plugin('jcarouselPagination', {
@@ -25,7 +25,8 @@
         _init: function() {
             this.onDestroy = $.proxy(function() {
                 this._destroy();
-                this.carousel().one('createend.jcarousel', $.proxy(this._create, this));
+                this.carousel()
+                    .one('createend.jcarousel', $.proxy(this._create, this));
             }, this);
             this.onReload = $.proxy(this._reload, this);
         },
@@ -63,10 +64,10 @@
             if (perPage == null) {
                 this._pages = this._calculatePages();
             } else {
-                var pp = parseInt(perPage, 10) || 0,
+                var pp    = parseInt(perPage, 10) || 0,
                     items = this.carousel().jcarousel('items'),
-                    page = 1,
-                    i = 0,
+                    page  = 1,
+                    i     = 0,
                     curr;
 
                 while (true) {
@@ -88,9 +89,9 @@
                 }
             }
 
-            var self = this,
+            var self    = this,
                 element = this._element.empty(),
-                item = this.options('item');
+                item    = this.options('item');
 
             $.each(this._pages, function(page, carouselItems) {
                 var currItem = self._items[page] = $(item.call(self, page, carouselItems));
@@ -100,7 +101,7 @@
                 if ($.fn.jcarouselControl) {
                     currItem.jcarouselControl({
                         carousel: self.carousel(),
-                        target: carouselItems.eq(0)
+                        target:   carouselItems.eq(0)
                     });
                 }
             });

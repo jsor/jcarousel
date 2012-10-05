@@ -1,9 +1,9 @@
-/*! jCarousel - v0.3.0beta1 - 2012-10-05
+/*! jCarousel - v0.3.0-beta - 2012-10-05
 * http://sorgalla.com/jcarousel/
 * Copyright 2012 Jan Sorgalla
 * Released under the MIT license */
 
-(function ($, window) {
+(function($, window) {
     'use strict';
 
     var toFloat = function(val) {
@@ -14,15 +14,15 @@
 
     var jCarousel = $.jCarousel = {};
 
-    jCarousel.version = '0.3.0beta1';
+    jCarousel.version = '0.3.0-beta';
 
     var rRelativeTarget = /^([+\-]=)?(.+)$/;
 
     jCarousel.parseTarget = function(target) {
         var relative = false,
-            parts = typeof target !== 'object' ?
-                        rRelativeTarget.exec(target) :
-                        null;
+            parts    = typeof target !== 'object' ?
+                           rRelativeTarget.exec(target) :
+                           null;
 
         if (parts) {
             target = parseInt(parts[2], 10) || 0;
@@ -48,11 +48,13 @@
 
         while (element.size() > 0) {
             carousel = element.filter('[data-jcarousel]');
+
             if (carousel.size() > 0) {
                 return carousel;
             }
 
             carousel = element.find('[data-jcarousel]');
+
             if (carousel.size() > 0) {
                 return carousel;
             }
@@ -142,7 +144,8 @@
             _trigger: function(type, element, data) {
                 var event = $.Event((type + '.' + pluginName).toLowerCase());
 
-                (element || this._element).trigger(event, [this].concat(data || []));
+                (element || this._element)
+                    .trigger(event, [this].concat(data || []));
 
                 return !event.isDefaultPrevented();
             }
@@ -244,14 +247,14 @@
     };
 
     jCarousel.create('jcarousel', {
-        animating:     false,
-        tail:          0,
-        inTail:        false,
-        resizeTimer:   null,
-        lt:            null,
-        vertical:      false,
-        rtl:           false,
-        circular:      false,
+        animating:   false,
+        tail:        0,
+        inTail:      false,
+        resizeTimer: null,
+        lt:          null,
+        vertical:    false,
+        rtl:         false,
+        circular:    false,
 
         _options: {
             list: function() {
@@ -309,10 +312,13 @@
         },
         _create: function() {
             this._reload();
-            $(window).bind('resize.jcarousel', this.onWindowResize);
+
+            $(window)
+                .bind('resize.jcarousel', this.onWindowResize);
         },
         _destroy: function() {
-            $(window).unbind('resize.jcarousel', this.onWindowResize);
+            $(window)
+                .unbind('resize.jcarousel', this.onWindowResize);
         },
         _reload: function() {
             this.vertical = this.options('vertical');
@@ -385,11 +391,11 @@
             return this._items;
         },
         closest: function() {
-            var self = this,
-                pos = this.list().position()[this.lt],
+            var self    = this,
+                pos     = this.list().position()[this.lt],
                 closest = $(), // Ensure we're returning a jQuery instance
-                stop = false,
-                lrb = this.vertical ? 'bottom' : (this.rtl ? 'left' : 'right'),
+                stop    = false,
+                lrb     = this.vertical ? 'bottom' : (this.rtl ? 'left' : 'right'),
                 width;
 
             if (this.rtl && !this.vertical) {
@@ -483,13 +489,13 @@
             var parsed = jCarousel.parseTarget(target);
 
             if (parsed.relative) {
-                var end = this.items().size() - 1,
+                var end    = this.items().size() - 1,
                     scroll = Math.abs(parsed.target),
+                    wrap   = this.options('wrap'),
                     first,
                     index,
                     curr,
-                    i,
-                    wrap = this.options('wrap');
+                    i;
 
                 if (parsed.target > 0) {
                     var last = this._last.index();
@@ -542,7 +548,7 @@
                             this._scroll(end, animate, callback);
                         } else {
                             if (this.circular && index < 0) {
-                                i = index;
+                                i    = index;
                                 curr = this.items().get(0);
 
                                 while (i++ < 0) {
@@ -605,7 +611,8 @@
             this.inTail = false;
 
             this._prepare(item);
-            var pos = this._position(item),
+
+            var pos     = this._position(item),
                 currPos = toFloat(this.list().css(this.lt));
 
             if (pos === currPos) {
@@ -679,12 +686,13 @@
                     });
                 } else {
                     var opts = typeof animation === 'object' ?
-                                animation :
-                                {duration: animation},
+                                   animation :
+                                   {duration: animation},
                         oldComplete = opts.complete;
 
                     opts.complete = function() {
                         self.onAnimationComplete(callback);
+
                         if ($.isFunction(oldComplete)) {
                             oldComplete.call(this);
                         }
@@ -697,10 +705,11 @@
             return this;
         },
         _prepare: function(item) {
-            var index = item.index(),
-                idx = index,
-                wh = this.dimension(item),
-                clip = this.clipping(),
+            var index  = item.index(),
+                idx    = index,
+                wh     = this.dimension(item),
+                clip   = this.clipping(),
+                lrb    = this.vertical ? 'bottom' : (this.rtl ? 'left'  : 'right'),
                 update = {
                     target:       item,
                     first:        item,
@@ -708,7 +717,6 @@
                     visible:      item,
                     fullyvisible: wh <= clip ? item : $()
                 },
-                lrb = this.vertical ? 'bottom' : (this.rtl ? 'left'  : 'right'),
                 curr,
                 margin;
 
@@ -724,11 +732,15 @@
                     if (curr.size() === 0) {
                         if (this.circular) {
                             curr = this.items().eq(0);
+
                             if (item.get(0) === curr.get(0)) {
                                 break;
                             }
+
                             curr.after(curr.clone(true).attr('data-jcarousel-clone', true));
+
                             this.list().append(curr);
+
                             // Force items reload
                             this._items = null;
                         } else {
@@ -738,7 +750,7 @@
 
                     wh += this.dimension(curr);
 
-                    update.last = curr;
+                    update.last    = curr;
                     update.visible = update.visible.add(curr);
 
                     // Remove right/bottom margin from total width
@@ -770,7 +782,7 @@
 
                     wh += this.dimension(curr);
 
-                    update.first = curr;
+                    update.first   = curr;
                     update.visible = update.visible.add(curr);
 
                     // Remove right/bottom margin from total width
@@ -837,7 +849,7 @@
                 back = (update.first || current.first).index() < current.first.index(),
                 key,
                 doUpdate = function(key) {
-                    var elIn = [],
+                    var elIn  = [],
                         elOut = [];
 
                     update[key].each(function() {
