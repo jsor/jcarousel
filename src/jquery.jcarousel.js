@@ -360,7 +360,6 @@
 
             // _prepare() needs this here
             this.circular = this.options('wrap') === 'circular';
-            this.list().css({'left': 0, 'top': 0});
 
             if (item.size() > 0) {
                 this._prepare(item);
@@ -373,6 +372,8 @@
                                 this._fullyvisible.size() < this.items().size();
 
                 this.list().css(this.lt, this._position(item) + 'px');
+            } else {
+                this.list().css({'left': 0, 'top': 0});
             }
 
             return this;
