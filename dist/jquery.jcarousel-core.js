@@ -1,23 +1,14 @@
-/**
- * jCarousel - Riding carousels with jQuery
- * http://sorgalla.com/jcarousel/
- *
- * Copyright 2012 Jan Sorgalla
- * Released under the MIT license
- * https://github.com/jsor/jcarousel/blob/master/LICENSE
- */
-(function($, window) {
+/*! jCarousel - v0.3.0-beta - 2012-10-08
+* http://sorgalla.com/jcarousel/
+* Copyright 2012 Jan Sorgalla
+* Released under the MIT license */
+
+(function($) {
     'use strict';
-
-    var toFloat = function(val) {
-        return parseFloat(val) || 0;
-    };
-
-    var arraySlice = Array.prototype.slice;
 
     var jCarousel = $.jCarousel = {};
 
-    jCarousel.version = '@VERSION';
+    jCarousel.version = '0.3.0-beta';
 
     var rRelativeTarget = /^([+\-]=)?(.+)$/;
 
@@ -196,7 +187,7 @@
         );
 
         $.fn[pluginName] = function(options) {
-            var args = arraySlice.call(arguments, 1),
+            var args        = Array.prototype.slice.call(arguments, 1),
                 returnValue = this;
 
             if (typeof options === 'string') {
@@ -249,7 +240,16 @@
         return typeof registry[pluginName] !== 'undefined';
     };
 
-    jCarousel.create('jcarousel', {
+}(jQuery));
+
+(function($, window) {
+    'use strict';
+
+    var toFloat = function(val) {
+        return parseFloat(val) || 0;
+    };
+
+    $.jCarousel.plugin('jcarousel', {
         animating:   false,
         tail:        0,
         inTail:      false,

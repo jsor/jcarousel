@@ -1,14 +1,10 @@
 /**
  * jCarousel Pagination Plugin
- * http://sorgalla.com/jcarousel/
- *
- * Copyright 2012, Jan Sorgalla
- * Released under the MIT license
- * https://github.com/jsor/jcarousel/blob/master/LICENSE
  *
  * Depends:
- *     jquery.jcarousel.js
- *     jquery.jcarousel.control.js
+ *     core.js
+ *     core_plugin.js
+ *     control.js
  */
 (function($) {
     'use strict';

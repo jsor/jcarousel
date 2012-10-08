@@ -15,62 +15,64 @@ module.exports = function(grunt) {
             all: {
                 src: [
                     '<banner:meta.banner>',
-                    '<file_strip_banner:src/jquery.jcarousel.js>',
-                    '<file_strip_banner:src/jquery.jcarousel.control.js>',
-                    '<file_strip_banner:src/jquery.jcarousel.pagination.js>',
-                    '<file_strip_banner:src/jquery.jcarousel.autoscroll.js>'
+                    '<file_strip_banner:src/core.js>',
+                    '<file_strip_banner:src/core_plugin.js>',
+                    '<file_strip_banner:src/control.js>',
+                    '<file_strip_banner:src/pagination.js>',
+                    '<file_strip_banner:src/autoscroll.js>'
                 ],
-                dest: 'dist/jquery.<%= pkg.name %>-all.js'
+                dest: 'dist/jquery.<%= pkg.name %>.js'
             },
             core: {
                 src: [
                     '<banner:meta.banner>',
-                    '<file_strip_banner:src/jquery.jcarousel.js>'
+                    '<file_strip_banner:src/core.js>',
+                    '<file_strip_banner:src/core_plugin.js>'
                 ],
-                dest: 'dist/jquery.<%= pkg.name %>.js'
+                dest: 'dist/jquery.<%= pkg.name %>-core.js'
             },
             control: {
                 src: [
                     '<banner:meta.banner>',
-                    '<file_strip_banner:src/jquery.jcarousel.control.js>'
+                    '<file_strip_banner:src/control.js>'
                 ],
-                dest: 'dist/jquery.<%= pkg.name %>.control.js'
+                dest: 'dist/jquery.<%= pkg.name %>-control.js'
             },
             pagination: {
                 src: [
                     '<banner:meta.banner>',
-                    '<file_strip_banner:src/jquery.jcarousel.pagination.js>'
+                    '<file_strip_banner:src/pagination.js>'
                 ],
-                dest: 'dist/jquery.<%= pkg.name %>.pagination.js'
+                dest: 'dist/jquery.<%= pkg.name %>-pagination.js'
             },
             autoscroll: {
                 src: [
                     '<banner:meta.banner>',
-                    '<file_strip_banner:src/jquery.jcarousel.autoscroll.js>'
+                    '<file_strip_banner:src/autoscroll.js>'
                 ],
-                dest: 'dist/jquery.<%= pkg.name %>.autoscroll.js'
+                dest: 'dist/jquery.<%= pkg.name %>-autoscroll.js'
             }
         },
         min: {
             all: {
                 src: ['<banner:meta.banner>', '<config:concat.all.dest>'],
-                dest: 'dist/jquery.<%= pkg.name %>-all.min.js'
+                dest: 'dist/jquery.<%= pkg.name %>.min.js'
             },
             core: {
-                src: ['<banner:meta.banner>', '<config:concat.all.dest>'],
-                dest: 'dist/jquery.<%= pkg.name %>.min.js'
+                src: ['<banner:meta.banner>', '<config:concat.core.dest>'],
+                dest: 'dist/jquery.<%= pkg.name %>-core.min.js'
             },
             control: {
                 src: ['<banner:meta.banner>', '<config:concat.control.dest>'],
-                dest: 'dist/jquery.<%= pkg.name %>.control.min.js'
+                dest: 'dist/jquery.<%= pkg.name %>-control.min.js'
             },
             pagination: {
                 src: ['<banner:meta.banner>', '<config:concat.pagination.dest>'],
-                dest: 'dist/jquery.<%= pkg.name %>.pagination.min.js'
+                dest: 'dist/jquery.<%= pkg.name %>-pagination.min.js'
             },
             autoscroll: {
                 src: ['<banner:meta.banner>', '<config:concat.autoscroll.dest>'],
-                dest: 'dist/jquery.<%= pkg.name %>.autoscroll.min.js'
+                dest: 'dist/jquery.<%= pkg.name %>-autoscroll.min.js'
             }
         },
         replace: {
@@ -127,6 +129,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-replace');
 
     grunt.registerTask('default', 'lint qunit');
-    grunt.registerTask('dist', 'concat min replace');
+    grunt.registerTask('dist', 'concat replace min');
 
 };

@@ -1,6 +1,6 @@
 jQuery(function($){
 
-    module("jquery.jcarousel");
+    module("core_plugin");
 
     test("constructor sets element", function() {
         expect(2);
@@ -27,7 +27,7 @@ jQuery(function($){
 
         ok($('#jcarousel1').data('jcarousel'), '#jcarousel1');
     });
-    
+
     test("_init() sets list", function() {
         expect(1);
 
@@ -59,7 +59,7 @@ jQuery(function($){
 
         equal($('#jcarousel1').data('jcarousel'), undefined, '#jcarousel1');
     });
-    
+
     test("destroy() triggers events", function() {
         expect(2);
 
@@ -103,7 +103,7 @@ jQuery(function($){
         equal($('#jcarousel1').data('jcarousel').circular, false, '#jcarousel1');
         equal($('#jcarousel2').data('jcarousel').circular, true, '#jcarousel2');
     });
-    
+
     test("reload() triggers events", function() {
         expect(2);
 

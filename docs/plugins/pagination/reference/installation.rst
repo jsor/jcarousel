@@ -1,28 +1,7 @@
 Installation
 ============
 
-To use the jCarousel Pagination Plugin, include the source file right after the
-jCarousel core file:
-
-.. code-block:: html
-
-    <script type="text/javascript"
-            src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
-    </script>
-    <script type="text/javascript"
-            src="/path/to/jquery.jcarousel.js">
-    </script>
-        <script type="text/javascript"
-            src="/path/to/jquery.jcarousel.control.js">
-    </script>
-    <script type="text/javascript"
-            src="/path/to/jquery.jcarousel.pagination.js">
-    </script>
-
-.. note::
-
-   The pagination plugin uses the :doc:`../../control/index`, so it must be
-   included as well.
+The plugin provides a pagination widget for carousels.
 
 A simple basic HTML markup structure would be:
 
@@ -40,7 +19,7 @@ A simple basic HTML markup structure would be:
 
         <!-- Pagination -->
         <div class="jcarousel-pagination">
-            <!-- Pagination items will be generated in here
+            <!-- Pagination items will be generated in here -->
         </div>
     </div>
 

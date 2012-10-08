@@ -3,14 +3,8 @@
 * Copyright 2012 Jan Sorgalla
 * Released under the MIT license */
 
-(function($, window) {
+(function($) {
     'use strict';
-
-    var toFloat = function(val) {
-        return parseFloat(val) || 0;
-    };
-
-    var arraySlice = Array.prototype.slice;
 
     var jCarousel = $.jCarousel = {};
 
@@ -193,7 +187,7 @@
         );
 
         $.fn[pluginName] = function(options) {
-            var args = arraySlice.call(arguments, 1),
+            var args        = Array.prototype.slice.call(arguments, 1),
                 returnValue = this;
 
             if (typeof options === 'string') {
@@ -246,7 +240,16 @@
         return typeof registry[pluginName] !== 'undefined';
     };
 
-    jCarousel.create('jcarousel', {
+}(jQuery));
+
+(function($, window) {
+    'use strict';
+
+    var toFloat = function(val) {
+        return parseFloat(val) || 0;
+    };
+
+    $.jCarousel.plugin('jcarousel', {
         animating:   false,
         tail:        0,
         inTail:      false,
@@ -885,3 +888,261 @@
         }
     });
 }(jQuery, window));
+
+(function($) {
+    'use strict';
+
+    $.jCarousel.plugin('jcarouselControl', {
+        _options: {
+            target: '+=1',
+            event:  'click'
+        },
+        _active: null,
+        _init: function() {
+            this.onDestroy = $.proxy(function() {
+                this._destroy();
+                this.carousel()
+                    .one('createend.jcarousel', $.proxy(this._create, this));
+            }, this);
+            this.onReload = $.proxy(this._reload, this);
+            this.onEvent = $.proxy(function(e) {
+                e.preventDefault();
+                this.carousel()
+                    .jcarousel('scroll', this.options('target'));
+            }, this);
+        },
+        _create: function() {
+            this.carousel()
+                .one('destroy.jcarousel', this.onDestroy)
+                .bind('reloadend.jcarousel scrollend.jcarousel', this.onReload);
+
+            this._element
+                .bind(this.options('event') + '.jcarouselcontrol', this.onEvent);
+
+            this._reload();
+        },
+        _destroy: function() {
+            this._element
+                .unbind('.jcarouselcontrol', this.onEvent);
+
+            this.carousel()
+                .unbind('destroy.jcarousel', this.onDestroy)
+                .unbind('reloadend.jcarousel scrollend.jcarousel', this.onReload);
+        },
+        _reload: function() {
+            var parsed   = $.jCarousel.parseTarget(this.options('target')),
+                carousel = this.carousel(),
+                active;
+
+            if (parsed.relative) {
+                active = carousel
+                    .jcarousel(parsed.target > 0 ? 'hasNext' : 'hasPrev');
+            } else {
+                var target = typeof parsed.target !== 'object' ?
+                                carousel.jcarousel('items').eq(parsed.target) :
+                                parsed.target;
+
+                active = carousel.jcarousel('target').index(target) >= 0;
+            }
+
+            if (this._active !== active) {
+                this._trigger(active ? 'active' : 'inactive');
+                this._active = active;
+            }
+
+            return this;
+        }
+    });
+}(jQuery));
+
+(function($) {
+    'use strict';
+
+    $.jCarousel.plugin('jcarouselPagination', {
+        _options: {
+            perPage: null,
+            item: function(page) {
+                return '<a href="#' + page + '">' + page + '</a>';
+            }
+        },
+        _pages: {},
+        _items: {},
+        _init: function() {
+            this.onDestroy = $.proxy(function() {
+                this._destroy();
+                this.carousel()
+                    .one('createend.jcarousel', $.proxy(this._create, this));
+            }, this);
+            this.onReload = $.proxy(this._reload, this);
+        },
+        _create: function() {
+            this.carousel()
+                .one('destroy.jcarousel', this.onDestroy)
+                .bind('reloadend.jcarousel', this.onReload);
+
+            this._reload();
+        },
+        _destroy: function() {
+            if ($.fn.jcarouselControl) {
+                $.each(this._items, function(page, item) {
+                    item.jcarouselControl('destroy');
+                });
+            }
+
+            this._element.empty();
+
+            this.carousel()
+                .unbind('destroy.jcarousel', this.onDestroy)
+                .unbind('reloadend.jcarousel', this.onReload);
+        },
+        _reload: function() {
+            var perPage = this.options('perPage');
+
+            this._pages = {};
+            this._items = {};
+
+            // Calculate pages
+            if ($.isFunction(perPage)) {
+                perPage = perPage.call(this);
+            }
+
+            if (perPage == null) {
+                this._pages = this._calculatePages();
+            } else {
+                var pp    = parseInt(perPage, 10) || 0,
+                    items = this.carousel().jcarousel('items'),
+                    page  = 1,
+                    i     = 0,
+                    curr;
+
+                while (true) {
+                    curr = items.eq(i++);
+
+                    if (curr.size() === 0) {
+                        break;
+                    }
+
+                    if (!this._pages[page]) {
+                        this._pages[page] = curr;
+                    } else {
+                        this._pages[page] = this._pages[page].add(curr);
+                    }
+
+                    if (i % pp === 0) {
+                        page++;
+                    }
+                }
+            }
+
+            var self    = this,
+                element = this._element.empty(),
+                item    = this.options('item');
+
+            $.each(this._pages, function(page, carouselItems) {
+                var currItem = self._items[page] = $(item.call(self, page, carouselItems));
+
+                element.append(currItem);
+
+                if ($.fn.jcarouselControl) {
+                    currItem.jcarouselControl({
+                        carousel: self.carousel(),
+                        target:   carouselItems.eq(0)
+                    });
+                }
+            });
+        },
+        items: function() {
+            return this._items;
+        },
+        _calculatePages: function() {
+            var carousel = this.carousel().data('jcarousel'),
+                items    = carousel.items(),
+                clip     = carousel.clipping(),
+                wh       = 0,
+                idx      = 0,
+                page     = 1,
+                pages    = {},
+                curr;
+
+            while (true) {
+                curr = items.eq(idx++);
+
+                if (curr.size() === 0) {
+                    break;
+                }
+
+                if (!pages[page]) {
+                    pages[page] = curr;
+                } else {
+                    pages[page] = pages[page].add(curr);
+                }
+
+                wh += carousel.dimension(curr);
+
+                if (wh >= clip) {
+                    page++;
+                    wh = 0;
+                }
+            }
+
+            return pages;
+        }
+    });
+}(jQuery));
+
+(function($) {
+    'use strict';
+
+    $.jCarousel.plugin('jcarouselAutoscroll', {
+        _options: {
+            target:    '+=1',
+            interval:  3000,
+            autostart: true
+        },
+        _timer: null,
+        _init: function () {
+            this.onDestroy = $.proxy(function() {
+                this._destroy();
+                this.carousel()
+                    .one('createend.jcarousel', $.proxy(this._create, this));
+            }, this);
+
+            this.onAnimateEnd = $.proxy(this.start, this);
+        },
+        _create: function() {
+            this.carousel()
+                .one('destroy.jcarousel', this.onDestroy);
+
+            if (this.options('autostart')) {
+                this.start();
+            }
+        },
+        _destroy: function() {
+            this.stop();
+            this.carousel()
+                .unbind('destroy.jcarousel', this.onDestroy);
+        },
+        start: function() {
+            this.stop();
+
+            this.carousel()
+                .one('animateend.jcarousel', this.onAnimateEnd);
+
+            this._timer = setTimeout($.proxy(function() {
+                this.carousel().jcarousel('scroll', this.options('target'));
+            }, this), this.options('interval'));
+
+            return this;
+        },
+        stop: function() {
+            if (this._timer) {
+                this._timer = clearTimeout(this._timer);
+            }
+
+            this.carousel()
+                .unbind('animateend.jcarousel', this.onAnimateEnd);
+
+            return this;
+        }
+    });
+}(jQuery));

@@ -39,8 +39,8 @@ Download
 All ready-to-use files are located in the 
 [`dist/`](https://github.com/jsor/jcarousel/tree/master/dist) directory.
 
-The [`jquery.jcarousel-all.js`](https://raw.github.com/jsor/jcarousel/master/dist/jquery.jcarousel-all.js)
-and [`jquery.jcarousel-all.min.js`](https://raw.github.com/jsor/jcarousel/master/dist/jquery.jcarousel-all.min.js)
+The [`jquery.jcarousel.js`](https://raw.github.com/jsor/jcarousel/master/dist/jquery.jcarousel.js)
+and [`jquery.jcarousel.min.js`](https://raw.github.com/jsor/jcarousel/master/dist/jquery.jcarousel.min.js)
 files contain the core and all plugins concenated together.
 
 Examples
