@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-beta - 2012-10-05
+/*! jCarousel - v0.3.0-beta - 2012-10-08
 * http://sorgalla.com/jcarousel/
 * Copyright 2012 Jan Sorgalla
 * Released under the MIT license */
@@ -357,7 +357,6 @@
 
             // _prepare() needs this here
             this.circular = this.options('wrap') === 'circular';
-            this.list().css({'left': 0, 'top': 0});
 
             if (item.size() > 0) {
                 this._prepare(item);
@@ -370,6 +369,8 @@
                                 this._fullyvisible.size() < this.items().size();
 
                 this.list().css(this.lt, this._position(item) + 'px');
+            } else {
+                this.list().css({'left': 0, 'top': 0});
             }
 
             return this;
