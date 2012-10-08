@@ -26,6 +26,15 @@ Plugins
 
    plugins/index
 
+Cookbook
+--------
+
+.. toctree::
+   :maxdepth: 1
+   :glob:
+
+   cookbook/*
+
 Credits
 -------
 
