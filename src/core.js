@@ -60,12 +60,13 @@
     jCarousel.base = function(pluginName) {
         return {
             version:  jCarousel.version,
-            _options: {},
-            _element: null,
-            _init:    $.noop,
-            _create:  $.noop,
-            _destroy: $.noop,
-            _reload:  $.noop,
+            _options:  {},
+            _element:  null,
+            _carousel: null,
+            _init:     $.noop,
+            _create:   $.noop,
+            _destroy:  $.noop,
+            _reload:   $.noop,
             create: function() {
                 this._element
                     .attr('data-' + pluginName.toLowerCase(), true)
@@ -133,6 +134,17 @@
 
                 return this;
             },
+            carousel: function() {
+                if (!this._carousel) {
+                    this._carousel = jCarousel.detectCarousel(this.options('carousel') || this._element);
+
+                    if (!this._carousel) {
+                        $.error('Could not detect carousel for plugin "' + pluginName + '"');
+                    }
+                }
+
+                return this._carousel;
+            },
             _trigger: function(type, element, data) {
                 var event = $.Event((type + '.' + pluginName).toLowerCase());
 
@@ -144,32 +156,15 @@
         };
     };
 
-    jCarousel.plugin = function(pluginName, pluginPrototype) {
-        var prototype = $.extend(
-            {},
-            {
-                _carousel: null,
-                carousel: function() {
-                    if (!this._carousel) {
-                        this._carousel = jCarousel.detectCarousel(this.options('carousel') || this._element);
-
-                        if (!this._carousel) {
-                            $.error('Could not detect carousel for plugin "' + pluginName + '"');
-                        }
-                    }
-
-                    return this._carousel;
-                }
-            },
-            pluginPrototype
-        );
-
-        return jCarousel.create(pluginName, prototype);
-    };
-
     var registry = {};
 
-    jCarousel.create = function(pluginName, pluginPrototype) {
+    jCarousel.plugin = function(pluginName, pluginPrototype) {
+        if (arguments.length === 1) {
+            return typeof registry[pluginName] !== 'undefined' ? 
+                       registry[pluginName] :
+                       null;
+        }
+
         var Plugin = registry[pluginName] = function(element, options) {
             this._element = $(element);
             this.options(options);
@@ -228,13 +223,5 @@
         };
 
         return Plugin;
-    };
-
-    jCarousel.extend = function(pluginName, pluginPrototype) {
-        return $.extend(registry[pluginName], pluginPrototype);
-    };
-
-    jCarousel.exists = function(pluginName) {
-        return typeof registry[pluginName] !== 'undefined';
     };
 }(jQuery));
