@@ -70,6 +70,17 @@ jCarousel exposes the following methods:
 
         $('.jcarousel').jcarousel('destroy');
 
+.. _reference.api.list:
+
+``.jcarousel('list')``
+    Returns the list element as jQuery object.
+
+    **Example:**
+
+    .. code-block:: javascript
+
+        var list = $('.jcarousel').jcarousel('list');
+
 .. _reference.api.items:
 
 ``.jcarousel('items')``
