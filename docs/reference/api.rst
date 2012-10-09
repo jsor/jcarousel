@@ -79,11 +79,7 @@ jCarousel exposes the following methods:
 
     .. code-block:: javascript
 
-        var items = $('.jcarousel').jcarousel('items')
-
-        items.on('click', function() {
-            console.log('Item clicked', this);
-        });
+        var items = $('.jcarousel').jcarousel('items');
 
 .. _reference.api.target:
 
@@ -94,11 +90,7 @@ jCarousel exposes the following methods:
 
     .. code-block:: javascript
 
-        var target = $('.jcarousel').jcarousel('target')
-
-        target.on('click', function() {
-            console.log('Target item clicked', this);
-        });
+        var target = $('.jcarousel').jcarousel('target');
 
 .. _reference.api.first:
 
@@ -109,11 +101,7 @@ jCarousel exposes the following methods:
 
     .. code-block:: javascript
 
-        var first = $('.jcarousel').jcarousel('first')
-
-        first.on('click', function() {
-            console.log('First item clicked', this);
-        });
+        var first = $('.jcarousel').jcarousel('first');
 
 .. _reference.api.last:
 
@@ -124,11 +112,7 @@ jCarousel exposes the following methods:
 
     .. code-block:: javascript
 
-        var last = $('.jcarousel').jcarousel('last')
-
-        target.on('click', function() {
-            console.log('Last item clicked', this);
-        });
+        var last = $('.jcarousel').jcarousel('last');
 
 .. _reference.api.visible:
 
@@ -139,11 +123,7 @@ jCarousel exposes the following methods:
 
     .. code-block:: javascript
 
-        var visible = $('.jcarousel').jcarousel('visible')
-
-        visible.on('click', function() {
-            console.log('Visible item clicked', this);
-        });
+        var visible = $('.jcarousel').jcarousel('visible');
 
 .. _reference.api.fullyvisible:
 
@@ -154,8 +134,4 @@ jCarousel exposes the following methods:
 
     .. code-block:: javascript
 
-        var fullyvisible = $('.jcarousel').jcarousel('fullyvisible')
-
-        fullyvisible.on('click', function() {
-            console.log('Fully visible item clicked', this);
-        });
+        var fullyvisible = $('.jcarousel').jcarousel('fullyvisible');
