@@ -178,7 +178,16 @@ elements.
         </ul>
     </div>
 
-.. hint::
+Alternatively, you can explicitly pass the ``rtl`` option:
+
+.. code-block:: javascript
+
+    $('.jcarousel').jcarousel({
+        rtl: true
+    });
+
+
+.. note::
 
     When running a carousel in RTL mode, you should ensure to float the items
     to the right:
@@ -188,14 +197,6 @@ elements.
         .jcarousel[dir=rtl] li {
             float: right;
         }
-
-Alternatively, you can explicitly pass the ``rtl`` option:
-
-.. code-block:: javascript
-
-    $('.jcarousel').jcarousel({
-        rtl: true
-    });
 
 Manipulating the carousel
 -------------------------
