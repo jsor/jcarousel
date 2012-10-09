@@ -12,8 +12,8 @@ jCarousel exposes the following methods:
 
 ``.jcarousel('scroll', target [, animate [, callback]])``
     Scrolls to a specific item or relative by a given offset (See section
-    :ref:`reference.usage.navigating-the-carousel` for more information about
-    the target argument).
+    :ref:`reference.usage.navigating-the-carousel-target-formats` for more
+    information about the target argument).
 
     If the argument ``animate`` is given and ``false``, it just jumps to the
     position without animation.

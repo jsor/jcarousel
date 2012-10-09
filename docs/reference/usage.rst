@@ -45,6 +45,8 @@ can simply implement navigation controls using the ``scroll`` method.
 
     $('.jcarousel').jcarousel('scroll', target);
 
+.. _reference.usage.navigating-the-carousel-target-formats:
+
 Available formats for the *target* argument
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

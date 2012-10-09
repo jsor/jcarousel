@@ -43,6 +43,9 @@ To setup the plugin, add the following code to your HTML document:
     });
     </script>
 
+See section :ref:`reference.usage.navigating-the-carousel-target-formats` for
+more information about the target argument
+
 As you can see, you setup the controls independently from the carousel and the
 plugin tries to autodetect the carousel.
 
