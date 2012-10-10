@@ -162,7 +162,7 @@
         if (arguments.length === 1) {
             return typeof registry[pluginName] !== 'undefined' ? 
                        registry[pluginName] :
-                       null;
+                       $.error('Plugin with name ' + pluginName + ' does not exists');
         }
 
         var Plugin = registry[pluginName] = function(element, options) {
