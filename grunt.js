@@ -17,6 +17,7 @@ module.exports = function(grunt) {
                     '<banner:meta.banner>',
                     '<file_strip_banner:src/core.js>',
                     '<file_strip_banner:src/core_plugin.js>',
+                    '<file_strip_banner:src/scrollintoview.js>',
                     '<file_strip_banner:src/control.js>',
                     '<file_strip_banner:src/pagination.js>',
                     '<file_strip_banner:src/autoscroll.js>'
@@ -30,6 +31,13 @@ module.exports = function(grunt) {
                     '<file_strip_banner:src/core_plugin.js>'
                 ],
                 dest: 'dist/jquery.<%= pkg.name %>-core.js'
+            },
+            scrollintoview: {
+                src: [
+                    '<banner:meta.banner>',
+                    '<file_strip_banner:src/scrollintoview.js>'
+                ],
+                dest: 'dist/jquery.<%= pkg.name %>-scrollintoview.js'
             },
             control: {
                 src: [
@@ -61,6 +69,10 @@ module.exports = function(grunt) {
             core: {
                 src: ['<banner:meta.banner>', '<config:concat.core.dest>'],
                 dest: 'dist/jquery.<%= pkg.name %>-core.min.js'
+            },
+            scrollintoview: {
+                src: ['<banner:meta.banner>', '<config:concat.scrollintoview.dest>'],
+                dest: 'dist/jquery.<%= pkg.name %>-scrollintoview.min.js'
             },
             control: {
                 src: ['<banner:meta.banner>', '<config:concat.control.dest>'],

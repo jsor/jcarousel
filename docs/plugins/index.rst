@@ -12,3 +12,4 @@ jCarousel comes with the following plugins:
    control/index
    pagination/index
    autoscroll/index
+   scrollintoview/index
