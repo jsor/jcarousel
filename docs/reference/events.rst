@@ -175,6 +175,34 @@ Root element events
 Item element events
 -------------------
 
+.. _reference.events.itemtargetin:
+
+``itemtargetin.jcarousel``
+    Triggered when the item becomes the targeted item.
+
+    **Example:**
+
+    .. code-block:: javascript
+
+        $('.jcarousel').delegate('li', 'itemtargetin.jcarousel', function(event, carousel) {
+            // "this" refers to the item element
+            // "carousel" is the jCarousel instance
+        });
+
+.. _reference.events.itemtargetout:
+
+``itemtargetout.jcarousel``
+    Triggered when the item is no longer the targeted item.
+
+    **Example:**
+
+    .. code-block:: javascript
+
+        $('.jcarousel').delegate('li', 'itemtargetout.jcarousel', function(event, carousel) {
+            // "this" refers to the item element
+            // "carousel" is the jCarousel instance
+        });
+
 .. _reference.events.itemfirstin:
 
 ``itemfirstin.jcarousel``
