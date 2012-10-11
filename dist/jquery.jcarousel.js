@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-beta - 2012-10-10
+/*! jCarousel - v0.3.0-beta - 2012-10-11
 * http://sorgalla.com/jcarousel/
 * Copyright 2012 Jan Sorgalla
 * Released under the MIT license */
@@ -879,9 +879,9 @@
     'use strict';
 
     $.extend($.jCarousel.plugin('jcarousel').prototype, {
-        scrollIntoView: function(item, animate, callback) {
+        scrollIntoView: function(target, animate, callback) {
             var items = this.items(),
-                index = typeof item !== 'object' ? item : items.index(item),
+                index = typeof target !== 'object' ? target : items.index(target),
                 first = this._fullyvisible.first().index();
 
             if (index < first) {
@@ -898,7 +898,7 @@
 
             var clip = this.clipping(),
                 lrb  = this.vertical ? 'bottom' : (this.rtl ? 'left'  : 'right'),
-                wh   = this.dimension(items.eq(index)),
+                wh   = 0,
                 curr;
 
             while (true) {
@@ -908,11 +908,21 @@
                     break;
                 }
 
-                wh += this.dimension(curr) - (parseFloat(curr.css('margin-' + lrb)) || 0);
+                wh += this.dimension(curr);
 
-                if (wh >= clip || --index <= 0) {
+                if (wh >= clip) {
+                    var margin = parseFloat(curr.css('margin-' + lrb)) || 0;
+                    if ((wh - margin) !== clip) {
+                        index++;
+                    }
                     break;
                 }
+
+                if (index <= 0) {
+                    break;
+                }
+
+                index--;
             }
 
             return this.scroll(index, animate, callback);
