@@ -158,16 +158,8 @@
         };
     };
 
-    var registry = {};
-
     jCarousel.plugin = function(pluginName, pluginPrototype) {
-        if (arguments.length === 1) {
-            return typeof registry[pluginName] !== 'undefined' ? 
-                       registry[pluginName] :
-                       $.error('Plugin with name ' + pluginName + ' does not exists');
-        }
-
-        var Plugin = registry[pluginName] = function(element, options) {
+        var Plugin = $[pluginName] = function(element, options) {
             this._element = $(element);
             this.options(options);
 
@@ -175,7 +167,7 @@
             this.create();
         };
 
-        Plugin.prototype = $.extend(
+        Plugin.fn = Plugin.prototype = $.extend(
             {},
             jCarousel.base(pluginName),
             pluginPrototype

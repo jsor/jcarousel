@@ -158,16 +158,8 @@
         };
     };
 
-    var registry = {};
-
     jCarousel.plugin = function(pluginName, pluginPrototype) {
-        if (arguments.length === 1) {
-            return typeof registry[pluginName] !== 'undefined' ? 
-                       registry[pluginName] :
-                       $.error('Plugin with name ' + pluginName + ' does not exists');
-        }
-
-        var Plugin = registry[pluginName] = function(element, options) {
+        var Plugin = $[pluginName] = function(element, options) {
             this._element = $(element);
             this.options(options);
 
@@ -175,7 +167,7 @@
             this.create();
         };
 
-        Plugin.prototype = $.extend(
+        Plugin.fn = Plugin.prototype = $.extend(
             {},
             jCarousel.base(pluginName),
             pluginPrototype
@@ -878,56 +870,54 @@
 (function($) {
     'use strict';
 
-    $.extend($.jCarousel.plugin('jcarousel').prototype, {
-        scrollIntoView: function(target, animate, callback) {
-            var items = this.items(),
-                index = typeof target !== 'object' ? target : items.index(target),
-                first = this._fullyvisible.first().index();
+    $.jcarousel.fn.scrollIntoView = function(target, animate, callback) {
+        var items = this.items(),
+            index = typeof target !== 'object' ? target : items.index(target),
+            first = this._fullyvisible.first().index();
 
-            if (index < first) {
-                return this.scroll(index, animate, callback);
-            }
-
-            if (index >= first && index <= this._fullyvisible.last().index()) {
-                if ($.isFunction(callback)) {
-                    callback.call(this, false);
-                }
-
-                return this;
-            }
-
-            var clip = this.clipping(),
-                lrb  = this.vertical ? 'bottom' : (this.rtl ? 'left'  : 'right'),
-                wh   = 0,
-                curr;
-
-            while (true) {
-                curr = items.eq(index);
-
-                if (curr.size() === 0) {
-                    break;
-                }
-
-                wh += this.dimension(curr);
-
-                if (wh >= clip) {
-                    var margin = parseFloat(curr.css('margin-' + lrb)) || 0;
-                    if ((wh - margin) !== clip) {
-                        index++;
-                    }
-                    break;
-                }
-
-                if (index <= 0) {
-                    break;
-                }
-
-                index--;
-            }
-
+        if (index < first) {
             return this.scroll(index, animate, callback);
         }
-    });
+
+        if (index >= first && index <= this._fullyvisible.last().index()) {
+            if ($.isFunction(callback)) {
+                callback.call(this, false);
+            }
+
+            return this;
+        }
+
+        var clip = this.clipping(),
+            lrb  = this.vertical ? 'bottom' : (this.rtl ? 'left'  : 'right'),
+            wh   = 0,
+            curr;
+
+        while (true) {
+            curr = items.eq(index);
+
+            if (curr.size() === 0) {
+                break;
+            }
+
+            wh += this.dimension(curr);
+
+            if (wh >= clip) {
+                var margin = parseFloat(curr.css('margin-' + lrb)) || 0;
+                if ((wh - margin) !== clip) {
+                    index++;
+                }
+                break;
+            }
+
+            if (index <= 0) {
+                break;
+            }
+
+            index--;
+        }
+
+        return this.scroll(index, animate, callback);
+    };
 }(jQuery));
 
 (function($) {
