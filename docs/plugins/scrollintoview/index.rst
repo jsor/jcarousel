@@ -15,7 +15,7 @@ The plugin exposes the following method:
 .. _scrollintoview.reference.api.scrollintoview:
 
 ``.jcarousel('scrollIntoView', target [, animate [, callback]])``
-    The arguments is similar to the :ref:`scroll() <reference.api.scroll>`
+    The arguments are similar to the :ref:`scroll() <reference.api.scroll>`
     method with the difference that the target argument does **not** allow
     relative targets.
 
@@ -26,7 +26,7 @@ The plugin exposes the following method:
 
     .. code-block:: javascript
 
-        $('.jcarousel').jcarouselControl('scrollIntoView', 2, true, function(scrolled) {
+        $('.jcarousel').jcarousel('scrollIntoView', 2, true, function(scrolled) {
             if (scrolled) {
                 console.log('The carousel has been scrolled');
             } else {
