@@ -32,6 +32,7 @@ jCarousel comes with the following plugins:
   * [Control Plugin](http://sorgalla.com/jcarousel/docs/plugins/control/)
   * [Pagination Plugin](http://sorgalla.com/jcarousel/docs/plugins/pagination/)
   * [Autoscroll Plugin](http://sorgalla.com/jcarousel/docs/plugins/autoscroll/)
+  * [ScrollIntoView Plugin](http://sorgalla.com/jcarousel/docs/plugins/scrollintoview/)
 
 Download
 --------
