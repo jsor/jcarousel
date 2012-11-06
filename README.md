@@ -23,9 +23,8 @@ You can read the documentation of the version 0.3.0 [here](http://sorgalla.com/j
 
 ### Plugins
 
-By default, the jCarousel core only contains the minimum functionality needed
-to built carousel widgets. Specialized features are provided through plugins.
-This prevents a bloated core and lets you pick only the features you really need.
+By default, the jCarousel core only contains the minimum functionality needed to
+built carousel widgets. Specialized features are provided through plugins.
 
 jCarousel comes with the following plugins:
 
