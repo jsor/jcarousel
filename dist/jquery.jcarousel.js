@@ -799,6 +799,10 @@
             return this;
         },
         _position: function(item) {
+            if($(this.list()).is(':visible') === false) {
+                return 0;
+            }
+
             var first = this._first,
                 pos   = first.position()[this.lt];
 
