@@ -452,7 +452,7 @@
                     });
                 } else {
                     var opts = typeof animation === 'object' ?
-                                   animation :
+                                   $.extend({}, animation) :
                                    {duration: animation},
                         oldComplete = opts.complete;
 
