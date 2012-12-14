@@ -2,7 +2,7 @@
 
 /docs export-ignore
 /libs/qunit export-ignore
-/test export-ignore
+/test/unit export-ignore
 .gitattributes export-ignore
 .gitignore export-ignore
 grunt.js export-ignore
