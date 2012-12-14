@@ -118,7 +118,9 @@
             // Force items reload
             this._items = null;
 
-            var item = this._target || this.closest();
+            var item = this._target && this.items().index(this._target) >= 0 ?
+                           this._target :
+                           this.closest();
 
             // _prepare() needs this here
             this.circular = this.options('wrap') === 'circular';

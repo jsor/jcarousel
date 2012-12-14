@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-beta - 2012-11-16
+/*! jCarousel - v0.3.0-beta - 2012-12-14
 * http://sorgalla.com/jcarousel/
 * Copyright 2012 Jan Sorgalla
 * Released under the MIT license */
@@ -334,7 +334,9 @@
             // Force items reload
             this._items = null;
 
-            var item = this._target || this.closest();
+            var item = this._target && this.items().index(this._target) >= 0 ?
+                           this._target :
+                           this.closest();
 
             // _prepare() needs this here
             this.circular = this.options('wrap') === 'circular';
