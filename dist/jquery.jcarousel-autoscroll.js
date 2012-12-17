@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-beta - 2012-12-14
+/*! jCarousel - v0.3.0-beta - 2012-12-17
 * http://sorgalla.com/jcarousel/
 * Copyright 2012 Jan Sorgalla
 * Released under the MIT license */

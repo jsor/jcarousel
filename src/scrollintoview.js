@@ -9,15 +9,14 @@
     'use strict';
 
     $.jcarousel.fn.scrollIntoView = function(target, animate, callback) {
-        var items = this.items(),
-            index = typeof target !== 'object' ? target : items.index(target),
-            first = this._fullyvisible.first().index();
+        var index = typeof target !== 'object' ? parseInt(target, 10) : this.index(target),
+            first = this.index(this._fullyvisible.first());
 
         if (index < first) {
             return this.scroll(index, animate, callback);
         }
 
-        if (index >= first && index <= this._fullyvisible.last().index()) {
+        if (index >= first && index <= this.index(this._fullyvisible.last())) {
             if ($.isFunction(callback)) {
                 callback.call(this, false);
             }
@@ -25,7 +24,8 @@
             return this;
         }
 
-        var clip = this.clipping(),
+        var items = this.items(),
+            clip = this.clipping(),
             lrb  = this.vertical ? 'bottom' : (this.rtl ? 'left'  : 'right'),
             wh   = 0,
             curr;

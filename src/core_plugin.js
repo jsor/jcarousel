@@ -118,7 +118,7 @@
             // Force items reload
             this._items = null;
 
-            var item = this._target && this.items().index(this._target) >= 0 ?
+            var item = this._target && this.index(this._target) >= 0 ?
                            this._target :
                            this.closest();
 
@@ -157,6 +157,9 @@
             }
 
             return this._items;
+        },
+        index: function(item) {
+            return this.items().index(item);
         },
         closest: function() {
             var self    = this,
@@ -219,7 +222,7 @@
 
             return end >= 0 &&
                 ((wrap && wrap !== 'first') ||
-                    (this._last.index() < end) ||
+                    (this.index(this._last) < end) ||
                     (this.tail && !this.inTail)) ? true : false;
         },
         hasPrev: function() {
@@ -231,7 +234,7 @@
 
             return this.items().size() > 0 &&
                 ((wrap && wrap !== 'last') ||
-                    (this._first.index() > 0) ||
+                    (this.index(this._first) > 0) ||
                     (this.tail && this.inTail)) ? true : false;
         },
         clipping: function() {
@@ -266,7 +269,7 @@
                     i;
 
                 if (parsed.target > 0) {
-                    var last = this._last.index();
+                    var last = this.index(this._last);
 
                     if (last >= end && this.tail) {
                         if (!this.inTail) {
@@ -275,7 +278,7 @@
                             if (wrap === 'both' || wrap === 'last') {
                                 this._scroll(0, animate, callback);
                             } else {
-                                this._scroll(Math.min(this._target.index() + scroll, end), animate, callback);
+                                this._scroll(Math.min(this.index(this._target) + scroll, end), animate, callback);
                             }
                         }
                     } else {
@@ -283,7 +286,7 @@
                             (wrap === 'both' || wrap === 'last')) {
                             this._scroll(0, animate, callback);
                         } else {
-                            first = this._target.index();
+                            first = this.index(this._target);
                             index = first + scroll;
 
                             if (this.circular && index > end) {
@@ -306,9 +309,9 @@
                     }
                 } else {
                     if (this.inTail) {
-                        this._scroll(Math.max((this._first.index() - scroll) + 1, 0), animate, callback);
+                        this._scroll(Math.max((this.index(this._first) - scroll) + 1, 0), animate, callback);
                     } else {
-                        first = this._first.index();
+                        first = this.index(this._first);
                         index = first - scroll;
 
                         if (first === 0 &&
@@ -473,7 +476,7 @@
             return this;
         },
         _prepare: function(item) {
-            var index  = item.index(),
+            var index  = this.index(item),
                 idx    = index,
                 wh     = this.dimension(item),
                 clip   = this.clipping(),
@@ -572,7 +575,7 @@
 
             if (this.options('wrap') !== 'circular' &&
                 this.options('wrap') !== 'custom' &&
-                update.last.index() === (this.items().size() - 1)) {
+                this.index(update.last) === (this.items().size() - 1)) {
 
                 // Remove right/bottom margin from total width
                 wh -= toFloat(update.last.css('margin-' + lrb));
@@ -596,7 +599,7 @@
                 pos -= (this.clipping() / 2) - (this.dimension(first) / 2);
             }
 
-            if ((item.index() > first.index() || this.inTail) && this.tail) {
+            if ((this.index(item) > this.index(first) || this.inTail) && this.tail) {
                 pos = this.rtl ? pos - this.tail : pos + this.tail;
                 this.inTail = true;
             } else {
@@ -614,7 +617,7 @@
                     visible:      this._visible || $(),
                     fullyvisible: this._fullyvisible || $()
                 },
-                back = (update.first || current.first).index() < current.first.index(),
+                back = this.index(update.first || current.first) < this.index(current.first),
                 key,
                 doUpdate = function(key) {
                     var elIn  = [],
