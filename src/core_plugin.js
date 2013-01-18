@@ -20,6 +20,7 @@
         vertical:    false,
         rtl:         false,
         circular:    false,
+        underflow:   false,
 
         _options: {
             list: function() {
@@ -123,7 +124,8 @@
                            this.closest();
 
             // _prepare() needs this here
-            this.circular = this.options('wrap') === 'circular';
+            this.circular  = this.options('wrap') === 'circular';
+            this.underflow = false;
 
             if (item.size() > 0) {
                 this._prepare(item);
@@ -132,8 +134,8 @@
                 // Force items reload
                 this._items = null;
 
-                this.circular = this.options('wrap') === 'circular' &&
-                                this._fullyvisible.size() < this.items().size();
+                this.underflow = this._fullyvisible.size() >= this.items().size();
+                this.circular  = this.circular && !this.underflow;
 
                 this.list().css(this.lt, this._position(item) + 'px');
             } else {
@@ -263,6 +265,7 @@
                 var end    = this.items().size() - 1,
                     scroll = Math.abs(parsed.target),
                     wrap   = this.options('wrap'),
+                    target,
                     first,
                     index,
                     curr,
@@ -282,12 +285,13 @@
                             }
                         }
                     } else {
-                        if (last === end &&
-                            (wrap === 'both' || wrap === 'last')) {
+                        target = this.index(this._target);
+
+                        if ((this.underflow && target === end && (wrap === 'circular' || wrap === 'both' || wrap === 'last')) ||
+                            (!this.underflow && last === end && (wrap === 'both' || wrap === 'last'))) {
                             this._scroll(0, animate, callback);
                         } else {
-                            first = this.index(this._target);
-                            index = first + scroll;
+                            index = target + scroll;
 
                             if (this.circular && index > end) {
                                 i = end;
@@ -311,11 +315,12 @@
                     if (this.inTail) {
                         this._scroll(Math.max((this.index(this._first) - scroll) + 1, 0), animate, callback);
                     } else {
-                        first = this.index(this._first);
-                        index = first - scroll;
+                        first  = this.index(this._first);
+                        target = this.index(this._target);
+                        start  = this.underflow ? target : first;
+                        index  = start - scroll;
 
-                        if (first === 0 &&
-                            (wrap === 'both' || wrap === 'first')) {
+                        if (start <= 0 && ((this.underflow && wrap === 'circular') || wrap === 'both' || wrap === 'first')) {
                             this._scroll(end, animate, callback);
                         } else {
                             if (this.circular && index < 0) {
@@ -343,7 +348,8 @@
 
                                 this._scroll(curr, animate, callback);
                             } else {
-                                this._scroll(Math.max(first - scroll, 0), animate, callback);
+                                var start = this.underflow ? this.index(this._target) : first;
+                                this._scroll(Math.max(index, 0), animate, callback);
                             }
                         }
                     }
