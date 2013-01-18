@@ -21,10 +21,16 @@
       "url": "https://raw.github.com/jsor/jcarousel/master/LICENSE"
     }
   ],
-  "dependencies": {},
+  "dependencies": {
+      "jquery": ">=1.7"
+  },
   "devDependencies": {
     "grunt": "*",
     "grunt-replace": "*"
   },
-  "keywords": []
+  "keywords": [
+    "carousel",
+    "slideshow",
+    "animation"
+  ],
 }
