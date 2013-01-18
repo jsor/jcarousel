@@ -1,0 +1,27 @@
+{
+  "name": "jcarousel",
+  "title": "jCarousel",
+  "description": "Riding carousels with jQuery",
+  "version": "0.3.0-beta",
+  "homepage": "http://sorgalla.com/jcarousel",
+  "author": {
+    "name": "Jan Sorgalla",
+    "url": "http://sorgalla.com"
+  },
+  "bugs": "https://github.com/jsor/jcarousel/issues",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.github.com/jsor/jcarousel/master/LICENSE"
+    }
+  ],
+  "docs": "http://sorgalla.com/jcarousel/docs",
+  "dependencies": {
+    "jquery": ">=1.7"
+  },
+  "keywords": [
+    "carousel",
+    "slideshow",
+    "animation"
+  ],
+}
