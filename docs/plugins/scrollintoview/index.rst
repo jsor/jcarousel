@@ -16,8 +16,7 @@ The plugin exposes the following method:
 
 ``.jcarousel('scrollIntoView', target [, animate [, callback]])``
     The arguments are similar to the :ref:`scroll() <reference.api.scroll>`
-    method with the difference that the target argument does **not** allow
-    relative targets.
+    method.
 
     If the targeted item is currently not fully visible, it will be the first or
     last fully visible item after calling the method.
