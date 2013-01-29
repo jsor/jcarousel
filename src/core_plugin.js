@@ -265,9 +265,10 @@
                 var end    = this.items().size() - 1,
                     scroll = Math.abs(parsed.target),
                     wrap   = this.options('wrap'),
-                    target,
+                    current,
                     first,
                     index,
+                    start,
                     curr,
                     i;
 
@@ -285,13 +286,13 @@
                             }
                         }
                     } else {
-                        target = this.index(this._target);
+                        current = this.index(this._target);
 
                         if ((this.underflow && target === end && (wrap === 'circular' || wrap === 'both' || wrap === 'last')) ||
                             (!this.underflow && last === end && (wrap === 'both' || wrap === 'last'))) {
                             this._scroll(0, animate, callback);
                         } else {
-                            index = target + scroll;
+                            index = current + scroll;
 
                             if (this.circular && index > end) {
                                 i = end;
@@ -316,8 +317,8 @@
                         this._scroll(Math.max((this.index(this._first) - scroll) + 1, 0), animate, callback);
                     } else {
                         first  = this.index(this._first);
-                        target = this.index(this._target);
-                        start  = this.underflow ? target : first;
+                        current = this.index(this._target);
+                        start  = this.underflow ? current : first;
                         index  = start - scroll;
 
                         if (start <= 0 && ((this.underflow && wrap === 'circular') || wrap === 'both' || wrap === 'first')) {
