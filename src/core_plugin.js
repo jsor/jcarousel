@@ -349,7 +349,6 @@
 
                                 this._scroll(curr, animate, callback);
                             } else {
-                                var start = this.underflow ? this.index(this._target) : first;
                                 this._scroll(Math.max(index, 0), animate, callback);
                             }
                         }
