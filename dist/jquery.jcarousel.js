@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-beta.2 - 2013-01-29
+/*! jCarousel - v0.3.0-beta.2 - 2013-01-31
 * http://sorgalla.com/jcarousel/
 * Copyright 2013 Jan Sorgalla
 * Released under the MIT license */
@@ -945,7 +945,8 @@
     $.jCarousel.plugin('jcarouselControl', {
         _options: {
             target: '+=1',
-            event:  'click'
+            event:  'click',
+            method: 'scroll'
         },
         _active: null,
         _init: function() {
@@ -957,8 +958,15 @@
             this.onReload = $.proxy(this._reload, this);
             this.onEvent = $.proxy(function(e) {
                 e.preventDefault();
-                this.carousel()
-                    .jcarousel('scroll', this.options('target'));
+
+                var method = this.options('method');
+
+                if ($.isFunction(method)) {
+                    method.call(this);
+                } else {
+                    this.carousel()
+                        .jcarousel(this.options('method'), this.options('target'));
+                }
             }, this);
         },
         _create: function() {
