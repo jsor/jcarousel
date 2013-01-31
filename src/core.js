@@ -203,7 +203,7 @@
                 this.each(function() {
                     var instance = $(this).data(pluginName);
 
-                    if (instance) {
+                    if (instance instanceof Plugin) {
                         instance.reload(options);
                     } else {
                         new Plugin(this, options);
