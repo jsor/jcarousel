@@ -42,7 +42,7 @@ To setup the plugin, add the following code to your HTML document:
 As you can see, you setup the pagination independently from the carousel and the
 plugin tries to autodetect the carousel.
 
-This works best if you enclose the carousel and its controls inside a mutual
+This works best if you enclose the carousel and its pagination inside a mutual
 wrapper element.
 
 If that fails or isn't possible, you can pass the related carousel instance as
