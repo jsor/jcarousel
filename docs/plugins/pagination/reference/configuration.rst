@@ -51,3 +51,21 @@ The plugin accepts the following options:
         function(page, carouselItems) {
             return '<a href="#' + page + '">' + page + '</a>';
         }
+
+.. _pagination.reference.configuration.carousel:
+
+``carousel``
+    The corresponding carousel as jQuery object.
+
+    This is optional. By default, the plugin tries to autodetect the carousel.
+
+    **Example:**
+
+    .. code-block:: javascript
+
+        $('.jcarousel-pagination').jcarouselPagination({
+            'carousel': $('.jcarousel')
+        });
+
+    **Default:**
+        ``null``

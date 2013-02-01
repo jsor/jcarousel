@@ -64,3 +64,22 @@ The plugin accepts the following options:
 
     **Default:**
         ``scroll``
+
+.. _control.reference.configuration.carousel:
+
+``carousel``
+    The corresponding carousel as jQuery object.
+
+    This is optional. By default, the plugin tries to autodetect the carousel.
+
+    **Example:**
+
+    .. code-block:: javascript
+
+        $('.jcarousel-control').jcarouselControl({
+            'carousel': $('.jcarousel')
+        });
+
+    **Default:**
+        ``null``
+
