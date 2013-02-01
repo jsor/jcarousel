@@ -55,7 +55,7 @@ an option:
         // Core configuration goes here
     });
 
-    $('.jcarousel-prev').jcarouselPagination({
+    $('.jcarousel-pagination').jcarouselPagination({
         carousel: carousel
     });
     </script>

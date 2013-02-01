@@ -24,7 +24,7 @@ After initialization, the plugin triggers the following events on the element:
 
     .. code-block:: javascript
 
-        $('.jcarousel').on('active.jcarouselcontrol', function() {
+        $('.jcarousel-control').on('active.jcarouselcontrol', function() {
             // Do something
         });
 
@@ -37,7 +37,7 @@ After initialization, the plugin triggers the following events on the element:
 
     .. code-block:: javascript
 
-        $('.jcarousel').on('inactive.jcarouselcontrol', function() {
+        $('.jcarousel-control').on('inactive.jcarouselcontrol', function() {
             // Do something
         });
 
@@ -50,7 +50,7 @@ After initialization, the plugin triggers the following events on the element:
 
     .. code-block:: javascript
 
-        $('.jcarousel').on('create.jcarouselcontrol', function() {
+        $('.jcarousel-control').on('create.jcarouselcontrol', function() {
             // Do something
         });
 
@@ -63,7 +63,7 @@ After initialization, the plugin triggers the following events on the element:
 
     .. code-block:: javascript
 
-        $('.jcarousel').on('createend.jcarouselcontrol', function() {
+        $('.jcarousel-control').on('createend.jcarouselcontrol', function() {
             // Do something
         });
 
@@ -76,7 +76,7 @@ After initialization, the plugin triggers the following events on the element:
 
     .. code-block:: javascript
 
-        $('.jcarousel').on('reload.jcarouselcontrol', function() {
+        $('.jcarousel-control').on('reload.jcarouselcontrol', function() {
             // Do something
         });
 
@@ -89,7 +89,7 @@ After initialization, the plugin triggers the following events on the element:
 
     .. code-block:: javascript
 
-        $('.jcarousel').on('reloadend.jcarouselcontrol', function() {
+        $('.jcarousel-control').on('reloadend.jcarouselcontrol', function() {
             // "this" refers to the element
         });
 
@@ -102,7 +102,7 @@ After initialization, the plugin triggers the following events on the element:
 
     .. code-block:: javascript
 
-        $('.jcarousel').on('destroy.jcarouselcontrol', function() {
+        $('.jcarousel-control').on('destroy.jcarouselcontrol', function() {
             // Do something
         });
 
@@ -115,6 +115,6 @@ After initialization, the plugin triggers the following events on the element:
 
     .. code-block:: javascript
 
-        $('.jcarousel').on('destroyend.jcarouselcontrol', function() {
+        $('.jcarousel-control').on('destroyend.jcarouselcontrol', function() {
             // Do something
         });

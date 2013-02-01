@@ -13,7 +13,7 @@ The plugin exposes the following methods:
 
     .. code-block:: javascript
 
-        $('.jcarousel').jcarouselPagination('reload', {
+        $('.jcarousel-pagination').jcarouselPagination('reload', {
             'interval': 1500
         });
 
@@ -27,4 +27,4 @@ The plugin exposes the following methods:
 
     .. code-block:: javascript
 
-        $('.jcarousel').jcarouselPagination('destroy');
+        $('.jcarousel-pagination').jcarouselPagination('destroy');

@@ -15,7 +15,7 @@ The plugin accepts the following options:
 
     .. code-block:: javascript
 
-        $('.jcarousel').jcarouselPagination({
+        $('.jcarousel-pagination').jcarouselPagination({
             'perPage': 3
         });
 
@@ -38,7 +38,7 @@ The plugin accepts the following options:
 
     .. code-block:: javascript
 
-        $('.jcarousel').jcarouselPagination({
+        $('.jcarousel-pagination').jcarouselPagination({
             'item': function(page, carouselItems) {
                 return '<li><a href="#' + page + '">Page ' + page + '</a></li>';
             }

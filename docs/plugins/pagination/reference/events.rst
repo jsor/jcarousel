@@ -17,7 +17,7 @@ After initialization, the plugin triggers the following events on the element:
 
     .. code-block:: javascript
 
-        $('.jcarousel').on('create.jcarouselpagination', function() {
+        $('.jcarousel-pagination').on('create.jcarouselpagination', function() {
             // Do something
         });
 
@@ -30,7 +30,7 @@ After initialization, the plugin triggers the following events on the element:
 
     .. code-block:: javascript
 
-        $('.jcarousel').on('createend.jcarouselpagination', function() {
+        $('.jcarousel-pagination').on('createend.jcarouselpagination', function() {
             // Do something
         });
 
@@ -43,7 +43,7 @@ After initialization, the plugin triggers the following events on the element:
 
     .. code-block:: javascript
 
-        $('.jcarousel').on('reload.jcarouselpagination', function() {
+        $('.jcarousel-pagination').on('reload.jcarouselpagination', function() {
             // Do something
         });
 
@@ -56,7 +56,7 @@ After initialization, the plugin triggers the following events on the element:
 
     .. code-block:: javascript
 
-        $('.jcarousel').on('reloadend.jcarouselpagination', function() {
+        $('.jcarousel-pagination').on('reloadend.jcarouselpagination', function() {
             // "this" refers to the element
         });
 
@@ -69,7 +69,7 @@ After initialization, the plugin triggers the following events on the element:
 
     .. code-block:: javascript
 
-        $('.jcarousel').on('destroy.jcarouselpagination', function() {
+        $('.jcarousel-pagination').on('destroy.jcarouselpagination', function() {
             // Do something
         });
 
@@ -82,6 +82,6 @@ After initialization, the plugin triggers the following events on the element:
 
     .. code-block:: javascript
 
-        $('.jcarousel').on('destroyend.jcarouselpagination', function() {
+        $('.jcarousel-pagination').on('destroyend.jcarouselpagination', function() {
             // Do something
         });

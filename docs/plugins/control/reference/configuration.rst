@@ -13,7 +13,7 @@ The plugin accepts the following options:
 
     .. code-block:: javascript
 
-        $('.jcarousel').jcarouselControl({
+        $('.jcarousel-control').jcarouselControl({
             'target': '+=3'
         });
 
@@ -29,7 +29,7 @@ The plugin accepts the following options:
 
     .. code-block:: javascript
 
-        $('.jcarousel').jcarouselControl({
+        $('.jcarousel-control').jcarouselControl({
             'event': 'mouseover'
         });
 
@@ -51,11 +51,11 @@ The plugin accepts the following options:
 
     .. code-block:: javascript
 
-        $('.jcarousel').jcarouselControl({
+        $('.jcarousel-control').jcarouselControl({
             'method': 'scrollIntoView'
         });
 
-        $('.jcarousel').jcarouselControl({
+        $('.jcarousel-control').jcarouselControl({
             'method': function() {
                 this.carousel()
                     .jcarousel('myScrollingMethod', this.options('target'));

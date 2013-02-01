@@ -13,7 +13,7 @@ The plugin exposes the following methods:
 
     .. code-block:: javascript
 
-        $('.jcarousel').jcarouselControl('reload', {
+        $('.jcarousel-control').jcarouselControl('reload', {
             'interval': 1500
         });
 
@@ -27,4 +27,4 @@ The plugin exposes the following methods:
 
     .. code-block:: javascript
 
-        $('.jcarousel').jcarouselControl('destroy');
+        $('.jcarousel-control').jcarouselControl('destroy');
