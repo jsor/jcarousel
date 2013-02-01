@@ -3,7 +3,7 @@ Configuration
 
 The plugin accepts the following options:
 
-.. _pagination.reference.configuration.target:
+.. _pagination.reference.configuration.perpage:
 
 ``perPage``
     The number of carousel items per page or a function returning the number.
@@ -22,7 +22,7 @@ The plugin accepts the following options:
     **Default:**
         ``null``
 
-.. _pagination.reference.configuration.interval:
+.. _pagination.reference.configuration.item:
 
 ``item``
     A function returning the markup for a page item of the pagination either as
