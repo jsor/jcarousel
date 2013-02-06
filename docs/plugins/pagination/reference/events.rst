@@ -90,17 +90,17 @@ carousel, each pagination item receives events from the Control Plugin.
 See the :doc:`Control Plugin Event<../../control/reference/events>`
 documentation for a list of events.
 
-You should use ``$().delegate()`` to bind events to the pagination items since
-they are created and removed on the fly depending on your configuration.
+You should use delegated events to attach event handler to the pagination items
+since they are created and removed on the fly depending on your configuration.
 
 **Example:**
 
 .. code-block:: javascript
 
    $('.jcarousel-pagination')
-       .delegate('a', 'active.jcarouselcontrol', function() {
+       .on('active.jcarouselcontrol', 'a', function() {
            $(this).addClass('active');
        })
-       .delegate('a', 'inactive.jcarouselcontrol', function() {
+       .on('inactive.jcarouselcontrol', 'a', function() {
            $(this).removeClass('active');
        });
