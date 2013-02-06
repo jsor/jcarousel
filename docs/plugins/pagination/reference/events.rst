@@ -3,11 +3,6 @@ Events
 
 After initialization, the plugin triggers the following events on the element:
 
-.. note::
-
-   Since the plugins uses the :doc:`../../control/index`, each pagination item
-   also receives :doc:`../../control/reference/events` from it.
-
 .. _pagination.reference.events.create:
 
 ``create.jcarouselpagination``
@@ -85,3 +80,27 @@ After initialization, the plugin triggers the following events on the element:
         $('.jcarousel-pagination').on('destroyend.jcarouselpagination', function() {
             // Do something
         });
+
+Pagination item events
+----------------------
+
+Since the plugins utilizes the :doc:`../../control/index` for controlling the
+carousel, each pagination item receives events from the Control Plugin.
+
+See the :doc:`Control Plugin Event<../../control/reference/events>`
+documentation for a list of events.
+
+You should use ``$().delegate()`` to bind events to the pagination items since
+they are created and removed on the fly depending on your configuration.
+
+**Example:**
+
+.. code-block:: javascript
+
+   $('.jcarousel-pagination')
+       .delegate('a', 'active.jcarouselcontrol', function() {
+           $(this).addClass('active');
+       })
+       .delegate('a', 'inactive.jcarouselcontrol', function() {
+           $(this).removeClass('active');
+       });
