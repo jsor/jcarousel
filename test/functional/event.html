@@ -28,39 +28,39 @@ $(function() {
     var jcarousel = $('#jcarousel1');
 
     $.each(['create', 'destroy', 'reload', 'scroll', 'animate'], function(i, name) {
-        jcarousel.bind(name + '.jcarousel', function() {
+        jcarousel.on(name + '.jcarousel', function() {
             log(name, this, arguments);
         });
-        jcarousel.bind(name + 'end.jcarousel', function() {
+        jcarousel.on(name + 'end.jcarousel', function() {
             log(name + 'end', this, arguments);
         });
     });
 
-    jcarousel.find('li')
-    .bind('itemvisiblein.jcarousel', function() {
-        log('itemvisiblein', this, arguments);
-    })
-    .bind('itemvisibleout.jcarousel', function() {
-        log('itemvisibleout', this, arguments);
-    })
-    .bind('itemfullyvisiblein.jcarousel', function() {
-        log('itemfullyvisiblein', this, arguments);
-    })
-    .bind('itemfullyvisibleout.jcarousel', function() {
-        log('itemfullyvisibleout', this, arguments);
-    })
-    .bind('itemfirstin.jcarousel', function() {
-        log('itemfirstin', this, arguments);
-    })
-    .bind('itemfirstout.jcarousel', function() {
-        log('itemfirstout', this, arguments);
-    })
-    .bind('itemlastin.jcarousel', function() {
-        log('itemlastin', this, arguments);
-    })
-    .bind('itemlastout.jcarousel', function() {
-        log('itemlastout', this, arguments);
-    });
+    jcarousel
+        .on('itemvisiblein.jcarousel', 'li', function() {
+            log('itemvisiblein', this, arguments);
+        })
+        .on('itemvisibleout.jcarousel', 'li', function() {
+            log('itemvisibleout', this, arguments);
+        })
+        .on('itemfullyvisiblein.jcarousel', 'li', function() {
+            log('itemfullyvisiblein', this, arguments);
+        })
+        .on('itemfullyvisibleout.jcarousel', 'li', function() {
+            log('itemfullyvisibleout', this, arguments);
+        })
+        .on('itemfirstin.jcarousel', 'li', function() {
+            log('itemfirstin', this, arguments);
+        })
+        .on('itemfirstout.jcarousel', 'li', function() {
+            log('itemfirstout', this, arguments);
+        })
+        .on('itemlastin.jcarousel', 'li', function() {
+            log('itemlastin', this, arguments);
+        })
+        .on('itemlastout.jcarousel', 'li', function() {
+            log('itemlastout', this, arguments);
+        });
 
     jcarousel.jcarousel();
 });
