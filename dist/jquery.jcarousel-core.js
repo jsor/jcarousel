@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-beta.2 - 2013-02-19
+/*! jCarousel - v0.3.0-beta.2 - 2013-02-20
 * http://sorgalla.com/jcarousel
 * Copyright (c) 2013 Jan Sorgalla; Licensed MIT */
 (function($) {
@@ -146,12 +146,22 @@
                 return this._carousel;
             },
             _trigger: function(type, element, data) {
-                var event = $.Event((type + '.' + pluginName).toLowerCase());
+                var event,
+                    defaultPrevented = false;
 
-                (element || this._element)
-                    .trigger(event, [this].concat(data || []));
+                data = [this].concat(data || []);
 
-                return !event.isDefaultPrevented();
+                (element || this._element).each(function() {
+                    event = $.Event((type + '.' + pluginName).toLowerCase());
+
+                    $(this).trigger(event, data);
+
+                    if (event.isDefaultPrevented()) {
+                        defaultPrevented = true;
+                    }
+                });
+
+                return !defaultPrevented;
             }
         };
     };
