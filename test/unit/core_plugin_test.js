@@ -1,4 +1,11 @@
 jQuery(function($){
+    QUnit.testDone(function() {
+        $('.jcarousel').each(function() {
+            if ($(this).data('jcarousel')) {
+                $(this).jcarousel('destroy');
+            }
+        });
+    });
 
     module("core_plugin");
 

@@ -60,5 +60,5 @@ inspired by the [Carousel Component](http://billwscott.com/carousel/) by
 License
 -------
 
-Copyright (c) 2012 Jan Sorgalla.
+Copyright (c) 2013 Jan Sorgalla.
 Released under the [MIT](https://github.com/jsor/jcarousel/blob/master/LICENSE-MIT) license.
