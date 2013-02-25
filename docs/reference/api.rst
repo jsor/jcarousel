@@ -1,12 +1,13 @@
 API
 ===
 
-jCarousel exposes the following methods:
-
 .. seealso::
 
    :ref:`reference.usage.methods`
       Call methods on the jCarousel instance.
+
+Carousel-related methods
+------------------------
 
 .. _reference.api.scroll:
 
@@ -80,6 +81,25 @@ jCarousel exposes the following methods:
     .. code-block:: javascript
 
         var list = $('.jcarousel').jcarousel('list');
+
+Item-related methods
+--------------------
+
+.. note::
+    Please note that the item-related methods return different results depending on
+    the state of the carousel. That means for example, that after each scroll,
+    these methods return a different set of items.
+
+    The following example illustrates how to use these methods inside event
+    callbacks:
+
+    .. code-block:: javascript
+
+        $('.jcarousel')
+            .on('animateend.jcarousel', function(event, carousel) {
+                var currentFirstItem = carousel.jcarousel('first');
+                var currentLastItem  = carousel.jcarousel('last');
+            });
 
 .. _reference.api.items:
 
