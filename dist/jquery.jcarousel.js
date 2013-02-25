@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-beta.2 - 2013-02-20
+/*! jCarousel - v0.3.0-beta.2 - 2013-02-25
 * http://sorgalla.com/jcarousel
 * Copyright (c) 2013 Jan Sorgalla; Licensed MIT */
 (function($) {
@@ -1049,13 +1049,7 @@
             this._reload();
         },
         _destroy: function() {
-            if ($.fn.jcarouselControl) {
-                $.each(this._items, function(page, item) {
-                    item.jcarouselControl('destroy');
-                });
-            }
-
-            this._element.empty();
+            this._clear();
 
             this.carousel()
                 .unbind('destroy.jcarousel', this.onDestroy)
@@ -1101,8 +1095,10 @@
             }
 
             var self    = this,
-                element = this._element.empty(),
+                element = this._element,
                 item    = this.options('item');
+
+            this._clear();
 
             $.each(this._pages, function(page, carouselItems) {
                 var currItem = self._items[page] = $(item.call(self, page, carouselItems));
@@ -1119,6 +1115,15 @@
         },
         items: function() {
             return this._items;
+        },
+        _clear: function() {
+            if ($.fn.jcarouselControl) {
+                $.each(this._items, function(page, item) {
+                    item.jcarouselControl('destroy');
+                });
+            }
+
+            this._element.empty();
         },
         _calculatePages: function() {
             var carousel = this.carousel().data('jcarousel'),
