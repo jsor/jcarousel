@@ -94,13 +94,16 @@ module.exports = function(grunt) {
                 options: {
                     variables: {
                         'VERSION': '<%= pkg.version %>',
-                        'DATE': '<%= grunt.template.today() %>'
+                        'DATE': '<%= grunt.template.today("yyyy-mm-dd") %>'
                     },
                     prefix: '@'
                 },
-                files: {
-                    'dist/': ['dist/*.js']
-                }
+                files: [
+                    {
+                        'src': ['dist/*.js'],
+                        'dest': './'
+                    }
+                ]
             }
         },
         qunit: {
