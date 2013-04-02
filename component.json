@@ -1,13 +1,8 @@
 {
   "name": "jcarousel",
   "version": "0.3.0-beta.3",
-  "main": "dist/jquery.jcarousel.js",
-  "ignore": [
-    "docs/",
-    "examples/",
-    "libs/",
-    "src/",
-    "node_modules/",
-    "*.json"
-  ]
+  "main": "./dist/jquery.jcarousel.js",
+  "dependencies": {
+    "jquery": ">=1.7"
+  }
 }
