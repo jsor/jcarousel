@@ -288,7 +288,7 @@
                     } else {
                         current = this.index(this._target);
 
-                        if ((this.underflow && target === end && (wrap === 'circular' || wrap === 'both' || wrap === 'last')) ||
+                        if ((this.underflow && current === end && (wrap === 'circular' || wrap === 'both' || wrap === 'last')) ||
                             (!this.underflow && last === end && (wrap === 'both' || wrap === 'last'))) {
                             this._scroll(0, animate, callback);
                         } else {
