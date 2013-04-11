@@ -28,7 +28,9 @@
 
 <script type="text/javascript">
 function create() {
-    $('.jcarousel').jcarousel();
+    $('.jcarousel').jcarousel({
+        wrap: 'circular'
+    });
 }
 function createPagination1() {
     $('#jcarousel-pagination1').jcarouselPagination();
@@ -40,10 +42,10 @@ function createPagination2() {
 }
 $(function() {
     $('.jcarousel-pagination')
-        .delegate('a', 'active.jcarouselcontrol', function() {
+        .delegate('a', 'active.jcarouselpagination', function() {
             $(this).addClass('active');
         })
-        .delegate('a', 'inactive.jcarouselcontrol', function() {
+        .delegate('a', 'inactive.jcarouselpagination', function() {
             $(this).removeClass('active');
         });
 
