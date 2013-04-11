@@ -38,20 +38,20 @@
         _create: function() {
             this.carousel()
                 .one('destroy.jcarousel', this.onDestroy)
-                .bind('reloadend.jcarousel scrollend.jcarousel', this.onReload);
+                .on('reloadend.jcarousel scrollend.jcarousel', this.onReload);
 
             this._element
-                .bind(this.options('event') + '.jcarouselcontrol', this.onEvent);
+                .on(this.options('event') + '.jcarouselcontrol', this.onEvent);
 
             this._reload();
         },
         _destroy: function() {
             this._element
-                .unbind('.jcarouselcontrol', this.onEvent);
+                .off('.jcarouselcontrol', this.onEvent);
 
             this.carousel()
-                .unbind('destroy.jcarousel', this.onDestroy)
-                .unbind('reloadend.jcarousel scrollend.jcarousel', this.onReload);
+                .off('destroy.jcarousel', this.onDestroy)
+                .off('reloadend.jcarousel scrollend.jcarousel', this.onReload);
         },
         _reload: function() {
             var parsed   = $.jCarousel.parseTarget(this.options('target')),

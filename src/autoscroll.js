@@ -35,7 +35,7 @@
         _destroy: function() {
             this.stop();
             this.carousel()
-                .unbind('destroy.jcarousel', this.onDestroy);
+                .off('destroy.jcarousel', this.onDestroy);
         },
         start: function() {
             this.stop();
@@ -55,7 +55,7 @@
             }
 
             this.carousel()
-                .unbind('animateend.jcarousel', this.onAnimateEnd);
+                .off('animateend.jcarousel', this.onAnimateEnd);
 
             return this;
         }

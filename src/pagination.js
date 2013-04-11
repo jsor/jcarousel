@@ -32,8 +32,8 @@
         _create: function() {
             this.carousel()
                 .one('destroy.jcarousel', this.onDestroy)
-                .bind('reloadend.jcarousel', this.onReload)
-                .bind('scrollend.jcarousel', this.onScroll);
+                .on('reloadend.jcarousel', this.onReload)
+                .on('scrollend.jcarousel', this.onScroll);
 
             this._reload();
         },
@@ -41,9 +41,9 @@
             this._clear();
 
             this.carousel()
-                .unbind('destroy.jcarousel', this.onDestroy)
-                .unbind('reloadend.jcarousel', this.onReload)
-                .unbind('scrollend.jcarousel', this.onScroll);
+                .off('destroy.jcarousel', this.onDestroy)
+                .off('reloadend.jcarousel', this.onReload)
+                .off('scrollend.jcarousel', this.onScroll);
         },
         _reload: function() {
             var perPage = this.options('perPage');

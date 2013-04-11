@@ -79,12 +79,10 @@
         _create: function() {
             this._reload();
 
-            $(window)
-                .bind('resize.jcarousel', this.onWindowResize);
+            $(window).on('resize.jcarousel', this.onWindowResize);
         },
         _destroy: function() {
-            $(window)
-                .unbind('resize.jcarousel', this.onWindowResize);
+            $(window).off('resize.jcarousel', this.onWindowResize);
         },
         _reload: function() {
             this.vertical = this.options('vertical');
