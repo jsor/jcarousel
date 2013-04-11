@@ -184,7 +184,7 @@ Item element events
 
     .. code-block:: javascript
 
-        $('.jcarousel').delegate('li', 'itemtargetin.jcarousel', function(event, carousel) {
+        $('.jcarousel').on('itemtargetin.jcarousel', 'li', function(event, carousel) {
             // "this" refers to the item element
             // "carousel" is the jCarousel instance
         });
@@ -198,7 +198,7 @@ Item element events
 
     .. code-block:: javascript
 
-        $('.jcarousel').delegate('li', 'itemtargetout.jcarousel', function(event, carousel) {
+        $('.jcarousel').on('itemtargetout.jcarousel', 'li', function(event, carousel) {
             // "this" refers to the item element
             // "carousel" is the jCarousel instance
         });
@@ -212,7 +212,7 @@ Item element events
 
     .. code-block:: javascript
 
-        $('.jcarousel').delegate('li', 'itemfirstin.jcarousel', function(event, carousel) {
+        $('.jcarousel').on('itemfirstin.jcarousel', 'li', function(event, carousel) {
             // "this" refers to the item element
             // "carousel" is the jCarousel instance
         });
@@ -226,7 +226,7 @@ Item element events
 
     .. code-block:: javascript
 
-        $('.jcarousel').delegate('li', 'itemfirstout.jcarousel', function(event, carousel) {
+        $('.jcarousel').on('itemfirstout.jcarousel', 'li', function(event, carousel) {
             // "this" refers to the item element
             // "carousel" is the jCarousel instance
         });
@@ -240,7 +240,7 @@ Item element events
 
     .. code-block:: javascript
 
-        $('.jcarousel').delegate('li', 'itemlastin.jcarousel', function(event, carousel) {
+        $('.jcarousel').on('itemlastin.jcarousel', 'li', function(event, carousel) {
             // "this" refers to the item element
             // "carousel" is the jCarousel instance
         });
@@ -254,7 +254,7 @@ Item element events
 
     .. code-block:: javascript
 
-        $('.jcarousel').delegate('li', 'itemlastout.jcarousel', function(event, carousel) {
+        $('.jcarousel').on('itemlastout.jcarousel', 'li', function(event, carousel) {
             // "this" refers to the item element
             // "carousel" is the jCarousel instance
         });
@@ -268,7 +268,7 @@ Item element events
 
     .. code-block:: javascript
 
-        $('.jcarousel').delegate('li', 'itemvisiblein.jcarousel', function(event, carousel) {
+        $('.jcarousel').on('itemvisiblein.jcarousel', 'li', function(event, carousel) {
             // "this" refers to the item element
             // "carousel" is the jCarousel instance
         });
@@ -282,7 +282,7 @@ Item element events
 
     .. code-block:: javascript
 
-        $('.jcarousel').delegate('li', 'itemvisibleout.jcarousel', function(event, carousel) {
+        $('.jcarousel').on('itemvisibleout.jcarousel', 'li', function(event, carousel) {
             // "this" refers to the item element
             // "carousel" is the jCarousel instance
         });
@@ -296,7 +296,7 @@ Item element events
 
     .. code-block:: javascript
 
-        $('.jcarousel').delegate('li', 'itemfullyvisiblein.jcarousel', function(event, carousel) {
+        $('.jcarousel').on('itemfullyvisiblein.jcarousel', 'li', function(event, carousel) {
             // "this" refers to the item element
             // "carousel" is the jCarousel instance
         });
@@ -310,7 +310,7 @@ Item element events
 
     .. code-block:: javascript
 
-        $('.jcarousel').delegate('li', 'itemfullyvisibleout.jcarousel', function(event, carousel) {
+        $('.jcarousel').on('itemfullyvisibleout.jcarousel', 'li', function(event, carousel) {
             // "this" refers to the item element
             // "carousel" is the jCarousel instance
         });
