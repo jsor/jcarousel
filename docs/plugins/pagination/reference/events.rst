@@ -1,7 +1,11 @@
 Events
 ======
 
-After initialization, the plugin triggers the following events on the element:
+After initialization, the plugin triggers the following events on the root and
+the item elements:
+
+Root element events
+-------------------
 
 .. _pagination.reference.events.create:
 
@@ -81,14 +85,32 @@ After initialization, the plugin triggers the following events on the element:
             // Do something
         });
 
-Pagination item events
-----------------------
+Item element events
+-------------------
 
-Since the plugins utilizes the :doc:`../../control/index` for controlling the
-carousel, each pagination item receives events from the Control Plugin.
+``active.jcarouselpagination``
+    Triggered when the item becomes active.
 
-See the :doc:`Control Plugin Event<../../control/reference/events>`
-documentation for a list of events.
+    **Example:**
+
+    .. code-block:: javascript
+
+        $('.jcarousel-pagination').on('active.jcarouselpagination', 'a', function() {
+            // Do something
+        });
+
+.. _control.reference.events.inactive:
+
+``inactive.jcarouselpagination``
+    Triggered when the item becomes inactive.
+
+    **Example:**
+
+    .. code-block:: javascript
+
+        $('.jcarousel-pagination').on('inactive.jcarouselpagination', 'a', function() {
+            // Do something
+        });
 
 You should use delegated events to attach event handler to the pagination items
 since they are created and removed on the fly depending on your configuration.
@@ -98,9 +120,9 @@ since they are created and removed on the fly depending on your configuration.
 .. code-block:: javascript
 
    $('.jcarousel-pagination')
-       .on('active.jcarouselcontrol', 'a', function() {
+       .on('active.jcarouselpagination', 'a', function() {
            $(this).addClass('active');
        })
-       .on('inactive.jcarouselcontrol', 'a', function() {
+       .on('inactive.jcarouselpagination', 'a', function() {
            $(this).removeClass('active');
        });
