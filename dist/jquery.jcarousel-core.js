@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-beta.4 - 2013-04-02
+/*! jCarousel - v0.3.0-beta.5 - 2013-04-11
 * http://sorgalla.com/jcarousel
 * Copyright (c) 2013 Jan Sorgalla; Licensed MIT */
 (function($) {
@@ -6,7 +6,7 @@
 
     var jCarousel = $.jCarousel = {};
 
-    jCarousel.version = '0.3.0-beta.4';
+    jCarousel.version = '0.3.0-beta.5';
 
     var rRelativeTarget = /^([+\-]=)?(.+)$/;
 
@@ -303,12 +303,10 @@
         _create: function() {
             this._reload();
 
-            $(window)
-                .bind('resize.jcarousel', this.onWindowResize);
+            $(window).on('resize.jcarousel', this.onWindowResize);
         },
         _destroy: function() {
-            $(window)
-                .unbind('resize.jcarousel', this.onWindowResize);
+            $(window).off('resize.jcarousel', this.onWindowResize);
         },
         _reload: function() {
             this.vertical = this.options('vertical');
@@ -512,7 +510,7 @@
                     } else {
                         current = this.index(this._target);
 
-                        if ((this.underflow && target === end && (wrap === 'circular' || wrap === 'both' || wrap === 'last')) ||
+                        if ((this.underflow && current === end && (wrap === 'circular' || wrap === 'both' || wrap === 'last')) ||
                             (!this.underflow && last === end && (wrap === 'both' || wrap === 'last'))) {
                             this._scroll(0, animate, callback);
                         } else {
