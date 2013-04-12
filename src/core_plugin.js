@@ -57,23 +57,6 @@
                 }, 100);
             };
 
-            this.onAnimationComplete = function(callback) {
-                self.animating = false;
-
-                var c = self.list().find('[data-jcarousel-clone]');
-
-                if (c.size() > 0) {
-                    c.remove();
-                    self._reload();
-                }
-
-                self._trigger('animateend');
-
-                if ($.isFunction(callback)) {
-                    callback.call(self, true);
-                }
-            };
-
             return this;
         },
         _create: function() {
@@ -135,9 +118,11 @@
                 this.underflow = this._fullyvisible.size() >= this.items().size();
                 this.circular  = this.circular && !this.underflow;
 
-                this.list().css(this.lt, this._position(item) + 'px');
+                var props = {};
+                props[this.lt] = this._position(item) + 'px';
+                this._move(props);
             } else {
-                this.list().css({'left': 0, 'top': 0});
+                this._move({'left': 0, 'top': 0});
             }
 
             return this;
@@ -342,7 +327,9 @@
                                         lt -= dim;
                                     }
 
-                                    this.list().css(this.lt, lt + 'px');
+                                    var props = {};
+                                    props[this.lt] = lt + 'px';
+                                    this._move(props);
                                 }
 
                                 this._scroll(curr, animate, callback);
@@ -437,47 +424,61 @@
             return this;
         },
         _animate: function(properties, animate, callback) {
-            if (false === this._trigger('animate')) {
-                if ($.isFunction(callback)) {
-                    callback.call(this, false);
-                }
+            callback = callback || $.noop;
 
+            if (false === this._trigger('animate')) {
+                callback.call(this, false);
                 return this;
             }
 
             this.animating = true;
 
-            var animation = this.options('animation');
+            var animation = this.options('animation'),
+                complete  = $.proxy(function() {
+                    this.animating = false;
 
-            if (!animation || animate === false) {
-                this.list().css(properties);
-                this.onAnimationComplete(callback);
+                    var c = this.list().find('[data-jcarousel-clone]');
+
+                    if (c.size() > 0) {
+                        c.remove();
+                        this._reload();
+                    }
+
+                    this._trigger('animateend');
+
+                    callback.call(this, true);
+                }, this);
+
+            if ($.isFunction(animation)) {
+                animation.call(this, properties, complete, animate === false ? false : true);
             } else {
-                var self = this;
+                var opts = typeof animation === 'object' ?
+                               $.extend({}, animation) :
+                               {duration: animation},
+                    oldComplete = opts.complete || $.noop;
 
-                if ($.isFunction(animation)) {
-                    animation.call(this, properties, function() {
-                        self.onAnimationComplete(callback);
-                    });
-                } else {
-                    var opts = typeof animation === 'object' ?
-                                   $.extend({}, animation) :
-                                   {duration: animation},
-                        oldComplete = opts.complete;
-
-                    opts.complete = function() {
-                        self.onAnimationComplete(callback);
-
-                        if ($.isFunction(oldComplete)) {
-                            oldComplete.call(this);
-                        }
-                    };
-
-                    this.list().animate(properties, opts);
+                if (animate === false) {
+                    opts.duration = 0;
                 }
+
+                opts.complete = function() {
+                    complete();
+                    oldComplete.call(this);
+                };
+
+                this.list().animate(properties, opts);
             }
 
             return this;
+        },
+        _move: function(properties) {
+            var animation = this.options('animation');
+
+            if ($.isFunction(animation)) {
+                animation.call(this, properties, $.noop, false);
+            } else {
+                this.list().css(properties);
+            }
         },
         _prepare: function(item) {
             var index  = this.index(item),

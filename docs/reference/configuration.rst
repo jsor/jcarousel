@@ -62,20 +62,20 @@ jCarousel accepts the following options:
 ``animation``
     The speed of the scroll animation as string in jQuery terms (``"slow"`` or
     ``"fast"``) or milliseconds as integer (See the documentation for
-    `jQuery animate <http://api.jquery.com/animate>`_). If set to 0, animation
-    is turned off.
+    `jQuery animate <http://api.jquery.com/animate>`_).
 
     Alternatively, this can be a map of options like the one `jQuery.animate
     <http://api.jquery.com/animate/#animate-properties-options>`_
     accepts as second argument or a function.
 
     A function will be called in the context of the carousel instance with
-    2 arguments: The first is a hash of css properties (ie. ``{left: -400}``)
-    and the second is a function which must be called after the animation is
-    completed.
+    3 arguments: The first is a hash of css properties (``{left: '-400px'}``),
+    the second is a function which must be called after the animation is
+    completed and the third is flag indicating whether there should be a
+    animation or a simple move to that position.
 
-    The function is then responsible for animating the list and executing the
-    callback after the animation is finished.
+    The function is then responsible for animating (or moving) the list and
+    executing the callback after the animation is finished.
 
     **Example:**
 
@@ -93,8 +93,13 @@ jCarousel accepts the following options:
         });
 
         $('.jcarousel').jcarousel({
-            'animation': function(properties, callback) {
-                this.list().transition(properties, 400, callback);
+            'animation': function(properties, callback, animate) {
+                if (!animate) {
+                    this.list().css(properties);
+                    callback();
+                } else {
+                    this.list().transition(properties, 400, callback);
+                }
             }
         });
 
