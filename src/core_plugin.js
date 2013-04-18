@@ -449,25 +449,21 @@
                     callback.call(this, true);
                 }, this);
 
-            if ($.isFunction(animation)) {
-                animation.call(this, properties, complete, animate === false ? false : true);
-            } else {
-                var opts = typeof animation === 'object' ?
-                               $.extend({}, animation) :
-                               {duration: animation},
-                    oldComplete = opts.complete || $.noop;
+            var opts = typeof animation === 'object' ?
+                           $.extend({}, animation) :
+                           {duration: animation},
+                oldComplete = opts.complete || $.noop;
 
-                if (animate === false) {
-                    opts.duration = 0;
-                }
-
-                opts.complete = function() {
-                    complete();
-                    oldComplete.call(this);
-                };
-
-                this.list().animate(properties, opts);
+            if (animate === false) {
+                opts.duration = 0;
             }
+
+            opts.complete = function() {
+                complete();
+                oldComplete.call(this);
+            };
+
+            this.list().animate(properties, opts);
 
             return this;
         },
