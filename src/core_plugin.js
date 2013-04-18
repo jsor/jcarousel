@@ -456,6 +456,8 @@
 
             if (animate === false) {
                 opts.duration = 0;
+            } else if (typeof $.fx.speeds[opts.duration] !== 'undefined') {
+                opts.duration = $.fx.speeds[opts.duration];
             }
 
             opts.complete = function() {
