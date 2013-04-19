@@ -19,16 +19,16 @@
 <style type="text/css">
 
 .jcarousel-container-vertical {
-    width: 300px;
-    height: 300px;
+    width: 500px;
+    height: 400px;
     background: #e8e8e8;
     border: 1px solid #fff;
 }
 
 .jcarousel-clip-vertical {
     top: 15px;
-    width: 290px;
-    height: 270px;
+    width: 490px;
+    height: 370px;
     margin: 0 5px;
     z-index: 20;
     overflow: hidden;
@@ -37,22 +37,28 @@
 #mycarousel li,
 .jcarousel-item-vertical,
 .jcarousel-item-placeholder-vertical {
-    width: 270px;
+    width: 470px;
     height: auto;
     margin: 5px 0;
 }
 
 .jcarousel-item h3,
-.jcarousel-item p {
+.jcarousel-item p,
+.jcarousel-item pre {
     margin: 0;
     font-size: 90%;
+}
+
+.jcarousel-item pre {
+    margin: 5px 0;
+    padding: 5px;
 }
 
 .jcarousel-next-vertical {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 300px;
+    width: 500px;
     height: 14px;
     cursor: pointer;
     border-top: 1px solid #fff;
@@ -70,7 +76,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 300px;
+    width: 500px;
     height: 14px;
     cursor: pointer;
     border-bottom: 1px solid #fff;
@@ -103,9 +109,7 @@ function mycarousel_initCallback(carousel, state)
 
     jQuery.get(
         'special_textscroller.php',
-        {
-            'feed': 'http://jquery.com/blog/feed/atom/'
-        },
+        {},
         function(xml) {
             mycarousel_itemAddCallback(carousel, xml);
         },
@@ -115,7 +119,7 @@ function mycarousel_initCallback(carousel, state)
 
 function mycarousel_itemAddCallback(carousel, xml)
 {
-    var $items = jQuery('item', xml);
+    var $items = jQuery('entry', xml);
 
     $items.each(function(i) {
         carousel.add(i + 1, mycarousel_getItemHTML(this));
@@ -133,22 +137,7 @@ function mycarousel_itemAddCallback(carousel, xml)
  */
 function mycarousel_getItemHTML(item)
 {
-    return '<h3><a href="'+$('link', item).text()+'">'+$('title', item).text()+'</a></h3><p>'+mycarousel_truncate($('description', item).text(), 90)+'</p>';
-};
-
-/**
- * Utility function for truncating a string without breaking words.
- */
-function mycarousel_truncate(str, length, suffix) {
-    if (str.length <= length) {
-        return str;
-    }
-
-    if (suffix == undefined) {
-        suffix = '...';
-    }
-
-    return str.substr(0, length).replace(/\s+?(\S+)?$/g, '') + suffix;
+    return '<h3><a href="'+$('link', item).attr('href')+'">'+$('title', item).text()+'</a></h3>'+$('content', item).text();
 };
 
 jQuery(document).ready(function() {
@@ -166,6 +155,7 @@ jQuery(document).ready(function() {
 
     jQuery('#mycarousel').jcarousel({
         vertical: true,
+        scroll: 1,
         size: 0,
         initCallback: mycarousel_initCallback
     });
@@ -179,7 +169,7 @@ jQuery(document).ready(function() {
   <h2>Riding carousels with jQuery</h2>
   <h3>Using jCarousel as Textscroller</h3>
   <p>
-    This example shows how to use jCarousel as a Textscroller. The data is loaded from the jQuery Blog RSS-Feed.
+    This example shows how to use jCarousel as a Textscroller. The data is loaded from the Recent Commits Atom-Feed of the jCarousel master branch at GitHub.
   </p>
 
   <div id="mycarousel">

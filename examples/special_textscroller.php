@@ -1,15 +1,6 @@
 <?php
 
-header('Content-Type: text/xml; charset: utf-'.'8');
-
-if (!isset($_GET['feed'])) {
-    exit;
-}
-
-if (strpos($_GET['feed'], 'http://') !== 0) {
-    exit;
-}
-
-echo file_get_contents($_GET['feed']);
+header('Content-Type: application/atom+xml; charset=utf-8');
+echo file_get_contents('https://github.com/jsor/jcarousel/commits/master.atom');
 
 ?>
