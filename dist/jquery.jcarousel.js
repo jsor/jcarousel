@@ -630,7 +630,7 @@
             if (this.rtl) {
                 pos += this.tail;
             } else {
-                pos -= this.tail;
+                pos -= this.tail + ( this.options('center') ? ( this.clipping() / 2 ) - ( this.dimension( this._first ) / 2 ) : 0 );
             }
 
             this.inTail = true;
@@ -829,7 +829,7 @@
             }
 
             if ((this.index(item) > this.index(first) || this.inTail) && this.tail) {
-                pos = this.rtl ? pos - this.tail : pos + this.tail;
+                pos = this.rtl ? pos - this.tail : pos + this.tail + ( this.options('center') ? ( this.clipping() / 2 ) - (this.dimension(first) / 2) : 0 );
                 this.inTail = true;
             } else {
                 this.inTail = false;
