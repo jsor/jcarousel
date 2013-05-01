@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-beta.5 - 2013-04-12
+/*! jCarousel - v0.3.0-beta.5 - 2013-05-01
 * http://sorgalla.com/jcarousel
 * Copyright (c) 2013 Jan Sorgalla; Licensed MIT */
 (function($) {
@@ -332,6 +332,8 @@
             this.circular  = this.options('wrap') === 'circular';
             this.underflow = false;
 
+            var props = {'left': 0, 'top': 0};
+
             if (item.size() > 0) {
                 this._prepare(item);
                 this.list().find('[data-jcarousel-clone]').remove();
@@ -342,12 +344,10 @@
                 this.underflow = this._fullyvisible.size() >= this.items().size();
                 this.circular  = this.circular && !this.underflow;
 
-                var props = {};
                 props[this.lt] = this._position(item) + 'px';
-                this._move(props);
-            } else {
-                this._move({'left': 0, 'top': 0});
             }
+
+            this._move(props);
 
             return this;
         },
@@ -673,25 +673,23 @@
                     callback.call(this, true);
                 }, this);
 
-            if ($.isFunction(animation)) {
-                animation.call(this, properties, complete, animate === false ? false : true);
-            } else {
-                var opts = typeof animation === 'object' ?
-                               $.extend({}, animation) :
-                               {duration: animation},
-                    oldComplete = opts.complete || $.noop;
+            var opts = typeof animation === 'object' ?
+                           $.extend({}, animation) :
+                           {duration: animation},
+                oldComplete = opts.complete || $.noop;
 
-                if (animate === false) {
-                    opts.duration = 0;
-                }
-
-                opts.complete = function() {
-                    complete();
-                    oldComplete.call(this);
-                };
-
-                this.list().animate(properties, opts);
+            if (animate === false) {
+                opts.duration = 0;
+            } else if (typeof $.fx.speeds[opts.duration] !== 'undefined') {
+                opts.duration = $.fx.speeds[opts.duration];
             }
+
+            opts.complete = function() {
+                complete();
+                oldComplete.call(this);
+            };
+
+            this.list().animate(properties, opts);
 
             return this;
         },
@@ -710,6 +708,7 @@
                 wh     = this.dimension(item),
                 clip   = this.clipping(),
                 lrb    = this.vertical ? 'bottom' : (this.rtl ? 'left'  : 'right'),
+                center = this.options('center'),
                 update = {
                     target:       item,
                     first:        item,
@@ -720,7 +719,7 @@
                 curr,
                 margin;
 
-            if (this.options('center')) {
+            if (center) {
                 wh /= 2;
                 clip /= 2;
             }
@@ -766,7 +765,7 @@
                 }
             }
 
-            if (!this.circular && wh < clip) {
+            if (!this.circular && !center && wh < clip) {
                 idx = index;
 
                 while (true) {
@@ -802,7 +801,8 @@
 
             this.tail = 0;
 
-            if (this.options('wrap') !== 'circular' &&
+            if (!center &&
+                this.options('wrap') !== 'circular' &&
                 this.options('wrap') !== 'custom' &&
                 this.index(update.last) === (this.items().size() - 1)) {
 
@@ -817,18 +817,21 @@
             return this;
         },
         _position: function(item) {
-            var first = this._first,
-                pos   = first.position()[this.lt];
+            var first  = this._first,
+                pos    = first.position()[this.lt],
+                center = this.options('center');
 
             if (this.rtl && !this.vertical) {
                 pos -= this.clipping() - this.dimension(first);
             }
 
-            if (this.options('center')) {
+            if (center) {
                 pos -= (this.clipping() / 2) - (this.dimension(first) / 2);
             }
 
-            if ((this.index(item) > this.index(first) || this.inTail) && this.tail) {
+            if (!center &&
+                (this.index(item) > this.index(first) || this.inTail) &&
+                this.tail) {
                 pos = this.rtl ? pos - this.tail : pos + this.tail;
                 this.inTail = true;
             } else {

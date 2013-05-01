@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-beta.5 - 2013-04-12
+/*! jCarousel - v0.3.0-beta.5 - 2013-05-01
 * http://sorgalla.com/jcarousel
 * Copyright (c) 2013 Jan Sorgalla; Licensed MIT */
 (function($) {
