@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-beta.5 - 2013-05-01
+/*! jCarousel - v0.3.0-beta.5 - 2013-05-02
 * http://sorgalla.com/jcarousel
 * Copyright (c) 2013 Jan Sorgalla; Licensed MIT */
 (function($) {
@@ -819,14 +819,14 @@
         _position: function(item) {
             var first  = this._first,
                 pos    = first.position()[this.lt],
-                center = this.options('center');
+                center = this.options('center'),
+                centerOffset = center ? (this.clipping() / 2) - (this.dimension(first) / 2) : 0;
 
             if (this.rtl && !this.vertical) {
                 pos -= this.clipping() - this.dimension(first);
-            }
-
-            if (center) {
-                pos -= (this.clipping() / 2) - (this.dimension(first) / 2);
+                pos += centerOffset;
+            } else {
+                pos -= centerOffset;
             }
 
             if (!center &&
