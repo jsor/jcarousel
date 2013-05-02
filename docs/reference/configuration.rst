@@ -88,6 +88,48 @@ jCarousel accepts the following options:
     **Default:**
         ``400``
 
+.. _reference.configuration.transitions:
+
+``transitions``
+    If set to `true`, CSS3 transitions are used for animations.
+
+    Alternatively, this can be a map of the following options:
+
+    ``transforms``:   If set to `true`, 2D transforms are used for better hardware acceleration.
+
+    ``transforms3d``: If set to `true`, 3D transforms are used for full hardware acceleration.
+
+    ``easing``:       Value will be used as the `transition-timing-function <https://developer.mozilla.org/en-US/docs/CSS/transition-timing-function>`_ (e.g. `ease` or `linear`).
+
+    .. warning::
+
+       jCarousel does **not** check if the user's browser supports transitions
+       and/or transforms. You have to do that yourself when setting the option.
+
+       You can for example use `Modernizr <http://modernizr.com>`_ for browser
+       feature detection.
+       If you're not including it already in your site, you can use this
+       `minimal build <http://modernizr.com/download/#-csstransforms-csstransforms3d-csstransitions-teststyles-testprop-testallprops-prefixes-domprefixes>`_.
+
+    **Example:**
+
+    .. code-block:: javascript
+
+        $('.jcarousel').jcarousel({
+            'transitions': true
+        });
+
+        $('.jcarousel').jcarousel({
+            transitions: Modernizr.csstransitions ? {
+                transforms:   Modernizr.csstransforms,
+                transforms3d: Modernizr.csstransforms3d,
+                easing:       'ease'
+            } : false
+        });
+
+    **Default:**
+        ``false``
+
 .. _reference.configuration.wrap:
 
 ``wrap``

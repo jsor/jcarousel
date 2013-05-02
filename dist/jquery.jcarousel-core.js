@@ -253,11 +253,12 @@
             items: function() {
                 return this.list().children();
             },
-            animation: 400,
-            wrap:      null,
-            vertical:  null,
-            rtl:       null,
-            center:    false
+            animation:   400,
+            transitions: false,
+            wrap:        null,
+            vertical:    null,
+            rtl:         null,
+            center:      false
         },
 
         // Protected, don't access directly
@@ -347,7 +348,7 @@
                 props[this.lt] = this._position(item) + 'px';
             }
 
-            this._move(props);
+            this.move(props);
 
             return this;
         },
@@ -542,7 +543,7 @@
                                     // Force items reload
                                     this._items = null;
 
-                                    var lt  = toFloat(this.list().css(this.lt)),
+                                    var lt  = toFloat(this.list().position()[this.lt]),
                                         dim = this.dimension(curr);
 
                                     if (this.rtl && !this.vertical) {
@@ -553,7 +554,8 @@
 
                                     var props = {};
                                     props[this.lt] = lt + 'px';
-                                    this._move(props);
+                                    
+                                    this.move(props);
                                 }
 
                                 this._scroll(curr, animate, callback);
@@ -570,6 +572,61 @@
             this._trigger('scrollend');
 
             return this;
+        },
+        move: function(properties, opts) {
+            opts = opts || {};
+
+            var option       = this.options('transitions'),
+                transitions  = !!option,
+                transforms   = !!option.transforms,
+                transforms3d = !!option.transforms3d,
+                duration     = opts.duration || 0,
+                list         = this.list();
+
+            if (!transitions && duration > 0) {
+                list.animate(properties, opts);
+                return;
+            }
+
+            var backup = list.css(['transitionDuration', 'transitionTimingFunction', 'transitionProperty']),
+                complete = function() {
+                    $(this).css(backup);
+                    (opts.complete || $.noop).call(this);
+                },
+                css = {
+                    transitionDuration: (duration > 0 ? duration / 1000 : 0) + 's',
+                    transitionTimingFunction: option.easing || opts.easing,
+                    transitionProperty: duration > 0 ? (function() {
+                        if (transforms || transforms3d) {
+                            // We have to use 'all' because jQuery doesn't prefix
+                            // css values, like transition-property: transform;
+                            return 'all';
+                        }
+
+                        return properties.left ? 'left' : 'top';
+                    })() : 'none',
+                    transform: 'none'
+                };
+
+            if (transforms3d) {
+                css.transform = 'translate3d(' + (properties.left || 0) + ',' + (properties.top || 0) + ',0)';
+            } else if (transforms) {
+                css.transform = 'translate(' + (properties.left || 0) + ',' + (properties.top || 0) + ')';
+            } else {
+                $.extend(css, properties);
+            }
+
+            if (duration > 0) {
+                list.one('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd', complete);
+            }
+
+            list.css(css);
+
+            if (duration <= 0) {
+                list.each(function() {
+                    complete.call(this);
+                });
+            }
         },
         _scroll: function(item, animate, callback) {
             if (this.animating) {
@@ -599,7 +656,7 @@
             this._prepare(item);
 
             var pos     = this._position(item),
-                currPos = toFloat(this.list().css(this.lt));
+                currPos = toFloat(this.list().position()[this.lt]);
 
             if (pos === currPos) {
                 if ($.isFunction(callback)) {
@@ -689,18 +746,9 @@
                 oldComplete.call(this);
             };
 
-            this.list().animate(properties, opts);
+            this.move(properties, opts);
 
             return this;
-        },
-        _move: function(properties) {
-            var animation = this.options('animation');
-
-            if ($.isFunction(animation)) {
-                animation.call(this, properties, $.noop, false);
-            } else {
-                this.list().css(properties);
-            }
         },
         _prepare: function(item) {
             var index  = this.index(item),
