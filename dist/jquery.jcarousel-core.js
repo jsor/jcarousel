@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-beta.5 - 2013-05-02
+/*! jCarousel - v0.3.0-beta.5 - 2013-05-03
 * http://sorgalla.com/jcarousel
 * Copyright (c) 2013 Jan Sorgalla; Licensed MIT */
 (function($) {
@@ -478,6 +478,8 @@
                     index,
                     start,
                     curr,
+                    isVisible,
+                    props,
                     i;
 
                 if (parsed.target > 0) {
@@ -508,8 +510,20 @@
 
                                 while (i++ < index) {
                                     curr = this.items().eq(0);
-                                    curr.after(curr.clone(true).attr('data-jcarousel-clone', true));
+                                    isVisible = this._visible.index(curr) >= 0;
+
+                                    if (isVisible) {
+                                        curr.after(curr.clone(true).attr('data-jcarousel-clone', true));
+                                    }
+
                                     this.list().append(curr);
+
+                                    if (!isVisible) {
+                                        props = {};
+                                        props[this.lt] = this.dimension(curr) * (this.rtl ? -1 : 1);
+                                        this.moveBy(props);
+                                    }
+
                                     // Force items reload
                                     this._items = null;
                                 }
@@ -538,8 +552,14 @@
 
                                 while (i++ < 0) {
                                     curr = this.items().eq(-1);
-                                    curr.after(curr.clone(true).attr('data-jcarousel-clone', true));
+                                    isVisible = this._visible.index(curr) >= 0;
+
+                                    if (isVisible) {
+                                        curr.after(curr.clone(true).attr('data-jcarousel-clone', true));
+                                    }
+
                                     this.list().prepend(curr);
+
                                     // Force items reload
                                     this._items = null;
 
@@ -552,9 +572,9 @@
                                         lt -= dim;
                                     }
 
-                                    var props = {};
+                                    props = {};
                                     props[this.lt] = lt + 'px';
-                                    
+
                                     this.move(props);
                                 }
 
@@ -572,6 +592,19 @@
             this._trigger('scrollend');
 
             return this;
+        },
+        moveBy: function(properties, opts) {
+            var position = this.list().position();
+
+            if (properties.left) {
+                properties.left = position.left + toFloat(properties.left) + 'px';
+            }
+
+            if (properties.top) {
+                properties.top = position.top + toFloat(properties.top) + 'px';
+            }
+
+            return this.move(properties, opts);
         },
         move: function(properties, opts) {
             opts = opts || {};
@@ -765,6 +798,7 @@
                     fullyvisible: wh <= clip ? item : $()
                 },
                 curr,
+                isVisible,
                 margin;
 
             if (center) {
@@ -779,14 +813,23 @@
                     if (curr.size() === 0) {
                         if (this.circular) {
                             curr = this.items().eq(0);
+                            isVisible = this._visible.index(curr) >= 0;
 
                             if (item.get(0) === curr.get(0)) {
                                 break;
                             }
 
-                            curr.after(curr.clone(true).attr('data-jcarousel-clone', true));
+                            if (isVisible) {
+                                curr.after(curr.clone(true).attr('data-jcarousel-clone', true));
+                            }
 
                             this.list().append(curr);
+
+                            if (!isVisible) {
+                                var props = {};
+                                props[this.lt] = this.dimension(curr) * (this.rtl ? -1 : 1);
+                                this.moveBy(props);
+                            }
 
                             // Force items reload
                             this._items = null;
