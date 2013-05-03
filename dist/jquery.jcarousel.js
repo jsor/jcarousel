@@ -811,31 +811,31 @@
                     curr = this.items().eq(++idx);
 
                     if (curr.size() === 0) {
-                        if (this.circular) {
-                            curr = this.items().eq(0);
-                            isVisible = this._visible.index(curr) >= 0;
-
-                            if (item.get(0) === curr.get(0)) {
-                                break;
-                            }
-
-                            if (isVisible) {
-                                curr.after(curr.clone(true).attr('data-jcarousel-clone', true));
-                            }
-
-                            this.list().append(curr);
-
-                            if (!isVisible) {
-                                var props = {};
-                                props[this.lt] = this.dimension(curr) * (this.rtl ? -1 : 1);
-                                this.moveBy(props);
-                            }
-
-                            // Force items reload
-                            this._items = null;
-                        } else {
+                        if (!this.circular) {
                             break;
                         }
+
+                        curr = this.items().eq(0);
+                        isVisible = this._visible.index(curr) >= 0;
+
+                        if (item.get(0) === curr.get(0)) {
+                            break;
+                        }
+
+                        if (isVisible) {
+                            curr.after(curr.clone(true).attr('data-jcarousel-clone', true));
+                        }
+
+                        this.list().append(curr);
+
+                        if (!isVisible) {
+                            var props = {};
+                            props[this.lt] = this.dimension(curr) * (this.rtl ? -1 : 1);
+                            this.moveBy(props);
+                        }
+
+                        // Force items reload
+                        this._items = null;
                     }
 
                     wh += this.dimension(curr);
