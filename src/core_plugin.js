@@ -397,11 +397,17 @@
                 return;
             }
 
-            var backup = list.css(['transitionDuration', 'transitionTimingFunction', 'transitionProperty']),
+            var complete = opts.complete || $.noop,
+                css = {};
+
+            if (transitions) {
+                var backup = list.css(['transitionDuration', 'transitionTimingFunction', 'transitionProperty']),
+                    oldComplete = complete;
+
                 complete = function() {
                     $(this).css(backup);
-                    (opts.complete || $.noop).call(this);
-                },
+                    oldComplete.call(this);
+                };
                 css = {
                     transitionDuration: (duration > 0 ? duration / 1000 : 0) + 's',
                     transitionTimingFunction: option.easing || opts.easing,
@@ -416,6 +422,7 @@
                     })() : 'none',
                     transform: 'none'
                 };
+            }
 
             if (transforms3d) {
                 css.transform = 'translate3d(' + (properties.left || 0) + ',' + (properties.top || 0) + ',0)';
@@ -425,7 +432,7 @@
                 $.extend(css, properties);
             }
 
-            if (duration > 0) {
+            if (transitions && duration > 0) {
                 list.one('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd', complete);
             }
 
