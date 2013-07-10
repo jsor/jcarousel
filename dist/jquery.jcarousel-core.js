@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-beta.5 - 2013-05-08
+/*! jCarousel - v0.3.0-beta.5 - 2013-07-10
 * http://sorgalla.com/jcarousel
 * Copyright (c) 2013 Jan Sorgalla; Licensed MIT */
 (function($) {
@@ -823,11 +823,12 @@
                         }
 
                         curr = this.items().eq(0);
-                        isVisible = this._visible.index(curr) >= 0;
 
                         if (item.get(0) === curr.get(0)) {
                             break;
                         }
+
+                        isVisible = this._visible.index(curr) >= 0;
 
                         if (isVisible) {
                             curr.after(curr.clone(true).attr('data-jcarousel-clone', true));
