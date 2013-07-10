@@ -599,11 +599,12 @@
                         }
 
                         curr = this.items().eq(0);
-                        isVisible = this._visible.index(curr) >= 0;
 
                         if (item.get(0) === curr.get(0)) {
                             break;
                         }
+
+                        isVisible = this._visible.index(curr) >= 0;
 
                         if (isVisible) {
                             curr.after(curr.clone(true).attr('data-jcarousel-clone', true));
