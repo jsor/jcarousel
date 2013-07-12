@@ -61,4 +61,4 @@ License
 -------
 
 Copyright (c) 2013 Jan Sorgalla.
-Released under the [MIT](https://github.com/jsor/jcarousel/blob/master/LICENSE-MIT) license.
+Released under the [MIT](https://github.com/jsor/jcarousel/blob/master/LICENSE) license.
