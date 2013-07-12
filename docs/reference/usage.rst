@@ -157,7 +157,7 @@ Vertical carousels
 jCarousel tries to auto-detect the orientation by simply checking if the list
 elements’s height is greater than the list element’s width.
 
-If that doesn't work, you can explicitly pass the `vertical` option:
+If auto-detection doesn't work, you can explicitly pass the `vertical` option:
 
 .. code-block:: javascript
 
@@ -180,7 +180,8 @@ elements.
         </ul>
     </div>
 
-Alternatively, you can explicitly pass the ``rtl`` option:
+If auto-detection doesn't work, you can explicitly pass the ``rtl`` option
+(the ``dir="rtl"`` attribute is still required):
 
 .. code-block:: javascript
 
