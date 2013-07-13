@@ -1,6 +1,12 @@
 jCarousel Changelog
 ===================
 
+Version 0.2.9 - 2013-04-19
+--------------------------
+
+  * Made compatible with jQuery 1.9.
+  * Updated textscroller example and removed possible remote inclusion vulnerability.
+
 Version 0.2.8 - 2011-04-14
 --------------------------
 
