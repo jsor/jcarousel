@@ -36,19 +36,17 @@ jCarousel comes with the following plugins:
 Download
 --------
 
-All ready-to-use files are located in the 
-[`dist/`](https://github.com/jsor/jcarousel/tree/master/dist) directory.
+All ready-to-use files are located in the  [`dist/`](dist/) directory.
 
-The [`jquery.jcarousel.js`](https://raw.github.com/jsor/jcarousel/master/dist/jquery.jcarousel.js)
-and [`jquery.jcarousel.min.js`](https://raw.github.com/jsor/jcarousel/master/dist/jquery.jcarousel.min.js)
-files contain the core and all plugins concenated together.
+The [`jquery.jcarousel.js`](dist/jquery.jcarousel.js?raw=1) and
+[`jquery.jcarousel.min.js`](dist/jquery.jcarousel.min.js?raw=1) files contain
+the core and all plugins concenated together.
 
 Examples
 --------
 
 There are no examples ready yet for the new version 0.3, but you can browse the
-[functional tests](https://github.com/jsor/jcarousel/tree/master/test/functional)
-to get an impression how to setup things.
+[functional tests](test/functional/) to get an impression how to setup things.
 
 Credits
 -------
@@ -61,4 +59,4 @@ License
 -------
 
 Copyright (c) 2013 Jan Sorgalla.
-Released under the [MIT](https://github.com/jsor/jcarousel/blob/master/LICENSE) license.
+Released under the [MIT](LICENSE?raw=1) license.
