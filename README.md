@@ -36,7 +36,7 @@ jCarousel comes with the following plugins:
 Download
 --------
 
-All ready-to-use files are located in the  [`dist/`](dist/) directory.
+All ready-to-use files are located in the [`dist/`](dist/) directory.
 
 The [`jquery.jcarousel.js`](dist/jquery.jcarousel.js?raw=1) and
 [`jquery.jcarousel.min.js`](dist/jquery.jcarousel.min.js?raw=1) files contain
@@ -45,8 +45,9 @@ the core and all plugins concenated together.
 Examples
 --------
 
-There are no examples ready yet for the new version 0.3, but you can browse the
-[functional tests](test/functional/) to get an impression how to setup things.
+You can find some example implementations in the [`examples/`](examples/)
+directory. You can also browse the [functional tests](test/functional/) to get
+an impression how to setup jCarousel.
 
 Credits
 -------
