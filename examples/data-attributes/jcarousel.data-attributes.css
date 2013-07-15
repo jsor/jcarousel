@@ -1,4 +1,4 @@
-.carousel-wrapper {
+.jcarousel-wrapper {
     margin: 20px auto;
     position: relative;
     border: 10px solid #fff;
@@ -11,7 +11,7 @@
 }
 
 
-.carousel-wrapper .photo-credits {
+.jcarousel-wrapper .photo-credits {
     position: absolute;
     right: 15px;
     bottom: 0;
@@ -21,20 +21,20 @@
     opacity: .66;
 }
 
-.carousel-wrapper .photo-credits a {
+.jcarousel-wrapper .photo-credits a {
     color: #fff;
 }
 
 /** Carousel **/
 
-.carousel {
+.jcarousel {
     position: relative;
     overflow: hidden;
     width: 600px;
     height: 400px;
 }
 
-.carousel ul {
+.jcarousel ul {
     width: 20000em;
     position: absolute;
     list-style: none;
@@ -42,14 +42,14 @@
     padding: 0;
 }
 
-.carousel li {
+.jcarousel li {
     float: left;
 }
 
 /** Carousel Controls **/
 
-.carousel-control-prev,
-.carousel-control-next {
+.jcarousel-control-prev,
+.jcarousel-control-next {
     position: absolute;
     top: 200px;
     width: 30px;
@@ -68,15 +68,15 @@
             box-shadow: 0 0 2px #999;
 }
 
-.carousel-control-prev {
+.jcarousel-control-prev {
     left: -50px;
 }
 
-.carousel-control-next {
+.jcarousel-control-next {
     right: -50px;
 }
 
-.carousel-control-prev:hover span,
-.carousel-control-next:hover span {
+.jcarousel-control-prev:hover span,
+.jcarousel-control-next:hover span {
     display: block;
 }
