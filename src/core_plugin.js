@@ -98,7 +98,8 @@
 
             this.lt = this.vertical ? 'top' : 'left';
 
-            // Force items reload
+            // Force list and items reload
+            this._list  = null;
             this._items = null;
 
             var item = this._target && this.index(this._target) >= 0 ?
