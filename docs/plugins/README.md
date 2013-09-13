@@ -6,10 +6,7 @@ built carousel widgets. Specialized features are provided through plugins.
 
 jCarousel comes with the following plugins:
 
-.. toctree::
-   :maxdepth: 1
-
-   control/index
-   pagination/index
-   autoscroll/index
-   scrollintoview/index
+* [Control Plugin](control/)
+* [Pagination Plugin](pagination/)
+* [Autoscroll Plugin](autoscroll/)
+* [ScrollIntoView Plugin](scrollintoview/)
