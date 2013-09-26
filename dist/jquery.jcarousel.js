@@ -97,6 +97,33 @@
 
                 return this;
             },
+            get: function (index) {
+            	return this._get(index);
+            },
+            add: function (index, element) {
+            	if (false === this._trigger('beforeitemadd')) {
+            		return this;
+            	}
+            	
+            	this._add(index, element);
+            	
+            	this._trigger('itemadded');
+            	
+            	return this;
+            },
+            remove: function (index) {
+            	if (typeof index === 'number') {
+            		if (false === this._trigger('beforeitemremove')) {
+            			return this;
+            		}
+            		
+            		this._remove(index);
+            		
+            		this._trigger('itemremoved');
+            		
+            	}
+            	return this;
+            },
             reload: function(options) {
                 if (false === this._trigger('reload')) {
                     return this;
@@ -291,6 +318,36 @@
         },
         _destroy: function() {
             $(window).off('resize.jcarousel', this.onWindowResize);
+        },
+        _get: function (index) {
+        	return this.items().eq(index);
+        },
+        _add: function (index, element) {
+        	var el = this._get(index);
+        	// If user specifies the element, then use it or else
+        	// create it by finding the tag name of the element in the item list.
+        	element = element ? $(element ): $('<'+this.items().prop('tagName')+'>');
+        	
+        	// Add or replace element
+        	(el.length === 0) ? this.list().append(element) : el.replaceWith(element);
+        	
+        	// Don't need to invoke the listeners
+        	this._reload();
+        	
+        	return this;
+        },
+        _remove: function (index) {
+        	var el = this._get(index);
+        	
+        	// Remove the element and reload if present
+        	if (index >= this.index(this._first) && index <= this.index(this._last)) {
+        		return this;
+        	}
+        	
+        	el.remove();
+    		this._reload();
+        	
+        	return this;
         },
         _reload: function() {
             this.vertical = this.options('vertical');
