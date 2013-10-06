@@ -25,8 +25,9 @@
             });
 
         $('.jcarousel-pagination')
-            .on('active.jcarouselpagination', 'a', function() {
+            .on('click.jcarouselpagination', 'a', function() {
                 $(this).addClass('active');
+                return false;
             })
             .on('inactive.jcarouselpagination', 'a', function() {
                 $(this).removeClass('active');
