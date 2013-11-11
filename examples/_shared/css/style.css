@@ -1,3 +1,5 @@
+@import '//fonts.googleapis.com/css?family=Lato:400,400italic|Arvo:700,400,400italic';
+
 body {
     background: #F0EFE7;
     margin: 0;
@@ -7,7 +9,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Arvo', courier, serif;
+  font-family: 'Arvo', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   text-align: center;
   font-weight: normal;
   text-rendering: optimizelegibility;
