@@ -6,6 +6,7 @@ body {
     padding: 0;
     font: 15px/1.5 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #4E443C;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75);
 }
 
 h1, h2, h3, h4, h5, h6 {
