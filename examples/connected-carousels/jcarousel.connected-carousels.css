@@ -31,13 +31,13 @@
 /** Shared carousel styles **/
 
 .connected-carousels .carousel {
-    position: relative;
     overflow: hidden;
+    position: relative;
 }
 
 .connected-carousels .carousel ul {
     width: 20000em;
-    position: absolute;
+    position: relative;
     list-style: none;
     margin: 0;
     padding: 0;
