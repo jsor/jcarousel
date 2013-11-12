@@ -64,7 +64,7 @@
                 while (true) {
                     curr = items.eq(i++);
 
-                    if (curr.size() === 0) {
+                    if (curr.length === 0) {
                         break;
                     }
 
@@ -100,11 +100,11 @@
 
                         if (parseFloat(page) > parseFloat(self._currentPage)) {
                             if (newIndex < currentIndex) {
-                                target = '+=' + (carousel.items().size() - currentIndex + newIndex);
+                                target = '+=' + (carousel.items().length - currentIndex + newIndex);
                             }
                         } else {
                             if (newIndex > currentIndex) {
-                                target = '-=' + (currentIndex + (carousel.items().size() - newIndex));
+                                target = '-=' + (currentIndex + (carousel.items().length - newIndex));
                             }
                         }
                     }
@@ -161,7 +161,7 @@
             while (true) {
                 curr = items.eq(idx++);
 
-                if (curr.size() === 0) {
+                if (curr.length === 0) {
                     break;
                 }
 

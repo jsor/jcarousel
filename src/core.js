@@ -38,16 +38,16 @@
     jCarousel.detectCarousel = function(element) {
         var carousel;
 
-        while (element.size() > 0) {
+        while (element.length > 0) {
             carousel = element.filter('[data-jcarousel]');
 
-            if (carousel.size() > 0) {
+            if (carousel.length > 0) {
                 return carousel;
             }
 
             carousel = element.find('[data-jcarousel]');
 
-            if (carousel.size() > 0) {
+            if (carousel.length > 0) {
                 return carousel;
             }
 

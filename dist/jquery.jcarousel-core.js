@@ -38,16 +38,16 @@
     jCarousel.detectCarousel = function(element) {
         var carousel;
 
-        while (element.size() > 0) {
+        while (element.length > 0) {
             carousel = element.filter('[data-jcarousel]');
 
-            if (carousel.size() > 0) {
+            if (carousel.length > 0) {
                 return carousel;
             }
 
             carousel = element.find('[data-jcarousel]');
 
-            if (carousel.size() > 0) {
+            if (carousel.length > 0) {
                 return carousel;
             }
 
@@ -336,14 +336,14 @@
 
             var props = {'left': 0, 'top': 0};
 
-            if (item.size() > 0) {
+            if (item.length > 0) {
                 this._prepare(item);
                 this.list().find('[data-jcarousel-clone]').remove();
 
                 // Force items reload
                 this._items = null;
 
-                this.underflow = this._fullyvisible.size() >= this.items().size();
+                this.underflow = this._fullyvisible.length >= this.items().length;
                 this.circular  = this.circular && !this.underflow;
 
                 props[this.lt] = this._position(item) + 'px';
@@ -429,7 +429,7 @@
             }
 
             var wrap = this.options('wrap'),
-                end = this.items().size() - 1;
+                end = this.items().length - 1;
 
             return end >= 0 &&
                 ((wrap && wrap !== 'first') ||
@@ -443,7 +443,7 @@
 
             var wrap = this.options('wrap');
 
-            return this.items().size() > 0 &&
+            return this.items().length > 0 &&
                 ((wrap && wrap !== 'last') ||
                     (this.index(this._first) > 0) ||
                     (this.tail && this.inTail)) ? true : false;
@@ -471,7 +471,7 @@
             var parsed = $.jCarousel.parseTarget(target);
 
             if (parsed.relative) {
-                var end    = this.items().size() - 1,
+                var end    = this.items().length - 1,
                     scroll = Math.abs(parsed.target),
                     wrap   = this.options('wrap'),
                     current,
@@ -684,7 +684,7 @@
                 item = $(item);
             }
 
-            if (item.size() === 0) {
+            if (item.length === 0) {
                 if ($.isFunction(callback)) {
                     callback.call(this, false);
                 }
@@ -761,7 +761,7 @@
 
                     var c = this.list().find('[data-jcarousel-clone]');
 
-                    if (c.size() > 0) {
+                    if (c.length > 0) {
                         c.remove();
                         this._reload();
                     }
@@ -818,7 +818,7 @@
                 while (true) {
                     curr = this.items().eq(++idx);
 
-                    if (curr.size() === 0) {
+                    if (curr.length === 0) {
                         if (!this.circular) {
                             break;
                         }
@@ -875,7 +875,7 @@
 
                     curr = this.items().eq(idx);
 
-                    if (curr.size() === 0) {
+                    if (curr.length === 0) {
                         break;
                     }
 
@@ -904,7 +904,7 @@
             if (!center &&
                 this.options('wrap') !== 'circular' &&
                 this.options('wrap') !== 'custom' &&
-                this.index(update.last) === (this.items().size() - 1)) {
+                this.index(update.last) === (this.items().length - 1)) {
 
                 // Remove right/bottom margin from total width
                 wh -= toFloat(update.last.css('margin-' + lrb));

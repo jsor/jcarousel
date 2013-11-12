@@ -37,7 +37,7 @@
         while (true) {
             curr = items.eq(index);
 
-            if (curr.size() === 0) {
+            if (curr.length === 0) {
                 break;
             }
 
