@@ -22,11 +22,11 @@
             var target = connector(item, carouselStage);
 
             item
-                .on('active.jcarouselcontrol', function() {
+                .on('jcarouselcontrol:active', function() {
                     carouselNavigation.jcarousel('scrollIntoView', this);
                     item.addClass('active');
                 })
-                .on('inactive.jcarouselcontrol', function() {
+                .on('jcarouselcontrol:inactive', function() {
                     item.removeClass('active');
                 })
                 .jcarouselControl({
@@ -37,10 +37,10 @@
 
         // Setup controls for the stage carousel
         $('.prev-stage')
-            .on('inactive.jcarouselcontrol', function() {
+            .on('jcarouselcontrol:inactive', function() {
                 $(this).addClass('inactive');
             })
-            .on('active.jcarouselcontrol', function() {
+            .on('jcarouselcontrol:active', function() {
                 $(this).removeClass('inactive');
             })
             .jcarouselControl({
@@ -48,10 +48,10 @@
             });
 
         $('.next-stage')
-            .on('inactive.jcarouselcontrol', function() {
+            .on('jcarouselcontrol:inactive', function() {
                 $(this).addClass('inactive');
             })
-            .on('active.jcarouselcontrol', function() {
+            .on('jcarouselcontrol:active', function() {
                 $(this).removeClass('inactive');
             })
             .jcarouselControl({
@@ -60,10 +60,10 @@
 
         // Setup controls for the navigation carousel
         $('.prev-navigation')
-            .on('inactive.jcarouselcontrol', function() {
+            .on('jcarouselcontrol:inactive', function() {
                 $(this).addClass('inactive');
             })
-            .on('active.jcarouselcontrol', function() {
+            .on('jcarouselcontrol:active', function() {
                 $(this).removeClass('inactive');
             })
             .jcarouselControl({
@@ -71,10 +71,10 @@
             });
 
         $('.next-navigation')
-            .on('inactive.jcarouselcontrol', function() {
+            .on('jcarouselcontrol:inactive', function() {
                 $(this).addClass('inactive');
             })
-            .on('active.jcarouselcontrol', function() {
+            .on('jcarouselcontrol:active', function() {
                 $(this).removeClass('inactive');
             })
             .jcarouselControl({

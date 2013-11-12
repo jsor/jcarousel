@@ -24,16 +24,16 @@
             this.onDestroy = $.proxy(function() {
                 this._destroy();
                 this.carousel()
-                    .one('createend.jcarousel', $.proxy(this._create, this));
+                    .one('jcarousel:createend', $.proxy(this._create, this));
             }, this);
             this.onReload = $.proxy(this._reload, this);
             this.onScroll = $.proxy(this._update, this);
         },
         _create: function() {
             this.carousel()
-                .one('destroy.jcarousel', this.onDestroy)
-                .on('reloadend.jcarousel', this.onReload)
-                .on('scrollend.jcarousel', this.onScroll);
+                .one('jcarousel:destroy', this.onDestroy)
+                .on('jcarousel:reloadend', this.onReload)
+                .on('jcarousel:scrollend', this.onScroll);
 
             this._reload();
         },
@@ -41,9 +41,9 @@
             this._clear();
 
             this.carousel()
-                .off('destroy.jcarousel', this.onDestroy)
-                .off('reloadend.jcarousel', this.onReload)
-                .off('scrollend.jcarousel', this.onScroll);
+                .off('jcarousel:destroy', this.onDestroy)
+                .off('jcarousel:reloadend', this.onReload)
+                .off('jcarousel:scrollend', this.onScroll);
         },
         _reload: function() {
             var perPage = this.options('perPage');

@@ -3,10 +3,10 @@
         var jcarousel = $('.jcarousel').jcarousel();
 
         $('.jcarousel-control-prev')
-            .on('active.jcarouselcontrol', function() {
+            .on('jcarouselcontrol:active', function() {
                 $(this).removeClass('inactive');
             })
-            .on('inactive.jcarouselcontrol', function() {
+            .on('jcarouselcontrol:inactive', function() {
                 $(this).addClass('inactive');
             })
             .jcarouselControl({
@@ -14,10 +14,10 @@
             });
 
         $('.jcarousel-control-next')
-            .on('active.jcarouselcontrol', function() {
+            .on('jcarouselcontrol:active', function() {
                 $(this).removeClass('inactive');
             })
-            .on('inactive.jcarouselcontrol', function() {
+            .on('jcarouselcontrol:inactive', function() {
                 $(this).addClass('inactive');
             })
             .jcarouselControl({

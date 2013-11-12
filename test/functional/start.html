@@ -28,7 +28,7 @@
 
 $(function() {
     $('#jcarousel1')
-        .on('createend.jcarousel', function() {
+        .on('jcarousel:createend', function() {
             $(this).jcarousel('scroll', 2, false);
         })
         .jcarousel();
@@ -37,7 +37,7 @@ $(function() {
         .jcarousel();
     
     $('#jcarousel3')
-        .on('createend.jcarousel', function() {
+        .on('jcarousel:createend', function() {
             $(this).jcarousel('scroll', 8, false);
         })
         .jcarousel({

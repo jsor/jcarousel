@@ -42,10 +42,10 @@ function createPagination2() {
 }
 $(function() {
     $('.jcarousel-pagination')
-        .on('active.jcarouselpagination', 'a', function() {
+        .on('jcarouselpagination:active', 'a', function() {
             $(this).addClass('active');
         })
-        .on('inactive.jcarouselpagination', 'a', function() {
+        .on('jcarouselpagination:inactive', 'a', function() {
             $(this).removeClass('active');
         });
 

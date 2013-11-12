@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-beta.5 - 2013-08-20
+/*! jCarousel - v0.3.0-beta.5 - 2013-11-12
 * http://sorgalla.com/jcarousel
 * Copyright (c) 2013 Jan Sorgalla; Licensed MIT */
 (function($) {
@@ -152,7 +152,7 @@
                 data = [this].concat(data || []);
 
                 (element || this._element).each(function() {
-                    event = $.Event((type + '.' + pluginName).toLowerCase());
+                    event = $.Event((pluginName + ':' + type).toLowerCase());
 
                     $(this).trigger(event, data);
 
@@ -973,8 +973,8 @@
                         elOut = elOut.reverse();
                     }
 
-                    self._trigger('item' + key + 'in', $(elIn));
-                    self._trigger('item' + key + 'out', $(elOut));
+                    self._trigger(key + 'in', $(elIn));
+                    self._trigger(key + 'out', $(elOut));
 
                     self['_' + key] = update[key];
                 };
@@ -1063,7 +1063,7 @@
             this.onDestroy = $.proxy(function() {
                 this._destroy();
                 this.carousel()
-                    .one('createend.jcarousel', $.proxy(this._create, this));
+                    .one('jcarousel:createend', $.proxy(this._create, this));
             }, this);
             this.onReload = $.proxy(this._reload, this);
             this.onEvent = $.proxy(function(e) {
@@ -1081,8 +1081,8 @@
         },
         _create: function() {
             this.carousel()
-                .one('destroy.jcarousel', this.onDestroy)
-                .on('reloadend.jcarousel scrollend.jcarousel', this.onReload);
+                .one('jcarousel:destroy', this.onDestroy)
+                .on('jcarousel:reloadend jcarousel:scrollend', this.onReload);
 
             this._element
                 .on(this.options('event') + '.jcarouselcontrol', this.onEvent);
@@ -1094,8 +1094,8 @@
                 .off('.jcarouselcontrol', this.onEvent);
 
             this.carousel()
-                .off('destroy.jcarousel', this.onDestroy)
-                .off('reloadend.jcarousel scrollend.jcarousel', this.onReload);
+                .off('jcarousel:destroy', this.onDestroy)
+                .off('jcarousel:reloadend jcarousel:scrollend', this.onReload);
         },
         _reload: function() {
             var parsed   = $.jCarousel.parseTarget(this.options('target')),
@@ -1142,16 +1142,16 @@
             this.onDestroy = $.proxy(function() {
                 this._destroy();
                 this.carousel()
-                    .one('createend.jcarousel', $.proxy(this._create, this));
+                    .one('jcarousel:createend', $.proxy(this._create, this));
             }, this);
             this.onReload = $.proxy(this._reload, this);
             this.onScroll = $.proxy(this._update, this);
         },
         _create: function() {
             this.carousel()
-                .one('destroy.jcarousel', this.onDestroy)
-                .on('reloadend.jcarousel', this.onReload)
-                .on('scrollend.jcarousel', this.onScroll);
+                .one('jcarousel:destroy', this.onDestroy)
+                .on('jcarousel:reloadend', this.onReload)
+                .on('jcarousel:scrollend', this.onScroll);
 
             this._reload();
         },
@@ -1159,9 +1159,9 @@
             this._clear();
 
             this.carousel()
-                .off('destroy.jcarousel', this.onDestroy)
-                .off('reloadend.jcarousel', this.onReload)
-                .off('scrollend.jcarousel', this.onScroll);
+                .off('jcarousel:destroy', this.onDestroy)
+                .off('jcarousel:reloadend', this.onReload)
+                .off('jcarousel:scrollend', this.onScroll);
         },
         _reload: function() {
             var perPage = this.options('perPage');
@@ -1320,14 +1320,14 @@
             this.onDestroy = $.proxy(function() {
                 this._destroy();
                 this.carousel()
-                    .one('createend.jcarousel', $.proxy(this._create, this));
+                    .one('jcarousel:createend', $.proxy(this._create, this));
             }, this);
 
             this.onAnimateEnd = $.proxy(this.start, this);
         },
         _create: function() {
             this.carousel()
-                .one('destroy.jcarousel', this.onDestroy);
+                .one('jcarousel:destroy', this.onDestroy);
 
             if (this.options('autostart')) {
                 this.start();
@@ -1336,13 +1336,13 @@
         _destroy: function() {
             this.stop();
             this.carousel()
-                .off('destroy.jcarousel', this.onDestroy);
+                .off('jcarousel:destroy', this.onDestroy);
         },
         start: function() {
             this.stop();
 
             this.carousel()
-                .one('animateend.jcarousel', this.onAnimateEnd);
+                .one('jcarousel:animateend', this.onAnimateEnd);
 
             this._timer = setTimeout($.proxy(function() {
                 this.carousel().jcarousel('scroll', this.options('target'));
@@ -1356,7 +1356,7 @@
             }
 
             this.carousel()
-                .off('animateend.jcarousel', this.onAnimateEnd);
+                .off('jcarousel:animateend', this.onAnimateEnd);
 
             return this;
         }

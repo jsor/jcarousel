@@ -749,8 +749,8 @@
                         elOut = elOut.reverse();
                     }
 
-                    self._trigger('item' + key + 'in', $(elIn));
-                    self._trigger('item' + key + 'out', $(elOut));
+                    self._trigger(key + 'in', $(elIn));
+                    self._trigger(key + 'out', $(elOut));
 
                     self['_' + key] = update[key];
                 };

@@ -152,7 +152,7 @@
                 data = [this].concat(data || []);
 
                 (element || this._element).each(function() {
-                    event = $.Event((type + '.' + pluginName).toLowerCase());
+                    event = $.Event((pluginName + ':' + type).toLowerCase());
 
                     $(this).trigger(event, data);
 

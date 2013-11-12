@@ -19,7 +19,7 @@ to the events **before** you initialize the plugin:
 $('.jcarousel-control')
 
     // Bind first
-    .on('active.jcarouselcontrol', function(event, carousel) {
+    .on('jcarouselcontrol:active', function(event, carousel) {
         // Do something
     })
 
@@ -49,7 +49,7 @@ Triggered when the control becomes active.
 ### Example
 
 ```javascript
-$('.jcarousel-control').on('active.jcarouselcontrol', function() {
+$('.jcarousel-control').on('jcarouselcontrol:active', function() {
     // Do something
 });
 ```
@@ -63,7 +63,7 @@ Triggered when the control becomes inactive.
 ### Example
 
 ```javascript
-$('.jcarousel-control').on('inactive.jcarouselcontrol', function() {
+$('.jcarousel-control').on('jcarouselcontrol:inactive', function() {
     // Do something
 });
 ```
@@ -77,7 +77,7 @@ Triggered on creation of the plugin.
 ### Example
 
 ```javascript
-$('.jcarousel-control').on('create.jcarouselcontrol', function() {
+$('.jcarousel-control').on('jcarouselcontrol:create', function() {
     // Do something
 });
 ```
@@ -91,7 +91,7 @@ Triggered after creation of the plugin.
 ### Example
 
 ```javascript
-$('.jcarousel-control').on('createend.jcarouselcontrol', function() {
+$('.jcarousel-control').on('jcarouselcontrol:createend', function() {
     // Do something
 });
 ```
@@ -105,7 +105,7 @@ Triggered when the `reload` method is called.
 ### Example
 
 ```javascript
-$('.jcarousel-control').on('reload.jcarouselcontrol', function() {
+$('.jcarousel-control').on('jcarouselcontrol:reload', function() {
     // Do something
 });
 ```
@@ -119,7 +119,7 @@ Triggered after the `reload` method is called.
 ### Example
 
 ```javascript
-$('.jcarousel-control').on('reloadend.jcarouselcontrol', function() {
+$('.jcarousel-control').on('jcarouselcontrol:reloadend', function() {
     // "this" refers to the element
 });
 ```
@@ -133,7 +133,7 @@ Triggered when the `destroy` method is called.
 ### Example
 
 ```javascript
-$('.jcarousel-control').on('destroy.jcarouselcontrol', function() {
+$('.jcarousel-control').on('jcarouselcontrol:destroy', function() {
     // Do something
 });
 ```
@@ -147,7 +147,7 @@ Triggered after the `destroy` method is called.
 ### Example
 
 ```javascript
-$('.jcarousel-control').on('destroyend.jcarouselcontrol', function() {
+$('.jcarousel-control').on('jcarouselcontrol:destroyend', function() {
     // Do something
 });
 ```

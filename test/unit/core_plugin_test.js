@@ -47,9 +47,9 @@ jQuery(function($){
         expect(2);
 
         $('#jcarousel1')
-            .on('create.jcarousel', function() {
+            .on('jcarousel:create', function() {
                 ok(true, "#jcarousel1 (create)");
-            }).on('createend.jcarousel', function() {
+            }).on('jcarousel:createend', function() {
                 ok(true, "#jcarousel1 (createend)");
             })
             .jcarousel();
@@ -71,10 +71,10 @@ jQuery(function($){
         expect(2);
 
         $('#jcarousel1')
-            .on('destroy.jcarousel', function() {
+            .on('jcarousel:destroy', function() {
                 ok(true, "#jcarousel1 (destroy)");
             })
-            .on('destroyend.jcarousel', function() {
+            .on('jcarousel:destroyend', function() {
                 ok(true, "#jcarousel1 (destroyend)");
             })
             .jcarousel()
@@ -115,10 +115,10 @@ jQuery(function($){
         expect(2);
 
         $('#jcarousel1')
-            .on('reload.jcarousel', function() {
+            .on('jcarousel:reload', function() {
                 ok(true, "#jcarousel1 (reload)");
             })
-            .on('reloadend.jcarousel', function() {
+            .on('jcarousel:reloadend', function() {
                 ok(true, "#jcarousel1 (reloadend)");
             })
             .jcarousel()

@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-beta.5 - 2013-08-20
+/*! jCarousel - v0.3.0-beta.5 - 2013-11-12
 * http://sorgalla.com/jcarousel
 * Copyright (c) 2013 Jan Sorgalla; Licensed MIT */
 (function($) {
@@ -152,7 +152,7 @@
                 data = [this].concat(data || []);
 
                 (element || this._element).each(function() {
-                    event = $.Event((type + '.' + pluginName).toLowerCase());
+                    event = $.Event((pluginName + ':' + type).toLowerCase());
 
                     $(this).trigger(event, data);
 
@@ -973,8 +973,8 @@
                         elOut = elOut.reverse();
                     }
 
-                    self._trigger('item' + key + 'in', $(elIn));
-                    self._trigger('item' + key + 'out', $(elOut));
+                    self._trigger(key + 'in', $(elIn));
+                    self._trigger(key + 'out', $(elOut));
 
                     self['_' + key] = update[key];
                 };

@@ -22,7 +22,7 @@ to the events **before** you initialize the plugin:
 $('.jcarousel-pagination')
 
     // Bind first
-    .on('create.jcarouselpagination', function(event, carousel) {
+    .on('jcarouselpagination:create', function(event, carousel) {
         // Do something
     })
 
@@ -45,7 +45,7 @@ Triggered on creation of the plugin.
 ### Example
 
 ```javascript
-$('.jcarousel-pagination').on('create.jcarouselpagination', function() {
+$('.jcarousel-pagination').on('jcarouselpagination:create', function() {
     // Do something
 });
 ```
@@ -59,7 +59,7 @@ Triggered after creation of the plugin.
 ### Example
 
 ```javascript
-$('.jcarousel-pagination').on('createend.jcarouselpagination', function() {
+$('.jcarousel-pagination').on('jcarouselpagination:createend', function() {
     // Do something
 });
 ```
@@ -73,7 +73,7 @@ Triggered when the `reload` method is called.
 ### Example
 
 ```javascript
-$('.jcarousel-pagination').on('reload.jcarouselpagination', function() {
+$('.jcarousel-pagination').on('jcarouselpagination:reload', function() {
     // Do something
 });
 ```
@@ -87,7 +87,7 @@ Triggered after the `reload` method is called.
 ### Example
 
 ```javascript
-$('.jcarousel-pagination').on('reloadend.jcarouselpagination', function() {
+$('.jcarousel-pagination').on('jcarouselpagination:reloadend', function() {
     // "this" refers to the element
 });
 ```
@@ -101,7 +101,7 @@ Triggered when the `destroy` method is called.
 ### Example
 
 ```javascript
-$('.jcarousel-pagination').on('destroy.jcarouselpagination', function() {
+$('.jcarousel-pagination').on('jcarouselpagination:destroy', function() {
     // Do something
 });
 ```
@@ -115,7 +115,7 @@ Triggered after the ``destroy`` method is called.
 ### Example
 
 ```javascript
-$('.jcarousel-pagination').on('destroyend.jcarouselpagination', function() {
+$('.jcarousel-pagination').on('jcarouselpagination:destroyend', function() {
     // Do something
 });
 ```
@@ -129,10 +129,10 @@ via delegated events:
 
 ```javascript
 $('.jcarousel-pagination')
-    .on('active.jcarouselpagination', 'a', function() {
+    .on('jcarouselpagination:active', 'a', function() {
         $(this).addClass('active');
     })
-    .on('inactive.jcarouselpagination', 'a', function() {
+    .on('jcarouselpagination:inactive', 'a', function() {
         $(this).removeClass('active');
     });
 ```
@@ -146,7 +146,7 @@ Triggered when the item becomes active.
 ### Example
 
 ```javascript
-$('.jcarousel-pagination').on('active.jcarouselpagination', 'a', function() {
+$('.jcarousel-pagination').on('jcarouselpagination:active', 'a', function() {
     // Do something
 });
 ```
@@ -160,7 +160,7 @@ Triggered when the item becomes inactive.
 ### Example
 
 ```javascript
-$('.jcarousel-pagination').on('inactive.jcarouselpagination', 'a', function() {
+$('.jcarousel-pagination').on('jcarouselpagination:inactive', 'a', function() {
     // Do something
 });
 ```

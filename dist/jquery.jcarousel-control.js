@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-beta.5 - 2013-08-20
+/*! jCarousel - v0.3.0-beta.5 - 2013-11-12
 * http://sorgalla.com/jcarousel
 * Copyright (c) 2013 Jan Sorgalla; Licensed MIT */
 (function($) {
@@ -15,7 +15,7 @@
             this.onDestroy = $.proxy(function() {
                 this._destroy();
                 this.carousel()
-                    .one('createend.jcarousel', $.proxy(this._create, this));
+                    .one('jcarousel:createend', $.proxy(this._create, this));
             }, this);
             this.onReload = $.proxy(this._reload, this);
             this.onEvent = $.proxy(function(e) {
@@ -33,8 +33,8 @@
         },
         _create: function() {
             this.carousel()
-                .one('destroy.jcarousel', this.onDestroy)
-                .on('reloadend.jcarousel scrollend.jcarousel', this.onReload);
+                .one('jcarousel:destroy', this.onDestroy)
+                .on('jcarousel:reloadend jcarousel:scrollend', this.onReload);
 
             this._element
                 .on(this.options('event') + '.jcarouselcontrol', this.onEvent);
@@ -46,8 +46,8 @@
                 .off('.jcarouselcontrol', this.onEvent);
 
             this.carousel()
-                .off('destroy.jcarousel', this.onDestroy)
-                .off('reloadend.jcarousel scrollend.jcarousel', this.onReload);
+                .off('jcarousel:destroy', this.onDestroy)
+                .off('jcarousel:reloadend jcarousel:scrollend', this.onReload);
         },
         _reload: function() {
             var parsed   = $.jCarousel.parseTarget(this.options('target')),

@@ -28,55 +28,55 @@ $(function() {
     $('.jcarousel').jcarousel();
 
     $('.jcarousel-prev')
-        .on('active.jcarouselcontrol', function() {
+        .on('jcarouselcontrol:active', function() {
             console.log('Prev active');
         })
-        .on('inactive.jcarouselcontrol', function() {
+        .on('jcarouselcontrol:inactive', function() {
             console.log('Prev inactive');
         })
         .jcarouselControl({target: '-=1'});
 
     $('.jcarousel-next')
-        .on('active.jcarouselcontrol', function() {
+        .on('jcarouselcontrol:active', function() {
             console.log('Next active');
         })
-        .on('inactive.jcarouselcontrol', function() {
+        .on('jcarouselcontrol:inactive', function() {
             console.log('Next inactive');
         })
         .jcarouselControl({target: '+=1'});
 
     $('.jcarousel-first')
-        .on('active.jcarouselcontrol', function() {
+        .on('jcarouselcontrol:active', function() {
             console.log('First active');
         })
-        .on('inactive.jcarouselcontrol', function() {
+        .on('jcarouselcontrol:inactive', function() {
             console.log('First inactive');
         })
         .jcarouselControl({target: 0});
 
     $('.jcarousel-last')
-        .on('active.jcarouselcontrol', function() {
+        .on('jcarouselcontrol:active', function() {
             console.log('Last active');
         })
-        .on('inactive.jcarouselcontrol', function() {
+        .on('jcarouselcontrol:inactive', function() {
             console.log('Last inactive');
         })
         .jcarouselControl({target: -1});
 
     $('.jcarousel-first-object')
-        .on('active.jcarouselcontrol', function() {
+        .on('jcarouselcontrol:active', function() {
             console.log('First (object) active');
         })
-        .on('inactive.jcarouselcontrol', function() {
+        .on('jcarouselcontrol:inactive', function() {
             console.log('First (object) inactive');
         })
         .jcarouselControl({target: $('.jcarousel li').first()});
 
     $('.jcarousel-last-object')
-        .on('active.jcarouselcontrol', function() {
+        .on('jcarouselcontrol:active', function() {
             console.log('Last (object) active');
         })
-        .on('inactive.jcarouselcontrol', function() {
+        .on('jcarouselcontrol:inactive', function() {
             console.log('Last (object) inactive');
         })
         .jcarouselControl({target: $('.jcarousel li').last()});

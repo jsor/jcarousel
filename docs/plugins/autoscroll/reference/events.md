@@ -17,7 +17,7 @@ to the events **before** you initialize the plugin:
 $('.jcarousel')
 
     // Bind first
-    .on('create.jcarouselautoscroll', function(event, carousel) {
+    .on('jcarouselautoscroll:create', function(event, carousel) {
         // Do something
     })
 
@@ -34,7 +34,7 @@ Triggered on creation of the plugin.
 ### Example
 
 ```javascript
-$('.jcarousel').on('create.jcarouselautoscroll', function() {
+$('.jcarousel').on('jcarouselautoscroll:create', function() {
     // Do something
 });
 ```
@@ -48,7 +48,7 @@ Triggered after creation of the plugin.
 ### Example
 
 ```javascript
-$('.jcarousel').on('createend.jcarouselautoscroll', function() {
+$('.jcarousel').on('jcarouselautoscroll:createend', function() {
     // Do something
 });
 ```
@@ -62,7 +62,7 @@ Triggered when the `reload` method is called.
 ### Example
 
 ```javascript
-$('.jcarousel').on('reload.jcarouselautoscroll', function() {
+$('.jcarousel').on('jcarouselautoscroll:reload', function() {
     // Do something
 });
 ```
@@ -76,7 +76,7 @@ Triggered after the `reload` method is called.
 ### Example
 
 ```javascript
-$('.jcarousel').on('reloadend.jcarouselautoscroll', function() {
+$('.jcarousel').on('jcarouselautoscroll:reloadend', function() {
     // "this" refers to the element
 });
 ```
@@ -90,7 +90,7 @@ Triggered when the `destroy` method is called.
 ### Example
 
 ```javascript
-$('.jcarousel').on('destroy.jcarouselautoscroll', function() {
+$('.jcarousel').on('jcarouselautoscroll:destroy', function() {
     // Do something
 });
 ```
@@ -104,7 +104,7 @@ Triggered after the ``destroy`` method is called.
 ### Example
 
 ```javascript
-$('.jcarousel').on('destroyend.jcarouselautoscroll', function() {
+$('.jcarousel').on('jcarouselautoscroll:destroyend', function() {
     // Do something
 });
 ```

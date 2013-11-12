@@ -28,38 +28,38 @@ $(function() {
     var jcarousel = $('#jcarousel1');
 
     $.each(['create', 'destroy', 'reload', 'scroll', 'animate'], function(i, name) {
-        jcarousel.on(name + '.jcarousel', function() {
+        jcarousel.on('jcarousel:' + name, function() {
             log(name, this, arguments);
         });
-        jcarousel.on(name + 'end.jcarousel', function() {
+        jcarousel.on('jcarousel:' + name + 'end', function() {
             log(name + 'end', this, arguments);
         });
     });
 
     jcarousel
-        .on('itemvisiblein.jcarousel', 'li', function() {
-            log('itemvisiblein', this, arguments);
+        .on('jcarousel:visiblein', 'li', function() {
+            log('visiblein', this, arguments);
         })
-        .on('itemvisibleout.jcarousel', 'li', function() {
-            log('itemvisibleout', this, arguments);
+        .on('jcarousel:visibleout', 'li', function() {
+            log('visibleout', this, arguments);
         })
-        .on('itemfullyvisiblein.jcarousel', 'li', function() {
-            log('itemfullyvisiblein', this, arguments);
+        .on('jcarousel:fullyvisiblein', 'li', function() {
+            log('fullyvisiblein', this, arguments);
         })
-        .on('itemfullyvisibleout.jcarousel', 'li', function() {
-            log('itemfullyvisibleout', this, arguments);
+        .on('jcarousel:fullyvisibleout', 'li', function() {
+            log('fullyvisibleout', this, arguments);
         })
-        .on('itemfirstin.jcarousel', 'li', function() {
-            log('itemfirstin', this, arguments);
+        .on('jcarousel:firstin', 'li', function() {
+            log('firstin', this, arguments);
         })
-        .on('itemfirstout.jcarousel', 'li', function() {
-            log('itemfirstout', this, arguments);
+        .on('jcarousel:firstout', 'li', function() {
+            log('firstout', this, arguments);
         })
-        .on('itemlastin.jcarousel', 'li', function() {
-            log('itemlastin', this, arguments);
+        .on('jcarousel:lastin', 'li', function() {
+            log('lastin', this, arguments);
         })
-        .on('itemlastout.jcarousel', 'li', function() {
-            log('itemlastout', this, arguments);
+        .on('jcarousel:lastout', 'li', function() {
+            log('lastout', this, arguments);
         });
 
     jcarousel.jcarousel();

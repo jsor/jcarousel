@@ -15,7 +15,7 @@ calling the `scroll` method:
 
 ```javascript
 $('.jcarousel')
-    .on('createend.jcarousel', function() {
+    .on('jcarousel:createend', function() {
         // Arguments:
         // 1. The method to call
         // 2. The index of the item (note that indexes are 0-based)

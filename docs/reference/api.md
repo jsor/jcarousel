@@ -208,7 +208,7 @@ callbacks:
 
 ```javascript
 $('.jcarousel')
-    .on('animateend.jcarousel', function(event, carousel) {
+    .on('jcarousel:animateend', function(event, carousel) {
         var currentFirstItem = $(this).jcarousel('first');
         var currentLastItem  = $(this).jcarousel('last');
     });

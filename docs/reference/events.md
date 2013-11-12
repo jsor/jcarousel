@@ -16,16 +16,16 @@ and the items elements of the carousel:
   * [animate](#animate)
   * [animateend](#animateend)
 * [Item element events](#item-element-events)
-  * [itemtargetin](#itemtargetin)
-  * [itemtargetout](#itemtargetout)
-  * [itemfirstin](#itemfirstin)
-  * [itemfirstout](#itemfirstout)
-  * [itemlastin](#itemlastin)
-  * [itemlastout](#itemlastout)
-  * [itemvisiblein](#itemvisiblein)
-  * [itemvisibleout](#itemvisibleout)
-  * [itemfullyvisiblein](#itemfullyvisiblein)
-  * [itemfullyvisibleout](#itemfullyvisibleout)
+  * [targetin](#targetin)
+  * [targetout](#targetout)
+  * [firstin](#firstin)
+  * [firstout](#firstout)
+  * [lastin](#lastin)
+  * [lastout](#lastout)
+  * [visiblein](#visiblein)
+  * [visibleout](#visibleout)
+  * [fullyvisiblein](#fullyvisiblein)
+  * [fullyvisibleout](#fullyvisibleout)
 
 **Note**: Some events are triggered from the constructor, so you have to bind
 to the events **before** you initialize the plugin:
@@ -34,7 +34,7 @@ to the events **before** you initialize the plugin:
 $('.jcarousel')
 
     // Bind first
-    .on('create.jcarousel', function(event, carousel) {
+    .on('jcarousel:create', function(event, carousel) {
         // Do something
     })
 
@@ -56,7 +56,7 @@ Triggered on creation of the carousel.
 ### Example
 
 ```javascript
-$('.jcarousel').on('create.jcarousel', function(event, carousel) {
+$('.jcarousel').on('jcarousel:create', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });
@@ -71,7 +71,7 @@ Triggered after creation of the carousel.
 ### Example
 
 ```javascript
-$('.jcarousel').on('createend.jcarousel', function(event, carousel) {
+$('.jcarousel').on('jcarousel:createend', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });
@@ -86,7 +86,7 @@ Triggered when the ``reload`` method is called.
 ### Example
 
 ```javascript
-$('.jcarousel').on('reload.jcarousel', function(event, carousel) {
+$('.jcarousel').on('jcarousel:reload', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });
@@ -101,7 +101,7 @@ Triggered after the ``reload`` method is called.
 ### Example
 
 ```javascript
-$('.jcarousel').on('reloadend.jcarousel', function(event, carousel) {
+$('.jcarousel').on('jcarousel:reloadend', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });
@@ -115,7 +115,7 @@ Triggered when the ``destroy`` method is called.
 ### Example
 
 ```javascript
-$('.jcarousel').on('destroy.jcarousel', function(event, carousel) {
+$('.jcarousel').on('jcarousel:destroy', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });
@@ -130,7 +130,7 @@ Triggered after the ``destroy`` method is called.
 ### Example
 
 ```javascript
-$('.jcarousel').on('destroyend.jcarousel', function(event, carousel) {
+$('.jcarousel').on('jcarousel:destroyend', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });
@@ -145,7 +145,7 @@ Triggered when the ``scroll`` method is called.
 ### Example
 
 ```javascript
-$('.jcarousel').on('scroll.jcarousel', function(event, carousel, target, animate) {
+$('.jcarousel').on('jcarousel:scroll', function(event, carousel, target, animate) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
     // "target" is the target argument passed to the `scroll` method
@@ -166,7 +166,7 @@ when the animation is finished.
 ### Example
 
 ```javascript
-$('.jcarousel').on('scrollend.jcarousel', function(event, carousel) {
+$('.jcarousel').on('jcarousel:scrollend', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });
@@ -181,7 +181,7 @@ Triggered when the carousel starts a animation.
 ### Example
 
 ```javascript
-$('.jcarousel').on('animate.jcarousel', function(event, carousel) {
+$('.jcarousel').on('jcarousel:animate', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });
@@ -196,7 +196,7 @@ Triggered after the carousel has finished a animation.
 ### Example
 
 ```javascript
-$('.jcarousel').on('animateend.jcarousel', function(event, carousel) {
+$('.jcarousel').on('jcarousel:animateend', function(event, carousel) {
     // "this" refers to the root element
     // "carousel" is the jCarousel instance
 });
@@ -210,155 +210,155 @@ These events are triggered on the item elements. The recommended way is to bind
 via delegated events:
 
 ```javascript
-$('.jcarousel').on('itemtargetin.jcarousel', 'li', function() {
+$('.jcarousel').on('jcarousel:targetin', 'li', function() {
     $(this).addClass('active');
 });
 ```
 
 
-itemtargetin
-------------
+targetin
+--------
 
 Triggered when the item becomes the targeted item.
 
 ### Example
 
 ```javascript
-$('.jcarousel').on('itemtargetin.jcarousel', 'li', function(event, carousel) {
+$('.jcarousel').on('jcarousel:targetin', 'li', function(event, carousel) {
     // "this" refers to the item element
     // "carousel" is the jCarousel instance
 });
 ```
 
 
-itemtargetout
--------------
+targetout
+---------
 
 Triggered when the item is no longer the targeted item.
 
 ### Example
 
 ```javascript
-$('.jcarousel').on('itemtargetout.jcarousel', 'li', function(event, carousel) {
+$('.jcarousel').on('jcarousel:targetout', 'li', function(event, carousel) {
     // "this" refers to the item element
     // "carousel" is the jCarousel instance
 });
 ```
 
 
-itemfirstin
------------
+firstin
+-------
 
 Triggered when the item becomes the first visible item.
 
 ### Example
 
 ```javascript
-$('.jcarousel').on('itemfirstin.jcarousel', 'li', function(event, carousel) {
+$('.jcarousel').on('jcarousel:firstin', 'li', function(event, carousel) {
     // "this" refers to the item element
     // "carousel" is the jCarousel instance
 });
 ```
 
 
-itemfirstout
-------------
+firstout
+--------
 
 Triggered when the item is no longer the first visible item.
 
 ### Example
 
 ```javascript
-$('.jcarousel').on('itemfirstout.jcarousel', 'li', function(event, carousel) {
+$('.jcarousel').on('jcarousel:firstout', 'li', function(event, carousel) {
     // "this" refers to the item element
     // "carousel" is the jCarousel instance
 });
 ```
 
 
-itemlastin
-----------
+lastin
+------
 
 Triggered when the item becomes the last visible item.
 
 ### Example
 
 ```javascript
-$('.jcarousel').on('itemlastin.jcarousel', 'li', function(event, carousel) {
+$('.jcarousel').on('jcarousel:lastin', 'li', function(event, carousel) {
     // "this" refers to the item element
     // "carousel" is the jCarousel instance
 });
 ```
 
 
-itemlastout
------------
+lastout
+-------
 
 Triggered when the item is no longer the last visible item.
 
 ### Example
 
 ```javascript
-$('.jcarousel').on('itemlastout.jcarousel', 'li', function(event, carousel) {
+$('.jcarousel').on('jcarousel:lastout', 'li', function(event, carousel) {
     // "this" refers to the item element
     // "carousel" is the jCarousel instance
 });
 ```
 
 
-itemvisiblein
--------------
+visiblein
+---------
 
 Triggered when the item becomes a visible item.
 
 ### Example
 
 ```javascript
-$('.jcarousel').on('itemvisiblein.jcarousel', 'li', function(event, carousel) {
+$('.jcarousel').on('jcarousel:visiblein', 'li', function(event, carousel) {
     // "this" refers to the item element
     // "carousel" is the jCarousel instance
 });
 ```
 
-itemvisibleout
---------------
+visibleout
+----------
 
 Triggered when the item is no longer a visible item.
 
 ### Example
 
 ```javascript
-$('.jcarousel').on('itemvisibleout.jcarousel', 'li', function(event, carousel) {
+$('.jcarousel').on('jcarousel:visibleout', 'li', function(event, carousel) {
     // "this" refers to the item element
     // "carousel" is the jCarousel instance
 });
 ```
 
 
-itemfullyvisiblein
-------------------
+fullyvisiblein
+--------------
 
 Triggered when the item becomes a fully visible item.
 
 ### Example
 
 ```javascript
-$('.jcarousel').on('itemfullyvisiblein.jcarousel', 'li', function(event, carousel) {
+$('.jcarousel').on('jcarousel:fullyvisiblein', 'li', function(event, carousel) {
     // "this" refers to the item element
     // "carousel" is the jCarousel instance
 });
 ```
 
 
-itemfullyvisibleout
--------------------
+fullyvisibleout
+---------------
 
 Triggered when the item is no longer a fully visible item.
 
 ### Example
 
 ```javascript
-$('.jcarousel').on('itemfullyvisibleout.jcarousel', 'li', function(event, carousel) {
+$('.jcarousel').on('jcarousel:fullyvisibleout', 'li', function(event, carousel) {
     // "this" refers to the item element
     // "carousel" is the jCarousel instance
 });

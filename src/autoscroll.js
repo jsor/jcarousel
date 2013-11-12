@@ -19,14 +19,14 @@
             this.onDestroy = $.proxy(function() {
                 this._destroy();
                 this.carousel()
-                    .one('createend.jcarousel', $.proxy(this._create, this));
+                    .one('jcarousel:createend', $.proxy(this._create, this));
             }, this);
 
             this.onAnimateEnd = $.proxy(this.start, this);
         },
         _create: function() {
             this.carousel()
-                .one('destroy.jcarousel', this.onDestroy);
+                .one('jcarousel:destroy', this.onDestroy);
 
             if (this.options('autostart')) {
                 this.start();
@@ -35,13 +35,13 @@
         _destroy: function() {
             this.stop();
             this.carousel()
-                .off('destroy.jcarousel', this.onDestroy);
+                .off('jcarousel:destroy', this.onDestroy);
         },
         start: function() {
             this.stop();
 
             this.carousel()
-                .one('animateend.jcarousel', this.onAnimateEnd);
+                .one('jcarousel:animateend', this.onAnimateEnd);
 
             this._timer = setTimeout($.proxy(function() {
                 this.carousel().jcarousel('scroll', this.options('target'));
@@ -55,7 +55,7 @@
             }
 
             this.carousel()
-                .off('animateend.jcarousel', this.onAnimateEnd);
+                .off('jcarousel:animateend', this.onAnimateEnd);
 
             return this;
         }
