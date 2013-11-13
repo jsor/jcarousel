@@ -8,9 +8,10 @@ any HTML based content in a carousel-like fashion.
 Documentation
 -------------
 
-### Reference
+The documentation of the version 0.3.0 can be found
+[here](http://sorgalla.com/jcarousel/docs/).
 
-You can read the documentation of the version 0.3.0 [here](http://sorgalla.com/jcarousel/docs/):
+### Reference
 
   * [Installation](http://sorgalla.com/jcarousel/docs/reference/installation.html)
   * [Configuration](http://sorgalla.com/jcarousel/docs/reference/configuration.html)
@@ -21,7 +22,7 @@ You can read the documentation of the version 0.3.0 [here](http://sorgalla.com/j
 ### Plugins
 
 By default, the jCarousel core only contains the minimum functionality needed to
-built carousel widgets. Specialized features are provided through plugins.
+create carousel widgets. Specialized features are provided through plugins.
 
 jCarousel comes with the following plugins:
 
