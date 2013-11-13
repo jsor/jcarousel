@@ -85,8 +85,10 @@ These are the minimal required CSS settings for a horizontal carousel:
 This is the visible area of you carousel.
 Set a width here to define how much items are visible.
 The width can be either fixed in px or flexible in %.
+Position must be relative!
 */
 .jcarousel {
+    position: relative;
     overflow: hidden;
 }
 

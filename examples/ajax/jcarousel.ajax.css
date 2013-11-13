@@ -13,6 +13,7 @@
 /** Carousel **/
 
 .jcarousel {
+    position: relative;
     overflow: hidden;
     /*
     (4 * width: 150px) + (3 * margin-right: 1px) = 603px

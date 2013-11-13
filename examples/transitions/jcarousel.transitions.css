@@ -27,6 +27,7 @@
 /** Carousel **/
 
 .jcarousel {
+    position: relative;
     overflow: hidden;
     width: 600px;
     height: 400px;
