@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-rc.1 - 2013-11-12
+/*! jCarousel - v0.3.0-rc.1 - 2013-11-13
 * http://sorgalla.com/jcarousel
 * Copyright (c) 2013 Jan Sorgalla; Licensed MIT */
 (function($) {
@@ -245,6 +245,7 @@
         rtl:         false,
         circular:    false,
         underflow:   false,
+        relative:    false,
 
         _options: {
             list: function() {
@@ -322,6 +323,9 @@
 
             this.lt = this.vertical ? 'top' : 'left';
 
+            // Ensure before closest() call
+            this.relative = this.list().css('position') === 'relative';
+
             // Force list and items reload
             this._list  = null;
             this._items = null;
@@ -377,11 +381,11 @@
                 pos     = this.list().position()[this.lt],
                 closest = $(), // Ensure we're returning a jQuery instance
                 stop    = false,
-                lrb     = this.vertical ? 'bottom' : (this.rtl ? 'left' : 'right'),
+                lrb     = this.vertical ? 'bottom' : (this.rtl && !this.relative ? 'left' : 'right'),
                 width;
 
-            if (this.rtl && !this.vertical) {
-                pos = (pos + this.list().width() - this.clipping()) * -1;
+            if (this.rtl && this.relative && !this.vertical) {
+                pos += this.list().width() - this.clipping();
             }
 
             this.items().each(function() {
@@ -405,6 +409,7 @@
                     }
                 }
             });
+
 
             return closest;
         },
@@ -493,7 +498,9 @@
                             if (wrap === 'both' || wrap === 'last') {
                                 this._scroll(0, animate, callback);
                             } else {
-                                this._scroll(Math.min(this.index(this._target) + scroll, end), animate, callback);
+                                if ($.isFunction(callback)) {
+                                    callback.call(this, false);
+                                }
                             }
                         }
                     } else {
@@ -521,7 +528,7 @@
 
                                     if (!isVisible) {
                                         props = {};
-                                        props[this.lt] = this.dimension(curr) * (this.rtl ? -1 : 1);
+                                        props[this.lt] = this.dimension(curr);
                                         this.moveBy(props);
                                     }
 
@@ -564,19 +571,12 @@
                                     // Force items reload
                                     this._items = null;
 
-                                    var lt  = toFloat(this.list().position()[this.lt]),
-                                        dim = this.dimension(curr);
-
-                                    if (this.rtl && !this.vertical) {
-                                        lt += dim;
-                                    } else {
-                                        lt -= dim;
-                                    }
+                                    var dim = this.dimension(curr);
 
                                     props = {};
-                                    props[this.lt] = lt + 'px';
+                                    props[this.lt] = -dim;
+                                    this.moveBy(props);
 
-                                    this.move(props);
                                 }
 
                                 this._scroll(curr, animate, callback);
@@ -595,14 +595,24 @@
             return this;
         },
         moveBy: function(properties, opts) {
-            var position = this.list().position();
+            var position = this.list().position(),
+                multiplier = 1,
+                correction = 0;
+
+            if (this.rtl && !this.vertical) {
+                multiplier = -1;
+
+                if (this.relative) {
+                    correction = this.list().width() - this.clipping();
+                }
+            }
 
             if (properties.left) {
-                properties.left = position.left + toFloat(properties.left) + 'px';
+                properties.left = (position.left + correction + toFloat(properties.left) * multiplier) + 'px';
             }
 
             if (properties.top) {
-                properties.top = position.top + toFloat(properties.top) + 'px';
+                properties.top = (position.top + correction + toFloat(properties.top) * multiplier) + 'px';
             }
 
             return this.move(properties, opts);
@@ -725,7 +735,11 @@
 
             var pos = this.list().position()[this.lt];
 
-            if (this.rtl) {
+            if (this.rtl && this.relative && !this.vertical) {
+                pos += this.list().width() - this.clipping();
+            }
+
+            if (this.rtl && !this.vertical) {
                 pos += this.tail;
             } else {
                 pos -= this.tail;
@@ -839,7 +853,7 @@
 
                         if (!isVisible) {
                             var props = {};
-                            props[this.lt] = this.dimension(curr) * (this.rtl ? -1 : 1);
+                            props[this.lt] = this.dimension(curr);
                             this.moveBy(props);
                         }
 
@@ -923,7 +937,12 @@
                 centerOffset = center ? (this.clipping() / 2) - (this.dimension(first) / 2) : 0;
 
             if (this.rtl && !this.vertical) {
-                pos -= this.clipping() - this.dimension(first);
+                if (this.relative) {
+                    pos -= this.list().width() - this.dimension(first);
+                } else {
+                    pos -= this.clipping() - this.dimension(first);
+                }
+
                 pos += centerOffset;
             } else {
                 pos -= centerOffset;
@@ -932,7 +951,7 @@
             if (!center &&
                 (this.index(item) > this.index(first) || this.inTail) &&
                 this.tail) {
-                pos = this.rtl ? pos - this.tail : pos + this.tail;
+                pos = this.rtl && !this.vertical ? pos - this.tail : pos + this.tail;
                 this.inTail = true;
             } else {
                 this.inTail = false;
