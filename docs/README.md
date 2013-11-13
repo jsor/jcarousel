@@ -23,4 +23,5 @@ Plugins
 Cookbook
 --------
 
+* [How to create a responsive carousel](cookbook/responsive-carousel.md)
 * [How to define a custom start position](cookbook/custom-start-position.md)
