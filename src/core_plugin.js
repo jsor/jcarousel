@@ -483,7 +483,7 @@
             this._prepare(item);
 
             var pos     = this._position(item),
-                currPos = toFloat(this.list().position()[this.lt]);
+                currPos = this.list().position()[this.lt];
 
             if (pos === currPos) {
                 if ($.isFunction(callback)) {

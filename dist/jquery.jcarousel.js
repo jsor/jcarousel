@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-rc.1 - 2013-11-13
+/*! jCarousel - v0.3.0-rc.1 - 2013-11-18
 * http://sorgalla.com/jcarousel
 * Copyright (c) 2013 Jan Sorgalla; Licensed MIT */
 (function($) {
@@ -707,7 +707,7 @@
             this._prepare(item);
 
             var pos     = this._position(item),
-                currPos = toFloat(this.list().position()[this.lt]);
+                currPos = this.list().position()[this.lt];
 
             if (pos === currPos) {
                 if ($.isFunction(callback)) {
