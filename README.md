@@ -5,6 +5,9 @@ jCarousel is a jQuery plugin for controlling a list of items in horizontal or
 vertical order. It provides a full-featured and flexible toolset for navigating
 any HTML based content in a carousel-like fashion.
 
+**Note**: Version 0.3.x and 0.2.x are **not** compatible. Old versions can be
+downloaded from the [release page](https://github.com/jsor/jcarousel/releases).
+
 Documentation
 -------------
 
