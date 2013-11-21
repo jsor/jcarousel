@@ -597,7 +597,8 @@
                 },
                 curr,
                 isVisible,
-                margin;
+                margin,
+                dim;
 
             if (center) {
                 wh /= 2;
@@ -637,7 +638,13 @@
                         this._items = null;
                     }
 
-                    wh += this.dimension(curr);
+                    dim = this.dimension(curr);
+
+                    if (dim === 0) {
+                        break;
+                    }
+
+                    wh += dim;
 
                     update.last    = curr;
                     update.visible = update.visible.add(curr);
@@ -669,7 +676,13 @@
                         break;
                     }
 
-                    wh += this.dimension(curr);
+                    dim = this.dimension(curr);
+
+                    if (dim === 0) {
+                        break;
+                    }
+
+                    wh += dim;
 
                     update.first   = curr;
                     update.visible = update.visible.add(curr);
