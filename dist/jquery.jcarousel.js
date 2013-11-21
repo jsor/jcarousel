@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0-rc.1 - 2013-11-18
+/*! jCarousel - v0.3.0-rc.1 - 2013-11-21
 * http://sorgalla.com/jcarousel
 * Copyright (c) 2013 Jan Sorgalla; Licensed MIT */
 (function($) {
@@ -821,7 +821,8 @@
                 },
                 curr,
                 isVisible,
-                margin;
+                margin,
+                dim;
 
             if (center) {
                 wh /= 2;
@@ -861,7 +862,13 @@
                         this._items = null;
                     }
 
-                    wh += this.dimension(curr);
+                    dim = this.dimension(curr);
+
+                    if (dim === 0) {
+                        break;
+                    }
+
+                    wh += dim;
 
                     update.last    = curr;
                     update.visible = update.visible.add(curr);
@@ -893,7 +900,13 @@
                         break;
                     }
 
-                    wh += this.dimension(curr);
+                    dim = this.dimension(curr);
+
+                    if (dim === 0) {
+                        break;
+                    }
+
+                    wh += dim;
 
                     update.first   = curr;
                     update.visible = update.visible.add(curr);
