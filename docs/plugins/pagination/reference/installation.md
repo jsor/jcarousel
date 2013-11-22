@@ -1,7 +1,8 @@
 Installation
 ============
 
-The plugin provides a pagination widget for carousels.
+HTML markup
+-----------
 
 A simple basic HTML markup structure would be:
 
@@ -27,21 +28,25 @@ A simple basic HTML markup structure would be:
 Setup
 -----
 
-To setup the plugin, add the following code to your HTML document:
+To setup the pagination, call the `jcarouselPagination()` plugin method on the
+pagination element after you have initialized the carousel:
 
-```html
-<script type="text/javascript">
+```javascript
 $(function() {
     $('.jcarousel').jcarousel({
         // Core configuration goes here
     });
 
     $('.jcarousel-pagination').jcarouselPagination({
-        // Configuration options
+        item: function(page) {
+            return '<a href="#' + page + '">' + page + '</a>';
+        }
     });
 });
-</script>
 ```
+
+See [Configuration](configuration.md) for more information about the
+configuration options.
 
 As you can see, you setup the pagination independently from the carousel and the
 plugin tries to autodetect the carousel.
@@ -52,8 +57,7 @@ wrapper element.
 If that fails or isn't possible, you can pass the related carousel instance as
 an option:
 
-```html
-<script type="text/javascript">
+```javascript
 var carousel = $('.jcarousel').jcarousel({
     // Core configuration goes here
 });
@@ -61,5 +65,4 @@ var carousel = $('.jcarousel').jcarousel({
 $('.jcarousel-pagination').jcarouselPagination({
     carousel: carousel
 });
-</script>
 ```
