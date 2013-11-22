@@ -1,8 +1,6 @@
 Installation
 ============
 
-The plugin provides autoscrolling support for carousels.
-
 To setup autoscrolling, just call `jcarouselAutoscroll()` on the carousel root
 element:
 
@@ -12,7 +10,12 @@ $('.jcarousel')
         // Core configuration goes here
     })
     .jcarouselAutoscroll({
-        // Plugin configuration goes here
+        interval: 3000,
+        target: '+=1',
+        autostart: true
     });
 });
 ```
+
+See [Configuration](configuration.md) for more information about the
+configuration options.
