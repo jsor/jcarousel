@@ -11,8 +11,7 @@ downloaded from the [release page](https://github.com/jsor/jcarousel/releases).
 Documentation
 -------------
 
-The documentation of the version 0.3.0 can be found
-[here](http://sorgalla.com/jcarousel/docs/).
+The documentation can be found [here](http://sorgalla.com/jcarousel/docs/).
 
 ### Reference
 

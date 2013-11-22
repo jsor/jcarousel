@@ -1,6 +1,11 @@
 jCarousel Changelog
 ===================
 
+Version 0.3.0 - 2013-11-22
+--------------------------
+
+  * Stable release of the completely rewritten plugin.
+
 Version 0.3.0-rc.1 - 2013-11-12
 --------------------------
 
