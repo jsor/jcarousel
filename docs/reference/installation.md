@@ -59,10 +59,11 @@ The only requirement is, that it consists of a root element, list element
 and item elements.
 
 
-Initialize jCarousel
---------------------
+Setup
+-----
 
-Call the `.jcarousel()` plugin method on the root element:
+To setup the carousel, call the `.jcarousel()` plugin method on the root
+element:
 
 ```javascript
 $(function() {
