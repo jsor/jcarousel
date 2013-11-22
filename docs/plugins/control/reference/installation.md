@@ -58,8 +58,7 @@ wrapper element.
 If that fails or isn't possible, you can pass the related carousel instance as
 an option:
 
-```html
-<script type="text/javascript">
+```javascript
 var carousel = $('.jcarousel').jcarousel({
     // Core configuration goes here
 });
@@ -68,5 +67,4 @@ $('.jcarousel-prev').jcarouselControl({
     target: '-=1',
     carousel: carousel
 });
-</script>
 ```
