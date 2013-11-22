@@ -1,8 +1,8 @@
 Installation
 ============
 
-A control is basically a HTML element (`<a>`, `<button>` etc.) which scrolls
-the carousel when clicking on it.
+HTML markup
+-----------
 
 A simple basic HTML markup structure would be:
 
@@ -27,10 +27,10 @@ A simple basic HTML markup structure would be:
 Setup
 -----
 
-To setup the plugin, add the following code to your HTML document:
+To setup the controls, call the `jcarouselControl()` plugin method on the
+control elements after you have initialized the carousel:
 
-```html
-<script type="text/javascript">
+```javascript
 $(function() {
     $('.jcarousel').jcarousel({
         // Core configuration goes here
@@ -44,8 +44,10 @@ $(function() {
         target: '+=1'
     });
 });
-</script>
 ```
+
+See [Configuration](configuration.md) for more information about the
+configuration options.
 
 As you can see, you setup the controls independently from the carousel and the
 plugin tries to autodetect the carousel.
