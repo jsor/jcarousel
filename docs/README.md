@@ -7,9 +7,9 @@ Reference
 ---------
 
 * [Installation](reference/installation.md)
+* [Usage](reference/usage.md)
 * [Configuration](reference/configuration.md)
 * [API](reference/api.md)
-* [Usage](reference/usage.md)
 * [Events](reference/events.md)
 
 Plugins
