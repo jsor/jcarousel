@@ -212,7 +212,7 @@
             var wrap = this.options('wrap'),
                 end = this.items().length - 1;
 
-            return end >= 0 &&
+            return end >= 0 && !this.underflow &&
                 ((wrap && wrap !== 'first') ||
                     (this.index(this._last) < end) ||
                     (this.tail && !this.inTail)) ? true : false;
@@ -224,7 +224,7 @@
 
             var wrap = this.options('wrap');
 
-            return this.items().length > 0 &&
+            return this.items().length > 0 && !this.underflow &&
                 ((wrap && wrap !== 'last') ||
                     (this.index(this._first) > 0) ||
                     (this.tail && this.inTail)) ? true : false;
