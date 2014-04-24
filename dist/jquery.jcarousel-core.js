@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.0 - 2014-01-09
+/*! jCarousel - v0.3.1 - 2014-04-24
 * http://sorgalla.com/jcarousel
 * Copyright (c) 2014 Jan Sorgalla; Licensed MIT */
 (function($) {
@@ -6,7 +6,7 @@
 
     var jCarousel = $.jCarousel = {};
 
-    jCarousel.version = '0.3.0';
+    jCarousel.version = '0.3.1';
 
     var rRelativeTarget = /^([+\-]=)?(.+)$/;
 
