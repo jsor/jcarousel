@@ -4,7 +4,8 @@ jCarousel Changelog
 Version 0.3.1 - 2014-xx-xx
 --------------------------
 
-  * ...
+  * Fixed wrong page calculation on reload for pagination plugin (#660)
+  * Added new method `reloadCarouselItems` to pagination plugin
 
 Version 0.3.0 - 2013-11-22
 --------------------------
