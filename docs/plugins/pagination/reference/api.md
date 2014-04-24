@@ -59,7 +59,7 @@ resetCarouselItems
 ### Description
 
 ```javascript
-destroy()
+resetCarouselItems()
 ```
 
 Resets the carousel items. Call this method after you have added/removed items
