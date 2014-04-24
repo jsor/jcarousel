@@ -6,7 +6,7 @@ instance:
 
 * [reload](#reload)
 * [destroy](#destroy)
-* [resetCarouselItems](#resetCarouselItems)
+* [resetCarouselItems](#resetcarouselitems)
 
 
 reload
