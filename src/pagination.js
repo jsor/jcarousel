@@ -46,7 +46,7 @@
                 .off('jcarousel:reloadend', this.onReload)
                 .off('jcarousel:scrollend', this.onScroll);
 
-            this.resetCarouselItems();
+            this._carouselItems = null;
         },
         _reload: function() {
             var perPage = this.options('perPage');
