@@ -1,11 +1,13 @@
 jCarousel Changelog
 ===================
 
-Version 0.3.1 - 2014-xx-xx
+Version 0.3.1 - 2014-04-26
 --------------------------
 
+  * Fixed hasNext/hasPrev in underflow mode
   * Fixed wrong page calculation on reload for pagination plugin (#660)
   * Added new method `reloadCarouselItems` to pagination plugin
+  * Added component.json
 
 Version 0.3.0 - 2013-11-22
 --------------------------
