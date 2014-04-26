@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.1 - 2014-04-24
+/*! jCarousel - v0.3.1 - 2014-04-26
 * http://sorgalla.com/jcarousel
 * Copyright (c) 2014 Jan Sorgalla; Licensed MIT */
 (function($) {
@@ -42,7 +42,7 @@
                 .off('jcarousel:reloadend', this.onReload)
                 .off('jcarousel:scrollend', this.onScroll);
 
-            this.resetCarouselItems();
+            this._carouselItems = null;
         },
         _reload: function() {
             var perPage = this.options('perPage');
