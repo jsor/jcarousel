@@ -42,6 +42,8 @@ The [`jquery.jcarousel.js`](dist/jquery.jcarousel.js?raw=1) and
 [`jquery.jcarousel.min.js`](dist/jquery.jcarousel.min.js?raw=1) files contain
 the core and all plugins concenated together.
 
+All files are also available from [CDNJS](http://cdnjs.com/libraries/jcarousel).
+
 Examples
 --------
 
