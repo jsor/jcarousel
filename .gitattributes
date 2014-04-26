@@ -1,4 +1,4 @@
-/dist/* -diff
+/dist/jcarousel.* -diff
 
 /docs export-ignore
 /libs/qunit export-ignore
