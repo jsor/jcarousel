@@ -9,6 +9,7 @@ including examples from the GitHub repository.
 * [Separate Downloads](#separate-downlods)
 * [Source Code](#source-code)
 
+All files are also available from [CDNJS](http://cdnjs.com/libraries/jcarousel).
 
 Full Download
 -------------
