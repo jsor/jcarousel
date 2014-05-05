@@ -412,7 +412,11 @@
                 css = {};
 
             if (transitions) {
-                var backup = list.css(['transitionDuration', 'transitionTimingFunction', 'transitionProperty']),
+                var backup = {
+                        transitionDuration: list.css('transitionDuration'),
+                        transitionTimingFunction: list.css('transitionTimingFunction'),
+                        transitionProperty: list.css('transitionProperty')
+                    },
                     oldComplete = complete;
 
                 complete = function() {
