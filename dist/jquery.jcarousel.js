@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.1 - 2014-04-26
+/*! jCarousel - v0.3.1 - 2014-05-05
 * http://sorgalla.com/jcarousel
 * Copyright (c) 2014 Jan Sorgalla; Licensed MIT */
 (function($) {
@@ -636,7 +636,11 @@
                 css = {};
 
             if (transitions) {
-                var backup = list.css(['transitionDuration', 'transitionTimingFunction', 'transitionProperty']),
+                var backup = {
+                        transitionDuration: list.css('transitionDuration'),
+                        transitionTimingFunction: list.css('transitionTimingFunction'),
+                        transitionProperty: list.css('transitionProperty')
+                    },
                     oldComplete = complete;
 
                 complete = function() {
