@@ -41,11 +41,11 @@
         // Protected, don't access directly
         _list:         null,
         _items:        null,
-        _target:       null,
-        _first:        null,
-        _last:         null,
-        _visible:      null,
-        _fullyvisible: null,
+        _target:       $(),
+        _first:        $(),
+        _last:         $(),
+        _visible:      $(),
+        _fullyvisible: $(),
         _init: function() {
             var self = this;
 
@@ -106,7 +106,7 @@
             this._list  = null;
             this._items = null;
 
-            var item = this._target && this.index(this._target) >= 0 ?
+            var item = this.index(this._target) >= 0 ?
                            this._target :
                            this.closest();
 
@@ -755,11 +755,11 @@
         _update: function(update) {
             var self = this,
                 current = {
-                    target:       this._target || $(),
-                    first:        this._first || $(),
-                    last:         this._last || $(),
-                    visible:      this._visible || $(),
-                    fullyvisible: this._fullyvisible || $()
+                    target:       this._target,
+                    first:        this._first,
+                    last:         this._last,
+                    visible:      this._visible,
+                    fullyvisible: this._fullyvisible
                 },
                 back = this.index(update.first || current.first) < this.index(current.first),
                 key,
