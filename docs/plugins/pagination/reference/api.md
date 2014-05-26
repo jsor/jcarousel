@@ -6,7 +6,7 @@ instance:
 
 * [reload](#reload)
 * [destroy](#destroy)
-* [resetCarouselItems](#resetcarouselitems)
+* [reloadCarouselItems](#reloadcarouselitems)
 
 
 reload
@@ -53,20 +53,20 @@ to its initial state.
 $('.jcarousel-pagination').jcarouselPagination('destroy');
 ```
 
-resetCarouselItems
-------------------
+reloadCarouselItems
+-------------------
 
 ### Description
 
 ```javascript
-resetCarouselItems()
+reloadCarouselItems()
 ```
 
-Resets the carousel items. Call this method after you have added/removed items
+Reloads the carousel items. Call this method after you have added/removed items
 from the carousel.
 
 ### Example
 
 ```javascript
-$('.jcarousel-pagination').jcarouselPagination('resetCarouselItems');
+$('.jcarousel-pagination').jcarouselPagination('reloadCarouselItems');
 ```
