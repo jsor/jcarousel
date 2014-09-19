@@ -1,4 +1,4 @@
-/* Modernizr 2.6.3 (Custom Build) | MIT & BSD
+/* Modernizr 2.8.3 (Custom Build) | MIT & BSD
  * Build: http://modernizr.com/download/#-csstransforms-csstransforms3d-csstransitions-teststyles-testprop-testallprops-prefixes-domprefixes
  */
 ;
@@ -7,7 +7,7 @@
 
 window.Modernizr = (function( window, document, undefined ) {
 
-    var version = '2.6.3',
+    var version = '2.8.3',
 
         Modernizr = {},
 
