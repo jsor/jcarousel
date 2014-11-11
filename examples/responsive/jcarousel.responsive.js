@@ -4,7 +4,8 @@
 
         jcarousel
             .on('jcarousel:reload jcarousel:create', function () {
-                var width = jcarousel.innerWidth();
+                var carousel = $(this),
+                    width = carousel.innerWidth();
 
                 if (width >= 600) {
                     width = width / 3;
@@ -12,7 +13,7 @@
                     width = width / 2;
                 }
 
-                jcarousel.jcarousel('items').css('width', width + 'px');
+                carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
             })
             .jcarousel({
                 wrap: 'circular'
