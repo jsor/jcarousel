@@ -1,6 +1,6 @@
-/*! jCarousel - v0.3.1 - 2014-05-26
+/*! jCarousel - v0.3.1 - 2015-01-14
 * http://sorgalla.com/jcarousel
-* Copyright (c) 2014 Jan Sorgalla; Licensed MIT */
+* Copyright (c) 2015 Jan Sorgalla; Licensed MIT */
 (function($) {
     'use strict';
 
@@ -164,7 +164,8 @@
                 idx      = 0,
                 page     = 1,
                 pages    = {},
-                curr;
+                curr,
+                dim;
 
             while (true) {
                 curr = items.eq(idx++);
@@ -173,17 +174,19 @@
                     break;
                 }
 
+                dim = carousel.dimension(curr);
+
+                if ((wh + dim) > clip) {
+                    page++;
+                    wh = 0;
+                }
+
+                wh += dim;
+
                 if (!pages[page]) {
                     pages[page] = curr;
                 } else {
                     pages[page] = pages[page].add(curr);
-                }
-
-                wh += carousel.dimension(curr);
-
-                if (wh >= clip) {
-                    page++;
-                    wh = 0;
                 }
             }
 
