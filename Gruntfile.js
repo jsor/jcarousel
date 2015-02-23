@@ -3,8 +3,8 @@
 module.exports = function(grunt) {
 
     grunt.initConfig({
-        pkg: grunt.file.readJSON('jcarousel.jquery.json'),
-        banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
+        pkg: grunt.file.readJSON('package.json'),
+        banner: '/*! <%= pkg.title || pkg.description %> - v<%= pkg.version %> - ' +
             '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
             '* Copyright (c) 2006-<%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +

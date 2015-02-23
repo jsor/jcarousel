@@ -8,6 +8,7 @@
     "name": "Jan Sorgalla",
     "url": "http://sorgalla.com"
   },
+  "main": "dist/jquery.jcarousel.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/jsor/jcarousel.git"
@@ -37,6 +38,8 @@
   "keywords": [
     "carousel",
     "slideshow",
-    "animation"
+    "animation",
+    "jquery-plugin",
+    "ecosystem:jquery"
   ]
 }
