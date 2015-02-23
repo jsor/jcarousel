@@ -1,6 +1,12 @@
 jCarousel Changelog
 ===================
 
+Version 0.3.2 - 2015-02-23
+--------------------------
+
+  * Fixed page calculation in pagination plugin (#617)
+  * Fixed incompatibility with jQuery < 1.9 (#676)
+
 Version 0.3.1 - 2014-04-26
 --------------------------
 
