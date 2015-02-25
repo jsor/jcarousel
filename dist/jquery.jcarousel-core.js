@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.2 - 2015-02-23
+/*! jCarousel - v0.3.2 - 2015-02-25
 * http://sorgalla.com/jcarousel/
 * Copyright (c) 2006-2015 Jan Sorgalla; Licensed MIT */
 (function($) {
@@ -434,11 +434,12 @@
             }
 
             var wrap = this.options('wrap'),
-                end = this.items().length - 1;
+                end = this.items().length - 1,
+                check = this.options('center') ? this._target : this._last;
 
             return end >= 0 && !this.underflow &&
                 ((wrap && wrap !== 'first') ||
-                    (this.index(this._last) < end) ||
+                    (this.index(check) < end) ||
                     (this.tail && !this.inTail)) ? true : false;
         },
         hasPrev: function() {
