@@ -1,6 +1,12 @@
 jCarousel Changelog
 ===================
 
+Version 0.3.3 - 2015-02-28
+--------------------------
+
+  * Fixed hasNext() for centered carousels (#746)
+  * Cleaned up .gitattributes to include package manager files
+
 Version 0.3.2 - 2015-02-23
 --------------------------
 
