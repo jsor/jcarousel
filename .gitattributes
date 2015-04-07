@@ -1,6 +1,6 @@
 /dist/jcarousel.* -diff
 
-/libs/qunit export-ignore
+/vendor/qunit export-ignore
 /test/unit export-ignore
 .gitattributes export-ignore
 .gitignore export-ignore

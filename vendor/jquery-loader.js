@@ -1,6 +1,6 @@
 (function() {
     // Default path.
-    var path = '../../libs/jquery/jquery.js';
+    var path = '../../vendor/jquery/jquery.js';
 
     // From: https://github.com/ckeditor/ckeditor-dev/blob/master/core/ckeditor_base.js#L115 
     var scripts = document.getElementsByTagName('script');
