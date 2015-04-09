@@ -49,7 +49,7 @@ Examples
 
 You can find some example implementations in the [`examples/`](examples/)
 directory. You can also browse the [functional tests](test/functional/) to get
-an impression how to setup jCarousel.
+an impression of how to setup jCarousel.
 
 Credits
 -------
