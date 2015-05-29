@@ -16,12 +16,7 @@
   "bugs": {
     "url": "https://github.com/jsor/jcarousel/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://raw.github.com/jsor/jcarousel/master/LICENSE"
-    }
-  ],
+  "license": "MIT",
   "dependencies": {
       "jquery": ">=1.7"
   },
