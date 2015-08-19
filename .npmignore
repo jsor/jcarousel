@@ -1,0 +1,10 @@
+docs/
+examples/
+src/
+test/
+vendor/
+.*
+bower.json
+component.json
+CONTRIBUTING.md
+Gruntfile.js
