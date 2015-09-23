@@ -1,6 +1,11 @@
 jCarousel Changelog
 ===================
 
+Version 0.3.4 - 2015-09-23
+--------------------------
+
+  * Autoscroll plugin now pauses scrolling when the window or tab becomes hidden
+
 Version 0.3.3 - 2015-02-28
 --------------------------
 
