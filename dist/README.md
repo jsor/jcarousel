@@ -5,12 +5,12 @@ jCarousel and its plugins can be downloaded as a full ready-to-go file or as
 separate files. Additionally, you can download the complete source code
 including examples from the GitHub repository.
 
+> __Note__: Please do __NOT__ link to these files directly! Download the files
+> and link to them from your own webserver!
+
 * [Full Download](#full-download)
 * [Separate Downloads](#separate-downlods)
 * [Source Code](#source-code)
-
-__Note__: Please do __NOT__ link to these files directly! Download the files and
-link to them from your own webserver!
 
 All files are also available from [CDNJS](http://cdnjs.com/libraries/jcarousel).
 
