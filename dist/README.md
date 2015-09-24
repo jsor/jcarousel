@@ -14,7 +14,7 @@ including examples from the GitHub repository.
 
 All files are also available from 
 [jsDelivr](https://www.jsdelivr.com/projects/jcarousel) and 
-[CDNJS](http://cdnjs.com/libraries/jcarousel).
+[CDNJS](https://cdnjs.com/libraries/jcarousel).
 
 Full Download
 -------------
