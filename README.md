@@ -33,6 +33,12 @@ jCarousel comes with the following plugins:
   * [Autoscroll Plugin](http://sorgalla.com/jcarousel/docs/plugins/autoscroll/)
   * [ScrollIntoView Plugin](http://sorgalla.com/jcarousel/docs/plugins/scrollintoview/)
 
+#### Third-Party Plugins
+
+* [jcarouselSwipe](https://github.com/snake-345/jcarouselSwipe) - Adds support for user-friendly swipe gestures.
+* [jcarousel-status](https://github.com/fzoccara/jcarousel-status) - Display the status of your carousel.
+* [jcarousel-smoothscroll](https://github.com/aduth/jcarousel-smoothscroll) - Animates a jCarousel at a constant pace, regardless of varying item widths.
+
 Download
 --------
 
