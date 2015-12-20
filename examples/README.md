@@ -10,4 +10,5 @@ The source code including examples can be downloaded from the
 * [Responsive Carousel](responsive/)
 * [Carousel using data-* attributes for initialization and configuration](data-attributes/)
 * [Ajax Carousel](ajax/)
+* [Vertical Carousel](vertical/)
 * [Carousel Skeleton](skeleton/)
