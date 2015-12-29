@@ -36,6 +36,7 @@ jCarousel comes with the following plugins:
 #### Third-Party Plugins
 
 * [jcarouselSwipe](https://github.com/snake-345/jcarouselSwipe) - Adds support for user-friendly swipe gestures.
+* [jcarouselLazyLoading](https://github.com/snake-345/jcarouselLazyLoading) - Adds lazy loading to jcarousel.
 * [jcarousel-status](https://github.com/fzoccara/jcarousel-status) - Display the status of your carousel.
 * [jcarousel-smoothscroll](https://github.com/aduth/jcarousel-smoothscroll) - Animates a jCarousel at a constant pace, regardless of varying item widths.
 
