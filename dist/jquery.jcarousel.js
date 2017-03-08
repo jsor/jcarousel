@@ -1,6 +1,6 @@
-/*! jCarousel - v0.3.4 - 2015-09-23
+/*! jCarousel - v0.3.4 - 2017-03-08
 * http://sorgalla.com/jcarousel/
-* Copyright (c) 2006-2015 Jan Sorgalla; Licensed MIT */
+* Copyright (c) 2006-2017 Jan Sorgalla; Licensed MIT */
 (function($) {
     'use strict';
 
@@ -231,6 +231,8 @@
 (function($, window) {
     'use strict';
 
+    var $window = $(window);
+
     var toFloat = function(val) {
         return parseFloat(val) || 0;
     };
@@ -239,6 +241,7 @@
         animating:   false,
         tail:        0,
         inTail:      false,
+        resizeState: null,
         resizeTimer: null,
         lt:          null,
         vertical:    false,
@@ -273,12 +276,23 @@
         _init: function() {
             var self = this;
 
+            self.resizeState = $window.width() + 'x' + $window.height();
+
             this.onWindowResize = function() {
                 if (self.resizeTimer) {
                     clearTimeout(self.resizeTimer);
                 }
 
                 self.resizeTimer = setTimeout(function() {
+                    var currentResizeState = $window.width() + 'x' + $window.height();
+
+                    // Check if the window size actually changed.
+                    // iOS might trigger resize events on page scroll.
+                    if (currentResizeState === self.resizeState) {
+                        return;
+                    }
+
+                    self.resizeState = currentResizeState;
                     self.reload();
                 }, 100);
             };
@@ -288,10 +302,10 @@
         _create: function() {
             this._reload();
 
-            $(window).on('resize.jcarousel', this.onWindowResize);
+            $window.on('resize.jcarousel', this.onWindowResize);
         },
         _destroy: function() {
-            $(window).off('resize.jcarousel', this.onWindowResize);
+            $window.off('resize.jcarousel', this.onWindowResize);
         },
         _reload: function() {
             this.vertical = this.options('vertical');
