@@ -1,6 +1,11 @@
 jCarousel Changelog
 ===================
 
+Version 0.3.5 - 2017-03-15
+--------------------------
+
+  * Fixed `reload` called on page scroll on iOS (#818)
+
 Version 0.3.4 - 2015-09-23
 --------------------------
 
