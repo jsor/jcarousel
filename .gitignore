@@ -1,3 +1,4 @@
 .DS_Store
+.idea
 /docs/_build
 /node_modules
