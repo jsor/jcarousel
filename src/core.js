@@ -154,7 +154,7 @@
                 (element || this._element).each(function() {
                     event = $.Event((pluginName + ':' + type).toLowerCase());
 
-                    $(this).trigger(event, data);
+                    $(this).triggerHandler(event, data);
 
                     if (event.isDefaultPrevented()) {
                         defaultPrevented = true;
