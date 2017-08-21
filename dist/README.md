@@ -9,7 +9,7 @@ including examples from the GitHub repository.
 > and link to them from your own webserver!
 
 * [Full Download](#full-download)
-* [Separate Downloads](#separate-downlods)
+* [Separate Downloads](#separate-downloads)
 * [Source Code](#source-code)
 
 All files are also available from 
