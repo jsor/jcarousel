@@ -109,38 +109,14 @@ module.exports = function(grunt) {
         qunit: {
             files: ['test/unit/**/*.html']
         },
-        jshint: {
-            gruntfile: {
-                options: {
-                    jshintrc: '.jshintrc'
-                },
-                src: 'Gruntfile.js'
-            },
-            src: {
-                options: {
-                    jshintrc: 'src/.jshintrc'
-                },
-                src: ['src/**/*.js']
-            },
-            test: {
-                options: {
-                    jshintrc: 'test/unit/.jshintrc'
-                },
-                src: ['test/unit/**/*.js']
-            }
-        },
         watch: {
-            gruntfile: {
-                files: '<%= jshint.gruntfile.src %>',
-                tasks: ['jshint:gruntfile']
-            },
             src: {
-                files: '<%= jshint.src.src %>',
-                tasks: ['jshint:src', 'qunit']
+                src: ['src/**/*.js'],
+                tasks: ['qunit']
             },
             test: {
-                files: '<%= jshint.test.src %>',
-                tasks: ['jshint:test', 'qunit']
+                src: ['test/unit/**/*.js'],
+                tasks: ['qunit']
             }
         }
     });
@@ -150,10 +126,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-qunit');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
-    grunt.registerTask('default', ['jshint', 'qunit']);
+    grunt.registerTask('default', ['qunit']);
     grunt.registerTask('dist', ['clean', 'concat', 'replace', 'uglify']);
 
 };
