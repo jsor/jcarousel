@@ -176,7 +176,7 @@ Specifies whether the carousel appears in vertical orientation. Changes the
 carousel from a left/right style to a up/down style carousel.
 
 If set to `null`, jCarousel tries to auto-detect the orientation by simply
-checking if the list's height is greater than the list's width.
+checking if the root element's height is greater its width.
 
 ### Example
 

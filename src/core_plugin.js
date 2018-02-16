@@ -87,7 +87,7 @@
             this.vertical = this.options('vertical');
 
             if (this.vertical == null) {
-                this.vertical = this.list().height() > this.list().width();
+                this.vertical = this.element().height() > this.element().width();
             }
 
             this.rtl = this.options('rtl');
