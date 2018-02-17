@@ -15,7 +15,7 @@ You must ensure that the position is relative or absolute and
 that the width is big enough to contain all items.
 */
 .jcarousel ul {
-    width: 20000em;
+    width: 10000em;
     position: relative;
 
     /* Optional, required in this case since it's a <ul> element */
