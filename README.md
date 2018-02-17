@@ -70,4 +70,4 @@ License
 -------
 
 Copyright (c) 2006-2018 Jan Sorgalla.
-Released under the [MIT](LICENSE?raw=1) license.
+Released under the [MIT](LICENSE) license.
