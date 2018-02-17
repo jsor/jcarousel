@@ -69,5 +69,5 @@ inspired by the [Carousel Component](http://billwscott.com/carousel/) by
 License
 -------
 
-Copyright (c) 2006-2017 Jan Sorgalla.
+Copyright (c) 2006-2018 Jan Sorgalla.
 Released under the [MIT](LICENSE?raw=1) license.
