@@ -1,6 +1,11 @@
 jCarousel Changelog
 ===================
 
+Version 0.3.6 - 2018-02-17
+--------------------------
+
+  * Changed default list width from 20000em to 10000em to fix issues with IE (#832)
+
 Version 0.3.5 - 2017-03-15
 --------------------------
 
