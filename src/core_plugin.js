@@ -87,7 +87,7 @@
             this.vertical = this.options('vertical');
 
             if (this.vertical == null) {
-                this.vertical = this.list().height() > this.list().width();
+                this.vertical = toFloat(this.list().height()) > toFloat(this.list().width());
             }
 
             this.rtl = this.options('rtl');
@@ -175,7 +175,7 @@
                 width;
 
             if (this.rtl && this.relative && !this.vertical) {
-                pos += this.list().width() - this.clipping();
+                pos += toFloat(this.list().width()) - this.clipping();
             }
 
             this.items().each(function() {
@@ -245,10 +245,10 @@
                     (this.tail && this.inTail)) ? true : false;
         },
         clipping: function() {
-            return this._element['inner' + (this.vertical ? 'Height' : 'Width')]();
+            return toFloat(this._element['inner' + (this.vertical ? 'Height' : 'Width')]());
         },
         dimension: function(element) {
-            return element['outer' + (this.vertical ? 'Height' : 'Width')](true);
+            return toFloat(element['outer' + (this.vertical ? 'Height' : 'Width')](true));
         },
         scroll: function(target, animate, callback) {
             if (this.animating) {
@@ -394,16 +394,16 @@
                 multiplier = -1;
 
                 if (this.relative) {
-                    correction = this.list().width() - this.clipping();
+                    correction = toFloat(this.list().width()) - this.clipping();
                 }
             }
 
             if (properties.left) {
-                properties.left = (position.left + correction + toFloat(properties.left) * multiplier) + 'px';
+                properties.left = (toFloat(position.left) + correction + toFloat(properties.left) * multiplier) + 'px';
             }
 
             if (properties.top) {
-                properties.top = (position.top + correction + toFloat(properties.top) * multiplier) + 'px';
+                properties.top = (toFloat(position.top) + correction + toFloat(properties.top) * multiplier) + 'px';
             }
 
             return this.move(properties, opts);
@@ -455,9 +455,9 @@
             }
 
             if (transforms3d) {
-                css.transform = 'translate3d(' + (properties.left || 0) + ',' + (properties.top || 0) + ',0)';
+                css.transform = 'translate3d(' + toFloat(properties.left || 0) + ',' + toFloat(properties.top || 0) + ',0)';
             } else if (transforms) {
-                css.transform = 'translate(' + (properties.left || 0) + ',' + (properties.top || 0) + ')';
+                css.transform = 'translate(' + toFloat(properties.left || 0) + ',' + toFloat(properties.top || 0) + ')';
             } else {
                 $.extend(css, properties);
             }
@@ -502,7 +502,7 @@
             this._prepare(item);
 
             var pos     = this._position(item),
-                currPos = this.list().position()[this.lt];
+                currPos = toFloat(this.list().position()[this.lt]);
 
             if (pos === currPos) {
                 if ($.isFunction(callback)) {
@@ -531,7 +531,7 @@
             var pos = this.list().position()[this.lt];
 
             if (this.rtl && this.relative && !this.vertical) {
-                pos += this.list().width() - this.clipping();
+                pos += toFloat(this.list().width()) - this.clipping();
             }
 
             if (this.rtl && !this.vertical) {
@@ -740,13 +740,13 @@
         },
         _position: function(item) {
             var first  = this._first,
-                pos    = first.position()[this.lt],
+                pos    = toFloat(first.position()[this.lt]),
                 center = this.options('center'),
                 centerOffset = center ? (this.clipping() / 2) - (this.dimension(first) / 2) : 0;
 
             if (this.rtl && !this.vertical) {
                 if (this.relative) {
-                    pos -= this.list().width() - this.dimension(first);
+                    pos -= toFloat(this.list().width()) - this.dimension(first);
                 } else {
                     pos -= this.clipping() - this.dimension(first);
                 }
