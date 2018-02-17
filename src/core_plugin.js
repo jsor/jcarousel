@@ -455,9 +455,9 @@
             }
 
             if (transforms3d) {
-                css.transform = 'translate3d(' + toFloat(properties.left || 0) + ',' + toFloat(properties.top || 0) + ',0)';
+                css.transform = 'translate3d(' + (properties.left || 0) + ',' + (properties.top || 0) + ',0)';
             } else if (transforms) {
-                css.transform = 'translate(' + toFloat(properties.left || 0) + ',' + toFloat(properties.top || 0) + ')';
+                css.transform = 'translate(' + (properties.left || 0) + ',' + (properties.top || 0) + ')';
             } else {
                 $.extend(css, properties);
             }
