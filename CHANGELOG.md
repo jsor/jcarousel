@@ -1,6 +1,11 @@
 jCarousel Changelog
 ===================
 
+Version 0.3.7 - 2018-02-17
+--------------------------
+
+  * Fixed regression regarding transforms introduced in d0377c7
+
 Version 0.3.6 - 2018-02-17
 --------------------------
 
