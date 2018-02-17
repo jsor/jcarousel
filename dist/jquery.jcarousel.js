@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.5 - 2018-02-16
+/*! jCarousel - v0.3.5 - 2018-02-17
 * http://sorgalla.com/jcarousel/
 * Copyright (c) 2006-2018 Jan Sorgalla; Licensed MIT */
 (function($) {
@@ -311,7 +311,7 @@
             this.vertical = this.options('vertical');
 
             if (this.vertical == null) {
-                this.vertical = this.element().height() > this.element().width();
+                this.vertical = this.list().height() > this.list().width();
             }
 
             this.rtl = this.options('rtl');
