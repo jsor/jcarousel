@@ -30,7 +30,8 @@
         _options: {
             target:    '+=1',
             interval:  3000,
-            autostart: true
+            autostart: true,
+            method: 'scroll'
         },
         _timer: null,
         _started: false,
@@ -82,7 +83,7 @@
                 .one('jcarousel:animateend', this.onAnimateEnd);
 
             this._timer = setTimeout($.proxy(function() {
-                this.carousel().jcarousel('scroll', this.options('target'));
+                this.carousel().jcarousel(this.options('method'), this.options('target'));
             }, this), this.options('interval'));
 
             return this;

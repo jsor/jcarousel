@@ -1,4 +1,4 @@
-/*! jCarousel - v0.3.7 - 2018-02-17
+/*! jCarousel - v0.3.8 - 2018-05-31
 * http://sorgalla.com/jcarousel/
 * Copyright (c) 2006-2018 Jan Sorgalla; Licensed MIT */
 (function($, document) {
@@ -26,7 +26,8 @@
         _options: {
             target:    '+=1',
             interval:  3000,
-            autostart: true
+            autostart: true,
+            method: 'scroll'
         },
         _timer: null,
         _started: false,
@@ -78,7 +79,7 @@
                 .one('jcarousel:animateend', this.onAnimateEnd);
 
             this._timer = setTimeout($.proxy(function() {
-                this.carousel().jcarousel('scroll', this.options('target'));
+                this.carousel().jcarousel(this.options('method'), this.options('target'));
             }, this), this.options('interval'));
 
             return this;
