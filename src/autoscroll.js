@@ -82,7 +82,7 @@
                 .one('jcarousel:animateend', this.onAnimateEnd);
 
             this._timer = setTimeout($.proxy(function() {
-                this.carousel().jcarousel('scroll', this.options('target'));
+                this.carousel().jcarousel(this.options('method'), this.options('target'));
             }, this), this.options('interval'));
 
             return this;
