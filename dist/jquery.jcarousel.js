@@ -1400,7 +1400,8 @@
         _options: {
             target:    '+=1',
             interval:  3000,
-            autostart: true
+            autostart: true,
+            method: 'scroll'
         },
         _timer: null,
         _started: false,

@@ -6,6 +6,7 @@ The plugin accepts the following options:
 * [target](#target)
 * [interval](#interval)
 * [autostart](#autostart)
+* [method](#method)
 
 Options can be set either on [initialization](installation.md#setup) or at
 [runtime](api.md#reload).
@@ -67,3 +68,21 @@ $('.jcarousel').jcarouselAutoscroll({
 ### Default
 
 `true`
+
+
+method
+------
+
+The method to call on the carousel.
+
+### Example
+
+```javascript
+$('.jcarousel').jcarouselAutoscroll({
+    method: 'scrollIntoView'
+});
+```
+
+### Default
+
+`scroll`
