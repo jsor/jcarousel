@@ -1,6 +1,11 @@
 jCarousel Changelog
 ===================
 
+Version 0.3.8 - 2018-05-31
+--------------------------
+
+  * Added method to Autoscroll plugin (#835)
+
 Version 0.3.7 - 2018-02-17
 --------------------------
 
