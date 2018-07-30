@@ -9,7 +9,7 @@
     "animation"
   ],
   "license": "MIT",
-  "version": "0.3.7",
+  "version": "0.3.9",
   "dependencies": {
     "components/jquery": ">=1.7.0"
   },

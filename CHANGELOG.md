@@ -1,6 +1,11 @@
 jCarousel Changelog
 ===================
 
+Version 0.3.9 - 2018-07-30
+--------------------------
+
+  * Fix jQuery version to include path version (#836)
+
 Version 0.3.8 - 2018-05-31
 --------------------------
 

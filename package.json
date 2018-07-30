@@ -2,7 +2,7 @@
   "name": "jcarousel",
   "title": "jCarousel",
   "description": "Riding carousels with jQuery",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "homepage": "http://sorgalla.com/jcarousel/",
   "author": {
     "name": "Jan Sorgalla",
@@ -21,12 +21,12 @@
     "jquery": ">=1.7.0"
   },
   "devDependencies": {
-    "grunt": "^1.0.2",
-    "grunt-contrib-qunit": "^2.0.0",
-    "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-uglify": "^3.3.0",
-    "grunt-contrib-watch": "^1.0.0",
+    "grunt": "^1.0.3",
     "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-qunit": "^2.0.0",
+    "grunt-contrib-uglify": "^3.3.0",
+    "grunt-contrib-watch": "^1.1.0",
     "grunt-replace": "^1.0.1"
   },
   "keywords": [
