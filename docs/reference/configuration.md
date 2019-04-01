@@ -69,10 +69,10 @@ animation
 
 The speed of the scroll animation as string in jQuery terms (`"slow"` or
 `"fast"`) or milliseconds as integer (See the documentation for
-[jQuery animate](http://api.jquery.com/animate>)).
+[jQuery animate](http://api.jquery.com/animate)).
 
 Alternatively, this can be a map of options like the one [jQuery.animate]
-(http://api.jquery.com/animate/#animate-properties-options>) accepts as second
+(http://api.jquery.com/animate/#animate-properties-options) accepts as second
 argument.
 
 ### Example
@@ -110,7 +110,7 @@ Alternatively, this can be a map of the following options:
     If set to `true`, 3D transforms are used for full hardware acceleration.
   * `easing`:
     Value will be used as the [transition-timing-function]
-    (https://developer.mozilla.org/docs/CSS/transition-timing-function>)
+    (https://developer.mozilla.org/docs/CSS/transition-timing-function)
     (e.g. `ease` or `linear`).
 
 --------------------------------------------------------------------------------
@@ -120,7 +120,7 @@ Alternatively, this can be a map of the following options:
 jCarousel does **not** check if the user's browser supports transitions
 and/or transforms. You have to do that yourself when setting the option.
 
-You can for example use [Modernizr](http://modernizr.com>) for browser feature
+You can for example use [Modernizr](http://modernizr.com) for browser feature
 detection. If you're not including it already in your site, you can use this
 [minimal build](http://modernizr.com/download/#-csstransforms-csstransforms3d-csstransitions-teststyles-testprop-testallprops-prefixes-domprefixes).
 
