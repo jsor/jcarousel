@@ -89,14 +89,15 @@ module.exports = function(grunt) {
                 dest: 'dist/jquery.<%= pkg.name %>-autoscroll.min.js'
             }
         },
-        replace: {
+        'string-replace': {
             dist: {
                 options: {
-                    variables: {
-                        'VERSION': '<%= pkg.version %>',
-                        'DATE': '<%= grunt.template.today("yyyy-mm-dd") %>'
-                    },
-                    prefix: '@'
+                    replacements: [
+                        {
+                            pattern: '@VERSION',
+                            replacement: '<%= pkg.version %>'
+                        }
+                    ]
                 },
                 files: [
                     {
@@ -121,7 +122,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.loadNpmTasks('grunt-replace');
+    grunt.loadNpmTasks('grunt-string-replace');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -129,6 +130,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.registerTask('default', ['qunit']);
-    grunt.registerTask('dist', ['clean', 'concat', 'replace', 'uglify']);
+    grunt.registerTask('dist', ['clean', 'concat', 'string-replace', 'uglify']);
 
 };
