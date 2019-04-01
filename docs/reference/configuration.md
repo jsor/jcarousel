@@ -71,9 +71,9 @@ The speed of the scroll animation as string in jQuery terms (`"slow"` or
 `"fast"`) or milliseconds as integer (See the documentation for
 [jQuery animate](http://api.jquery.com/animate)).
 
-Alternatively, this can be a map of options like the one [jQuery.animate]
-(http://api.jquery.com/animate/#animate-properties-options) accepts as second
-argument.
+Alternatively, this can be a map of options like the one
+[jQuery.animate](http://api.jquery.com/animate/#animate-properties-options)
+accepts as second argument.
 
 ### Example
 
